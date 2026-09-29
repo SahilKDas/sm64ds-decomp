@@ -49,8 +49,10 @@ exactly. Each entry's `end` is the next entry's `start`, so the run is contiguou
 
 **Both bounds are a different class:**
 
-- **below** — `src/d_a_obj_km2_nobiru.c`, whose `.text` ends at `0x02111b14`
-  (the `daObjKm2_Nobiru_c` factory);
+- **below** — `src/actors/daObjKm2_Nobiru_c.cpp`, whose `.text` ends at
+  `0x02111b14` (the `daObjKm2_Nobiru_c` factory; at the time this note was
+  written it was still a loose one-function source, since folded into the
+  promoted TU by fold-lane-c-0929);
 - **above** — `src/game/actors/d_a_obj_km2_gura.cpp`, whose `.text` begins at
   `0x02111c30` (an already-promoted sibling in this overlay).
 
