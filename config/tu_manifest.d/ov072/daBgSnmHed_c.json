@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x211ff34..0x21207d4, 19 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daBgSnmHed_c",
-    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-D-0929: the daBgSnmHed_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_bg_snm_hed.c ended exactly at 0x02120824, the start of src/game/actors/d_a_bg_snwmn.cpp, a different class) and no hole; tu_map never attributed it because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0211ff34",
-      "end": "0x021207d4"
+      "end": "0x02120824"
     }
   ],
   "functions": [
@@ -150,6 +151,13 @@
       "size": "0x00000138",
       "legacy_source": "src/_ZN12daBgSnmHed_c13InitResourcesEv.cpp",
       "ordinal": 18
+    },
+    {
+      "symbol": "daBgSnmHed_c_classInit",
+      "address": "0x021207d4",
+      "size": "0x00000050",
+      "legacy_source": "src/d_a_bg_snm_hed.c",
+      "ordinal": 19
     }
   ],
   "data": [],
@@ -161,7 +169,8 @@
     "Vtable length discrepancy, unresolved: the compiled object emits _ZTV12daBgSnmHed_c at 0x84 bytes (33 words), but in ROM the gap from 0x021228bc to the next named symbol (_ZTI11daBgSnwmn_c at 0x02122938) is 0x7c -- 8 bytes / 2 slots shorter. Measured only by symbol adjacency in symbols.txt, not by disassembly. It does not affect text verification (19/19 MATCH) but should be settled before anyone licenses a .data range for this TU.",
     "Class naming: the ROM's own RTTI spells this class daBgSnmHed_c; the tree's class is daBgSnmHed_c. Left as found -- renaming is out of scope for this fold.",
     "decl_common.h is included before the class header so Matrix4x3 stays the flat spelling. data_ov072_02122bc4 and data_ov072_02121ffc keep decl_common.h's void* declarations; CleanupResources and InitResources take their addresses.",
-    "#pragma defer_codegen off is file-global and precedes the includes, so the out-of-line destructor emits D1, D0, D2 and the other functions follow ROM order."
+    "#pragma defer_codegen off is file-global and precedes the includes, so the out-of-line destructor emits D1, D0, D2 and the other functions follow ROM order.",
+    "fold-lane-D-0929: folded the daBgSnmHed_c_classInit registry factory (0x021207d4..0x02120824) into this already-promoted TU, widening the complete delinks.txt claim from 0x0211ff34..0x021207d4 to 0x0211ff34..0x02120824. The loose one-function source hand-called fBase_c::operator new(824) + the inherited dActor_c ctor + this class's vtable store + four member subobjects in field order (Model, TextureSequence, dCcAc_c, dBgCh_Actr); daBgSnmHed_c has no user-declared constructor, so `new daBgSnmHed_c()` reproduces the identical sequence with zero mangled calls. This TU keeps `#pragma defer_codegen off`, so emission follows source order (ROM-ascending); the factory appends after InitResources. `tubuild.py verify` reports 20/20 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (the existing _ZN12daBgSnmHed_cD2Ev deadstrip row, from the out-of-line destructor, already covers the homeless base-object-destructor helper `return new` emits here). Retired: src/d_a_bg_snm_hed.c (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override)."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -169,8 +178,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov072-daBgSnmHed_c/daBgSnmHed_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 19,
-    "functions_declared": 19,
+    "functions_matched": 20,
+    "functions_declared": 20,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN12daBgSnmHed_cD2Ev",
@@ -184,8 +193,6 @@
         9,
         10,
         40,
-        41,
-        42,
         43,
         44,
         45,
@@ -197,7 +204,9 @@
         51,
         52,
         53,
-        54
+        54,
+        55,
+        56
       ],
       "data": [
         "_ZTI7fBase_c",

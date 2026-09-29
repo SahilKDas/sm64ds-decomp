@@ -18,8 +18,10 @@
  * at state * 0x10 and invokes the first PMF; Behavior invokes the second.
  * Descriptive original names are absent, so the ROM-evidenced indices remain.
  *
- * The reconstructed factory daBgSnmHed_c_classInit (historical alias
- * SnowmanHead_Spawn) constructs it for the BIG_SNOWMAN_HEAD registry profile.
+ * The reconstructed factory daBgSnmHed_c_classInit (0x021207d4, historical
+ * alias SnowmanHead_Spawn) constructs it for the BIG_SNOWMAN_HEAD registry
+ * profile and lives in src/actors/daBgSnmHed_c.cpp alongside the rest of the
+ * class.
  */
 struct daBgSnmHed_c : dActor_c {
     u8 mPad0d0[0x4];                    /* 0x0d0 */

@@ -11,11 +11,7 @@ src/actors/daBgSnmBdy_c.cpp:
 
 src/actors/daBgSnmHed_c.cpp:
     complete
-    .text start:0x0211ff34 end:0x021207d4
-
-src/d_a_bg_snm_hed.c:
-    complete
-    .text start:0x021207d4 end:0x02120824
+    .text start:0x0211ff34 end:0x02120824
 
 src/game/actors/d_a_bg_snwmn.cpp:
     complete

@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3016,
+  "count": 3017,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3024,6 +3024,7 @@
     "src/actors/daObjCloset_c.cpp#daObjCloset_c_classInit",
     "src/actors/daJango_c.cpp#daJango_c_classInit",
     "src/actors/daEykn_c.cpp#daEykn_c_classInit_EYEKUN_BOSS",
-    "src/actors/daEykn_c.cpp#daEykn_c_classInit_EYEKUN"
+    "src/actors/daEykn_c.cpp#daEykn_c_classInit_EYEKUN",
+    "src/actors/daBgSnmHed_c.cpp#daBgSnmHed_c_classInit"
   ]
 }
