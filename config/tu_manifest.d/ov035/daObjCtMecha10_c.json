@@ -6,15 +6,16 @@
   "status": "promoted",
   "boundary_confidence": "medium",
   "boundary_evidence": [
-    "contiguous linker run: 0x21111a0..0x211165c, 6 function(s), from build/tu_map.json (tools/tu_map.py)",
+    "contiguous linker run: 0x21111a0..0x211165c, 6 function(s), from build/tu_map.json (tools/tu_map.py) plus the three immediately following registry factories",
     "class label(s): daObjCtMecha10_c",
-    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "daObjCtMecha10_c_classInit_CT_MECHA10/_CT_MECHA12L/_CT_MECHA12S at 0x0211165c..0x021116ec abut this run with no gap in config/arm9/overlays/ov035/delinks.txt, and daObjCtMecha11_c (a different class) begins immediately at 0x021116ec, so the widened run is exactly this class's factories and nothing more"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x021111a0",
-      "end": "0x0211165c"
+      "end": "0x021116ec"
     }
   ],
   "functions": [
@@ -59,6 +60,27 @@
       "size": "0x0000017c",
       "legacy_source": "src/_ZN16daObjCtMecha10_c13InitResourcesEv.cpp",
       "ordinal": 5
+    },
+    {
+      "symbol": "daObjCtMecha10_c_classInit_CT_MECHA12S",
+      "address": "0x0211165c",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_ct_mecha10_ct_mecha12s.c",
+      "ordinal": 6
+    },
+    {
+      "symbol": "daObjCtMecha10_c_classInit_CT_MECHA12L",
+      "address": "0x0211168c",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_ct_mecha10_ct_mecha12l.c",
+      "ordinal": 7
+    },
+    {
+      "symbol": "daObjCtMecha10_c_classInit_CT_MECHA10",
+      "address": "0x021116bc",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_ct_mecha10_ct_mecha10.c",
+      "ordinal": 8
     }
   ],
   "data": [],
@@ -69,7 +91,8 @@
     "Destructor form: ~daObjCtMecha10_c is inline and empty in include/daObjCtMecha10_c.h. Written out of line mwccarm emits the synthesized D0 ahead of the written D1 -- the reverse of the cartridge -- and the object audit refuses a TU whose licensed .text is not ROM-ascending; it also emits a homeless D2 that then needs its own deadstrip row. Inlining moves the key function to InitResources, lets vtable slots 16 and 17 odr-use D1 then D0 in ROM order, and deletes the D2. Same form as include/daObjBk_Lift_c.h, the same dBgActor_c shape. Measured both ways on this TU: out of line the audit refused with emitted order [D0, D1, ...]; inline it reports all six ROM-ascending.",
     "Codegen levers, both measured by removing them and re-verifying: InitResources widens each actorID test into one reused int local before branching on it, and CleanupResources widens its own; folding either test straight into its `if` re-orders the body and DIFFs (InitResources 9 relocation destinations wrong, CleanupResources 1). A third temp the draft carried -- `int st = mRotationState` before the table read -- was measured NOT load-bearing and was dropped.",
     "Deliberately left mangled: dBgW_KcMbg::SetFile and dBgActor_c::IsClsnInRange each take Fix12<int> by value, and a real method call homes the argument and size-DIFFs the caller (the wall 6az that include/dBgW_KcMbg.h and src/actors/daObjBk_Lift_c.cpp both record). _Z14ApproachLinearRsss, DecIfAbove0_Short, RandomIntInternal, func_020393d4 and func_020396c0 have no header home and keep their linker names.",
-    "This entry licenses .text only. ov035's .data is not claimed here, so the class vtable and the whole __si_class_type_info chain the compiler drags in with it are compiler-only output, each row naming the cartridge copy it duplicates."
+    "This entry licenses .text only. ov035's .data is not claimed here, so the class vtable and the whole __si_class_type_info chain the compiler drags in with it are compiler-only output, each row naming the cartridge copy it duplicates.",
+    "FOLD 2026-09-28. daObjCtMecha10_c_classInit_CT_MECHA12S/_CT_MECHA12L/_CT_MECHA10 at 0x0211165c/0x0211168c/0x021116bc were folded in from src/d_a_obj_ct_mecha10_ct_mecha12s.c, _ct_mecha12l.c and _ct_mecha10.c. They are the CT_MECHA12S/CT_MECHA12L/CT_MECHA10 registry profiles' factories and sit immediately after InitResources in the ROM's .text order with daObjCtMecha11_c (a different class) starting immediately after them, so they were always part of this TU. Each loose factory called _ZN10dBgActor_cC2Ev(p) then stored p[0] = (int)_ZTV16daObjCtMecha10_c by hand; daObjCtMecha10_c declares no constructor of its own, so the compiler-synthesized default constructor emits exactly that base-call-then-vtable-store sequence, and each factory is written as the real `return new daObjCtMecha10_c();`."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -77,11 +100,15 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov035-daObjCtMecha10_c/daObjCtMecha10_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 6,
-    "functions_declared": 6,
+    "functions_matched": 9,
+    "functions_declared": 9,
     "compilerOnlyOutput": {
-      "requested": [],
-      "deadstripped": [],
+      "requested": [
+        "_ZN10dBgActor_cD2Ev"
+      ],
+      "deadstripped": [
+        "_ZN10dBgActor_cD2Ev"
+      ],
       "droppedSections": [
         5,
         6,
@@ -99,7 +126,9 @@
         18,
         19,
         20,
-        21
+        21,
+        35,
+        36
       ],
       "data": [
         "_ZTV16daObjCtMecha10_c",
@@ -211,11 +240,16 @@
   },
   "compiler_only_output": [
     {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "compiler-emitted base-object destructor helper, homeless: `return new daObjCtMecha10_c()` in each of the three folded classInit factories generates a base-destructor call for the exception-unwind path in case construction fails partway. daObjCtMecha10_c declares no constructor of its own, so this is the compiler-synthesized default constructor's cleanup helper for the dBgActor_c base sub-object. It has no configured ROM symbol and no inbound relocation after the licensed D1/D0 pair is retained -- same shape as ov022/daObjFl_Fall_Block_c (PR #2733)."
+    },
+    {
       "symbol": "_ZTV16daObjCtMecha10_c",
       "disposition": "deadstrip-data",
       "canonical_module": "ov035",
       "canonical_address": "0x02112b00",
-      "reason": "This TU owns daObjCtMecha10_c's key function -- ~daObjCtMecha10_c is the first virtual the class declares and its body is out of line here -- so mwcc emits the complete 0x88-byte class vtable storage with its two-word ABI preamble. The cartridge's public address point is ov035:0x02112b00, eight bytes above the start of storage at 0x02112af8, where the offset-to-top word reads 0 and the typeinfo word reads 0x02112a84. The address point is outside this text-only entry's licensed 0x021111a0..0x0211165c range, so dsd supplies that ROM data independently. The cartridge's 32 slots place all six of this TU's functions: slot 0 InitResources (0x021114e0), slot 3 CleanupResources (0x0211123c), slot 6 Behavior (0x021112ec), slot 9 Render (0x021112c4), slot 16 D1 (0x021111a0) and slot 17 D0 (0x021111e4). 32 slots is the dBgActor_c vtable length, which is the second witness for the base the typeinfo record names."
+      "reason": "This TU owns daObjCtMecha10_c's key function -- ~daObjCtMecha10_c is the first virtual the class declares and its body is out of line here -- so mwcc emits the complete 0x88-byte class vtable storage with its two-word ABI preamble. The cartridge's public address point is ov035:0x02112b00, eight bytes above the start of storage at 0x02112af8, where the offset-to-top word reads 0 and the typeinfo word reads 0x02112a84. The address point is outside this text-only entry's licensed 0x021111a0..0x021116ec range, so dsd supplies that ROM data independently. The cartridge's 32 slots place all six non-factory members of this TU: slot 0 InitResources (0x021114e0), slot 3 CleanupResources (0x0211123c), slot 6 Behavior (0x021112ec), slot 9 Render (0x021112c4), slot 16 D1 (0x021111a0) and slot 17 D0 (0x021111e4); the three classInit factories are free functions reached through the actor registry, not vtable slots. 32 slots is the dBgActor_c vtable length, which is the second witness for the base the typeinfo record names."
     },
     {
       "symbol": "_ZTI16daObjCtMecha10_c",
@@ -236,56 +270,56 @@
       "disposition": "deadstrip-data",
       "canonical_module": "ov002",
       "canonical_address": "0x021089ec",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the immediate base's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at ov002:0x021089ec is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the immediate base's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at ov002:0x021089ec is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTS10dBgActor_c",
       "disposition": "deadstrip-data",
       "canonical_module": "ov002",
       "canonical_address": "0x02108a04",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the immediate base's RTTI name string (\"10dBgActor_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at ov002:0x02108a04 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the immediate base's RTTI name string (\"10dBgActor_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at ov002:0x02108a04 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTI8dActor_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x0208e390",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the grandparent's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x0208e390 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the grandparent's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x0208e390 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTS8dActor_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x0208e384",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the grandparent's RTTI name string (\"8dActor_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x0208e384 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the grandparent's RTTI name string (\"8dActor_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x0208e384 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTI7dBase_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e78",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the great-grandparent's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e78 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the great-grandparent's RTTI record. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e78 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTS7dBase_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e54",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the great-grandparent's RTTI name string (\"7dBase_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e54 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the great-grandparent's RTTI name string (\"7dBase_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e54 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTI7fBase_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x02086d70",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the root's RTTI record, a two-word __class_type_info rather than __si_class_type_info because fBase_c derives from nothing. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086d70 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the root's RTTI record, a two-word __class_type_info rather than __si_class_type_info because fBase_c derives from nothing. The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086d70 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     },
     {
       "symbol": "_ZTS7fBase_c",
       "disposition": "deadstrip-data",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e60",
-      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the root's RTTI name string (\"7fBase_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e60 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x0211165c range, so discarding this TU's duplicate cannot cost the image a byte."
+      "reason": "Ancestor RTTI passenger of the _ZTI16daObjCtMecha10_c record this TU emits: the root's RTTI name string (\"7fBase_c\"). The cartridge's __si_class_type_info chain is daObjCtMecha10_c (ov035:0x02112a84) -> dBgActor_c (ov002:0x021089ec) -> dActor_c (arm9:0x0208e390) -> dBase_c (arm9:0x02086e78) -> fBase_c (arm9:0x02086d70, the __class_type_info root), and mwccarm emits the whole chain in whichever TU emits the derived record, because each record's third word is a pointer to the next. The canonical cartridge copy at arm9:0x02086e60 is owned independently and lies outside this text-only entry's licensed 0x021111a0..0x021116ec range, so discarding this TU's duplicate cannot cost the image a byte."
     }
   ]
 }
