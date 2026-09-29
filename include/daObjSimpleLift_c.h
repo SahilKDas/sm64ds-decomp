@@ -14,10 +14,10 @@
  * The factory and profile spellings below are reconstructed source-style
  * names -- evidence-bounded proposals, not recovered SM64DS symbols.
  *
- * daObjSimpleLift_c_classInit_BK_TRANSBAR at 0x021327e8 (historical alias
- * SlidingPlatformWf_Spawn) allocates 0x330 and installs this class's
- * cartridge vtable. It backs the BK_TRANSBAR registry profile, whose
- * descriptor at 0x02135008 is reconstructed as g_profile_BK_TRANSBAR. */
+ * The seven daObjSimpleLift_c_classInit_* factories (0x021327e8..0x02132938,
+ * one per registry profile) each allocate 0x330 and install this class's
+ * cartridge vtable; they are `new daObjSimpleLift_c()` and live in
+ * src/actors/daObjSimpleLift_c.cpp alongside the rest of the class. */
 
 #ifdef __cplusplus
 

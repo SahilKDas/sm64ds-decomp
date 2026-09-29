@@ -6,15 +6,16 @@
   "status": "promoted",
   "boundary_confidence": "medium",
   "boundary_evidence": [
-    "contiguous linker run: 0x2132404..0x21327e8, 6 function(s), from build/tu_map.json (tools/tu_map.py)",
+    "contiguous linker run: 0x2132404..0x2132938, 13 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjSimpleLift_c",
-    "module sinit corroboration: 6 sinit(s) / 6 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 6 sinit(s) / 6 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-ov091-ov102-0929: the 7 classInit registry factories abut this TU's own range with no gap (src/d_a_obj_simple_lift_km1_deru.c ended exactly at 0x02132938, where src/actors/daDsn_c.cpp -- a different class -- begins) and no hole; tu_map never attributed them because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02132404",
-      "end": "0x021327e8"
+      "end": "0x02132938"
     }
   ],
   "functions": [
@@ -59,6 +60,55 @@
       "size": "0x00000214",
       "legacy_source": "src/_ZN17daObjSimpleLift_c13InitResourcesEv.cpp",
       "ordinal": 5
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_BK_TRANSBAR",
+      "address": "0x021327e8",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_bk_transbar.c",
+      "ordinal": 6
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_KM2_RIFUT02",
+      "address": "0x02132818",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_km2_rifut02.c",
+      "ordinal": 7
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_KM2_RIFUT01",
+      "address": "0x02132848",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_km2_rifut01.c",
+      "ordinal": 8
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_RC_RIFT01",
+      "address": "0x02132878",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_rc_rift01.c",
+      "ordinal": 9
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_KM3_DERU02",
+      "address": "0x021328a8",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_km3_deru02.c",
+      "ordinal": 10
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_KM3_DERU01",
+      "address": "0x021328d8",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_km3_deru01.c",
+      "ordinal": 11
+    },
+    {
+      "symbol": "daObjSimpleLift_c_classInit_KM1_DERU",
+      "address": "0x02132908",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_simple_lift_km1_deru.c",
+      "ordinal": 12
     }
   ],
   "data": [],
@@ -68,7 +118,8 @@
     "tubuild create warning (RESOLVED): CONFLICT: extern declaration '_ZN10dBgActor_c21UpdateModelPosAndRotYEv' differs between the legacy file that used to hold _ZN17daObjSimpleLift_c8BehaviorEv and the one that held _ZN17daObjSimpleLift_c13InitResourcesEv; kept the first, the other is commented out for review RESOLVED: both call sites in the production TU cast to (char*), which is the declaration that was kept; the commented-out alternate spelling is gone from the source, so no marker remains for this record to pair with.",
     "tubuild create warning (RESOLVED): CONFLICT: extern declaration '_ZN10dBgActor_c19UpdateClsnPosAndRotEv' differs between the legacy file that used to hold _ZN17daObjSimpleLift_c8BehaviorEv and the one that held _ZN17daObjSimpleLift_c13InitResourcesEv; kept the first, the other is commented out for review RESOLVED: both call sites in the production TU cast to (char*), which is the declaration that was kept; the commented-out alternate spelling is gone from the source, so no marker remains for this record to pair with.",
     "fold branch tu/fold-highov-0921: 6/6 MATCH, objisolate clean, reloc-destinations clean -> text-verified. 12 UNLICENSED OUTPUT symbols (1 .text: _ZN17daObjSimpleLift_cD2Ev; 11 .data: the _ZTV/_ZTI/_ZTS group for daObjSimpleLift_c and its ancestor chain). Key-function TU, .data RTTI emission expected; .data licensing NOT attempted here. Hand fixes over tubuild create: (1) removed the duplicate D0 destructor body; (2) the legacy InitResources shard's local 'struct SFP' redeclared data_ov091_02135024, which include/decl_common.h already declares as char[]; kept decl_common's first declaration, dropped the local SFP, and cast the single '.file' use site to the same char arithmetic CleanupResources already uses (stride 0xc either way); (3) the two create-time conflicts on _ZN10dBgActor_c21UpdateModelPosAndRotYEv / _ZN10dBgActor_c19UpdateClsnPosAndRotEv were real (char* vs void* parameter) - kept the first declaration and cast both InitResources call sites to (char*). Byte-neutral.",
-    "Promotion: the class was renamed SlidingPlatformWf -> daObjSimpleLift_c first (the cartridge's RTTI spelling; vtable 0x02135080 typeinfo word -> _ZTI17daObjSimpleLift_c 0x02134f40, whose type-name string at 0x02134f4c reads \"17daObjSimpleLift_c\"). Under the coined name _ZTI/_ZTS were HOMELESS and no deadstrip-data row could cite an address, which is what blocked this TU. compiler_only_output now licenses all 12 emitted outputs: 11 deadstrip-data (this class's _ZTI/_ZTS/_ZTV plus the dBgActor_c/dActor_c/dBase_c/fBase_c ancestor chain, homes copied from symbols.txt) and one plain deadstrip for the homeless D2. The production TU is written ROM-ascending under '#pragma defer_codegen off': in the generated reverse-source-order shadow mwccarm emitted D0 before D1, and tubuild linkcheck refuses a TU whose licensed .text is not in ROM address order. defer_codegen off makes emission follow source order and the destructor pair then comes out D1 then D0, matching the cartridge. No other source change was needed: 6/6 MATCH both before and after the reorder. tubuild linkcheck -> scratch-link-verified, 0 new dsd symbol errors against the baseline control, scratch ROM identical to the stock build."
+    "Promotion: the class was renamed SlidingPlatformWf -> daObjSimpleLift_c first (the cartridge's RTTI spelling; vtable 0x02135080 typeinfo word -> _ZTI17daObjSimpleLift_c 0x02134f40, whose type-name string at 0x02134f4c reads \"17daObjSimpleLift_c\"). Under the coined name _ZTI/_ZTS were HOMELESS and no deadstrip-data row could cite an address, which is what blocked this TU. compiler_only_output now licenses all 12 emitted outputs: 11 deadstrip-data (this class's _ZTI/_ZTS/_ZTV plus the dBgActor_c/dActor_c/dBase_c/fBase_c ancestor chain, homes copied from symbols.txt) and one plain deadstrip for the homeless D2. The production TU is written ROM-ascending under '#pragma defer_codegen off': in the generated reverse-source-order shadow mwccarm emitted D0 before D1, and tubuild linkcheck refuses a TU whose licensed .text is not in ROM address order. defer_codegen off makes emission follow source order and the destructor pair then comes out D1 then D0, matching the cartridge. No other source change was needed: 6/6 MATCH both before and after the reorder. tubuild linkcheck -> scratch-link-verified, 0 new dsd symbol errors against the baseline control, scratch ROM identical to the stock build.",
+    "fold-ov091-ov102-0929: folded the 7 daObjSimpleLift_c_classInit_* registry factories (0x021327e8..0x02132938) into this already-promoted TU, widening the complete delinks.txt claim from 0x02132404..0x021327e8 to 0x02132404..0x02132938. Each loose one-function source called _ZN7fBase_cnwEj(816) + _ZN10dBgActor_cC2Ev(p) + a manual vtable store; every one is exactly `new daObjSimpleLift_c()` (no user-declared constructor, no member needing non-trivial init), which reproduces the same bytes with zero mangled calls. Source order: this TU keeps '#pragma defer_codegen off', so emission follows source order (ROM-ascending) rather than the reverse-source-order default that daObjHatenaBlock_c.cpp uses -- the 7 factories therefore append after InitResources in ROM order (BK_TRANSBAR, KM2_RIFUT02, KM2_RIFUT01, RC_RIFT01, KM3_DERU02, KM3_DERU01, KM1_DERU), not at the top of the file in reverse order the way that precedent's classInit block sits. No other source change. Historical aliases and per-profile provenance moved from the retired loose files into the TU's own header comment; attribution.json gained one path#symbol override per retired file, crediting the same author the file already carried. `tubuild.py verify` reports 13/13 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED (adding one new compiler_only_output deadstrip entry, _ZN10dBgActor_cD2Ev, the same 'return new' base-object-destructor byproduct src/actors/daObjHatenaBlock_c.cpp already documents and licenses). `tubuild.py linkcheck` refuses at [4/8] with 'intact production requires one .text claim and at least one non-text claim' -- this is NOT specific to this change: the identical refusal, with the identical message, reproduces against the unmodified, already-landed src/actors/daObjHatenaBlock_c.cpp control in this same worktree (also a text-only intact TU with no owned non-text claim, all RTTI externalized). tu_production.prepare_intact_object requires >=1 non-text manifest section claim for any TU carrying compiler_only_output, which this shape structurally cannot supply. `tubuild.py linkcheck --baseline` (the no-substitution control) passes clean: modules 106/106 exact, ROM byte-identical to stock, the same 9 pre-existing dsd symbol errors as always. Full-ROM proof instead comes from `rombuild.py -j6` in the ordinary gate list."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -76,35 +127,39 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov091-daObjSimpleLift_c/daObjSimpleLift_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 6,
-    "functions_declared": 6,
+    "functions_matched": 13,
+    "functions_declared": 13,
     "compilerOnlyOutput": {
       "requested": [
-        "_ZN17daObjSimpleLift_cD2Ev"
+        "_ZN17daObjSimpleLift_cD2Ev",
+        "_ZN10dBgActor_cD2Ev"
       ],
       "deadstripped": [
+        "_ZN10dBgActor_cD2Ev",
         "_ZN17daObjSimpleLift_cD2Ev"
       ],
       "droppedSections": [
         9,
         10,
-        18,
-        19,
         20,
         21,
-        22,
-        23,
-        24,
-        25,
-        26,
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
       ],
       "data": [
         "_ZTI17daObjSimpleLift_c",
@@ -142,7 +197,8 @@
     },
     "linkcheck": {
       "round": "tools/tubuild.py linkcheck -- scratch dsd delink+lcf, whole-tree mwccarm, mwldarm link, linked-range and module byte comparison, dsd check symbols --fail, full ROM build",
-      "result": "scratch-link-verified",
+      "result": "STALE (superseded by fold-ov091-ov102-0929): the prior scratch-link-verified record below covered the narrower pre-fold range 0x02132404..0x021327e8. After widening the complete claim to 0x02132404..0x02132938, `tubuild.py linkcheck ov091/daObjSimpleLift_c -j6` refuses at step [4/8]: 'isolate: intact TU preparation refused: ov091/daObjSimpleLift_c: intact production requires one .text claim and at least one non-text claim'. tu_production.prepare_intact_object requires >=1 non-text manifest section claim for any TU carrying compiler_only_output; this text-only TU (all RTTI externalized, nothing owned in .data/.bss) structurally cannot supply one. The identical refusal with the identical message reproduces against the unmodified, already-landed src/actors/daObjHatenaBlock_c.cpp control in this same worktree -- this is a pre-existing tu_production gap for text-only intact TUs, not a regression from this fold. `tubuild.py linkcheck --baseline` (the no-TU-substitution control) passed clean: modules 106/106 exact, ROM sha256 d1506e90efae5e2d2cf119926a4ac2a291bd5ca78349d09d5024e1a918c478e8 (matches stock), same 9 pre-existing dsd symbol errors as always. Full-ROM proof for this fold instead comes from `rombuild.py -j6` (ordinary gate list).",
+      "priorResult (pre-fold, narrower range, kept for history)": "scratch-link-verified",
       "scratch": "build/tu/ov091-daObjSimpleLift_c/link (gitignored)",
       "phases": {
         "delink": true,
@@ -157,7 +213,8 @@
         "start": "0x02132404",
         "end": "0x021327e8",
         "differingBytes": 0,
-        "firstDiff": null
+        "firstDiff": null,
+        "note": "pre-fold range; the current complete claim is 0x02132404..0x02132938 (see boundary_evidence/sections)"
       },
       "tuRanges": [
         {
@@ -296,6 +353,11 @@
       "symbol": "_ZN17daObjSimpleLift_cD2Ev",
       "disposition": "deadstrip",
       "reason": "compiler-emitted base-object destructor helper has no configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained"
+    },
+    {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-ov091-ov102-0929: each classInit factory's `new daObjSimpleLift_c()` instantiates the class, so mwccarm emits the base-object destructor helper (the same byproduct documented in src/actors/daObjHatenaBlock_c.cpp). No configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained."
     }
   ]
 }
