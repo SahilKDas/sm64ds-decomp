@@ -22,11 +22,17 @@
  * cartridge's own copies at ov035 0x02112b00 / 0x02112a84 / 0x02112a90.
  *
  * SOURCE ORDER IS REVERSE ROM ORDER. mwccarm 2004/b56 emits .text back to
- * front under this tree's flags, so InitResources is written first and
- * CleanupResources last; the destructor pair comes off the in-class
- * `~daObjCtMecha10_c() {}` in include/daObjCtMecha10_c.h and lands ahead of
- * everything, D1 then D0, which is the order the cartridge has (0x021111a0,
- * then 0x021111e4).
+ * front under this tree's flags, so the three classInit factories are
+ * written first, then InitResources, then CleanupResources last; the
+ * destructor pair comes off the in-class `~daObjCtMecha10_c() {}` in
+ * include/daObjCtMecha10_c.h and lands ahead of everything, D1 then D0,
+ * which is the order the cartridge has (0x021111a0, then 0x021111e4).
+ *
+ * daObjCtMecha10_c_classInit_CT_MECHA10/_CT_MECHA12L/_CT_MECHA12S are
+ * reconstructed names (RTTI daObjCtMecha10_c, the three registry profiles);
+ * retail does not store them. Historical aliases: RotatingClockHand_Spawn
+ * (CT_MECHA10) and func_ov035_0211168c (CT_MECHA12L); CT_MECHA12S has none
+ * on record.
  *
  * deslop
  * Leftover: dBgW_KcMbg::SetFile and dBgActor_c::IsClsnInRange stay spelled as
@@ -44,8 +50,8 @@
  *   owned by this TU.
  * Leftover: data_0209f2c0 is arm9's clock-setting byte and data_0209e650 the
  *   shared RNG state.
- * Leftover: g_profile_CT_MECHA10 / CT_MECHA12L / CT_MECHA12S and their three
- *   classInit factories live outside this TU, at 0x0211165c and above.
+ * Leftover: g_profile_CT_MECHA10 / CT_MECHA12L / CT_MECHA12S (the registry
+ *   descriptors the three factories back) live outside this TU.
  */
 
 #include "daObjCtMecha10_c.h"
@@ -74,6 +80,24 @@ int _ZN10dBgActor_c13IsClsnInRangeE5Fix12IiES1_(void *self, int a, int b);
 void _ZN10dBgW_KcMbg7SetFileEP8KCL_FileRK9Matrix4x35Fix12IiEsR10CLPS_Block(
     dBgW_KcMbg *self, KCL_File *file, const Matrix4x3 *mat,
     Fix12i scale, s16 angle, CLPS_Block *clps);
+}
+
+// @symbol daObjCtMecha10_c_classInit_CT_MECHA10
+extern "C" daObjCtMecha10_c *daObjCtMecha10_c_classInit_CT_MECHA10()
+{
+    return new daObjCtMecha10_c();
+}
+
+// @symbol daObjCtMecha10_c_classInit_CT_MECHA12L
+extern "C" daObjCtMecha10_c *daObjCtMecha10_c_classInit_CT_MECHA12L()
+{
+    return new daObjCtMecha10_c();
+}
+
+// @symbol daObjCtMecha10_c_classInit_CT_MECHA12S
+extern "C" daObjCtMecha10_c *daObjCtMecha10_c_classInit_CT_MECHA12S()
+{
+    return new daObjCtMecha10_c();
 }
 
 /* -------------------------------------------------------------------------- */
