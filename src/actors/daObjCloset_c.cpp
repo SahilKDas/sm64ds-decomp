@@ -2,6 +2,14 @@
 /**
  * daObjCloset_c -- the rec-room cupboard (PL_CLOSET, actor 182), ov058.
  *
+ * daObjCloset_c_classInit (0x02111688..0x021116e4, historical alias
+ * RecRoomCupboard_Spawn) is a reconstructed name (RTTI daObjCloset_c, the
+ * sole PL_CLOSET registry profile); retail does not store it. It hand-called
+ * fBase_c::operator new(0x21c) + the inherited dActor_c ctor + this class's
+ * vtable store + __cxa_vec_ctor over the five dCcAcPos_c mColliders. The
+ * class has no user-declared constructor, so `new daObjCloset_c()`
+ * reproduces the identical sequence.
+ *
  * With nobody talking, Behavior offers talk to a colliding PLAYER (actor
  * 0xbf) standing within a quarter turn of the cupboard's front. With a
  * talker, it turns them to face the cupboard, then runs message 0xb09.
@@ -238,4 +246,10 @@ s32 daObjCloset_c::InitResources()
         collider++;
     }
     return 1;
+}
+
+// @symbol daObjCloset_c_classInit
+extern "C" daObjCloset_c *daObjCloset_c_classInit()
+{
+    return new daObjCloset_c();
 }

@@ -4,8 +4,4 @@
     .bss        start:0x02111b00 end:0x02111b00 kind:bss align:32
 src/actors/daObjCloset_c.cpp:
     complete
-    .text start:0x021111a0 end:0x02111688
-
-src/d_a_obj_closet.cpp:
-    complete
-    .text start:0x02111688 end:0x021116e4
+    .text start:0x021111a0 end:0x021116e4

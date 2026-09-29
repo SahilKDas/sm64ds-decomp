@@ -4806,6 +4806,7 @@
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_c8BehaviorEv": "lunavyqo",
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_cD0Ev": "tangosdev",
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_cD1Ev": "tangosdev",
+    "src/actors/daObjCloset_c.cpp#daObjCloset_c_classInit": "tangosdev",
     "src/actors/daRFlag_c.cpp#func_ov062_0211afbc": "tangosdev",
     "src/actors/daRFlag_c.cpp#daRFlag_c_classInit": "tangosdev",
     "src/actors/daRFlag_c.cpp#_ZN9daRFlag_cD1Ev": "tangosdev",
