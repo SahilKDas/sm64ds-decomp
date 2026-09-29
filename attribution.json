@@ -5011,6 +5011,7 @@
     "src/actors/daObjKi_Hasira_c.cpp#_ZN16daObjKi_Hasira_c6RenderEv": "tangosdev",
     "src/actors/daObjKi_Hasira_c.cpp#_ZN16daObjKi_Hasira_c8BehaviorEv": "lunavyqo",
     "src/actors/daObjKi_Hasira_c.cpp#_ZN16daObjKi_Hasira_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjKi_Hasira_c.cpp#daObjKi_Hasira_c_classInit": "tangosdev",
     "src/actors/daLuigi_c.cpp#_ZN9daLuigi_cD1Ev": "tangosdev",
     "src/actors/daLuigi_c.cpp#_ZN9daLuigi_cD0Ev": "tangosdev",
     "src/actors/daLuigi_c.cpp#func_ov055_02111264": "ruspecial",

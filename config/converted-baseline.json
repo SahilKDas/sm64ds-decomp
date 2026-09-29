@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3013,
+  "count": 3014,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3021,6 +3021,7 @@
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD0Ev",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev",
     "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE_UP",
-    "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE"
+    "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE",
+    "src/actors/daObjKi_Hasira_c.cpp#daObjKi_Hasira_c_classInit"
   ]
 }

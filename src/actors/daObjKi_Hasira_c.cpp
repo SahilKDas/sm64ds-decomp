@@ -1,6 +1,8 @@
 //cpp
 /* Production translation unit for ov016/daObjKi_Hasira_c, hand-curated.
- * 7 function(s), .text 0x02112a00..0x02112ec4.
+ * 8 function(s), .text 0x02112a00..0x02112ef4: the seven class members plus
+ * the daObjKi_Hasira_c_classInit registry factory folded in from
+ * fold-lane-c-0929.
  *
  * Jolly Roger Bay's stone pillar (KI_HASIRA; `hasira` = pillar): a
  * dBgActor_c that waits for a player to come within 1300 units, turns to
@@ -22,7 +24,16 @@
  *
  * FUNCTION ORDER IS DELIBERATELY THE REVERSE OF THE ROM'S. mwccarm 2004/b56
  * emits one .text section per function in the REVERSE of source order, so the
- * highest-address ROM function is written FIRST here. Do not reorder.
+ * highest-address ROM function is written FIRST here. The folded-in
+ * daObjKi_Hasira_c_classInit factory (0x02112ec4) is now the highest address
+ * in the run, so it leads the file, ahead of InitResources. Do not reorder.
+ *
+ * daObjKi_Hasira_c_classInit (historical aliases RockPillar_Spawn and
+ * RockPillar for the class itself) hand-called fBase_c::operator new(808),
+ * dBgActor_c::dBgActor_c() and stored _ZTV16daObjKi_Hasira_c. This class
+ * declares no constructor of its own, so the compiler-synthesized default
+ * constructor emits exactly that sequence; the factory is now
+ * `return new daObjKi_Hasira_c();`.
  *
  * deslop
  * Leftover: dBgW_KcMbg::SetFile and dBgActor_c::IsClsnInRange stay mangled in
@@ -37,9 +48,6 @@
  *   data names, not the class name, and renaming them is a separate change.
  * Leftover: data_ov016_02113cac, the CLPS block handed to SetFile, is an
  *   unnamed ov016 .data row this TU does not own.
- * Leftover: the factory daObjKi_Hasira_c_classInit (0x02112ec4) sits just
- *   past this run's right edge and stays a one-function source; tu_map.py
- *   ends this candidate at 0x02112ec4.
  */
 
 #include "daObjKi_Hasira_c.h"
@@ -76,6 +84,18 @@ extern void *data_0209f318;
 extern s16 data_02082214[];
 
 void func_ov016_02112a9c(daObjKi_Hasira_c *self);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reconstructed source-style name: SM64DS proves daObjKi_Hasira_c through
+ * RTTI, allocation size, vtable identity, and the KI_HASIRA registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical aliases: RockPillar_Spawn, and RockPillar for
+ * the class itself. */
+// @symbol daObjKi_Hasira_c_classInit
+extern "C" daObjKi_Hasira_c *daObjKi_Hasira_c_classInit()
+{
+    return new daObjKi_Hasira_c();
 }
 
 /* -------------------------------------------------------------------------- */
