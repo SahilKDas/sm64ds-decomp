@@ -6,11 +6,7 @@
     .bss        start:0x02148600 end:0x02148a80 kind:bss align:32
 src/actors/daBtfly_c.cpp:
     complete
-    .text start:0x02140d80 end:0x02141ea4
-
-src/d_a_btfly.c:
-    complete
-    .text start:0x02141ea4 end:0x02141f04
+    .text start:0x02140d80 end:0x02141f04
 
 src/_ZN15RollingIronBallD1Ev.cpp:
     complete

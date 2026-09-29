@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x2140d80..0x2141ea4, 15 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daBtfly_c",
-    "module sinit corroboration: 7 sinit(s) / 7 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 7 sinit(s) / 7 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-D-0929: the daBtfly_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_btfly.c ended exactly at 0x02141f04, the start of the unrelated RollingIronBall class's own run) and no hole; tu_map never attributed it because it cuts on symbol name. ov100's delinks.txt holds many unrelated classes (RollingIronBall, UnchainedChomp, daWanwan2, Door, daStarGate_c, daFish_c, daObjPathLift_c); only daBtfly_c's hunk is touched by this fold."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02140d80",
-      "end": "0x02141ea4"
+      "end": "0x02141f04"
     }
   ],
   "functions": [
@@ -122,6 +123,13 @@
       "size": "0x00000238",
       "legacy_source": "src/_ZN9daBtfly_c13InitResourcesEv.cpp",
       "ordinal": 14
+    },
+    {
+      "symbol": "daBtfly_c_classInit",
+      "address": "0x02141ea4",
+      "size": "0x00000060",
+      "legacy_source": "src/d_a_btfly.c",
+      "ordinal": 15
     }
   ],
   "data": [],
@@ -158,7 +166,8 @@
     "SOURCE ORDER IS ROM-ASCENDING IN THIS TU, deliberately, and is coupled to the '#pragma defer_codegen off' it carries. State2 needs the per-member '#pragma opt_common_subs off' that tubuild create flagged [NOT carried]; bracketed alone the pragma does not bind (last file-global state wins) and State2 compiles 8 bytes short of its 0x244. Adding 'defer_codegen off' makes the bracket bind AND flips section emission from reverse to forward source order, so the source was reordered to compensate. Net result is better than the usual convention: all 15 functions land in ROM-ascending section order including the destructor pair, where the other three TUs in this batch still report the (0,1) destructor pair out of order. Do not change one of the two without the other.",
     "Pragmas re-added by hand: '#pragma opt_common_subs off' / '... on' bracketing _ZN9daBtfly_c6State2Ev, plus the file-global '#pragma defer_codegen off' that makes that bracket bind. Both are load-bearing; without them the TU is 14/15.",
     "Declarations reconciled by hand, from 23 conflicts tubuild flagged: (1) RandomIntInternal was declared 'int' by State5 and 'unsigned int' by State4, and State4 depends on the unsigned semantics -- it does % 3 and >> 0x10 on the result. Kept the int declaration and cast the five State4 call sites to unsigned int; that alone moved State4 from 9 words differing to MATCH. (2) Vec3_HorzAngle was kept with opaque const void* parameters, the spelling three of its four call sites use. (3) func_02035638's local void* redeclaration was dropped in favour of decl_common.h's int(u8*), with a cast at the one call site. (4) The four SharedFilePtr handles were declared as a local two-word SFP struct by InitResources and as SharedFilePtr by CleanupResources. include/SharedFilePtr.h is deliberately fieldless because the layout is not recovered, so the SFP shadow was dropped and the two '.b' reads rewritten as ((void**)and-sym)[1], which is the same address. The remaining flagged conflicts were parameter-name or discarded-return-type differences and needed no change.",
-    "Promotion licensing (2026-09-22): the object's 11 unlicensed outputs are dispositioned through compiler_only_output rather than by licensing a .data section, which is the dominant landed shape for a text-only key-function TU (184 manifest entries carry deadstrip-data rows; ov002/daFeather_c is the same _ZTV/_ZTI/_ZTS + three-ancestor chain). A .data license is NOT possible at this boundary: the compiler emits _ZTS/_ZTI/_ZTV contiguously, but in ROM g_profile_BUTTERFLY (0x02147e78..0x02147e94) sits between _ZTI9daBtfly_c and the vtable storage start at _ZTV-8 = 0x02147e94, and g_profile_BUTTERFLY is emitted by daBtfly_c_classInit at 0x02141ea4, which is outside this TU's evidenced 15-function .text run. That supersedes the earlier 'not one contiguous interval' reading in the note above: with the two-word vtable preamble accounted for, _ZTI end (0x02147e78) and _ZTV-8 (0x02147e94) bracket the profile exactly, so the obstacle is factory ownership, not interval arithmetic. Folding daBtfly_c_classInit and licensing .data remains open follow-up work."
+    "Promotion licensing (2026-09-22): the object's 11 unlicensed outputs are dispositioned through compiler_only_output rather than by licensing a .data section, which is the dominant landed shape for a text-only key-function TU (184 manifest entries carry deadstrip-data rows; ov002/daFeather_c is the same _ZTV/_ZTI/_ZTS + three-ancestor chain). A .data license is NOT possible at this boundary: the compiler emits _ZTS/_ZTI/_ZTV contiguously, but in ROM g_profile_BUTTERFLY (0x02147e78..0x02147e94) sits between _ZTI9daBtfly_c and the vtable storage start at _ZTV-8 = 0x02147e94, and g_profile_BUTTERFLY is emitted by daBtfly_c_classInit at 0x02141ea4, which is outside this TU's evidenced 15-function .text run. That supersedes the earlier 'not one contiguous interval' reading in the note above: with the two-word vtable preamble accounted for, _ZTI end (0x02147e78) and _ZTV-8 (0x02147e94) bracket the profile exactly, so the obstacle is factory ownership, not interval arithmetic. fold-lane-D-0929 folded daBtfly_c_classInit into this TU's .text (see the dedicated fold note below), which removes the factory-ownership obstacle described above; licensing the g_profile_BUTTERFLY/.data span itself is a separate, heavier data-owning promotion (reconstructing the registry-profile struct's real field values against ROM, as ov070/daBrq_c did for g_profile_BIRIKYU) and remains open follow-up work, NOT attempted by this fold.",
+    "fold-lane-D-0929: folded the daBtfly_c_classInit registry factory (0x02141ea4..0x02141f04) into this already-promoted TU, widening the complete delinks.txt claim from 0x02140d80..0x02141ea4 to 0x02140d80..0x02141f04. The loose one-function source hand-called fBase_c::operator new(1012) + the inherited dActor_c ctor + this class's vtable store + six member subobjects in field order (ModelAnim, Model, ShadowModel x2, dBgCh_Actr, dCcAcPos_c); daBtfly_c has no user-declared constructor, so `new daBtfly_c()` reproduces the identical sequence with zero mangled calls. This TU's `#pragma defer_codegen off` (load-bearing for the opt_common_subs bracket around State2, per the header comment) never toggles back on, so it still governs emission for the new function too: source order equals ROM order, and the factory appends after InitResources. tools/tubuild.py verify reports 16/16 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (the existing _ZN9daBtfly_cD2Ev deadstrip row, from the out-of-line destructor, already covers the homeless base-object-destructor helper `return new` emits here). ov100's delinks.txt holds several unrelated classes (RollingIronBall, UnchainedChomp, daWanwan2, Door, daStarGate_c, daFish_c, daObjPathLift_c); only daBtfly_c's hunk was touched. Retired: src/d_a_btfly.c (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override). This fold does NOT license g_profile_BUTTERFLY/.data -- see the promotion-licensing note above."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -166,20 +175,63 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov100-daBtfly_c/daBtfly_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 15,
-    "functions_declared": 15,
+    "functions_matched": 16,
+    "functions_declared": 16,
     "compilerOnlyOutput": {
-      "requested": [],
-      "unhandled": [
+      "requested": [
         "_ZN7Vector3D1Ev",
         "_ZN9daBtfly_cD2Ev"
       ],
-      "data": []
+      "deadstripped": [
+        "_ZN7Vector3D1Ev",
+        "_ZN9daBtfly_cD2Ev"
+      ],
+      "droppedSections": [
+        9,
+        10,
+        13,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "data": [
+        "_ZTI7fBase_c",
+        "_ZTS7fBase_c",
+        "_ZTI7dBase_c",
+        "_ZTS7dBase_c",
+        "_ZTI8dActor_c",
+        "_ZTS8dActor_c",
+        "_ZTS9daBtfly_c",
+        "_ZTI9daBtfly_c",
+        "_ZTV9daBtfly_c"
+      ],
+      "dataExternalized": [
+        "_ZTI7dBase_c",
+        "_ZTI7fBase_c",
+        "_ZTI8dActor_c",
+        "_ZTI9daBtfly_c",
+        "_ZTS7dBase_c",
+        "_ZTS7fBase_c",
+        "_ZTS8dActor_c",
+        "_ZTS9daBtfly_c",
+        "_ZTV9daBtfly_c"
+      ]
     },
     "criteria": {
       "every_declared_function_defined": "PASS",
       "every_declared_function_bytes_match": "PASS",
-      "declared_function_set_equals_defined_function_set": "FAIL-BY-DESIGN -- 11 unlicensed section/symbol(s), 2 compiler-only policy error(s)",
+      "declared_function_set_equals_defined_function_set": "PASS",
       "functions_occur_in_expected_order": "PASS",
       "relocation_destinations_verified": "PASS"
     },

@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3025,
+  "count": 3026,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3033,6 +3033,7 @@
     "src/actors/daShark_c.cpp#daShark_c_classInit",
     "src/actors/daOnms_c.cpp#daOnms_c_classInit",
     "src/actors/daOwl_c.cpp#daOwl_c_classInit",
-    "src/actors/daTor_c.cpp#daTor_c_classInit"
+    "src/actors/daTor_c.cpp#daTor_c_classInit",
+    "src/actors/daBtfly_c.cpp#daBtfly_c_classInit"
   ]
 }

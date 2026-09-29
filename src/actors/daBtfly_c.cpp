@@ -8,11 +8,22 @@
  * `#pragma opt_common_subs` bracket around State2 bind (without the pair
  * State2 is 8 bytes short of 0x244) and it emits .text in source order, so
  * this file is ROM-ascending: D1, D0, State7..State0, CleanupResources,
- * OnPendingDestroy, Render, Behavior, InitResources
- * (0x02140d80..0x02141ea4). Do not reorder the functions without the pragma.
+ * OnPendingDestroy, Render, Behavior, InitResources, classInit
+ * (0x02140d80..0x02141f04). Do not reorder the functions without the pragma.
  *
  * One ~daBtfly_c() emits D1 and D0 together. A second hand-mangled D0 beside
  * it is the mwccarm ICE (ELFgen.c:483).
+ *
+ * daBtfly_c_classInit (0x02141ea4..0x02141f04, historical alias
+ * Butterfly_Spawn) appends after InitResources, at the end of source order:
+ * the pragma above never toggles back on, so it stays in effect for this
+ * new function too. fBase_c::operator new(size_t) forwards
+ * `return new daBtfly_c();` to the same _ZN7fBase_cnwEj(1012) allocator the
+ * loose factory called by hand, and daBtfly_c has no user-declared
+ * constructor, so the inherited dActor_c ctor plus the vtable store plus the
+ * six member subobjects in field order (ModelAnim, Model, ShadowModel x2,
+ * dBgCh_Actr, dCcAcPos_c) come from the implicit default constructor with
+ * zero mangled calls.
  *
  * deslop leftovers:
  * - State7 mFlutterPhase / mScale: named += is 0x234 vs 0x258. The phase
@@ -585,4 +596,10 @@ int daBtfly_c::InitResources()
     mScaleZ = spd;
     mUseAnimModel = 1;
     return 1;
+}
+
+// @symbol daBtfly_c_classInit
+extern "C" daBtfly_c *daBtfly_c_classInit()
+{
+    return new daBtfly_c();
 }
