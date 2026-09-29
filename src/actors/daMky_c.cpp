@@ -5,7 +5,10 @@
  *
  * ROM-ascending under `#pragma defer_codegen off`, so ~daMky_c emits D1
  * then D0 (0x02111688, 0x021116d0). D2 has no ROM home. The destructor is
- * the key function. Factories stay in d_a_mky_monkey_*.c.
+ * the key function. daMky_c_classInit_MONKEY_STAR (0x021145e0, historical
+ * alias UkikiStar_Spawn) and daMky_c_classInit_MONKEY_THIEF (0x02114638,
+ * historical alias UkikiThief_Spawn), folded in from fold-lane-c-0929, are
+ * now the last two functions in the file, in that ROM order.
  *
  * Still address-shaped, measured on this TU:
  * - func_ov030_* are daMky_c methods. The cartridge does not spell them,
@@ -1783,5 +1786,25 @@ ov030_cap_done:
 void daMky_c::OnTurnIntoEgg(Player &player)
 {
     MarkForDestruction();
+}
+
+/* Reconstructed source-style name: SM64DS proves daMky_c through RTTI,
+ * allocation size, vtable identity, and the MONKEY_STAR registry profile;
+ * later EAD lineage supplies classInit. Exact original spelling is not
+ * preserved. Historical alias: UkikiStar_Spawn. */
+// @symbol daMky_c_classInit_MONKEY_STAR
+extern "C" daMky_c *daMky_c_classInit_MONKEY_STAR()
+{
+    return new daMky_c();
+}
+
+/* Reconstructed source-style name: SM64DS proves daMky_c through RTTI,
+ * allocation size, vtable identity, and the MONKEY_THIEF registry profile;
+ * later EAD lineage supplies classInit. Exact original spelling is not
+ * preserved. Historical alias: UkikiThief_Spawn. */
+// @symbol daMky_c_classInit_MONKEY_THIEF
+extern "C" daMky_c *daMky_c_classInit_MONKEY_THIEF()
+{
+    return new daMky_c();
 }
 

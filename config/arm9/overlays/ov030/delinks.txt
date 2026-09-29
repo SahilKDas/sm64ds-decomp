@@ -14,15 +14,7 @@ src/actors/daObjHmMaruta_c.cpp:
 
 src/actors/daMky_c.cpp:
     complete
-    .text start:0x02111688 end:0x021145e0
-
-src/d_a_mky_monkey_star.c:
-    complete
-    .text start:0x021145e0 end:0x02114638
-
-src/d_a_mky_monkey_thief.c:
-    complete
-    .text start:0x02114638 end:0x02114690
+    .text start:0x02111688 end:0x02114690
 
 src/__sinit_ov030_0211484c.c:
     complete

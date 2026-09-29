@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x2111688..0x21145e0, 44 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daMky_c",
-    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: two loose one-function registry factories, src/d_a_mky_monkey_star.c (MONKEY_STAR, 0x021145e0..0x02114638) and src/d_a_mky_monkey_thief.c (MONKEY_THIEF, 0x02114638..0x02114690), sit immediately after this TU's OnTurnIntoEgg with no gap before the next symbol, __sinit_ov030_0211484c (the module's static initializer at 0x0211484c, outside this .text run); folded in ROM order as `return new daMky_c();` twice -- daMky_c declares no constructor of its own, so the compiler-synthesized default constructor reproduces each loose file's hand-written fBase_c::operator new(972) + dActor_c::dActor_c() + vtable store + ModelAnim/ShadowModel/dCcAc_c/dBgCh_Actr/PathPtr sub-object construction sequence byte-for-byte."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02111688",
-      "end": "0x021145e0"
+      "end": "0x02114690"
     }
   ],
   "functions": [
@@ -325,6 +326,20 @@
       "size": "0x0000000c",
       "legacy_source": "src/_ZN7daMky_c13OnTurnIntoEggER6Player.cpp",
       "ordinal": 43
+    },
+    {
+      "symbol": "daMky_c_classInit_MONKEY_STAR",
+      "address": "0x021145e0",
+      "size": "0x00000058",
+      "legacy_source": "src/d_a_mky_monkey_star.c",
+      "ordinal": 44
+    },
+    {
+      "symbol": "daMky_c_classInit_MONKEY_THIEF",
+      "address": "0x02114638",
+      "size": "0x00000058",
+      "legacy_source": "src/d_a_mky_monkey_thief.c",
+      "ordinal": 45
     }
   ],
   "data": [],
@@ -549,8 +564,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov030-daMky_c/daMky_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 44,
-    "functions_declared": 44,
+    "functions_matched": 46,
+    "functions_declared": 46,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN7daMky_cD2Ev",
@@ -567,10 +582,6 @@
         10,
         14,
         33,
-        90,
-        91,
-        92,
-        93,
         94,
         95,
         96,
@@ -580,7 +591,11 @@
         100,
         101,
         102,
-        103
+        103,
+        104,
+        105,
+        106,
+        107
       ],
       "data": [
         "_ZTV7daMky_c",

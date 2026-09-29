@@ -742,6 +742,8 @@
     "src/actors/daMky_c.cpp#_ZN7daMky_c12EnterState10Ev": "tangosdev",
     "src/actors/daMky_c.cpp#_ZN7daMky_c13InitResourcesEv": "tangosdev",
     "src/actors/daMky_c.cpp#_ZN7daMky_c13OnTurnIntoEggER6Player": "ruspecial",
+    "src/actors/daMky_c.cpp#daMky_c_classInit_MONKEY_STAR": "tangosdev",
+    "src/actors/daMky_c.cpp#daMky_c_classInit_MONKEY_THIEF": "tangosdev",
     "src/actors/daMky_c.cpp#_ZN7daMky_c13OnYoshiTryEatEv": "tangosdev",
     "src/actors/daMky_c.cpp#_ZN7daMky_c16CleanupResourcesEv": "andrewboudreau",
     "src/actors/daMky_c.cpp#_ZN7daMky_c16OnPendingDestroyEv": "andrewboudreau",

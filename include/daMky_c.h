@@ -55,8 +55,8 @@ struct daMky_c : dActor_c {
     dCcAc_c mdCcAc_c;            /* 0x160 */
     /* dBgCh_Actr member, named by daMky_c_classInit_MONKEY_THIEF/_MONKEY_STAR's own
        C1 call and the class's own destructor's D1 call at +0x194.
-       [src/d_a_mky_monkey_thief.c,
-        src/actors/daMky_c.cpp: daMky_c::~daMky_c] */
+       [src/actors/daMky_c.cpp: daMky_c_classInit_MONKEY_THIEF,
+        daMky_c_classInit_MONKEY_STAR, daMky_c::~daMky_c] */
     dBgCh_Actr mWithMeshClsn;            /* 0x194 */
     /* 02112094 copies IDENTITY-rotated model matrix here and stores
        &mCapMtx on the spawned cap at +0xc8. */
