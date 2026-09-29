@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3011,
+  "count": 3018,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3019,6 +3019,13 @@
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnAimedAtWithEggEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnPendingDestroyEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD0Ev",
-    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev"
+    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_BK_TRANSBAR",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_KM2_RIFUT02",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_KM2_RIFUT01",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_RC_RIFT01",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_KM3_DERU02",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_KM3_DERU01",
+    "src/actors/daObjSimpleLift_c.cpp#daObjSimpleLift_c_classInit_KM1_DERU"
   ]
 }

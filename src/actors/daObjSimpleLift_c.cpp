@@ -1,6 +1,6 @@
 //cpp
 /**
- * daObjSimpleLift_c -- the plain sliding slab (ov091, 0x02132404..0x021327e8).
+ * daObjSimpleLift_c -- the plain sliding slab (ov091, 0x02132404..0x02132938).
  *
  * Seven registry profiles share this class: BK_TRANSBAR, KM1_DERU,
  * KM2_RIFUT01, KM2_RIFUT02, KM3_DERU01, KM3_DERU02 and RC_RIFT01. Each
@@ -13,8 +13,24 @@
  * heading, reloads the travel time and waits 15 frames. The mesh collider
  * is refreshed only while the slab is in range.
  *
+ * The seven daObjSimpleLift_c_classInit_* factories (0x021327e8..0x02132938)
+ * are reconstructed names (RTTI daObjSimpleLift_c, the seven registry
+ * profiles above); retail does not store them. Historical aliases:
+ * SlidingPlatformWf_Spawn (BK_TRANSBAR), SlidingPlatformBfsRectangle_Spawn
+ * (KM2_RIFUT02), SlidingPlatformBfsSquare_Spawn (KM2_RIFUT01),
+ * SlidingPlatformRr_Spawn (RC_RIFT01), SlidingPlatformBsLong_Spawn
+ * (KM3_DERU02), SlidingPlatformBsWide_Spawn (KM3_DERU01),
+ * SlidingPlatformBdw_Spawn (KM1_DERU). Each factory is `operator new(0x330)`
+ * + the inherited dBgActor_c ctor + this class's vtable store -- exactly
+ * `new daObjSimpleLift_c()`, since the class has no user-declared
+ * constructor of its own.
+ *
  * #pragma defer_codegen off: one out-of-line destructor emits D1 then D0,
- * the cartridge order.
+ * the cartridge order; the same pragma lays the whole TU down in source
+ * order, so this file is ROM-ascending and the classInit factories append
+ * after InitResources. (Compare src/actors/daObjHatenaBlock_c.cpp, which has
+ * no such pragma and so emits in the reverse of source order -- its
+ * classInit block sits at the top of the file instead.)
  *
  * deslop leftovers:
  * - Behavior: dBgActor_c::IsClsnInRange(Fix12<int>, Fix12<int>) homes both
@@ -145,4 +161,46 @@ int daObjSimpleLift_c::InitResources()
     }
     func_020393d4(&mMeshCollider, (void *)dBgW::UpdatePosWithTransform);
     return 1;
+}
+
+// @symbol daObjSimpleLift_c_classInit_BK_TRANSBAR
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_BK_TRANSBAR()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_KM2_RIFUT02
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_KM2_RIFUT02()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_KM2_RIFUT01
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_KM2_RIFUT01()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_RC_RIFT01
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_RC_RIFT01()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_KM3_DERU02
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_KM3_DERU02()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_KM3_DERU01
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_KM3_DERU01()
+{
+    return new daObjSimpleLift_c();
+}
+
+// @symbol daObjSimpleLift_c_classInit_KM1_DERU
+extern "C" daObjSimpleLift_c *daObjSimpleLift_c_classInit_KM1_DERU()
+{
+    return new daObjSimpleLift_c();
 }
