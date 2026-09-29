@@ -4920,6 +4920,7 @@
     "src/actors/daObjFlamethrower_c.cpp#_ZN19daObjFlamethrower_cD0Ev": "andrewboudreau",
     "src/actors/daObjFlamethrower_c.cpp#_ZN19daObjFlamethrower_c8BehaviorEv": "lunavyqo",
     "src/actors/daObjFlamethrower_c.cpp#_ZN19daObjFlamethrower_c13InitResourcesEv": "andrewboudreau",
+    "src/actors/daObjFlamethrower_c.cpp#daObjFlamethrower_c_classInit": "tangosdev",
     "src/actors/daDonketu_c.cpp#_ZN11daDonketu_cD1Ev": "tangosdev",
     "src/actors/daDonketu_c.cpp#_ZN11daDonketu_cD0Ev": "tangosdev",
     "src/actors/daDonketu_c.cpp#_ZN11daDonketu_c14PlayDeathSoundEv": "andrewboudreau",

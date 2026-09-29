@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x213682c..0x2136ed4, 4 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjFlamethrower_c",
-    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-D-0929: the daObjFlamethrower_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_obj_flamethrower.cpp ended exactly at 0x02136f58, the start of ov095's .rodata run) and no hole; tu_map never attributed it because it cuts on symbol name. This overlay's delinks.txt also holds daObjSeesaw_c and daUdlift_c; only daObjFlamethrower_c's hunk is touched by this fold."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0213682c",
-      "end": "0x02136ed4"
+      "end": "0x02136f58"
     }
   ],
   "functions": [
@@ -45,6 +46,13 @@
       "size": "0x00000174",
       "legacy_source": "src/_ZN19daObjFlamethrower_c13InitResourcesEv.cpp",
       "ordinal": 3
+    },
+    {
+      "symbol": "daObjFlamethrower_c_classInit",
+      "address": "0x02136ed4",
+      "size": "0x00000084",
+      "legacy_source": "src/d_a_obj_flamethrower.cpp",
+      "ordinal": 4
     }
   ],
   "data": [],
@@ -58,7 +66,8 @@
     "Class naming: the ROM's own RTTI spells this class daObjFlamethrower_c; the tree's class is named daObjFlamethrower_c and the vtable symbol is _ZTV19daObjFlamethrower_c. Left as found -- renaming is out of scope for this fold.",
     "Emission-order note: the destructor is defined inline in include/daObjFlamethrower_c.h. Under the default deferred codegen that makes mwccarm emit D1 then D0 ahead of every written member, so with the members written in reverse ROM order the object's sections come out ROM-ascending (D1, D0, Behavior, InitResources) and no homeless D2 variant is emitted at all. verify reports 4/4 MATCH with all four in the expected ROM-ascending section order. The out-of-line spelling was measured on this TU and emits D2, D0, D1 -- a D0/D1 inversion plus a D2 with no ROM home -- which linkcheck [4b/8] refuses.",
     "Pragma reconciliation: tubuild create flagged '#pragma opt_strength_reduction off' as [NOT carried] from both _ZN19daObjFlamethrower_c8BehaviorEv and _ZN19daObjFlamethrower_c13InitResourcesEv. Neither was re-added; the merged TU reaches 4/4 MATCH without them. Do not add them back on spec.",
-    "Declaration conflicts resolved by hand: MulVec3Mat4x3 and Vec3_Add had two spellings across the legacy files. Kept the int*-based declaration and cast at the three InitResources call sites; the struct Vec3 shadow is layout-identical (three ints), so the casts are type-only."
+    "Declaration conflicts resolved by hand: MulVec3Mat4x3 and Vec3_Add had two spellings across the legacy files. Kept the int*-based declaration and cast at the three InitResources call sites; the struct Vec3 shadow is layout-identical (three ints), so the casts are type-only.",
+    "fold-lane-D-0929: folded the daObjFlamethrower_c_classInit registry factory (0x02136ed4..0x02136f58) into this already-promoted TU, widening the complete delinks.txt claim from 0x0213682c..0x02136ed4 to 0x0213682c..0x02136f58. This factory is NOT converted to `new daObjFlamethrower_c()`: types.h's Vector3 has no user-declared constructor, so its implicit default constructor is trivial, and an idiomatic `new` silently drops the ROM's real per-element __cxa_vec_ctor(..., func_0203d384, ...) construction of mFlamePositions[12] -- measured directly (999 words differ, first wrong relocation destination _ZN8dCcPos_cD1Ev). Reproducing that call would need a real Vector3 default constructor added to the shared header, which is out of scope for a fold and would recompile every other Vector3 consumer in the tree, so the factory keeps the loose file's explicit hand-built construction sequence (fBase_c::operator new(sizeof(daObjFlamethrower_c)) + dActor_c ctor + vtable store + __cxa_vec_ctor over the dCcPos_c[12] and Vector3[12] arrays) verbatim. One expression did need to change for the same-TU merge: this TU is the key-function TU and so locally DEFINES _ZTV19daObjFlamethrower_c (declared int[] by decl_common.h) at the START of the full vtable object (the two-word RTTI header) per the Itanium ABI, not at the address point the old externally-linked reference happened to resolve to; the vtable store now reads `&_ZTV19daObjFlamethrower_c[2]` to reach slot 0 -- verified empirically (addend=0 gave an objisolate relocation-shape failure; addend=8/[2] is clean). tools/tubuild.py verify reports 5/5 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output entries needed (the class's RTTI/vtable records and Vector3's vague-linkage destructor were already licensed as this TU is already the key-function TU). Because the folded factory keeps mangled extern \"C\" references (fBase_c::operator new, dActor_c's ctor, __cxa_vec_ctor, the vtable array) and raw (char *)p + 0xNNN offset arithmetic, tools/tiers.py::score_member reports no_raw_offset=False and no_mangled_refs=False, so daObjFlamethrower_c_classInit is NOT added to config/converted-baseline.json -- this fold merges the file and collapses delinks without claiming CONVERTED status for the new symbol. Retired: src/d_a_obj_flamethrower.cpp (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override). This overlay's delinks.txt also holds daObjSeesaw_c (explicitly out of scope for this lane) and daUdlift_c; only daObjFlamethrower_c's hunk was touched. The manifest's embedded verification.linkcheck sub-block predates this fold (recorded against the pre-fold 4-function .text range) and is superseded by the lane-level prepush_linkcheck.py run at the end of this batch, not regenerated per-class here."
   ],
   "compiler_only_output": [
     {
@@ -138,8 +147,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov095-daObjFlamethrower_c/daObjFlamethrower_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 4,
-    "functions_declared": 4,
+    "functions_matched": 5,
+    "functions_declared": 5,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN7Vector3D1Ev"
