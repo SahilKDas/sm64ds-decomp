@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x2136db0..0x21376bc, 10 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daTor_c",
-    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-D-0929: the daTor_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_tor.c ended exactly at 0x0213770c) and no hole; tu_map never attributed it because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02136db0",
-      "end": "0x021376bc"
+      "end": "0x0213770c"
     }
   ],
   "functions": [
@@ -87,6 +88,13 @@
       "size": "0x00000158",
       "legacy_source": "src/_ZN7daTor_c13InitResourcesEv.cpp",
       "ordinal": 9
+    },
+    {
+      "symbol": "daTor_c_classInit",
+      "address": "0x021376bc",
+      "size": "0x00000050",
+      "legacy_source": "src/d_a_tor.c",
+      "ordinal": 10
     }
   ],
   "data": [],
@@ -97,7 +105,8 @@
     "InitResources keeps the mangled Fix12-by-value calls: the method form homes the arguments and the function grows from 0x158 to 0x18c. State1 copies the player position through a pointer at +0x5c; named mPos loads are one instruction short.",
     "tubuild create warning (RESOLVED): CONFLICT: extern declaration 'Vec3_HorzDist' differs between the legacy file that used to hold _ZN7daTor_c6State2Ev and the one that held _ZN7daTor_c6State1Ev; kept the first, the other is commented out for review",
     "tubuild create warning (RESOLVED): CONFLICT: extern declaration '_ZN5Sound8PlayLongEjjjRK7Vector3s' differs between the legacy file that used to hold _ZN7daTor_c6State1Ev and the one that held _ZN7daTor_c6State0Ev; kept the first, the other is commented out for review",
-    "tubuild create warning (RESOLVED): CONFLICT: extern declaration 'Vec3_Dist' differs between the legacy file that used to hold _ZN7daTor_c6State1Ev and the one that held _ZN7daTor_c8BehaviorEv; kept the first, the other is commented out for review"
+    "tubuild create warning (RESOLVED): CONFLICT: extern declaration 'Vec3_Dist' differs between the legacy file that used to hold _ZN7daTor_c6State1Ev and the one that held _ZN7daTor_c8BehaviorEv; kept the first, the other is commented out for review",
+    "fold-lane-D-0929: folded the daTor_c_classInit registry factory (0x021376bc..0x0213770c) into this already-promoted TU, widening the complete delinks.txt claim from 0x02136db0..0x021376bc to 0x02136db0..0x0213770c. The loose one-function source hand-called fBase_c::operator new(880) + the inherited dActor_c ctor + this class's vtable store + four member subobjects in field order (dCcAc_c, dBgCh_Actr, ModelAnim, TextureTransformer); daTor_c has no user-declared constructor, so `new daTor_c()` reproduces the identical sequence with zero mangled calls. This TU keeps #pragma defer_codegen off, so emission follows source order (ROM-ascending); the factory appends after InitResources. tools/tubuild.py verify reports 11/11 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (the existing _ZN7daTor_cD2Ev deadstrip row, from the out-of-line destructor, already covers the homeless base-object-destructor helper `return new` emits here). Retired: src/d_a_tor.c (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override)."
   ],
   "compiler_only_output": [
     {
@@ -182,8 +191,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov096-daTor_c/daTor_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 10,
-    "functions_declared": 10,
+    "functions_matched": 11,
+    "functions_declared": 11,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN7daTor_cD2Ev",
@@ -197,8 +206,6 @@
         9,
         10,
         17,
-        28,
-        29,
         30,
         31,
         32,
@@ -210,7 +217,9 @@
         38,
         39,
         40,
-        41
+        41,
+        42,
+        43
       ],
       "data": [
         "_ZTV7daTor_c",

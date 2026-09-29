@@ -11,8 +11,14 @@
  * _ZTS. Under `#pragma defer_codegen off` it comes out D1 (0x02136db0), D0
  * (0x02136df8), then a D2 the cartridge has no home for (manifest: deadstrip);
  * the same pragma lays .text down in source order, so this file is
- * ROM-ascending. The factory daTor_c_classInit (0x021376bc) stays in its own
- * source, src/d_a_tor.c.
+ * ROM-ascending. The factory daTor_c_classInit (0x021376bc..0x0213770c,
+ * historical alias Tornado_Spawn) now appends at the end of source order:
+ * fBase_c::operator new(size_t) forwards `return new daTor_c();` to the same
+ * _ZN7fBase_cnwEj(880) allocator the loose factory called by hand, and
+ * daTor_c has no user-declared constructor, so the inherited dActor_c ctor
+ * plus the vtable store plus the four member subobjects in field order
+ * (dCcAc_c, dBgCh_Actr, ModelAnim, TextureTransformer) come from the implicit
+ * default constructor with zero mangled calls.
  */
 
 #pragma defer_codegen off
@@ -307,4 +313,10 @@ int daTor_c::InitResources()
     mParticleHandle0 = 0;
     mParticleHandle1 = 0;
     return 1;
+}
+
+// @symbol daTor_c_classInit
+extern "C" daTor_c *daTor_c_classInit()
+{
+    return new daTor_c();
 }

@@ -9,11 +9,7 @@ src/actors/daSanbo_c.cpp:
 
 src/actors/daTor_c.cpp:
     complete
-    .text start:0x02136db0 end:0x021376bc
-
-src/d_a_tor.c:
-    complete
-    .text start:0x021376bc end:0x0213770c
+    .text start:0x02136db0 end:0x0213770c
 
 src/__sinit_ov096_0213770c.c:
     complete

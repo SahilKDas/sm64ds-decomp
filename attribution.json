@@ -5215,6 +5215,7 @@
     "src/actors/daTor_c.cpp#_ZN7daTor_c6RenderEv": "tangosdev",
     "src/actors/daTor_c.cpp#_ZN7daTor_c8BehaviorEv": "tangosdev",
     "src/actors/daTor_c.cpp#_ZN7daTor_c13InitResourcesEv": "tangosdev",
+    "src/actors/daTor_c.cpp#daTor_c_classInit": "tangosdev",
     "src/actors/daFRing_c.cpp#_ZN9daFRing_cD1Ev": "tangosdev",
     "src/actors/daFRing_c.cpp#_ZN9daFRing_cD0Ev": "tangosdev",
     "src/actors/daFRing_c.cpp#_ZN9daFRing_c16CleanupResourcesEv": "tangosdev",
