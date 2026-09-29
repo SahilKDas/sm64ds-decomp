@@ -5511,6 +5511,7 @@
     "src/actors/daOnms_c.cpp#_ZN8daOnms_c6RenderEv": "tangosdev",
     "src/actors/daOnms_c.cpp#_ZN8daOnms_c8BehaviorEv": "lunavyqo",
     "src/actors/daOnms_c.cpp#_ZN8daOnms_c13InitResourcesEv": "lunavyqo",
+    "src/actors/daOnms_c.cpp#daOnms_c_classInit": "tangosdev",
     "src/actors/daFPkn_c.cpp#_ZN8daFPkn_cD1Ev": "tangosdev",
     "src/actors/daFPkn_c.cpp#_ZN8daFPkn_cD0Ev": "tangosdev",
     "src/actors/daFPkn_c.cpp#_ZN8daFPkn_c15SpawnDeathSmokeEv": "tangosdev",

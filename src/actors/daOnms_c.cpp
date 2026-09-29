@@ -4,10 +4,16 @@
  * defer_codegen off emits this file in source order, which is the ROM order.
  * The out-of-line destructor is the key function (D1 then D0). daOnms_c.h is
  * included first so common.h's flat Matrix4x3 stands; the matrix copies below
- * are twelve words, not .r/.t. The factory daOnms_c_classInit stays in
- * src/d_a_onms.cpp. func_ov092_021313b0, func_ov092_02131578 and
- * func_ov092_02131a88 stay extern "C": include/decl_common.h declares them
- * under those names.
+ * are twelve words, not .r/.t. The factory daOnms_c_classInit
+ * (0x02132018..0x02132074, historical alias ToxBox_Spawn) now appends after
+ * InitResources, at the end of source order: fBase_c::operator new(size_t)
+ * forwards `return new daOnms_c();` to the same _ZN7fBase_cnwEj allocator the
+ * loose factory called by hand, and daOnms_c has no user-declared
+ * constructor, so the inherited dBgActor_c ctor plus the vtable store plus
+ * the member subobjects in field order (dBgCh_Actr, dCcAcPos_c, PathPtr)
+ * come from the implicit default constructor with zero mangled calls.
+ * func_ov092_021313b0, func_ov092_02131578 and func_ov092_02131a88 stay
+ * extern "C": include/decl_common.h declares them under those names.
  *
  * deslop leftovers:
  * - StateBounce: `return 0` for the tested zero, size 0x1a0 -> 0x1a8.
@@ -610,4 +616,10 @@ int daOnms_c::InitResources()
 
     mPlayerActor = 0;
     return 1;
+}
+
+// @symbol daOnms_c_classInit
+extern "C" daOnms_c *daOnms_c_classInit()
+{
+    return new daOnms_c();
 }

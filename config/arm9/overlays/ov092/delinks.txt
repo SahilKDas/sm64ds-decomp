@@ -6,11 +6,7 @@
     .bss        start:0x02132540 end:0x021325c0 kind:bss align:32
 src/actors/daOnms_c.cpp:
     complete
-    .text start:0x02130f00 end:0x02132018
-
-src/d_a_onms.cpp:
-    complete
-    .text start:0x02132018 end:0x02132074
+    .text start:0x02130f00 end:0x02132074
 
 src/__sinit_ov092_021320cc.c:
     complete
