@@ -5273,6 +5273,7 @@
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_c6RenderEv": "tangosdev",
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_c8BehaviorEv": "lunavyqo",
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjBkKillerdai_c.cpp#daObjBkKillerdai_c_classInit": "tangosdev",
     "src/actors/daObjPile_c.cpp#_ZN11daObjPile_cD1Ev": "tangosdev",
     "src/actors/daObjPile_c.cpp#_ZN11daObjPile_cD0Ev": "tangosdev",
     "src/actors/daObjPile_c.cpp#func_ov091_02133498": "tangosdev",

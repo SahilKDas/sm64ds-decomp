@@ -1,6 +1,6 @@
 //cpp
 /* Production translation unit for ov079/daObjBkKillerdai_c.
- * 8 function(s), .text 0x02126dbc..0x021271b4. The Bullet Bill launcher
+ * 9 function(s), .text 0x02126dbc..0x021271e4. The Bullet Bill launcher
  * (BK_KILLER_DAI).
  *
  * Behavior fires actor 0xde when none is already out and the player
@@ -15,9 +15,14 @@
  * The out-of-line destructor is the key function, so this TU emits _ZTV/_ZTI/
  * _ZTS. Under `#pragma defer_codegen off` it comes out D1 (0x02126dbc), D0
  * (0x02126e00), then a D2 the cartridge has no home for (manifest: deadstrip);
- * the same pragma lays .text down in source order, so this file is ROM-ascending.
- * The factory daObjBkKillerdai_c_classInit (0x021271b4) sits just past this
- * run's right edge and stays a one-function source.
+ * the same pragma lays .text down in source order, so this file is
+ * ROM-ascending, and the classInit factory appends after InitResources.
+ *
+ * daObjBkKillerdai_c_classInit (0x021271b4..0x021271e4, historical alias
+ * BillBlaster_Spawn) hand-called fBase_c::operator new(804) + the inherited
+ * dBgActor_c ctor + this class's vtable store. daObjBkKillerdai_c has no
+ * user-declared constructor, so `new daObjBkKillerdai_c()` reproduces the
+ * identical sequence.
  */
 
 #include "decl_common.h"
@@ -171,4 +176,10 @@ s32 daObjBkKillerdai_c::InitResources()
     }
 alive:
     return 1;
+}
+
+// @symbol daObjBkKillerdai_c_classInit
+extern "C" daObjBkKillerdai_c *daObjBkKillerdai_c_classInit()
+{
+    return new daObjBkKillerdai_c();
 }

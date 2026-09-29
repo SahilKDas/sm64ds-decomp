@@ -14,11 +14,7 @@ src/game/actors/d_a_klr.cpp:
 
 src/actors/daObjBkKillerdai_c.cpp:
     complete
-    .text start:0x02126dbc end:0x021271b4
-
-src/d_a_obj_bk_killerdai.c:
-    complete
-    .text start:0x021271b4 end:0x021271e4
+    .text start:0x02126dbc end:0x021271e4
 
 src/actors/daObjBk_Kabe_c.cpp:
     complete
