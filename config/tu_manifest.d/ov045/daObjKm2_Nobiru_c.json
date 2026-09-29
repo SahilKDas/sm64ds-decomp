@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x2111840..0x2111ad4, 9 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjKm2_Nobiru_c",
-    "module sinit corroboration: 6 sinit(s) / 6 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 6 sinit(s) / 6 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: loose src/d_a_obj_km2_nobiru.c (daObjKm2_Nobiru_c_classInit, 0x02111ad4..0x02111b14) sits immediately after this TU's InitResources with no gap before the next class's TU (src/game/actors/d_a_obj_km2_ukishima.cpp at 0x02111b14); folded in as `return new daObjKm2_Nobiru_c();` -- daObjKm2_Nobiru_c declares no constructor of its own, so the compiler-synthesized default constructor reproduces the loose file's hand-written fBase_c::operator new(808) + dActor_c::dActor_c() + vtable store + Model/dBgW_KcMbgSclY sub-object construction sequence byte-for-byte."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02111840",
-      "end": "0x02111ad4"
+      "end": "0x02111b14"
     }
   ],
   "functions": [
@@ -80,6 +81,13 @@
       "size": "0x000000a4",
       "legacy_source": "src/_ZN17daObjKm2_Nobiru_c13InitResourcesEv.cpp",
       "ordinal": 8
+    },
+    {
+      "symbol": "daObjKm2_Nobiru_c_classInit",
+      "address": "0x02111ad4",
+      "size": "0x00000040",
+      "legacy_source": "src/d_a_obj_km2_nobiru.c",
+      "ordinal": 9
     }
   ],
   "data": [],
@@ -94,8 +102,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov045-daObjKm2_Nobiru_c/daObjKm2_Nobiru_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 9,
-    "functions_declared": 9,
+    "functions_matched": 10,
+    "functions_declared": 10,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN17daObjKm2_Nobiru_cD2Ev",
@@ -109,8 +117,6 @@
         9,
         10,
         20,
-        25,
-        26,
         27,
         28,
         29,
@@ -122,7 +128,9 @@
         35,
         36,
         37,
-        38
+        38,
+        39,
+        40
       ],
       "data": [
         "_ZTV17daObjKm2_Nobiru_c",

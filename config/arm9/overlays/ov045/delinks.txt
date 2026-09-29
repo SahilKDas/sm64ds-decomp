@@ -14,11 +14,7 @@ src/game/actors/d_a_obj_km2_ami_bou.cpp:
 
 src/actors/daObjKm2_Nobiru_c.cpp:
     complete
-    .text start:0x02111840 end:0x02111ad4
-
-src/d_a_obj_km2_nobiru.c:
-    complete
-    .text start:0x02111ad4 end:0x02111b14
+    .text start:0x02111840 end:0x02111b14
 
 src/game/actors/d_a_obj_km2_ukishima.cpp:
     complete

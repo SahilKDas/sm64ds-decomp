@@ -13,8 +13,9 @@
  * _ZTS. Under `#pragma defer_codegen off` it comes out D1 (0x02111840), D0
  * (0x02111878), then a D2 the cartridge has no home for (manifest: deadstrip);
  * the same pragma lays .text down in source order, so this file is
- * ROM-ascending. The factory daObjKm2_Nobiru_c_classInit (0x02111ad4) stays in
- * its own source, src/d_a_obj_km2_nobiru.c.
+ * ROM-ascending. daObjKm2_Nobiru_c_classInit (0x02111ad4, historical alias
+ * ExtendingPlatform_Spawn, folded in from fold-lane-c-0929) is now the last
+ * function in the file, appended after InitResources.
  */
 
 #include "decl_common.h"
@@ -122,4 +123,14 @@ int daObjKm2_Nobiru_c::InitResources()
     mCollider.Enable(this);
     mGrowing = 1;
     return 1;
+}
+
+/* Reconstructed source-style name: SM64DS proves daObjKm2_Nobiru_c through
+ * RTTI, allocation size, vtable identity, and the KM2_NOBIRU registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: ExtendingPlatform_Spawn. */
+// @symbol daObjKm2_Nobiru_c_classInit
+extern "C" daObjKm2_Nobiru_c *daObjKm2_Nobiru_c_classInit()
+{
+    return new daObjKm2_Nobiru_c();
 }
