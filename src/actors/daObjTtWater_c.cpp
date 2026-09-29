@@ -106,3 +106,13 @@ int daObjTtWater_c::InitResources()
     mMinPosY = mPosY - 0x3c000;
     return _ZN5Event6GetBitEj(0xe) == 0;
 }
+
+/* Reconstructed source-style name: SM64DS proves daObjTtWater_c through
+ * RTTI, allocation size, vtable identity, and the TT_WATER registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: TinyWater_Spawn. */
+// @symbol daObjTtWater_c_classInit
+extern "C" daObjTtWater_c *daObjTtWater_c_classInit()
+{
+    return new daObjTtWater_c();
+}

@@ -4808,6 +4808,7 @@
     "src/actors/daObjTtWater_c.cpp#_ZN14daObjTtWater_c8BehaviorEv": "andrewboudreau",
     "src/actors/daObjTtWater_c.cpp#_ZN14daObjTtWater_cD0Ev": "andrewboudreau",
     "src/actors/daObjTtWater_c.cpp#_ZN14daObjTtWater_cD1Ev": "andrewboudreau",
+    "src/actors/daObjTtWater_c.cpp#daObjTtWater_c_classInit": "tangosdev",
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_c13InitResourcesEv": "tangosdev",
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_c16CleanupResourcesEv": "tangosdev",
     "src/actors/daObjCloset_c.cpp#_ZN13daObjCloset_c8BehaviorEv": "lunavyqo",

@@ -10,11 +10,7 @@ src/actors/daObjTtFuta_c.cpp:
 
 src/actors/daObjTtWater_c.cpp:
     complete
-    .text start:0x021113d4 end:0x02111690
-
-src/d_a_obj_tt_water.c:
-    complete
-    .text start:0x02111690 end:0x021116c8
+    .text start:0x021113d4 end:0x021116c8
 
 src/__sinit_ov033_021119e8.c:
     complete

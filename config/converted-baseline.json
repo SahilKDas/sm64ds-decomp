@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3022,
+  "count": 3023,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3030,6 +3030,7 @@
     "src/actors/daObjHmMaruta_c.cpp#daObjHmMaruta_c_classInit",
     "src/actors/daMky_c.cpp#daMky_c_classInit_MONKEY_STAR",
     "src/actors/daMky_c.cpp#daMky_c_classInit_MONKEY_THIEF",
-    "src/actors/daObjTtFuta_c.cpp#daObjTtFuta_c_classInit"
+    "src/actors/daObjTtFuta_c.cpp#daObjTtFuta_c_classInit",
+    "src/actors/daObjTtWater_c.cpp#daObjTtWater_c_classInit"
   ]
 }
