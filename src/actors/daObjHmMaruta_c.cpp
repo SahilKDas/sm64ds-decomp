@@ -28,7 +28,10 @@
  * variants score through that inline header definition.
  *
  * Written in reverse ROM order: mwccarm emits one .text section per
- * function, last-defined first.
+ * function, last-defined first. daObjHmMaruta_c_classInit (historical alias
+ * RollingLogTtm_Spawn, folded in from fold-lane-c-0929, 0x0211164c..
+ * 0x02111688) is highest and so comes first in source, ahead of
+ * InitResources.
  *
  * Leftover: the ov080 helpers keep their linker names and C linkage, and the
  * two per-stage tables keep data_ov030_* names.
@@ -62,6 +65,22 @@ int func_ov080_021274ac(daObjMaruta_c *self, ResourceDescriptor *arg);
 
 extern ResourceDescriptor data_ov030_02115a04;
 extern int data_ov030_021159f4;
+}
+
+/* Reconstructed source-style name: SM64DS proves daObjHmMaruta_c through
+ * RTTI, allocation size, vtable identity, and the HM_MARUTA registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: RollingLogTtm_Spawn.
+ *
+ * Written first in source (this TU has no #pragma defer_codegen, so mwccarm
+ * emits one .text section per function, last-defined first): this factory
+ * is the highest ROM address (0x0211164c), so it must be first here for the
+ * three explicitly-written functions below to keep coming out in their
+ * documented ROM order. */
+// @symbol daObjHmMaruta_c_classInit
+extern "C" daObjHmMaruta_c *daObjHmMaruta_c_classInit()
+{
+    return new daObjHmMaruta_c();
 }
 
 // @symbol _ZN15daObjHmMaruta_c13InitResourcesEv

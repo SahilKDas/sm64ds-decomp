@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x211155c..0x211164c, 5 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjHmMaruta_c",
-    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: loose src/d_a_obj_hm_maruta.c (daObjHmMaruta_c_classInit, 0x0211164c..0x02111688) sits immediately after this TU's InitResources with no gap before the next class's TU (src/actors/daMky_c.cpp at 0x02111688); folded in as `return new daObjHmMaruta_c();`. Neither daObjHmMaruta_c nor its base daObjMaruta_c declares a constructor, so the compiler-synthesized default-constructor chain reproduces the loose file's hand-written fBase_c::operator new(836) + dBgActor_c::dBgActor_c() + the inlined daObjMaruta_c vtable store (_ZTV13daObjMaruta_c, daObjMaruta_c's own implicit ctor level has no out-of-line symbol so mwccarm inlines its vtable store at the call site) + this class's own vtable store (_ZTV15daObjHmMaruta_c) sequence byte-for-byte. This TU has no #pragma defer_codegen, so mwccarm emits one .text section per function in reverse source order; the factory is the highest ROM address, so it is written first in source, ahead of InitResources."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0211155c",
-      "end": "0x0211164c"
+      "end": "0x02111688"
     }
   ],
   "functions": [
@@ -52,6 +53,13 @@
       "size": "0x00000014",
       "legacy_source": "src/_ZN15daObjHmMaruta_c13InitResourcesEv.cpp",
       "ordinal": 4
+    },
+    {
+      "symbol": "daObjHmMaruta_c_classInit",
+      "address": "0x0211164c",
+      "size": "0x0000003c",
+      "legacy_source": "src/d_a_obj_hm_maruta.c",
+      "ordinal": 5
     }
   ],
   "data": [],
@@ -69,11 +77,17 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov030-daObjHmMaruta_c/daObjHmMaruta_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 5,
-    "functions_declared": 5,
+    "functions_matched": 6,
+    "functions_declared": 6,
     "compilerOnlyOutput": {
-      "requested": [],
-      "deadstripped": [],
+      "requested": [
+        "_ZN10dBgActor_cD2Ev",
+        "_ZN13daObjMaruta_cD2Ev"
+      ],
+      "deadstripped": [
+        "_ZN10dBgActor_cD2Ev",
+        "_ZN13daObjMaruta_cD2Ev"
+      ],
       "droppedSections": [
         5,
         6,
@@ -94,7 +108,11 @@
         21,
         22,
         23,
-        24
+        24,
+        37,
+        38,
+        39,
+        40
       ],
       "data": [
         "_ZTV15daObjHmMaruta_c",
@@ -209,6 +227,16 @@
     }
   },
   "compiler_only_output": [
+    {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-lane-c-0929: `return new daObjHmMaruta_c();` synthesizes the implicit default-constructor chain, which pulls in ancestor dBgActor_c's compiler-emitted base-object destructor as an unwind helper. No configured ROM symbol and no inbound relocation after the licensed D1/D0 pair is retained."
+    },
+    {
+      "symbol": "_ZN13daObjMaruta_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-lane-c-0929: `return new daObjHmMaruta_c();` synthesizes the implicit default-constructor chain, which pulls in the immediate base class daObjMaruta_c's compiler-emitted base-object destructor as an unwind helper (daObjMaruta_c also has only an inline empty destructor, same as daObjHmMaruta_c). No configured ROM symbol and no inbound relocation after the licensed D1/D0 pair is retained."
+    },
     {
       "symbol": "_ZTV15daObjHmMaruta_c",
       "disposition": "deadstrip-data",

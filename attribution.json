@@ -5030,6 +5030,7 @@
     "src/actors/daObjHmMaruta_c.cpp#_ZN15daObjHmMaruta_c16CleanupResourcesEv": "tangosdev",
     "src/actors/daObjHmMaruta_c.cpp#_ZN15daObjHmMaruta_c8BehaviorEv": "tangosdev",
     "src/actors/daObjHmMaruta_c.cpp#_ZN15daObjHmMaruta_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjHmMaruta_c.cpp#daObjHmMaruta_c_classInit": "tangosdev",
     "src/actors/daObjCvNewsLift_c.cpp#_ZN17daObjCvNewsLift_cD1Ev": "tangosdev",
     "src/actors/daObjCvNewsLift_c.cpp#_ZN17daObjCvNewsLift_cD0Ev": "tangosdev",
     "src/actors/daObjCvNewsLift_c.cpp#_ZN17daObjCvNewsLift_c20UpdateClsnTransformsEv": "tangosdev",

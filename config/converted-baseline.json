@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3018,
+  "count": 3019,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3026,6 +3026,7 @@
     "src/actors/daSlide_Box_c.cpp#daSlide_Box_c_classInit",
     "src/actors/daGrock_c.cpp#daGrock_c_classInit",
     "src/actors/daObjSlIceBlock_c.cpp#daObjSlIceBlock_c_classInit_SL_ICEBLOCK_SHOT",
-    "src/actors/daObjSlIceBlock_c.cpp#daObjSlIceBlock_c_classInit_SL_ICEBLOCK"
+    "src/actors/daObjSlIceBlock_c.cpp#daObjSlIceBlock_c_classInit_SL_ICEBLOCK",
+    "src/actors/daObjHmMaruta_c.cpp#daObjHmMaruta_c_classInit"
   ]
 }
