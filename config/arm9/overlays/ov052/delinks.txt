@@ -10,11 +10,7 @@ src/game/actors/d_a_obj_emm_log.cpp:
 
 src/actors/daObjEmmYuka_c.cpp:
     complete
-    .text start:0x02111440 end:0x02111830
-
-src/d_a_obj_emm_yuka.c:
-    complete
-    .text start:0x02111830 end:0x02111868
+    .text start:0x02111440 end:0x02111868
 
 src/__sinit_ov052_02111b64.c:
     complete

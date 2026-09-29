@@ -152,3 +152,13 @@ int daObjEmmYuka_c::InitResources()
     mHorzSpeed = 0xa000;
     return 1;
 }
+
+/* Reconstructed source-style name: SM64DS proves daObjEmmYuka_c through
+ * RTTI, allocation size, vtable identity, and the EMM_YUKA registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: SquarePathLift_Spawn. */
+// @symbol daObjEmmYuka_c_classInit
+extern "C" daObjEmmYuka_c *daObjEmmYuka_c_classInit()
+{
+    return new daObjEmmYuka_c();
+}

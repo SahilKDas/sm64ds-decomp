@@ -36,6 +36,7 @@
     "src/actors/daObjEmmYuka_c.cpp#_ZN14daObjEmmYuka_c6RenderEv": "tangosdev",
     "src/actors/daObjEmmYuka_c.cpp#_ZN14daObjEmmYuka_c8BehaviorEv": "tangosdev",
     "src/actors/daObjEmmYuka_c.cpp#_ZN14daObjEmmYuka_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjEmmYuka_c.cpp#daObjEmmYuka_c_classInit": "tangosdev",
     "src/actors/daObjFl_London_c.cpp#_ZN16daObjFl_London_cD1Ev": "tangosdev",
     "src/actors/daObjFl_London_c.cpp#_ZN16daObjFl_London_cD0Ev": "tangosdev",
     "src/actors/daObjFl_London_c.cpp#func_ov022_02111a1c": "tangosdev",
