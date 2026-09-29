@@ -4014,6 +4014,8 @@
     "src/game/actors/d_a_obj_ki_fune.cpp#_ZN14daObjKi_Fune_c6RenderEv": "tangosdev",
     "src/game/actors/d_a_obj_ki_fune.cpp#_ZN14daObjKi_Fune_c8BehaviorEv": "andrewboudreau",
     "src/game/actors/d_a_obj_ki_fune.cpp#_ZN14daObjKi_Fune_c13InitResourcesEv": "tangosdev",
+    "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE_UP": "andrewboudreau",
+    "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE": "andrewboudreau",
     "src/actors/daKpa2Bg_c.cpp#_ZN10daKpa2Bg_cD1Ev": "tangosdev",
     "src/actors/daKpa2Bg_c.cpp#_ZN10daKpa2Bg_cD0Ev": "tangosdev",
     "src/actors/daKpa2Bg_c.cpp#func_ov060_02117a3c": "tangosdev",

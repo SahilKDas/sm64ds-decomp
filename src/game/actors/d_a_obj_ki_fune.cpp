@@ -9,16 +9,25 @@
  * data_0209f220 > 1), and for index 1 only until then, so the two never
  * coexist.
  *
- * Every member of this class is defined here. This TU owns the whole seven
- * function linker run 0x0211260c..0x021129a0 as one `complete` span.
+ * Every member of this class is defined here. This TU owns the whole nine
+ * function linker run 0x0211260c..0x02112a00 as one `complete` span: the
+ * seven class members plus the two daObjKi_Fune_c_classInit_* registry
+ * factories folded in from fold-lane-c-0929 (KI_FUNE_UP at 0x021129a0,
+ * KI_FUNE at 0x021129d0). Each factory hand-called dBgActor_c's ctor and
+ * stored _ZTV14daObjKi_Fune_c; daObjKi_Fune_c declares no constructor of
+ * its own, so the compiler-synthesized default constructor emits exactly
+ * that sequence, and each factory is now `return new daObjKi_Fune_c();`.
+ * Historical aliases: ShipUp_Spawn (KI_FUNE_UP), ShipDown_Spawn (KI_FUNE).
  *
  * FUNCTION ORDER IS DELIBERATELY THE REVERSE OF THE ROM'S.
  * mwccarm 2004/b56 emits one `.text` section per function and lays those
  * sections out in the object in the REVERSE of their order in the source text,
  * so writing the LAST function of the ROM run FIRST is what makes the object's
  * section order equal the ROM's address order. The reading order below is
- * therefore InitResources, Behavior, Render, CleanupResources,
- * func_ov016_021126a8. The destructor is defined in the class body, in
+ * therefore KI_FUNE, KI_FUNE_UP, InitResources, Behavior, Render,
+ * CleanupResources, func_ov016_021126a8 -- the two classInit factories sit
+ * highest in ROM, so they are written first. The destructor is defined in
+ * the class body, in
  * include/daObjKi_Fune_c.h: that form -- and not an out-of-line definition --
  * is what makes the compiler emit the complete-object D1 ahead of the deleting
  * D0, with no D2 at all, which is the order and the set the cartridge has,
@@ -42,12 +51,9 @@
  * NOT OWNED HERE, and this TU neither declares nor verifies any of it:
  *   g_profile_KI_FUNE     .data  ov016 0x021149fc
  *   g_profile_KI_FUNE_UP  .data  ov016 0x02114a18
- * The two factories those profiles point at,
- * daObjKi_Fune_c_classInit_KI_FUNE_UP at 0x021129a0 and
- * daObjKi_Fune_c_classInit_KI_FUNE at 0x021129d0, sit directly above this run
- * and are left outside it; build/tu_map.json does not join them, and the
- * sibling that did join its factory (src/game/actors/d_a_obj_ki_ita.cpp) had
- * one, not two, to argue for.
+ * The two registry descriptors above point at the two classInit factories
+ * folded into this TU (see the file banner); build/tu_map.json never joined
+ * them because it cuts on symbol name, not because the boundary is real.
  *
  * Known limits:
  *   Render still reaches dBgActor_c::mModel through a local `Base`
@@ -89,6 +95,26 @@ extern void _ZN10dBgW_KcMbg7SetFileEP8KCL_FileRK9Matrix4x35Fix12IiEsR10CLPS_Bloc
 extern void func_020393d4(int* p, int v);
 extern int IsStarCollected(int a, int b);
 extern unsigned char data_0209f220;
+}
+
+/* Reconstructed source-style name: SM64DS proves daObjKi_Fune_c through RTTI,
+ * allocation size, vtable identity, and the KI_FUNE registry profile; later
+ * EAD lineage supplies classInit. Exact original spelling is not preserved.
+ * Historical alias: ShipDown_Spawn. */
+// @symbol daObjKi_Fune_c_classInit_KI_FUNE
+extern "C" daObjKi_Fune_c *daObjKi_Fune_c_classInit_KI_FUNE()
+{
+    return new daObjKi_Fune_c();
+}
+
+/* Reconstructed source-style name: SM64DS proves daObjKi_Fune_c through RTTI,
+ * allocation size, vtable identity, and the KI_FUNE_UP registry profile;
+ * later EAD lineage supplies classInit. Exact original spelling is not
+ * preserved. Historical alias: ShipUp_Spawn. */
+// @symbol daObjKi_Fune_c_classInit_KI_FUNE_UP
+extern "C" daObjKi_Fune_c *daObjKi_Fune_c_classInit_KI_FUNE_UP()
+{
+    return new daObjKi_Fune_c();
 }
 
 // @symbol _ZN14daObjKi_Fune_c13InitResourcesEv

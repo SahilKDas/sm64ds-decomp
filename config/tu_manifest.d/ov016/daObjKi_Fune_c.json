@@ -9,14 +9,14 @@
     "contiguous linker run: 0x211260c..0x21129a0, 7 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjKi_Fune_c",
     "module sinit corroboration: 5 sinit(s) / 5 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
-    "the run above this one is the two-factory unit daObjKi_Fune_c_classInit_KI_FUNE_UP (0x021129a0) + daObjKi_Fune_c_classInit_KI_FUNE (0x021129d0); tu_map.py does not join it to this TU and it is deliberately left outside the promoted span. Both allocate 812 = 0x32c, the RTTI-proven size this class asserts, construct dBgActor_c and install _ZTV14daObjKi_Fune_c, so a factory join is arguable on the same registry/allocation/vptr evidence the sibling src/game/actors/d_a_obj_ki_ita.cpp used -- but that sibling had ONE factory to fold in, not two, and nothing measured here decides which of the two the single class body was written next to. The boundary therefore sits at 0x021129a0.",
-    "the run below ends at 0x0211260c with src/d_a_moray.c, a different class; the D1 at 0x0211260c is this class's first function."
+    "the run below ends at 0x0211260c with src/d_a_moray.c, a different class; the D1 at 0x0211260c is this class's first function.",
+    "fold-lane-c-0929: folded daObjKi_Fune_c_classInit_KI_FUNE_UP (0x021129a0) + daObjKi_Fune_c_classInit_KI_FUNE (0x021129d0) into this TU. Both allocate 812 = 0x32c, the RTTI-proven size this class asserts, construct dBgActor_c and install _ZTV14daObjKi_Fune_c -- daObjKi_Fune_c declares no constructor of its own, so `return new daObjKi_Fune_c()` reproduces each byte-for-byte. No pragma in this TU, so emission is reverse of source order; both factories, being the two highest ROM addresses in the run, are written at the top of the file, KI_FUNE (0x021129d0) then KI_FUNE_UP (0x021129a0), ahead of InitResources. The next class, src/actors/daObjKi_Hasira_c.cpp, still begins exactly at 0x02112a00, untouched."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0211260c",
-      "end": "0x021129a0"
+      "end": "0x02112a00"
     }
   ],
   "functions": [
@@ -68,6 +68,20 @@
       "size": "0x00000164",
       "legacy_source": "src/_ZN14daObjKi_Fune_c13InitResourcesEv.cpp",
       "ordinal": 6
+    },
+    {
+      "symbol": "daObjKi_Fune_c_classInit_KI_FUNE_UP",
+      "address": "0x021129a0",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_ki_fune_ki_fune_up.c",
+      "ordinal": 7
+    },
+    {
+      "symbol": "daObjKi_Fune_c_classInit_KI_FUNE",
+      "address": "0x021129d0",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_ki_fune_ki_fune.c",
+      "ordinal": 8
     }
   ],
   "data": [],
@@ -83,13 +97,17 @@
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
     "toolchain": "tools/mwccarm/2004/b56/mwccarm.exe",
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
-    "object": "build/tu/ov016-daObjKi_Fune_c/daObjKi_Fune_c.o (gitignored)",
+    "object": "build/tu/ov016-daObjKi_Fune_c/d_a_obj_ki_fune.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 7,
-    "functions_declared": 7,
+    "functions_matched": 9,
+    "functions_declared": 9,
     "compilerOnlyOutput": {
-      "requested": [],
-      "deadstripped": [],
+      "requested": [
+        "_ZN10dBgActor_cD2Ev"
+      ],
+      "deadstripped": [
+        "_ZN10dBgActor_cD2Ev"
+      ],
       "droppedSections": [
         5,
         6,
@@ -107,7 +125,9 @@
         18,
         19,
         20,
-        21
+        21,
+        37,
+        38
       ],
       "data": [
         "_ZTI7fBase_c",
@@ -218,6 +238,11 @@
     }
   },
   "compiler_only_output": [
+    {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-lane-c-0929: each folded classInit factory's `new daObjKi_Fune_c()` instantiates the class, so mwccarm emits the base-object destructor helper (the same byproduct src/actors/daObjHatenaBlock_c.cpp and daObjSimpleLift_c.cpp already document). No configured ROM symbol and no inbound relocation after the licensed function set is retained."
+    },
     {
       "symbol": "_ZTI7fBase_c",
       "disposition": "deadstrip-data",

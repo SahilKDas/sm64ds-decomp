@@ -26,7 +26,8 @@ struct daObjKi_Fune_c : dBgActor_c {
 
        Every member of this class is defined in one translation unit,
        src/game/actors/d_a_obj_ki_fune.cpp, which owns the whole
-       0x0211260c..0x021129a0 linker run. */
+       0x0211260c..0x02112a00 linker run, including the two
+       daObjKi_Fune_c_classInit_KI_FUNE(_UP) registry factories. */
     virtual ~daObjKi_Fune_c() {}
     virtual int InitResources();
     virtual int CleanupResources();
