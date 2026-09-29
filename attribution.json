@@ -4795,6 +4795,7 @@
     "src/actors/daObjTtFuta_c.cpp#_ZN13daObjTtFuta_c6RenderEv": "tangosdev",
     "src/actors/daObjTtFuta_c.cpp#_ZN13daObjTtFuta_c8BehaviorEv": "tangosdev",
     "src/actors/daObjTtFuta_c.cpp#_ZN13daObjTtFuta_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjTtFuta_c.cpp#daObjTtFuta_c_classInit": "tangosdev",
     "src/actors/daObjWlKoopaShutter_c.cpp#_ZN21daObjWlKoopaShutter_c13InitResourcesEv": "tangosdev",
     "src/actors/daObjWlKoopaShutter_c.cpp#_ZN21daObjWlKoopaShutter_c16CleanupResourcesEv": "tangosdev",
     "src/actors/daObjWlKoopaShutter_c.cpp#_ZN21daObjWlKoopaShutter_c6RenderEv": "tangosdev",

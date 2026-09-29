@@ -94,3 +94,13 @@ s32 daObjTtFuta_c::InitResources() {
   _ZN10dBgW_KcMbg7SetFileEP8KCL_FileRK9Matrix4x35Fix12IiEsR10CLPS_Block(&mMeshCollider, k, &mClsnMat, 0x199, mAngleY, data_ov033_02111bfc);
   return _ZN5Event6GetBitEj(0xe) == 0;
 }
+
+/* Reconstructed source-style name: SM64DS proves daObjTtFuta_c through its
+ * RTTI string, allocation size, vtable identity, and the TT_FUTA registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: TinyCover_Spawn. */
+// @symbol daObjTtFuta_c_classInit
+extern "C" daObjTtFuta_c *daObjTtFuta_c_classInit()
+{
+    return new daObjTtFuta_c();
+}

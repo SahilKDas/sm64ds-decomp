@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x21111a0..0x21113a4, 7 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjTtFuta_c",
-    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 2 sinit(s) / 2 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: loose src/d_a_obj_tt_futa.c (daObjTtFuta_c_classInit, 0x021113a4..0x021113d4) sits immediately after this TU's InitResources with no gap before the next class's TU (src/actors/daObjTtWater_c.cpp at 0x021113d4); folded in as `return new daObjTtFuta_c();` -- daObjTtFuta_c declares no constructor of its own, so the compiler-synthesized default constructor reproduces the loose file's hand-written fBase_c::operator new(800) + dBgActor_c::dBgActor_c() + vtable store sequence byte-for-byte."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x021111a0",
-      "end": "0x021113a4"
+      "end": "0x021113d4"
     }
   ],
   "functions": [
@@ -66,6 +67,13 @@
       "size": "0x00000094",
       "legacy_source": "src/_ZN13daObjTtFuta_c13InitResourcesEv.cpp",
       "ordinal": 6
+    },
+    {
+      "symbol": "daObjTtFuta_c_classInit",
+      "address": "0x021113a4",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_tt_futa.c",
+      "ordinal": 7
     }
   ],
   "data": [],
@@ -82,20 +90,72 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov033-daObjTtFuta_c/daObjTtFuta_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 7,
-    "functions_declared": 7,
+    "functions_matched": 8,
+    "functions_declared": 8,
     "compilerOnlyOutput": {
-      "requested": [],
-      "unhandled": [
+      "requested": [
+        "_ZN13daObjTtFuta_cD2Ev",
+        "_ZN10dBgActor_cD2Ev"
+      ],
+      "deadstripped": [
+        "_ZN10dBgActor_cD2Ev",
         "_ZN13daObjTtFuta_cD2Ev"
       ],
-      "data": []
+      "droppedSections": [
+        9,
+        10,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "data": [
+        "_ZTI13daObjTtFuta_c",
+        "_ZTS13daObjTtFuta_c",
+        "_ZTV13daObjTtFuta_c",
+        "_ZTI7fBase_c",
+        "_ZTS7fBase_c",
+        "_ZTS7dBase_c",
+        "_ZTS8dActor_c",
+        "_ZTI7dBase_c",
+        "_ZTI10dBgActor_c",
+        "_ZTS10dBgActor_c",
+        "_ZTI8dActor_c"
+      ],
+      "dataExternalized": [
+        "_ZTI10dBgActor_c",
+        "_ZTI13daObjTtFuta_c",
+        "_ZTI7dBase_c",
+        "_ZTI7fBase_c",
+        "_ZTI8dActor_c",
+        "_ZTS10dBgActor_c",
+        "_ZTS13daObjTtFuta_c",
+        "_ZTS7dBase_c",
+        "_ZTS7fBase_c",
+        "_ZTS8dActor_c",
+        "_ZTV13daObjTtFuta_c"
+      ]
     },
     "criteria": {
       "every_declared_function_defined": "PASS",
       "every_declared_function_bytes_match": "PASS",
-      "declared_function_set_equals_defined_function_set": "FAIL-BY-DESIGN -- 12 unlicensed section/symbol(s), 1 compiler-only policy error(s)",
-      "functions_occur_in_expected_order": "PARTIAL -- ordinal pair(s) not in ROM order: [(0, 1)]",
+      "declared_function_set_equals_defined_function_set": "PASS",
+      "functions_occur_in_expected_order": "PASS",
       "relocation_destinations_verified": "PASS"
     }
   },
@@ -181,6 +241,11 @@
       "symbol": "_ZN13daObjTtFuta_cD2Ev",
       "disposition": "deadstrip",
       "reason": "compiler-emitted base-object destructor helper has no configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained"
+    },
+    {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-lane-c-0929: `return new daObjTtFuta_c();` synthesizes the implicit default constructor, which pulls in the immediate base class dBgActor_c's compiler-emitted base-object destructor as an unwind helper (same pattern as the ov016/ov027 classInit folds already in this batch). No configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained."
     }
   ]
 }
