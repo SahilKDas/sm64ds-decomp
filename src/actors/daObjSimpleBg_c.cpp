@@ -1,6 +1,6 @@
 //cpp
 /* Production translation unit for ov102/daObjSimpleBg_c.
- * 6 function(s), .text 0x02148a80..0x02148e9c. One mesh and one moving
+ * 12 function(s), .text 0x02148a80..0x02148fbc. One mesh and one moving
  * collider, shared by the six profiles named in the header. BK_TOWER (actor
  * 0x31) in sublevel 7 does not spawn above y 0xdac000 until star 1 is
  * collected, unless the level was entered for that star.
@@ -14,8 +14,20 @@
  * _ZTS. Under `#pragma defer_codegen off` it comes out D1 (0x02148a80), D0
  * (0x02148ac4), then a D2 the cartridge has no home for (manifest: deadstrip);
  * the same pragma lays .text down in source order, so this file is ROM-ascending.
- * The six daObjSimpleBg_c_classInit_* factories follow at 0x02148e9c and stay
- * one-function sources.
+ *
+ * The six daObjSimpleBg_c_classInit_* factories (0x02148e9c..0x02148fbc) are
+ * reconstructed names (RTTI daObjSimpleBg_c, the six registry profiles above);
+ * retail does not store them. Historical aliases: RopeBarrier_Spawn
+ * (MC_HAZAD), CgStairs_Spawn (MC_DODAI), WarpPipe_Spawn (DOKAN),
+ * FortressTower_Spawn (BK_TOWER), RockTriangle_Spawn (KI_HASIRA_DAI),
+ * StaticRock_Spawn (KI_IWA). Each factory is `operator new(0x320)` + the
+ * inherited dBgActor_c ctor + this class's vtable store -- exactly
+ * `new daObjSimpleBg_c()`, since the class has no user-declared constructor
+ * of its own. They append here, after InitResources, in ROM order, following
+ * the same '#pragma defer_codegen off' source-order emission as the rest of
+ * this file (compare src/actors/daObjHatenaBlock_c.cpp immediately downstream
+ * at 0x02148fbc, which has no such pragma and so emits in the reverse of
+ * source order -- its classInit block sits at the top of its file instead).
  *
  * Leftover: dBgW_KcMbg::SetFile takes Fix12<int> by value, so it stays
  *   mangled; the method spelling was measured to size-DIFF.
@@ -147,4 +159,40 @@ int daObjSimpleBg_c::InitResources()
     }
 ret1:
     return 1;
+}
+
+// @symbol daObjSimpleBg_c_classInit_MC_HAZAD
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_MC_HAZAD()
+{
+    return new daObjSimpleBg_c();
+}
+
+// @symbol daObjSimpleBg_c_classInit_MC_DODAI
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_MC_DODAI()
+{
+    return new daObjSimpleBg_c();
+}
+
+// @symbol daObjSimpleBg_c_classInit_DOKAN
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_DOKAN()
+{
+    return new daObjSimpleBg_c();
+}
+
+// @symbol daObjSimpleBg_c_classInit_BK_TOWER
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_BK_TOWER()
+{
+    return new daObjSimpleBg_c();
+}
+
+// @symbol daObjSimpleBg_c_classInit_KI_HASIRA_DAI
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_KI_HASIRA_DAI()
+{
+    return new daObjSimpleBg_c();
+}
+
+// @symbol daObjSimpleBg_c_classInit_KI_IWA
+extern "C" daObjSimpleBg_c *daObjSimpleBg_c_classInit_KI_IWA()
+{
+    return new daObjSimpleBg_c();
 }

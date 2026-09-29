@@ -6,31 +6,7 @@
     .bss        start:0x0214e6e0 end:0x0214eaa0 kind:bss align:32
 src/actors/daObjSimpleBg_c.cpp:
     complete
-    .text start:0x02148a80 end:0x02148e9c
-
-src/d_a_obj_simple_bg_mc_hazad.c:
-    complete
-    .text start:0x02148e9c end:0x02148ecc
-
-src/d_a_obj_simple_bg_mc_dodai.c:
-    complete
-    .text start:0x02148ecc end:0x02148efc
-
-src/d_a_obj_simple_bg_dokan.c:
-    complete
-    .text start:0x02148efc end:0x02148f2c
-
-src/d_a_obj_simple_bg_bk_tower.c:
-    complete
-    .text start:0x02148f2c end:0x02148f5c
-
-src/d_a_obj_simple_bg_ki_hasira_dai.c:
-    complete
-    .text start:0x02148f5c end:0x02148f8c
-
-src/d_a_obj_simple_bg_ki_iwa.c:
-    complete
-    .text start:0x02148f8c end:0x02148fbc
+    .text start:0x02148a80 end:0x02148fbc
 
 src/actors/daObjHatenaBlock_c.cpp:
     complete

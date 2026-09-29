@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3011,
+  "count": 3017,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3019,6 +3019,12 @@
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnAimedAtWithEggEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnPendingDestroyEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD0Ev",
-    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev"
+    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_MC_HAZAD",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_MC_DODAI",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_DOKAN",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_BK_TOWER",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_KI_HASIRA_DAI",
+    "src/actors/daObjSimpleBg_c.cpp#daObjSimpleBg_c_classInit_KI_IWA"
   ]
 }
