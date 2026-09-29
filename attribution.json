@@ -5263,6 +5263,8 @@
     "src/actors/daEykn_c.cpp#_ZN8daEykn_c6RenderEv": "tangosdev",
     "src/actors/daEykn_c.cpp#_ZN8daEykn_c8BehaviorEv": "tangosdev",
     "src/actors/daEykn_c.cpp#_ZN8daEykn_c13InitResourcesEv": "andrewboudreau",
+    "src/actors/daEykn_c.cpp#daEykn_c_classInit_EYEKUN_BOSS": "tangosdev",
+    "src/actors/daEykn_c.cpp#daEykn_c_classInit_EYEKUN": "tangosdev",
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_cD1Ev": "tangosdev",
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_cD0Ev": "tangosdev",
     "src/actors/daObjBkKillerdai_c.cpp#_ZN18daObjBkKillerdai_c4KillEv": "andrewboudreau",

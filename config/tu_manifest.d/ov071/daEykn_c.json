@@ -9,13 +9,14 @@
     "tu_map cut (build/tu_map.json): 0x02120668..0x021219cc, 23 functions, class daEykn_c. The shipped span is that whole cut.",
     "shipped span: .text 0x02120668..0x021219cc, 23 function(s), ending with _ZN8daEykn_c13InitResourcesEv. daEykn_c_classInit_EYEKUN_BOSS and daEykn_c_classInit_EYEKUN are the next unattributed unit and are not absorbed.",
     "class label(s): daEykn_c",
-    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU)"
+    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU)",
+    "fold-lane-D-0929: the daEykn_c_classInit_EYEKUN_BOSS and daEykn_c_classInit_EYEKUN registry factories abut this TU's own range with no gap (src/d_a_eykn_eyekun.c ended exactly at 0x02121a6c, the start of src/game/actors/d_a_ey_bm.cpp, a different class) and no hole; tu_map never attributed them because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x02120668",
-      "end": "0x021219cc"
+      "end": "0x02121a6c"
     }
   ],
   "functions": [
@@ -179,6 +180,20 @@
       "size": "0x00000298",
       "legacy_source": "src/_ZN8daEykn_c13InitResourcesEv.cpp",
       "ordinal": 22
+    },
+    {
+      "symbol": "daEykn_c_classInit_EYEKUN_BOSS",
+      "address": "0x021219cc",
+      "size": "0x00000050",
+      "legacy_source": "src/d_a_eykn_eyekun_boss.c",
+      "ordinal": 23
+    },
+    {
+      "symbol": "daEykn_c_classInit_EYEKUN",
+      "address": "0x02121a1c",
+      "size": "0x00000050",
+      "legacy_source": "src/d_a_eykn_eyekun.c",
+      "ordinal": 24
     }
   ],
   "data": [],
@@ -186,7 +201,8 @@
   "notes": [
     "_ZN8daEykn_c13InitResourcesEv (0x02121734) was absorbed after promotion, extending the delinks.txt range to 0x021219cc.",
     "The destructor is defined once, out of line, first in the file. Under #pragma defer_codegen off that emits D1 then D0 in ROM order, plus a homeless D2.",
-    "The state helpers are members with coined names (see include/daEykn_c.h); their symbols.txt rows were renamed in place. Previous tree name MrI was coined. class_rename kept MrI_Spawn / MrI_Projectile rows (no --with-derived). The duplicate _ZTV3MrI alias of _ZTV8daEykn_c was deleted."
+    "The state helpers are members with coined names (see include/daEykn_c.h); their symbols.txt rows were renamed in place. Previous tree name MrI was coined. class_rename kept MrI_Spawn / MrI_Projectile rows (no --with-derived). The duplicate _ZTV3MrI alias of _ZTV8daEykn_c was deleted.",
+    "fold-lane-D-0929: folded the daEykn_c_classInit_EYEKUN_BOSS and daEykn_c_classInit_EYEKUN registry factories (0x021219cc..0x02121a6c) into this already-promoted TU, widening the complete delinks.txt claim from 0x02120668..0x021219cc to 0x02120668..0x02121a6c. Each loose one-function source hand-called fBase_c::operator new(536) + the inherited dActor_c ctor + this class's vtable store + the four member subobjects in field order (ModelAnim, TextureSequence, ShadowModel, dCcAcPos_c); daEykn_c has no user-declared constructor, so both are now `new daEykn_c()` -- same bytes, zero mangled calls. This TU keeps `#pragma defer_codegen off`, so emission follows source order (ROM-ascending); the two factories append after InitResources, in ROM order (EYEKUN_BOSS then EYEKUN). `tubuild.py verify` reports 25/25 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (the existing _ZN8daEykn_cD2Ev deadstrip row, from the out-of-line destructor, already covers the homeless base-object-destructor helper `return new` emits here). Retired: src/d_a_eykn_eyekun_boss.c, src/d_a_eykn_eyekun.c (both credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as path#symbol overrides)."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -194,8 +210,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov071-daEykn_c/daEykn_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 23,
-    "functions_declared": 23,
+    "functions_matched": 25,
+    "functions_declared": 25,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN8daEykn_cD2Ev",
@@ -209,10 +225,6 @@
         9,
         10,
         20,
-        50,
-        51,
-        52,
-        53,
         54,
         55,
         56,
@@ -222,7 +234,11 @@
         60,
         61,
         62,
-        63
+        63,
+        64,
+        65,
+        66,
+        67
       ],
       "data": [
         "_ZTV8daEykn_c",

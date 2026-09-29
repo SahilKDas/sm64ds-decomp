@@ -48,8 +48,19 @@
  *   SUBLEVEL_LEVEL_TABLE to course 19, which is not BBH's entrance
  *   (that is sublevel 0xc). On 0x2e the kill is entered in the death
  *   table; otherwise the eye is only marked for destruction.
- * - g_profile_EYEKUN, g_profile_EYEKUN_BOSS, and the two classInit
- *   factories stay outside this TU.
+ * - g_profile_EYEKUN and g_profile_EYEKUN_BOSS (the registry descriptors
+ *   the two classInit factories below back) live outside this TU.
+ *
+ * daEykn_c_classInit_EYEKUN_BOSS (0x021219cc) and daEykn_c_classInit_EYEKUN
+ * (0x02121a1c) are reconstructed names (RTTI daEykn_c, the two registry
+ * profiles); retail does not store them. Historical aliases: BigMrI_Spawn
+ * and MrI_Spawn. Each hand-called fBase_c::operator new(536) + the inherited
+ * dActor_c ctor + this class's vtable store + the four member subobjects in
+ * field order (ModelAnim, TextureSequence, ShadowModel, dCcAcPos_c).
+ * daEykn_c has no user-declared constructor, so both factories are now
+ * `new daEykn_c()`. This TU keeps `#pragma defer_codegen off`, so emission
+ * follows source order (ROM-ascending); the two factories append after
+ * InitResources, in ROM order.
  */
 
 #pragma defer_codegen off
@@ -821,4 +832,16 @@ s32 daEykn_c::InitResources()
     UpdateModelTransform();
 
     return 1;
+}
+
+// @symbol daEykn_c_classInit_EYEKUN_BOSS
+extern "C" daEykn_c *daEykn_c_classInit_EYEKUN_BOSS()
+{
+    return new daEykn_c();
+}
+
+// @symbol daEykn_c_classInit_EYEKUN
+extern "C" daEykn_c *daEykn_c_classInit_EYEKUN()
+{
+    return new daEykn_c();
 }
