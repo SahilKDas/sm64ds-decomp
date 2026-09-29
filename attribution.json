@@ -5193,6 +5193,7 @@
     "src/actors/daManta_c.cpp#_ZN9daManta_c6RenderEv": "tangosdev",
     "src/actors/daManta_c.cpp#_ZN9daManta_c8BehaviorEv": "tangosdev",
     "src/actors/daManta_c.cpp#_ZN9daManta_c13InitResourcesEv": "tangosdev",
+    "src/actors/daManta_c.cpp#daManta_c_classInit": "tangosdev",
     "src/actors/daObjKm2_Nobiru_c.cpp#_ZN17daObjKm2_Nobiru_cD1Ev": "andrewboudreau",
     "src/actors/daObjKm2_Nobiru_c.cpp#_ZN17daObjKm2_Nobiru_cD0Ev": "tangosdev",
     "src/actors/daObjKm2_Nobiru_c.cpp#_ZN17daObjKm2_Nobiru_c23UpdateColliderTransformEv": "andrewboudreau",

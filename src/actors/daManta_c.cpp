@@ -8,9 +8,14 @@
  * from param1 bits 12..15. A cylinder on data_ov090_02134200 hurts
  * PLAYER (191).
  *
- * daManta_c_classInit abuts this run and stays in src/d_a_manta.c.
- * g_profile_MANTA stays in its own file. #pragma defer_codegen off
- * below emits .text in source order, which is the ROM order.
+ * daManta_c_classInit (0x02132fe8..0x02133034, historical alias
+ * MantaRay_Spawn) hand-called fBase_c::operator new(1028) + the inherited
+ * dEnemyBase_c ctor + this class's vtable store + three member subobjects
+ * in field order (dCcAcPos_c, dBgCh_Actr, ModelAnim). daManta_c has no
+ * user-declared constructor, so `new daManta_c()` reproduces the identical
+ * sequence. g_profile_MANTA stays in its own file. #pragma defer_codegen off
+ * below emits .text in source order, which is the ROM order, so the
+ * classInit factory appends after InitResources.
  *
  * deslop leftovers:
  * - func_ov090_021327e4: mRingIDs[mRingRead] != mHitRing->uniqueID is 1
@@ -411,4 +416,10 @@ int daManta_c::InitResources()
 
     func_ov090_02132ac4(this, (MantaState *)&data_ov090_0213454c);
     return 1;
+}
+
+// @symbol daManta_c_classInit
+extern "C" daManta_c *daManta_c_classInit()
+{
+    return new daManta_c();
 }

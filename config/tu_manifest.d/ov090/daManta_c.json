@@ -9,13 +9,14 @@
     "contiguous linker run: 0x0213269c..0x02132fe8, 12 function(s), all complete delinks with no hole. build/tu_map.json names the same run ov090/daManta_c+daMenbo_c because rtti_vtables.py reads the words at 0x021341e4 and 0x021341ec as extra daMenbo_c vtable slots. Those words are not slots: daMenbo_c's table is 31 slots and ends at 0x021341e4, and both words relocate to func_ov090_021327e4 and func_ov090_02132a58 in this run. No daMenbo_c function is in the span.",
     "class label: daManta_c. Cartridge type name at ov090:0x021341f4 is the bytes 9daManta_c.",
     "daManta_c_classInit at 0x02132fe8..0x02133034 abuts this run and is left in src/d_a_manta.c.",
-    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, not narrowed to this TU)."
+    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, not narrowed to this TU).",
+    "fold-lane-D-0929: the daManta_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_manta.c ended exactly at 0x02133034, the start of src/actors/daPukupuku_c.cpp, a different class) and no hole; tu_map never attributed it because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0213269c",
-      "end": "0x02132fe8"
+      "end": "0x02133034"
     }
   ],
   "functions": [
@@ -102,12 +103,20 @@
       "size": "0x000001b0",
       "legacy_source": "src/_ZN9daManta_c13InitResourcesEv.cpp",
       "ordinal": 11
+    },
+    {
+      "symbol": "daManta_c_classInit",
+      "address": "0x02132fe8",
+      "size": "0x0000004c",
+      "legacy_source": "src/d_a_manta.c",
+      "ordinal": 12
     }
   ],
   "data": [],
   "bss": [],
   "notes": [
-    "Key function is the out-of-line destructor under #pragma defer_codegen off. Factory is outside the licensed range, so this TU does not instantiate daManta_c."
+    "Key function is the out-of-line destructor under #pragma defer_codegen off. Factory is outside the licensed range, so this TU does not instantiate daManta_c.",
+    "fold-lane-D-0929: folded the daManta_c_classInit registry factory (0x02132fe8..0x02133034) into this already-promoted TU, widening the complete delinks.txt claim from 0x0213269c..0x02132fe8 to 0x0213269c..0x02133034. The loose one-function source hand-called fBase_c::operator new(1028) + the inherited dEnemyBase_c ctor + this class's vtable store + three member subobjects in field order (dCcAcPos_c, dBgCh_Actr, ModelAnim); daManta_c has no user-declared constructor, so `new daManta_c()` reproduces the identical sequence with zero mangled calls. This TU keeps #pragma defer_codegen off, so emission follows source order (ROM-ascending); the factory appends after InitResources. tools/tubuild.py verify reports 13/13 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (the existing _ZN9daManta_cD2Ev deadstrip row, from the out-of-line destructor, already covers the homeless base-object-destructor helper `return new` emits here). Retired: src/d_a_manta.c (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override)."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -115,8 +124,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov090-daManta_c/daManta_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 12,
-    "functions_declared": 12,
+    "functions_matched": 13,
+    "functions_declared": 13,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN9daManta_cD2Ev",
@@ -130,8 +139,6 @@
         9,
         10,
         13,
-        29,
-        30,
         31,
         32,
         33,
@@ -146,7 +153,9 @@
         42,
         43,
         44,
-        45
+        45,
+        46,
+        47
       ],
       "data": [
         "_ZTI7fBase_c",

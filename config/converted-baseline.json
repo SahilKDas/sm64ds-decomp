@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3020,
+  "count": 3021,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3028,6 +3028,7 @@
     "src/actors/daBgSnmHed_c.cpp#daBgSnmHed_c_classInit",
     "src/actors/daObjBkKillerdai_c.cpp#daObjBkKillerdai_c_classInit",
     "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE01",
-    "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE00"
+    "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE00",
+    "src/actors/daManta_c.cpp#daManta_c_classInit"
   ]
 }
