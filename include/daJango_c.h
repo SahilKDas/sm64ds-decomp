@@ -22,10 +22,11 @@
  * is not independent evidence about the ROM.
  *
  * SM64DS RTTI names the implementation daJango_c. The reconstructed factory
- * daJango_c_classInit (historical alias Klepto_Spawn)
- * installs this class's cartridge vtable; the reconstructed profile
- * global g_profile_JANGO (historical alias Klepto_SpawnInfo)
- * is its registry descriptor.
+ * daJango_c_classInit (0x0211ce80, historical alias Klepto_Spawn)
+ * installs this class's cartridge vtable and lives in
+ * src/actors/daJango_c.cpp alongside the rest of the class; the
+ * reconstructed profile global g_profile_JANGO (historical alias
+ * Klepto_SpawnInfo) is its registry descriptor.
  */
 
 #include "dEnemyBase_c.h"

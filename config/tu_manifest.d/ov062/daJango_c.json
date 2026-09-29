@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x211b248..0x211ce80, 23 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daJango_c",
-    "module sinit corroboration: 5 sinit(s) / 5 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 5 sinit(s) / 5 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-D-0929: the daJango_c_classInit registry factory abuts this TU's own range with no gap (src/d_a_jango.c ended exactly at 0x0211ced8, the ov062 .rodata start) and no hole; tu_map never attributed it because it cuts on symbol name"
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x0211b248",
-      "end": "0x0211ce80"
+      "end": "0x0211ced8"
     }
   ],
   "functions": [
@@ -178,6 +179,13 @@
       "size": "0x00000008",
       "legacy_source": "src/_ZN9daJango_c16OnAimedAtWithEggEv.cpp",
       "ordinal": 22
+    },
+    {
+      "symbol": "daJango_c_classInit",
+      "address": "0x0211ce80",
+      "size": "0x00000058",
+      "legacy_source": "src/d_a_jango.c",
+      "ordinal": 23
     }
   ],
   "data": [],
@@ -325,7 +333,8 @@
     "tubuild create warning: CONFLICT: local declaration ('typedef', 'Vector3') differs between the legacy file that used to hold func_ov062_0211b2fc and the one that held func_ov062_0211b51c; kept the first, the other is commented out for review",
     "tubuild create warning: CONFLICT: local declaration ('struct', 'BlendModelAnim') differs between the legacy file that used to hold func_ov062_0211b880 and the one that held func_ov062_0211b930; kept the first, the other is commented out for review",
     "tubuild create warning: CONFLICT: local declaration ('struct', 'BlendModelAnim') differs between the legacy file that used to hold func_ov062_0211b880 and the one that held func_ov062_0211bc54; kept the first, the other is commented out for review",
-    "tubuild create warning: CONFLICT: local declaration ('typedef', 'Vector3') differs between the legacy file that used to hold func_ov062_0211b2fc and the one that held func_ov062_0211c594; kept the first, the other is commented out for review"
+    "tubuild create warning: CONFLICT: local declaration ('typedef', 'Vector3') differs between the legacy file that used to hold func_ov062_0211b2fc and the one that held func_ov062_0211c594; kept the first, the other is commented out for review",
+    "fold-lane-D-0929: folded the daJango_c_classInit registry factory (0x0211ce80..0x0211ced8) into this already-promoted TU, widening the complete delinks.txt claim from 0x0211b248..0x0211ce80 to 0x0211b248..0x0211ced8. This TU's recorded tubuild conflict markers (/* TUBUILD CONFLICT ... */ comments) are untouched by the fold; tools/check_tubuild_conflicts.py ov062/daJango_c still reports every recorded conflict matching the source and every conflict in the source recorded. The loose one-function source hand-called fBase_c::operator new(1168) + the inherited dEnemyBase_c ctor + this class's vtable store + the five member subobjects in field order (two dCcAc_c, dBgCh_Actr, BlendModelAnim, ShadowModel); daJango_c has no user-declared constructor, so `new daJango_c()` reproduces the identical sequence with zero mangled calls. This TU has no `#pragma defer_codegen off` and is written in reverse-ROM source order (highest address first) so that mwccarm's reverse-of-source-order emission lands ROM-ascending; the classInit factory, now the highest address in the TU, is written first in source, ahead of OnAimedAtWithEgg. `tubuild.py verify` reports 24/24 MATCH, objisolate clean, reloc-destinations clean, TEXT-VERIFIED, with no new compiler_only_output needed (daJango_c's destructor is inline in the header, not out-of-line, so `new daJango_c()` emits no homeless base-object-destructor helper here). Retired: src/d_a_jango.c (credited tangosdev via chaos_db_ci.first_matchers, carried into attribution.json as a path#symbol override)."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -333,8 +342,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov062-daJango_c/daJango_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 23,
-    "functions_declared": 23,
+    "functions_matched": 24,
+    "functions_declared": 24,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN7Vector3D1Ev"

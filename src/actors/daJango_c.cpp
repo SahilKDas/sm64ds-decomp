@@ -1,8 +1,17 @@
 //cpp
-/* Klepto the condor (ov062/daJango_c), 23 functions, enrolled.
- * The factory lives in src/d_a_jango.c, the next object, not a hole.
+/* Klepto the condor (ov062/daJango_c), 24 functions, enrolled.
  *
- * Source runs REVERSE of ROM (highest address first). Do not reorder.
+ * daJango_c_classInit (0x0211ce80..0x0211ced8, historical alias
+ * Klepto_Spawn) is a reconstructed name (RTTI daJango_c, the sole JANGO
+ * registry profile); retail does not store it. It hand-called
+ * fBase_c::operator new(1168) + the inherited dEnemyBase_c ctor + this
+ * class's vtable store + the five member subobjects in field order
+ * (two dCcAc_c at +0x110/+0x144, dBgCh_Actr at +0x178, BlendModelAnim at
+ * +0x334, ShadowModel at +0x3a4). daJango_c has no user-declared
+ * constructor, so `new daJango_c()` reproduces the identical sequence.
+ *
+ * Source runs REVERSE of ROM (highest address first). Do not reorder; the
+ * classInit factory, now the highest address in the TU, is written first.
  * decl_common.h is deliberately NOT included (it collides with this
  * TU's C-linkage helper); the three needed names are local. One
  * helper is parsed as C (ldm/stm Vector3 copy); see its site.
@@ -209,6 +218,12 @@ extern void *data_0209f394;
 /* TUBUILD CONFLICT -- alternate declaration of data_ov062_0211e114, from the legacy file for _ZN9daJango_c13InitResourcesEv, NOT applied: extern SharedFilePtr data_ov062_0211e114; */
 /* TUBUILD CONFLICT -- alternate declaration of data_ov062_0211e104, from the legacy file for _ZN9daJango_c13InitResourcesEv, NOT applied: extern SharedFilePtr data_ov062_0211e104; */
 /* TUBUILD CONFLICT -- alternate declaration of data_ov062_0211e17c, from the legacy file for _ZN9daJango_c13InitResourcesEv, NOT applied: extern char data_ov062_0211e17c; */
+}
+
+// @symbol daJango_c_classInit
+extern "C" daJango_c *daJango_c_classInit()
+{
+    return new daJango_c();
 }
 
 // @symbol _ZN9daJango_c16OnAimedAtWithEggEv

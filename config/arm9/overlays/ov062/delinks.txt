@@ -22,11 +22,7 @@ src/actors/daRFlag_c.cpp:
 
 src/actors/daJango_c.cpp:
     complete
-    .text start:0x0211b248 end:0x0211ce80
-
-src/d_a_jango.c:
-    complete
-    .text start:0x0211ce80 end:0x0211ced8
+    .text start:0x0211b248 end:0x0211ced8
 
 src/__sinit_ov062_0211cf30.c:
     complete

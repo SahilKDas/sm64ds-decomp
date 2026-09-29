@@ -4660,6 +4660,7 @@
     "src/actors/daJango_c.cpp#_ZN9daJango_c8BehaviorEv": "tangosdev",
     "src/actors/daJango_c.cpp#_ZN9daJango_c6RenderEv": "tangosdev",
     "src/actors/daJango_c.cpp#_ZN9daJango_cD1Ev": "tangosdev",
+    "src/actors/daJango_c.cpp#daJango_c_classInit": "tangosdev",
     "src/actors/dM3dGLin.cpp#_ZN8dM3dGLin3SetERK7Vector3S2_": "tangosdev",
     "src/actors/dM3dGLin.cpp#_ZN8dM3dGLinD2Ev": "tangosdev",
     "src/actors/ActorBase.cpp#_ZN7fBase_cnwEj": "tangosdev",
