@@ -20,8 +20,14 @@
  * #pragma defer_codegen off stays above the includes. The out-of-line
  * destructor is the key function, so this TU emits _ZTV/_ZTI/_ZTS, and the
  * pragma lays .text down D1, D0, then a D2 the cartridge does not keep.
- * daGrock_c_classInit stays in src/d_a_grock.c. g_profile_GORO_ROCK is not
- * in this TU.
+ * daGrock_c_classInit (historical alias RollingRock_Spawn, folded in from
+ * fold-lane-c-0929) is now the last function in the file, appended after
+ * InitResources in ROM order; it hand-called fBase_c::operator new(968),
+ * dEnemyBase_c::dEnemyBase_c(), stored _ZTV9daGrock_c, then Model, then
+ * ShadowModel, then dCcAcPos_c, then dBgCh_Actr in field order. daGrock_c
+ * declares no constructor of its own, so the compiler-synthesized default
+ * constructor emits exactly that sequence, and the factory is now
+ * `return new daGrock_c();`. g_profile_GORO_ROCK is still not in this TU.
  *
  * deslop leftovers:
  * - func_ov021_02112294: one UntrackAndSpawnStar with a chosen mode
@@ -480,4 +486,14 @@ int daGrock_c::InitResources()
     unk_3b4 = 0;
     unk_3c2 = 0;
     return 1;
+}
+
+/* Reconstructed source-style name: SM64DS proves daGrock_c through RTTI,
+ * allocation size, vtable identity, and the GORO_ROCK registry profile;
+ * later EAD lineage supplies classInit. Exact original spelling is not
+ * preserved. Historical alias: RollingRock_Spawn. */
+// @symbol daGrock_c_classInit
+extern "C" daGrock_c *daGrock_c_classInit()
+{
+    return new daGrock_c();
 }

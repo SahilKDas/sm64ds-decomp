@@ -10,11 +10,7 @@ src/actors/daObjCvNewsLift_c.cpp:
 
 src/actors/daGrock_c.cpp:
     complete
-    .text start:0x021121e8 end:0x02112d64
-
-src/d_a_grock.c:
-    complete
-    .text start:0x02112d64 end:0x02112db4
+    .text start:0x021121e8 end:0x02112db4
 
 src/game/actors/d_a_obj_cv_shutter.cpp:
     complete

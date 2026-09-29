@@ -5240,6 +5240,7 @@
     "src/actors/daGrock_c.cpp#_ZN9daGrock_c6RenderEv": "tangosdev",
     "src/actors/daGrock_c.cpp#_ZN9daGrock_c8BehaviorEv": "ruspecial",
     "src/actors/daGrock_c.cpp#_ZN9daGrock_c13InitResourcesEv": "tangosdev",
+    "src/actors/daGrock_c.cpp#daGrock_c_classInit": "tangosdev",
     "src/actors/daEykn_c.cpp#_ZN8daEykn_cD1Ev": "tangosdev",
     "src/actors/daEykn_c.cpp#_ZN8daEykn_cD0Ev": "tangosdev",
     "src/actors/daEykn_c.cpp#_ZN8daEykn_c14UpdateCirclingEv": "lunavyqo",

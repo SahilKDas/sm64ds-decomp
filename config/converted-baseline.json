@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3015,
+  "count": 3016,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3023,6 +3023,7 @@
     "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE_UP",
     "src/game/actors/d_a_obj_ki_fune.cpp#daObjKi_Fune_c_classInit_KI_FUNE",
     "src/actors/daObjKi_Hasira_c.cpp#daObjKi_Hasira_c_classInit",
-    "src/actors/daSlide_Box_c.cpp#daSlide_Box_c_classInit"
+    "src/actors/daSlide_Box_c.cpp#daSlide_Box_c_classInit",
+    "src/actors/daGrock_c.cpp#daGrock_c_classInit"
   ]
 }

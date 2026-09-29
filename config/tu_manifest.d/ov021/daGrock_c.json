@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x21121e8..0x2112d64, 12 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daGrock_c",
-    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 3 sinit(s) / 3 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: loose src/d_a_grock.c (daGrock_c_classInit, 0x02112d64..0x02112db4) sits immediately after this TU's InitResources with no gap before the next class's TU (src/game/actors/d_a_obj_cv_shutter.cpp at 0x02112db4); folded in as `return new daGrock_c();` -- daGrock_c declares no constructor of its own, so the compiler-synthesized default constructor reproduces the loose file's hand-written fBase_c::operator new(968) + dEnemyBase_c::dEnemyBase_c() + vtable store + Model/ShadowModel/dCcAcPos_c/dBgCh_Actr sub-object construction sequence byte-for-byte."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x021121e8",
-      "end": "0x02112d64"
+      "end": "0x02112db4"
     }
   ],
   "functions": [
@@ -101,6 +102,13 @@
       "size": "0x00000238",
       "legacy_source": "src/_ZN9daGrock_c13InitResourcesEv.cpp",
       "ordinal": 11
+    },
+    {
+      "symbol": "daGrock_c_classInit",
+      "address": "0x02112d64",
+      "size": "0x00000050",
+      "legacy_source": "src/d_a_grock.c",
+      "ordinal": 12
     }
   ],
   "data": [],
@@ -119,8 +127,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov021-daGrock_c/daGrock_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 12,
-    "functions_declared": 12,
+    "functions_matched": 13,
+    "functions_declared": 13,
     "compilerOnlyOutput": {
       "requested": [
         "_ZN9daGrock_cD2Ev",
@@ -137,8 +145,6 @@
         10,
         18,
         21,
-        31,
-        32,
         33,
         34,
         35,
@@ -153,7 +159,9 @@
         44,
         45,
         46,
-        47
+        47,
+        48,
+        49
       ],
       "data": [
         "_ZTS9daGrock_c",
