@@ -1,45 +1,37 @@
 //cpp
 #include "IRQ.h"
 // @symbol _ZN3IRQ13DmaTimHandlerEj
-//
-// Language-mode flip only: the compiler mangles the name, it is no longer
-// spelled by hand. Signature and body preserved exactly; no codegen intent.
-// See notes/plan-cpp-language-mode.md phase 1 (layout-free SDK namespaces).
 #include "types.h"
 extern "C" {
-typedef struct
-{
-  void (*fn)(void *);
-  u32 flag;
-  void *arg;
-} DmaEnt;
-extern DmaEnt data_020a60c4[];
+extern IRQ::HandlerEntry data_020a60c4[];
 extern u16 data_02099fd4[];
 extern u32 data_023c0000[];
 }
-inline void (*inline_fn(DmaEnt *arg0, u32 arg1))(void *)
+typedef void (*DmaTimerCallback)(void *);
+
+inline DmaTimerCallback GetCallback(IRQ::HandlerEntry *entries, u32 index)
 {
-  return arg0[arg1].fn;
+  return (DmaTimerCallback)entries[index].handler;
 }
 
 namespace IRQ {
 
-void DmaTimHandler(u32 idx)
+void DmaTimHandler(u32 index)
 {
-  u16 bit = data_02099fd4[idx];
-  u32 mask = 1u << bit;
-  void (*fn)(void *) = inline_fn(data_020a60c4, idx);
-  data_020a60c4[idx].fn = 0;
-  if (0 != fn)
+  u16 irqBit = data_02099fd4[index];
+  u32 irqMask = 1u << irqBit;
+  DmaTimerCallback callback = GetCallback(data_020a60c4, index);
+  data_020a60c4[index].handler = 0;
+  if (callback != 0)
   {
-    fn(data_020a60c4[idx].arg);
+    callback((void *)data_020a60c4[index].argument);
   }
-  *(volatile u32 *)(((int)data_023c0000 + 0x3ff8)) |= mask;
-  if (data_020a60c4[idx].flag != 0)
+  *(volatile u32 *)((int)data_023c0000 + 0x3ff8) |= irqMask;
+  if (data_020a60c4[index].enabled != 0)
   {
     return;
   }
-  IRQ::DisableIRQs(mask);
+  IRQ::DisableIRQs(irqMask);
 }
 
 }

@@ -9,17 +9,19 @@ struct Base {
     virtual int v20(); virtual int v21(); virtual int v22(); virtual int v23();
     virtual int v24(); virtual int v25(); virtual int m();
 };
-namespace OAM { void Render(bool a, OamAttr *b, int c, int d, int e, int f, Matrix2x2 *g); }
+namespace OAM { void Render(bool draw, OamAttr *sprite, int x, int y, int palette, int priority, Matrix2x2 *matrix); }
 extern "C" Base *data_ov004_020beb68;
 
-extern "C" void DrawOamSprite(void *arg0, void *arg1, int arg2, void *arg3)
+extern "C" void DrawOamSprite(void *sprite, void *x, int y, void *matrix)
 {
-    Base *g = data_ov004_020beb68;
-    if (g == 0) return;
-    if (*(int*)((char*)g + 0x4628) == 0 && g->m() == 2) {
-        if (*(unsigned short*)((char*)data_ov004_020beb68 + 0x4664) != 1) return;
-        OAM::Render(false, (OamAttr*)arg0, (int)arg1, arg2, -1, -1, (Matrix2x2*)arg3);
+    Base *scene = data_ov004_020beb68;
+    if (scene == 0)
+        return;
+    if (*(int*)((char*)scene + 0x4628) == 0 && scene->m() == 2) {
+        if (*(unsigned short*)((char*)data_ov004_020beb68 + 0x4664) != 1)
+            return;
+        OAM::Render(false, (OamAttr*)sprite, (int)x, y, -1, -1, (Matrix2x2*)matrix);
         return;
     }
-    OAM::Render(false, (OamAttr*)arg0, (int)arg1, arg2, -1, -1, (Matrix2x2*)arg3);
+    OAM::Render(false, (OamAttr*)sprite, (int)x, y, -1, -1, (Matrix2x2*)matrix);
 }

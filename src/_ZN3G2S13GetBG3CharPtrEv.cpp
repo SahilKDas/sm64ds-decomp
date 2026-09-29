@@ -1,23 +1,20 @@
 //cpp
 // @symbol _ZN3G2S13GetBG3CharPtrEv
-/* G2S::GetBG3CharPtr() -- language-mode migration only (phase 1 of
- * notes/plan-cpp-language-mode.md). G2S is a namespace, not a class: no
- * `this`, no vtable, no layout, so nothing outside this file can shift.
- * The body and every callee declaration are unchanged from the C version;
- * the symbol is now mangled by the compiler instead of spelled by hand.
- */
 
 namespace G2S {
-unsigned int GetBG3CharPtr(){
-    int cfg = *(volatile int *)0x4001000;
-    unsigned int v = *(volatile unsigned short *)0x400100e;
-    int m = cfg & 7;
-    if (m >= 3) {
-        if (m >= 6) goto zero;
-        if (v & 0x80) goto zero;
+unsigned int GetBG3CharPtr()
+{
+    int displayControl = *(volatile int *)0x04001000;
+    unsigned int bgControl = *(volatile unsigned short *)0x0400100e;
+    int bgMode = displayControl & 7;
+    if (bgMode >= 3) {
+        if (bgMode >= 6)
+            goto unavailable;
+        if (bgControl & 0x80)
+            goto unavailable;
     }
-    return (((v & 0x3c) >> 2) << 0xe) + 0x6200000;
-zero:
+    return (((bgControl & 0x3c) >> 2) << 0xe) + 0x06200000;
+unavailable:
     return 0;
 }
 }
