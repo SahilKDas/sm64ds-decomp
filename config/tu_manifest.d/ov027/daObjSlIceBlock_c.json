@@ -8,13 +8,14 @@
   "boundary_evidence": [
     "contiguous linker run: 0x21111a0..0x2111564, 7 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjSlIceBlock_c",
-    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
+    "module sinit corroboration: 4 sinit(s) / 4 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)",
+    "fold-lane-c-0929: two loose one-function registry factories, src/d_a_obj_sl_ice_block_sl_iceblock_shot.c (SL_ICEBLOCK_SHOT, 0x02111564..0x02111594) and src/d_a_obj_sl_ice_block_sl_iceblock.c (SL_ICEBLOCK, 0x02111594..0x021115c4), sit immediately after this TU's InitResources with no gap before the next class's TU (src/game/actors/d_a_i_donketu.cpp at 0x021115c4); folded in ROM order as `return new daObjSlIceBlock_c();` twice -- daObjSlIceBlock_c declares no constructor of its own, so the compiler-synthesized default constructor reproduces each loose file's hand-written fBase_c::operator new(812) + dBgActor_c::dBgActor_c() + vtable store sequence byte-for-byte."
   ],
   "sections": [
     {
       "name": ".text",
       "start": "0x021111a0",
-      "end": "0x02111564"
+      "end": "0x021115c4"
     }
   ],
   "functions": [
@@ -66,6 +67,20 @@
       "size": "0x00000124",
       "legacy_source": "src/_ZN17daObjSlIceBlock_c13InitResourcesEv.cpp",
       "ordinal": 6
+    },
+    {
+      "symbol": "daObjSlIceBlock_c_classInit_SL_ICEBLOCK_SHOT",
+      "address": "0x02111564",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_sl_ice_block_sl_iceblock_shot.c",
+      "ordinal": 7
+    },
+    {
+      "symbol": "daObjSlIceBlock_c_classInit_SL_ICEBLOCK",
+      "address": "0x02111594",
+      "size": "0x00000030",
+      "legacy_source": "src/d_a_obj_sl_ice_block_sl_iceblock.c",
+      "ordinal": 8
     }
   ],
   "data": [],
@@ -157,6 +172,11 @@
       "symbol": "_ZN17daObjSlIceBlock_cD2Ev",
       "disposition": "deadstrip",
       "reason": "compiler-emitted base-object destructor helper has no configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained"
+    },
+    {
+      "symbol": "_ZN10dBgActor_cD2Ev",
+      "disposition": "deadstrip",
+      "reason": "fold-lane-c-0929: `return new daObjSlIceBlock_c();` synthesizes the implicit default constructor, which pulls in the immediate base class dBgActor_c's compiler-emitted base-object destructor as an unwind helper (same pattern as the ov016 classInit folds in this batch, e.g. daObjKi_Fune_c/daObjKi_Hasira_c/daSlide_Box_c). No configured ROM symbol and no inbound relocation after the licensed leaf D1/D0 pair is retained."
     }
   ],
   "verification": {
@@ -165,20 +185,72 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov027-daObjSlIceBlock_c/daObjSlIceBlock_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 7,
-    "functions_declared": 7,
+    "functions_matched": 9,
+    "functions_declared": 9,
     "compilerOnlyOutput": {
-      "requested": [],
-      "unhandled": [
+      "requested": [
+        "_ZN17daObjSlIceBlock_cD2Ev",
+        "_ZN10dBgActor_cD2Ev"
+      ],
+      "deadstripped": [
+        "_ZN10dBgActor_cD2Ev",
         "_ZN17daObjSlIceBlock_cD2Ev"
       ],
-      "data": []
+      "droppedSections": [
+        9,
+        10,
+        23,
+        24,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "data": [
+        "_ZTI17daObjSlIceBlock_c",
+        "_ZTS17daObjSlIceBlock_c",
+        "_ZTV17daObjSlIceBlock_c",
+        "_ZTI7fBase_c",
+        "_ZTS7fBase_c",
+        "_ZTS7dBase_c",
+        "_ZTS8dActor_c",
+        "_ZTI7dBase_c",
+        "_ZTI10dBgActor_c",
+        "_ZTS10dBgActor_c",
+        "_ZTI8dActor_c"
+      ],
+      "dataExternalized": [
+        "_ZTI10dBgActor_c",
+        "_ZTI17daObjSlIceBlock_c",
+        "_ZTI7dBase_c",
+        "_ZTI7fBase_c",
+        "_ZTI8dActor_c",
+        "_ZTS10dBgActor_c",
+        "_ZTS17daObjSlIceBlock_c",
+        "_ZTS7dBase_c",
+        "_ZTS7fBase_c",
+        "_ZTS8dActor_c",
+        "_ZTV17daObjSlIceBlock_c"
+      ]
     },
     "criteria": {
       "every_declared_function_defined": "PASS",
       "every_declared_function_bytes_match": "PASS",
-      "declared_function_set_equals_defined_function_set": "FAIL-BY-DESIGN -- 12 unlicensed section/symbol(s), 1 compiler-only policy error(s)",
-      "functions_occur_in_expected_order": "PARTIAL -- ordinal pair(s) not in ROM order: [(0, 1)]",
+      "declared_function_set_equals_defined_function_set": "PASS",
+      "functions_occur_in_expected_order": "PASS",
       "relocation_destinations_verified": "PASS"
     }
   }

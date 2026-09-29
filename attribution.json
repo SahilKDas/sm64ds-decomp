@@ -4779,6 +4779,8 @@
     "src/actors/daObjSlIceBlock_c.cpp#_ZN17daObjSlIceBlock_c6RenderEv": "tangosdev",
     "src/actors/daObjSlIceBlock_c.cpp#_ZN17daObjSlIceBlock_c8BehaviorEv": "tangosdev",
     "src/actors/daObjSlIceBlock_c.cpp#_ZN17daObjSlIceBlock_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjSlIceBlock_c.cpp#daObjSlIceBlock_c_classInit_SL_ICEBLOCK_SHOT": "andrewboudreau",
+    "src/actors/daObjSlIceBlock_c.cpp#daObjSlIceBlock_c_classInit_SL_ICEBLOCK": "andrewboudreau",
     "src/actors/daObjWlSubmarine_c.cpp#_ZN18daObjWlSubmarine_cD1Ev": "andrewboudreau",
     "src/actors/daObjWlSubmarine_c.cpp#_ZN18daObjWlSubmarine_cD0Ev": "andrewboudreau",
     "src/actors/daObjWlSubmarine_c.cpp#_ZN18daObjWlSubmarine_c16CleanupResourcesEv": "tangosdev",

@@ -6,15 +6,7 @@
     .bss        start:0x02113be0 end:0x02113d20 kind:bss align:32
 src/actors/daObjSlIceBlock_c.cpp:
     complete
-    .text start:0x021111a0 end:0x02111564
-
-src/d_a_obj_sl_ice_block_sl_iceblock_shot.c:
-    complete
-    .text start:0x02111564 end:0x02111594
-
-src/d_a_obj_sl_ice_block_sl_iceblock.c:
-    complete
-    .text start:0x02111594 end:0x021115c4
+    .text start:0x021111a0 end:0x021115c4
 
 src/game/actors/d_a_i_donketu.cpp:
     complete

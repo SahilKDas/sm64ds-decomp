@@ -155,3 +155,23 @@ int daObjSlIceBlock_c::InitResources()
     }
     return 1;
 }
+
+/* Reconstructed source-style name: SM64DS proves daObjSlIceBlock_c through
+ * RTTI, allocation size, vtable identity, and the SL_ICEBLOCK_SHOT registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: SlidingIce_Spawn. */
+// @symbol daObjSlIceBlock_c_classInit_SL_ICEBLOCK_SHOT
+extern "C" daObjSlIceBlock_c *daObjSlIceBlock_c_classInit_SL_ICEBLOCK_SHOT()
+{
+    return new daObjSlIceBlock_c();
+}
+
+/* Reconstructed source-style name: SM64DS proves daObjSlIceBlock_c through
+ * RTTI, allocation size, vtable identity, and the SL_ICEBLOCK registry
+ * profile; later EAD lineage supplies classInit. Exact original spelling is
+ * not preserved. Historical alias: SlidingIceSpawner_Spawn. */
+// @symbol daObjSlIceBlock_c_classInit_SL_ICEBLOCK
+extern "C" daObjSlIceBlock_c *daObjSlIceBlock_c_classInit_SL_ICEBLOCK()
+{
+    return new daObjSlIceBlock_c();
+}
