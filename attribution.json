@@ -5331,6 +5331,8 @@
     "src/actors/daObjBk_Kabe_c.cpp#_ZN14daObjBk_Kabe_c6RenderEv": "tangosdev",
     "src/actors/daObjBk_Kabe_c.cpp#_ZN14daObjBk_Kabe_c8BehaviorEv": "tangosdev",
     "src/actors/daObjBk_Kabe_c.cpp#_ZN14daObjBk_Kabe_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE01": "andrewboudreau",
+    "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE00": "andrewboudreau",
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_cD1Ev": "tangosdev",
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_cD0Ev": "tangosdev",
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_c11UpdateModelEv": "andrewboudreau",

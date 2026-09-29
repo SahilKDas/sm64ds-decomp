@@ -10,8 +10,19 @@
  *
  * mVariant is 0 for the breakable wall and 1 for the solid one. It selects
  * a row of model, collision, and CLPS. The star index is the low byte of
- * param1, with 0xff read as star 0. The two classInit factories and the
- * g_profile rows are the next ROM run, not this file.
+ * param1, with 0xff read as star 0. The g_profile rows are the next ROM
+ * run, not this file.
+ *
+ * daObjBk_Kabe_c_classInit_BK_KABE01 (0x0212757c, historical alias
+ * FortressWall_Spawn) and daObjBk_Kabe_c_classInit_BK_KABE00 (0x021275ac,
+ * historical alias FortressWallBreakable_Spawn) are reconstructed names
+ * (RTTI daObjBk_Kabe_c, the two registry profiles); retail does not store
+ * them. Each hand-called fBase_c::operator new(804) + the inherited
+ * dBgActor_c ctor + this class's vtable store. daObjBk_Kabe_c has no
+ * user-declared constructor, so both are now `new daObjBk_Kabe_c()`. This
+ * TU keeps `#pragma defer_codegen off`, so emission follows source order
+ * (ROM-ascending); the two factories append after InitResources, in ROM
+ * order (BK_KABE01 then BK_KABE00).
  *
  * deslop leftovers:
  * - Kill: folding the test into `if (actorID == kBreakableActor)` is a
@@ -169,4 +180,16 @@ int daObjBk_Kabe_c::InitResources()
         &mMeshCollider, kcl, &mClsnMat, kMeshScale, mAngleY,
         data_ov079_02128058[idx2].clps);
     return 1;
+}
+
+// @symbol daObjBk_Kabe_c_classInit_BK_KABE01
+extern "C" daObjBk_Kabe_c *daObjBk_Kabe_c_classInit_BK_KABE01()
+{
+    return new daObjBk_Kabe_c();
+}
+
+// @symbol daObjBk_Kabe_c_classInit_BK_KABE00
+extern "C" daObjBk_Kabe_c *daObjBk_Kabe_c_classInit_BK_KABE00()
+{
+    return new daObjBk_Kabe_c();
 }

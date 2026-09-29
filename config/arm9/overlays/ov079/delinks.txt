@@ -18,15 +18,7 @@ src/actors/daObjBkKillerdai_c.cpp:
 
 src/actors/daObjBk_Kabe_c.cpp:
     complete
-    .text start:0x021271e4 end:0x0212757c
-
-src/d_a_obj_bk_kabe_bk_kabe01.c:
-    complete
-    .text start:0x0212757c end:0x021275ac
-
-src/d_a_obj_bk_kabe_bk_kabe00.c:
-    complete
-    .text start:0x021275ac end:0x021275dc
+    .text start:0x021271e4 end:0x021275dc
 
 src/__sinit_ov079_02127618.c:
     complete
