@@ -5139,6 +5139,7 @@
     "src/actors/daShark_c.cpp#_ZN9daShark_c6RenderEv": "tangosdev",
     "src/actors/daShark_c.cpp#_ZN9daShark_c8BehaviorEv": "andrewboudreau",
     "src/actors/daShark_c.cpp#_ZN9daShark_c13InitResourcesEv": "tangosdev",
+    "src/actors/daShark_c.cpp#daShark_c_classInit": "tangosdev",
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_cD1Ev": "tangosdev",
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_cD0Ev": "tangosdev",
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_c16CleanupResourcesEv": "tangosdev",

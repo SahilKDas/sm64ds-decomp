@@ -12,7 +12,13 @@
  *
  * #pragma defer_codegen off emits .text in source order. The out-of-line
  * destructor is the key function, so it emits D1 then D0. The factory
- * (daShark_c_classInit) is not in this TU. g_profile_SHARK is not this TU.
+ * (daShark_c_classInit, 0x02133ca0..0x02133ce8, historical alias
+ * Shark_Spawn) hand-called fBase_c::operator new(0x3a0) + the inherited
+ * dEnemyBase_c ctor + this class's vtable store + three member subobjects
+ * in field order (dCcAcPos_c, dBgCh_Actr, ModelAnim). daShark_c has no
+ * user-declared constructor, so `new daShark_c()` reproduces the identical
+ * sequence; the factory now appends after InitResources, at the end of
+ * source order, matching its ROM placement. g_profile_SHARK is not this TU.
  *
  * The two state words __sinit_ov090_02134020 copies into data_ov090_021345cc
  * are pointer-to-member records (function, this-delta 0): enter is
@@ -291,4 +297,10 @@ int daShark_c::InitResources()
     }
     func_ov090_021338b4(this, data_ov090_021345cc);
     return 1;
+}
+
+// @symbol daShark_c_classInit
+extern "C" daShark_c *daShark_c_classInit()
+{
+    return new daShark_c();
 }
