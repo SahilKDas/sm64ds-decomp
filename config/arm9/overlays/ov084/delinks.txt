@@ -14,19 +14,7 @@ src/game/actors/d_a_red_bombhei.cpp:
 
 src/actors/daFPkn_c.cpp:
     complete
-    .text start:0x0212d248 end:0x0212ea18
-
-src/d_a_f_pkn_pakun2.c:
-    complete
-    .text start:0x0212ea18 end:0x0212ea60
-
-src/d_a_f_pkn_firepakun_s.c:
-    complete
-    .text start:0x0212ea60 end:0x0212eaa8
-
-src/d_a_f_pkn_firepakun.c:
-    complete
-    .text start:0x0212eaa8 end:0x0212eaf0
+    .text start:0x0212d248 end:0x0212eaf0
 
 src/actors/daPkn_c.cpp:
     complete
