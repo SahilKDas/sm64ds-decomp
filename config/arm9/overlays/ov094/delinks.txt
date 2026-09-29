@@ -5,11 +5,7 @@
     .bss        start:0x02136ae0 end:0x02136b80 kind:bss align:32
 src/actors/daOwl_c.cpp:
     complete
-    .text start:0x02135700 end:0x02136798
-
-src/d_a_owl.c:
-    complete
-    .text start:0x02136798 end:0x021367e8
+    .text start:0x02135700 end:0x021367e8
 
 src/__sinit_ov094_021367e8.c:
     complete

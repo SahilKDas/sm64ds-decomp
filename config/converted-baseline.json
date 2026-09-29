@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3023,
+  "count": 3024,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3031,6 +3031,7 @@
     "src/actors/daObjBk_Kabe_c.cpp#daObjBk_Kabe_c_classInit_BK_KABE00",
     "src/actors/daManta_c.cpp#daManta_c_classInit",
     "src/actors/daShark_c.cpp#daShark_c_classInit",
-    "src/actors/daOnms_c.cpp#daOnms_c_classInit"
+    "src/actors/daOnms_c.cpp#daOnms_c_classInit",
+    "src/actors/daOwl_c.cpp#daOwl_c_classInit"
   ]
 }

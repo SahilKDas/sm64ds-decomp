@@ -5391,6 +5391,7 @@
     "src/actors/daOwl_c.cpp#_ZN7daOwl_c6RenderEv": "tangosdev",
     "src/actors/daOwl_c.cpp#_ZN7daOwl_c8BehaviorEv": "tangosdev",
     "src/actors/daOwl_c.cpp#_ZN7daOwl_c13InitResourcesEv": "lunavyqo",
+    "src/actors/daOwl_c.cpp#daOwl_c_classInit": "tangosdev",
     "src/actors/daBttBk_c.cpp#_ZN9daBttBk_cD1Ev": "tangosdev",
     "src/actors/daBttBk_c.cpp#_ZN9daBttBk_cD0Ev": "tangosdev",
     "src/actors/daBttBk_c.cpp#_ZN9daBttBk_c13OnYoshiTryEatEv": "tangosdev",
