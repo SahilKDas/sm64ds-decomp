@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3014,
+  "count": 3017,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
