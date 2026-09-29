@@ -118,6 +118,10 @@
    "ref": "src_tu/actors/daObj_volcanoCannon_c.cpp"
   },
   {
+   "file": "notes/agents/handoffs/readable-ov092-onms-0925b.md",
+   "ref": "src/d_a_onms.cpp"
+  },
+  {
    "file": "notes/archive/crack-loop-runbook.md",
    "ref": "notes/pret-idioms.md"
   },
@@ -168,10 +172,6 @@
   {
    "file": "notes/bgobject-provenance.md",
    "ref": "src/FortressWall_Spawn.c"
-  },
-  {
-   "file": "notes/bgobject-provenance.md",
-   "ref": "src/func_ov025_02111898.c"
   },
   {
    "file": "notes/collision-query-classes.md",
@@ -351,10 +351,6 @@
   },
   {
    "file": "notes/rom-build.md",
-   "ref": "src/func_ov013_021112a8.c"
-  },
-  {
-   "file": "notes/rom-build.md",
    "ref": "src/func_ov091_02132a0c.c"
   },
   {
@@ -384,10 +380,6 @@
   {
    "file": "notes/src-domain-buckets.md",
    "ref": "src/ui/messages"
-  },
-  {
-   "file": "notes/translation-unit-reconstruction-plan.md",
-   "ref": "src/game/actors/d_a_holhei.cpp"
   },
   {
    "file": "notes/tu-filename-reconstruction-pilot.md",
@@ -500,14 +492,6 @@
   {
    "file": "tools/chaos_db_ci.py",
    "ref": "src/x.c"
-  },
-  {
-   "file": "tools/check_dead_references.py",
-   "ref": "src/f.c"
-  },
-  {
-   "file": "tools/check_dead_references.py",
-   "ref": "src/game/mario.c"
   },
   {
    "file": "tools/check_dead_references.py",

@@ -19,7 +19,7 @@
  * the sole EWM_ICE_BLOCK registry profile); retail does not store it. It
  * hand-called fBase_c::operator new(0x330) + the inherited dBgActor_c ctor +
  * this class's vtable store + PathPtr::PathPtr() at +0x320, spelled as
- * mangled calls in its own former source, src/d_a_obj_ewm_ice_block.c. The
+ * mangled calls in its own former (now-retired) loose source file. The
  * class has no user-declared constructor, so `new daObjEwmIceBlock_c()`
  * reproduces the identical sequence (the compiler-synthesized default
  * constructor base-calls dBgActor_c then constructs mPath in field order).
