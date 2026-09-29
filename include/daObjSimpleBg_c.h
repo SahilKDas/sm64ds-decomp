@@ -7,7 +7,10 @@
 /* Static scenery for KI_IWA, KI_HASIRA_DAI, BK_TOWER, DOKAN, MC_DODAI
  * and MC_HAZAD. The cartridge spells the class daObjSimpleBg_c. actorID
  * picks a row of this overlay's model, collision and CLPS tables and
- * stores it in mVariant. The six classInit factories are the next TU.
+ * stores it in mVariant. The six daObjSimpleBg_c_classInit_* factories
+ * (0x02148e9c..0x02148fbc, one per profile) each allocate 0x320 and install
+ * this class's cartridge vtable; they are `new daObjSimpleBg_c()` and live
+ * in src/actors/daObjSimpleBg_c.cpp alongside the rest of the class.
  *
  * dBgActor_c ends at 0x31e and its size rounds to 0x320, so mVariant
  * sits in that tail byte and sizeof stays 0x320.
