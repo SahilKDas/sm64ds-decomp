@@ -14,10 +14,11 @@
  * constructs a PathPtr at 0x320, and the matched behavior reads the two
  * trailing words at 0x328 and 0x32c.
  *
- * The reconstructed factory daObjEwmIceBlock_c_classInit (historical alias
- * BigMovingIceBlock_Spawn) installs this class's cartridge vtable; the
- * reconstructed profile global g_profile_EWM_ICE_BLOCK (historical alias
- * BigMovingIceBlock_SpawnInfo) is its registry descriptor.
+ * The reconstructed factory daObjEwmIceBlock_c_classInit (0x02111594,
+ * historical alias BigMovingIceBlock_Spawn) installs this class's cartridge
+ * vtable and lives in src/actors/daObjEwmIceBlock_c.cpp alongside the rest of
+ * the class; the reconstructed profile global g_profile_EWM_ICE_BLOCK
+ * (historical alias BigMovingIceBlock_SpawnInfo) is its registry descriptor.
  */
 #ifndef DAOBJEWMICEBLOCK_C_H
 #define DAOBJEWMICEBLOCK_C_H

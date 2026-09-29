@@ -7,7 +7,7 @@
     "no_codegen_trick",
     "no_mangled_refs"
   ],
-  "count": 3011,
+  "count": 3012,
   "converted": [
     "src/ARMMathLoadState.c",
     "src/ARMMathSaveState.c",
@@ -3019,6 +3019,7 @@
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnAimedAtWithEggEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_c16OnPendingDestroyEv",
     "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD0Ev",
-    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev"
+    "src/actors/daSnowman_c.cpp#_ZN11daSnowman_cD1Ev",
+    "src/actors/daObjEwmIceBlock_c.cpp#daObjEwmIceBlock_c_classInit"
   ]
 }

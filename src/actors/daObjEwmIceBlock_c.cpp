@@ -1,6 +1,6 @@
 //cpp
 /* Production translation unit for ov056/daObjEwmIceBlock_c.
- * 6 function(s), .text 0x021111a0..0x02111594. The big ice block that moves
+ * 7 function(s), .text 0x021111a0..0x021115cc. The big ice block that moves
  * along a path (registry profile EWM_ICE_BLOCK).
  *
  * NAME: _ZTS18daObjEwmIceBlock_c is "18daObjEwmIceBlock_c" at ov056
@@ -12,8 +12,17 @@
  * _ZTS. Under `#pragma defer_codegen off` it comes out D1 (0x021111a0), D0
  * (0x021111e4), then a D2 the cartridge has no home for (manifest: deadstrip);
  * the same pragma lays .text down in source order, so this file is
- * ROM-ascending. The factory daObjEwmIceBlock_c_classInit (0x02111594) stays
- * in its own source, src/d_a_obj_ewm_ice_block.c.
+ * ROM-ascending, and the classInit factory appends after InitResources.
+ *
+ * daObjEwmIceBlock_c_classInit (0x02111594, historical alias
+ * BigMovingIceBlock_Spawn) is a reconstructed name (RTTI daObjEwmIceBlock_c,
+ * the sole EWM_ICE_BLOCK registry profile); retail does not store it. It
+ * hand-called fBase_c::operator new(0x330) + the inherited dBgActor_c ctor +
+ * this class's vtable store + PathPtr::PathPtr() at +0x320, spelled as
+ * mangled calls in its own former source, src/d_a_obj_ewm_ice_block.c. The
+ * class has no user-declared constructor, so `new daObjEwmIceBlock_c()`
+ * reproduces the identical sequence (the compiler-synthesized default
+ * constructor base-calls dBgActor_c then constructs mPath in field order).
  */
 
 #include "decl_common.h"
@@ -157,4 +166,10 @@ int daObjEwmIceBlock_c::InitResources()
     mPathDir = 1;
     mHorzSpeed = 0xa000;
     return 1;
+}
+
+// @symbol daObjEwmIceBlock_c_classInit
+extern "C" daObjEwmIceBlock_c *daObjEwmIceBlock_c_classInit()
+{
+    return new daObjEwmIceBlock_c();
 }

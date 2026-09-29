@@ -5143,6 +5143,7 @@
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_c6RenderEv": "tangosdev",
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_c8BehaviorEv": "tangosdev",
     "src/actors/daObjEwmIceBlock_c.cpp#_ZN18daObjEwmIceBlock_c13InitResourcesEv": "tangosdev",
+    "src/actors/daObjEwmIceBlock_c.cpp#daObjEwmIceBlock_c_classInit": "tangosdev",
     "src/actors/daObjFl_KomaU_c.cpp#_ZN15daObjFl_KomaU_cD1Ev": "tangosdev",
     "src/actors/daObjFl_KomaU_c.cpp#_ZN15daObjFl_KomaU_cD0Ev": "tangosdev",
     "src/actors/daObjFl_KomaU_c.cpp#_ZN15daObjFl_KomaU_c16CleanupResourcesEv": "tangosdev",
