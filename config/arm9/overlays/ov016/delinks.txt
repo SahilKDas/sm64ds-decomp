@@ -46,11 +46,7 @@ src/game/actors/d_a_obj_ki_ita.cpp:
 
 src/actors/daSlide_Box_c.cpp:
     complete
-    .text start:0x02112ff8 end:0x02113510
-
-src/d_a_slide_box.c:
-    complete
-    .text start:0x02113510 end:0x0211354c
+    .text start:0x02112ff8 end:0x0211354c
 
 src/__sinit_ov016_021136ec.c:
     complete

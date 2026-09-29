@@ -13,11 +13,11 @@
  * at slots 0, 3, 6, 9, 16 and 17. The tree previously called the class
  * SlidingBox (coined).
  *
- * The factory (next TU, daSlide_Box_c_classInit, historical alias
- * SlidingBox_Spawn) allocates 0x4f8, constructs dBgActor_c, then the
- * dBgCh_Actr at 0x324. Both destructor variants call _ZN10dBgCh_ActrD1Ev on
- * that member before the inherited dBgActor_c teardown (dBgW_KcMbg, Model,
- * dActor_c), independently pinning the layout.
+ * The factory (daSlide_Box_c_classInit, historical alias SlidingBox_Spawn,
+ * now folded into src/actors/daSlide_Box_c.cpp) allocates 0x4f8, constructs
+ * dBgActor_c, then the dBgCh_Actr at 0x324. Both destructor variants call
+ * _ZN10dBgCh_ActrD1Ev on that member before the inherited dBgActor_c
+ * teardown (dBgW_KcMbg, Model, dActor_c), independently pinning the layout.
  */
 struct daSlide_Box_c : dBgActor_c {
     dActor_c *mShip;                    /* 0x320 -- actor 0x39, the upward ship */

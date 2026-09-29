@@ -11,8 +11,17 @@
  * The rolling-sound gate reads mHorzSpeed after this state has stored
  * 0 there, so the sound does not start.
  *
- * The factory daSlide_Box_c_classInit and g_profile_SLIDE_BOX are the
- * next TU.
+ * daSlide_Box_c_classInit (historical alias SlidingBox_Spawn, folded in
+ * from fold-lane-c-0929) hand-called fBase_c::operator new(1272),
+ * dBgActor_c::dBgActor_c(), stored _ZTV13daSlide_Box_c, then
+ * dBgCh_Actr::dBgCh_Actr() at +0x324. daSlide_Box_c declares no constructor
+ * of its own, so the compiler-synthesized default constructor emits exactly
+ * that sequence, and the factory is now `return new daSlide_Box_c();`. The
+ * retired loose file's comment claimed this hit a measured C/ABI wall
+ * (allocator resolving to global _Znwm instead of fBase_c::operator new);
+ * re-measured here, that did not reproduce -- 8/8 MATCH, objisolate and
+ * reloc-destinations both clean. g_profile_SLIDE_BOX is still outside this
+ * TU.
  *
  * deslop leftovers:
  * - Behavior: UpdateContinuous() is WRONG-DEST. Both sites must call
@@ -249,4 +258,14 @@ int daSlide_Box_c::InitResources()
     mState = kStateSeekShip;
     mSoundID = 0;
     return 1;
+}
+
+/* Reconstructed source-style name: SM64DS proves daSlide_Box_c through RTTI,
+ * allocation size, vtable identity, and the SLIDE_BOX registry profile;
+ * later EAD lineage supplies classInit. Exact original spelling is not
+ * preserved. Historical alias: SlidingBox_Spawn. */
+// @symbol daSlide_Box_c_classInit
+extern "C" daSlide_Box_c *daSlide_Box_c_classInit()
+{
+    return new daSlide_Box_c();
 }

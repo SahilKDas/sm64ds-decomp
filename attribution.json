@@ -5334,6 +5334,7 @@
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_c6RenderEv": "tangosdev",
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_c8BehaviorEv": "tangosdev",
     "src/actors/daSlide_Box_c.cpp#_ZN13daSlide_Box_c13InitResourcesEv": "tangosdev",
+    "src/actors/daSlide_Box_c.cpp#daSlide_Box_c_classInit": "tangosdev",
     "src/actors/daSnmBth_c.cpp#_ZN10daSnmBth_cD1Ev": "andrewboudreau",
     "src/actors/daSnmBth_c.cpp#_ZN10daSnmBth_cD0Ev": "andrewboudreau",
     "src/actors/daSnmBth_c.cpp#_ZN21SnowmanBreathParticleD1Ev": "andrewboudreau",
