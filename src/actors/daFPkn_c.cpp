@@ -1,7 +1,8 @@
 //cpp
 /* daFPkn_c -- the fire piranha plant (PAKUN2 / FIREPAKUN / FIREPAKUN_S).
- * ov084 .text 0x0212d248..0x0212ea18, eighteen functions: D1, D0, nine
- * helpers and states, then the seven vtable methods.
+ * ov084 .text 0x0212d248..0x0212eaf0, twenty-one functions: D1, D0, nine
+ * helpers and states, the seven vtable methods, then the three classInit
+ * registry factories.
  *
  * NAME: daFPkn_c is the cartridge's RTTI spelling. The word before the
  * vtable address point 0x02130b28 (0x02130b24) relocates to _ZTI8daFPkn_c
@@ -16,8 +17,11 @@
  * as vague linkage. The ROM keeps the table; the promotion is text-only.
  *
  * The run's left neighbour is daRedBombhei_c_classInit (0x0212d200), another
- * class's factory. The three daFPkn_c classInit factories start at
- * 0x0212ea18 and stay one-function C sources.
+ * class's factory. daFPkn_c_classInit_PAKUN2/_FIREPAKUN_S/_FIREPAKUN are
+ * reconstructed names (RTTI daFPkn_c, the three registry profiles); retail
+ * does not store them. Historical aliases: FirePiranhaPlant_Spawn,
+ * FirePiranhaPlantSmall_Spawn and FirePiranhaPlantBig_Spawn. The daPkn_c
+ * run begins immediately after, at 0x0212eaf0.
  *
  * Known limits:
  * - ModelAnim::SetAnim, dCcAc_c::Init, dCcAcPos_c::Init,
@@ -810,4 +814,22 @@ s32 daFPkn_c::OnYoshiTryEat() {
     else
         r = 0;
     return r;
+}
+
+// @symbol daFPkn_c_classInit_PAKUN2
+extern "C" daFPkn_c *daFPkn_c_classInit_PAKUN2()
+{
+    return new daFPkn_c();
+}
+
+// @symbol daFPkn_c_classInit_FIREPAKUN_S
+extern "C" daFPkn_c *daFPkn_c_classInit_FIREPAKUN_S()
+{
+    return new daFPkn_c();
+}
+
+// @symbol daFPkn_c_classInit_FIREPAKUN
+extern "C" daFPkn_c *daFPkn_c_classInit_FIREPAKUN()
+{
+    return new daFPkn_c();
 }
