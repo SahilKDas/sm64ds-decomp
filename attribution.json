@@ -2310,6 +2310,7 @@
     "src/game/actors/daObjPathLift_c.cpp#_ZN15daObjPathLift_c8BehaviorEv": "tangosdev",
     "src/game/actors/daObjPathLift_c.cpp#_ZN15daObjPathLift_cD0Ev": "tangosdev",
     "src/game/actors/daObjPathLift_c.cpp#_ZN15daObjPathLift_cD1Ev": "tangosdev",
+    "src/game/actors/daObjPathLift_c.cpp#daObjPathLift_c_classInit": "andrewboudreau",
     "src/game/actors/daObjPathLift_c.cpp#func_ov100_02146e70": "aitddlabs",
     "src/game/actors/daObjPathLift_c.cpp#func_ov100_0214700c": "tangosdev",
     "src/d_a_e_switch.c#daESwitch_c_classInit": "tangosdev",

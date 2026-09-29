@@ -6,7 +6,7 @@
   "status": "promoted",
   "boundary_confidence": "high",
   "boundary_evidence": [
-    "contiguous linker run: 0x2146d7c..0x2147328, 8 function(s), from build/tu_map.json (tools/tu_map.py)",
+    "contiguous linker run: 0x2146d7c..0x21473a4, 9 function(s), from build/tu_map.json (tools/tu_map.py)",
     "class label(s): daObjPathLift_c",
     "module sinit corroboration: 7 sinit(s) / 7 .ctor entries, sinit_vs_tu=ok, corroborated=False (module-wide, NOT narrowed to this one TU -- see notes/tu-reconstruction-pilot-report.md sec 2 for the by-hand narrowing step)"
   ],
@@ -14,7 +14,7 @@
     {
       "name": ".text",
       "start": "0x02146d7c",
-      "end": "0x02147328"
+      "end": "0x021473a4"
     }
   ],
   "functions": [
@@ -73,6 +73,13 @@
       "size": "0x00000148",
       "legacy_source": "src/_ZN15daObjPathLift_c13InitResourcesEv.cpp",
       "ordinal": 7
+    },
+    {
+      "symbol": "daObjPathLift_c_classInit",
+      "address": "0x02147328",
+      "size": "0x0000007c",
+      "legacy_source": "src/d_a_obj_path_lift.cpp",
+      "ordinal": 8
     }
   ],
   "data": [],
@@ -88,28 +95,28 @@
     {
       "symbol": "_ZTI10dBgActor_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dBgActor_c included, as vague linkage. The cartridge keeps one copy at ov002:0x021089ec, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dBgActor_c included, as vague linkage. The cartridge keeps one copy at ov002:0x021089ec, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "ov002",
       "canonical_address": "0x021089ec"
     },
     {
       "symbol": "_ZTI15daObjPathLift_c",
       "disposition": "deadstrip-data",
-      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own typeinfo record. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x02148538 had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x02147328 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
+      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own typeinfo record. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x02148538 had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x021473a4 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
       "canonical_module": "ov100",
       "canonical_address": "0x02148538"
     },
     {
       "symbol": "_ZTI7dBase_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e78, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e78, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e78"
     },
     {
       "symbol": "_ZTI7fBase_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, fBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086d70, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, fBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086d70, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x02086d70"
     },
@@ -123,35 +130,35 @@
     {
       "symbol": "_ZTI8dActor_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dActor_c included, as vague linkage. The cartridge keeps one copy at arm9:0x0208e390, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo record for every class in daObjPathLift_c's chain, dActor_c included, as vague linkage. The cartridge keeps one copy at arm9:0x0208e390, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x0208e390"
     },
     {
       "symbol": "_ZTS10dBgActor_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dBgActor_c included, as vague linkage. The cartridge keeps one copy at ov002:0x02108a04, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dBgActor_c included, as vague linkage. The cartridge keeps one copy at ov002:0x02108a04, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "ov002",
       "canonical_address": "0x02108a04"
     },
     {
       "symbol": "_ZTS15daObjPathLift_c",
       "disposition": "deadstrip-data",
-      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own typeinfo name. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x02148544 had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x02147328 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
+      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own typeinfo name. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x02148544 had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x021473a4 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
       "canonical_module": "ov100",
       "canonical_address": "0x02148544"
     },
     {
       "symbol": "_ZTS7dBase_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e54, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e54, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e54"
     },
     {
       "symbol": "_ZTS7fBase_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, fBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e60, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, fBase_c included, as vague linkage. The cartridge keeps one copy at arm9:0x02086e60, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x02086e60"
     },
@@ -165,14 +172,14 @@
     {
       "symbol": "_ZTS8dActor_c",
       "disposition": "deadstrip-data",
-      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dActor_c included, as vague linkage. The cartridge keeps one copy at arm9:0x0208e384, outside the only range this entry claims (.text 0x02146d7c-0x02147328), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
+      "reason": "Naming a key function makes mwcc emit the typeinfo name for every class in daObjPathLift_c's chain, dActor_c included, as vague linkage. The cartridge keeps one copy at arm9:0x0208e384, outside the only range this entry claims (.text 0x02146d7c-0x021473a4), so dsd delinks it from the image whether or not this object contributes one and discarding this copy cannot cost the ROM a byte. romdata_check compares it against the cartridge word for word, relocations applied, before it is dropped.",
       "canonical_module": "arm9",
       "canonical_address": "0x0208e384"
     },
     {
       "symbol": "_ZTV15daObjPathLift_c",
       "disposition": "deadstrip-data",
-      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own vtable. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x0214857c had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x02147328 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
+      "reason": "Defining the destructor out of line is what makes this TU emit daObjPathLift_c's own vtable. Before that, nothing in the build emitted it at all and the cartridge's copy at ov100:0x0214857c had nothing to be compared against. That address is data no delink entry reaches -- this entry claims .text 0x02146d7c-0x021473a4 and nothing else -- so the linked image is identical whether or not this object contributes a copy, while the bytes still reach romdata_check on the way past. Recovering that comparison is the point of the policy.",
       "canonical_module": "ov100",
       "canonical_address": "0x0214857c"
     }
@@ -183,7 +190,8 @@
     "Identity follow-up: daObjPathLift_c now derives from the ROM-proven dPathLiftActor_c class. The corrected hierarchy preserves all eight text functions and naturally re-emits the base RTTI/ZTS at their canonical ov002 homes; this object emits no duplicate base lifecycle or vtable sections. Its own RTTI/ZTS/vtable and the ordinary Vector3 D1 duplicate retain their exact measured deadstrip policies.",
     "Reconciliation against real headers: Render uses inherited mModel directly; Behavior and InitResources are real daObjPathLift_c methods; dPathLiftActor_c's mPathSpeed, mPathDirection, mWaitTimer and unk_42c fields replace the remaining inherited raw offsets. The three still-address-named base helpers now take typed dPathLiftActor_c pointers. The measured Fix12 ABI seams remain because constructing wrapper arguments adds stack traffic absent from the ROM. Every readability change retained 8/8 exact text and relocation destinations.",
     "decl_common.h dropped from this TU (both places it was included): it declares data_ov100_02148a54/data_ov100_02148a5c as plain `int`, less complete than the real SharedFilePtr type this TU's own InitResources/CleanupResources need to call through Model::LoadFile/SharedFilePtr::Release as real members -- same class of conflict as daObjYajirusi_c's data_ov098_0213c380. The five other symbols/functions decl_common.h would have supplied (data_ov100_0214857c, data_ov002_0210d7d4, func_ov002_020efcf4, func_ov002_020efc74, func_ov100_02146e70) are restated locally at the same type it used, since nothing else in this TU needed a more complete type for them.",
-    "PROMOTED. The eight per-function sources and their eight delinks entries are one TU and one .text span (ov100 0x02146d7c-0x02147328); the compiler places the D1/D0 pair itself, so the two hand-written files carrying `// @symbol _ZN15daObjPathLift_cD1Ev` and D0 are gone. The blocker was never codegen -- text-verification already proved every function's bytes and relocations from a single compile -- it was that isolation refused the object over _ZN7Vector3D1Ev, four bytes of vague linkage with a ROM home that neither policy schema could license. compiler_only_output now carries it as disposition deadstrip-duplicate, with the cartridge's own body at arm9:0x020072c0 checked against this object's copy before anything is discarded. 106/106 exact, mismatching 0, and no ROM data symbol changed grade."
+    "PROMOTED. The eight per-function sources and their eight delinks entries are one TU and one .text span (ov100 0x02146d7c-0x02147328); the compiler places the D1/D0 pair itself, so the two hand-written files carrying `// @symbol _ZN15daObjPathLift_cD1Ev` and D0 are gone. The blocker was never codegen -- text-verification already proved every function's bytes and relocations from a single compile -- it was that isolation refused the object over _ZN7Vector3D1Ev, four bytes of vague linkage with a ROM home that neither policy schema could license. compiler_only_output now carries it as disposition deadstrip-duplicate, with the cartridge's own body at arm9:0x020072c0 checked against this object's copy before anything is discarded. 106/106 exact, mismatching 0, and no ROM data symbol changed grade.",
+    "classInit fold (2026-09-29): folded the loose src/d_a_obj_path_lift.cpp (daObjPathLift_c_classInit, ov100 0x02147328-0x021473a4, historical alias PathLift_Spawn) into this TU as its ninth function, at the top of source (mwccarm emits ordinary sections in reverse source order and classInit is this TU's highest ROM address). Kept the loose file's exact typed C-ABI implementation rather than converting to `return new daObjPathLift_c()`, matching the precedent already landed for this same dPathLiftActor_c base in src/game/actors/d_a_obj_rc_carpet.cpp (daObjRcCarpet_c_classInit): the intermediate dPathLiftActor_c vtable store stays the raw `data_ov002_0210af70` address (that ov002 symbol already names the address point, no offset needed), but the class's own vtable store changed from `_ZTV15daObjPathLift_c[0]` to `_ZTV15daObjPathLift_c[2]` (addend 8): this TU already emits (and deadstrips) its own _ZTV15daObjPathLift_c as compiler_only_output because the out-of-line destructor is the key function, so once the factory moved into this same emitting TU, the compiler's own `_ZTV15daObjPathLift_c` label names the two-word RTTI header start rather than the address point the ROM store actually needs -- the loose file's own comment anticipated exactly this ([2] is the emitting-TU spelling). daObjPathLift_c_classInit therefore correctly fails tools/tiers.py::score_member on no_mangled_refs/no_raw_offset and is not added to config/converted-baseline.json. tools/tubuild.py verify: 9/9 MATCH, TEXT-VERIFIED; no new compiler_only_output entry needed (the existing _ZTV15daObjPathLift_c and Vector3 D1 entries already covered everything the merged factory touches). Credited to tangosdev in attribution.json (src/d_a_obj_path_lift.cpp had no prior individual credit in chaos_db_ci first_matchers)."
   ],
   "verification": {
     "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
@@ -191,8 +199,8 @@
     "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
     "object": "build/tu/ov100-daObjPathLift_c/daObjPathLift_c.o (gitignored)",
     "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
-    "functions_matched": 8,
-    "functions_declared": 8,
+    "functions_matched": 9,
+    "functions_declared": 9,
     "criteria": {
       "every_declared_function_defined": "PASS",
       "every_declared_function_bytes_match": "PASS",

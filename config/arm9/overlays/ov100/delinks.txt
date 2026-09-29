@@ -280,11 +280,7 @@ src/game/actors/d_a_fish.cpp:
 
 src/game/actors/daObjPathLift_c.cpp:
     complete
-    .text start:0x02146d7c end:0x02147328
-
-src/d_a_obj_path_lift.cpp:
-    complete
-    .text start:0x02147328 end:0x021473a4
+    .text start:0x02146d7c end:0x021473a4
 
 src/__sinit_ov100_021473bc.c:
     complete
