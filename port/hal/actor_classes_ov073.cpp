@@ -91,6 +91,7 @@
 #include "port_d16.h"
 
 #include <cstdio>
+#include <cstring>
 
 /* hal/actor_slot30_seat.cpp -- the shared seat for vtable slot 30,
    Actor::OnAimedAtWithEggReturnVec. The ROM word in slot 30 of every vtable
@@ -387,6 +388,39 @@ extern "C" void port_ov73_bringup(void)
     port_ov073_states_seat();       /* BEFORE the sinits -- they copy records */
     __sinit_ov073_02122874();
     __sinit_ov073_02122d48();
+}
+
+/* THE BSS CLEAR THE CARTRIDGE'S OVERLAY LOAD PERFORMS ON OV073, which this
+   port was not doing. Stage::InitResources calls LoadLevelOverlays
+   (src/_ZN5Stage13InitResourcesEv.cpp:328) on every level entry, and that is
+   LoadOverlay -> FS_LoadOverlay -> func_02018b64 -> func_0205e0b0 (src/), whose
+   body is func_0205a588(base + size, 0, bssSize): it zero-fills the loaded
+   overlay's whole .bss. ov073 comes off at the end of the Chief Chilly Challenge
+   (UnloadLevelOverlays) and goes back on at the next entry, so on the cartridge
+   the two per-id instance counters at 0x02123420 (id 172) and 0x02123424 (id 171)
+   start every visit at 0. CccArena::InitResources hands each ice block
+   `mSpawnIndex = counter++` (src/_ZN8CccArena13InitResourcesEv.cpp:40-47) and
+   func_ov073_021222ec uses that byte as the row it writes the block's position
+   into Chilly's two eight-entry waypoint arrays (+0x3e8 / +0x448, 0xc apart).
+   The port's LoadOverlay face is empty and the mount lives for the whole process,
+   so the counters kept counting: the second visit's blocks carried 8..15 and
+   their position writes ran past the arrays into the boss's own fields
+   (+0x4bc the bone toggle, +0x4c8..0x4cb the substate / mNoGroundAhead / hit
+   counter), the third visit's past the object into its neighbours.
+   Only the two counters are cleared, not the whole bss: the rest of ov073's bss
+   is the SharedFilePtrs and the sixteen + four state tables, which the ROM
+   rebuilds from the same sources on every load and port_ov73_bringup builds once
+   with the same result. Called from hal/level_boot.cpp's port_stage_boot_body at
+   the ROM's own position for LoadLevelOverlays, beside the ov080 painting cache
+   clear. */
+extern "C" unsigned char data_ov073_02123420[];
+extern "C" unsigned char data_ov073_02123424[];
+extern "C" void port_ov073_overlay_load(int id)
+{
+    if (id != 73)
+        return;
+    std::memset(data_ov073_02123420, 0, 4);
+    std::memset(data_ov073_02123424, 0, 4);
 }
 
 // ============================================================================
