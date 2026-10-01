@@ -64,6 +64,7 @@ struct Channel {
     const sd_s16 *pcm;
     sd_u32 total, loopStart;
     int loop;
+    int hold;           // PSG voice: steps its samples, no interpolation
     double pos, step;
 
     sd_s32 ampl;
@@ -237,9 +238,21 @@ int chan_attenuation_db10(const Channel &c)
 
 int sd_mix_alloc(int priority)
 {
+    return sd_mix_alloc_mask(priority, 0xffffu);
+}
+
+/* THE CHANNEL SET A NOTE MAY TAKE. The allocator's first argument at
+ * 0x037FC26C is the player's channel mask AND the note type's set, chosen at
+ * the note-on (0x037FD49C): a sampled note any of the 16 (0xFFFF), a PSG
+ * pulse note channels 8..13 (0x3F00), a PSG noise note channels 14 and 15
+ * (0xC000). The scan below is the same one, skipping the channels outside the
+ * set; a mask of 0xFFFF is the plain allocator. */
+int sd_mix_alloc_mask(int priority, unsigned mask)
+{
     int best = -1;
     for (int k = 0; k < SD_CHANNELS; k++) {
         const int i = kScanOrder[k];
+        if (!(mask & (1u << i))) continue;
         if (best < 0) { best = i; continue; }   /* first candidate, outright */
         if (g_ch[i].priority > g_ch[best].priority) continue;
         if (g_ch[i].priority == g_ch[best].priority
@@ -325,6 +338,13 @@ void sd_mix_start(int ch, const SdatWave *w, const SdatNote *n,
     c.decayRate   = cnv_fall(n ? n->decay : 127);
     c.releaseRate = cnv_fall(n ? n->release : 127);
     c.sustainLevel = sd_cnv_vol(n ? n->sustain : 127) * 128;
+}
+
+/* A PSG voice (pulse or noise) is stepped, not interpolated: the hardware
+   channel holds one sample per timer period and the pulse's edges stay edges. */
+void sd_mix_set_hold(int ch)
+{
+    if (ch >= 0 && ch < SD_CHANNELS) g_ch[ch].hold = 1;
 }
 
 void sd_mix_set(int ch, int volume_db10, int pan, double rate)
@@ -742,7 +762,7 @@ void sd_mix_render(sd_s16 *dst, int frames)
                 sd_s32 a = c.pcm[idx];
                 sd_s32 b = (idx + 1 < c.total) ? c.pcm[idx + 1]
                          : (c.loop ? c.pcm[c.loopStart] : a);
-                double s = a + (b - a) * frac;
+                double s = c.hold ? (double)a : a + (b - a) * frac;
                 sd_s32 l = (sd_s32)(o[0] + s * gl);
                 sd_s32 r = (sd_s32)(o[1] + s * gr);
                 o[0] = (sd_s16)(l < -32768 ? -32768 : (l > 32767 ? 32767 : l));

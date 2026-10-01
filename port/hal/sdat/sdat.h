@@ -96,6 +96,7 @@ int sdat_swar_wave(const sd_u8 *swar, sd_u32 index, SdatWave *out);
 struct SdatNote {
     sd_u16 swav, swar;
     sd_u8 baseNote, attack, decay, sustain, release, pan;
+    sd_u8 type;             // the record's note type: 1/4 sampled, 2 PSG pulse (swav = duty), 3 PSG noise
 };
 
 // Resolve program `prog` + note `note` in a resident SBNK to its sample and
@@ -120,6 +121,12 @@ struct SdatChanKey { int player; int track; int note; };
 
 // Allocate a hardware-style channel. Returns channel index or -1.
 int sd_mix_alloc(int priority);
+// The same, restricted to the channels in `mask` (bit n = channel n): the ARM7
+// driver hands its allocator the note type's channel set, see sd_mix_alloc_mask.
+int sd_mix_alloc_mask(int priority, unsigned mask);
+// Mark a channel as a PSG voice (pulse or noise): the hardware does not
+// interpolate between its samples, so the mixer steps them.
+void sd_mix_set_hold(int ch);
 void sd_mix_start(int ch, const SdatWave *w, const SdatNote *n,
                   int volume_db10, int pan, double rate, int priority);
 // Both take the REASON they are ending the voice. The reason is the whole
