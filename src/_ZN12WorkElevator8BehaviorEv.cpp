@@ -140,14 +140,29 @@ s32 WorkElevator::Behavior()
                 }
             }
             {
+#ifdef _MSC_VER
+                /* The ROM keeps the three colliders back to back on the frame
+                   (ctors at sp+0x80, +0xf8, +0x170, 0x78 apart) and the loop
+                   below walks them with one pointer. MSVC does not keep three
+                   separate locals contiguous or in order, so the walk ran off
+                   the first one into the vector arrays and the stack cookie.
+                   An array gives the same contiguous layout and ctor order,
+                   with the dtors in reverse. */
+                dBgCh_Lin lines[3];
+#else
                 dBgCh_Lin l0;
                 dBgCh_Lin l1;
                 dBgCh_Lin l2;
+#endif
                 {
                     s32 j = 0;
                     Vector3 *pc = vc;
                     Vector3 *pb = vb;
+#ifdef _MSC_VER
+                    dBgCh_Lin *pl = &lines[0];
+#else
                     dBgCh_Lin *pl = &l0;
+#endif
                     u32 snd = 0x1b;
                     for (; j < 3; j++) {
                         _ZN9dBgCh_Lin13SetObjAndLineERK7Vector3S2_P8dActor_c(pl, pb, pc, this);
