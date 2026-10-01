@@ -120,6 +120,8 @@ int hal_present_client_to_sub(int cx, int cy, int *dsx, int *dsy);
 /* the layout mode, defined at the bottom of this file */
 int hal_sub_screen_stacked(void);
 void hal_touch_client_probe(void);
+/* defined at the bottom of this file; poll_touch asks it who owns the keyboard */
+int hal_window_focused(void);
 /* THE THREE ATTENTION ARROWS, re-anchored above the panel (engine A's raster,
    hal/message_compositor.cpp, which owns the sprites; this file owns where the
    panel is). Called with the panel rect this frame's compose just drew, so the
@@ -2691,9 +2693,38 @@ void poll_touch(void)
        hand reaches. Unarmed this costs one load and nothing else. */
     const int inj = g_inj_armed;
     if (inj) ++g_inj_frames;
-    const int btn = inj ? 1
-                        : (!g_headless && g_on && GetAsyncKeyState_ &&
-                           (GetAsyncKeyState_(VK_LBUTTON) & 0x8000) ? 1 : 0);
+    /* THE OS BUTTON IS MACHINE-GLOBAL, so it only counts as the stylus while
+       this window is the foreground one and the press began while it already
+       was. GetAsyncKeyState(VK_LBUTTON) reads the physical button for the
+       whole desktop: without this a click in a browser or a chat window
+       that happened to sit over the bottom screen touched the game behind it
+       (file select, pause menu, minigames), the same hole the keyboard and
+       the pad were closed against (hal_window_focused).
+         raw_was    the button was down at the last poll
+         focus_was  the window was foreground at the last poll
+         hold_ok    the hold that is down right now began on a focused window
+       The click that BRINGS the window to the front is not a touch: it flips
+       the foreground and the button in the same instant, so at the poll before
+       it the window was not focused (focus_was 0) and the hold is dead until
+       the button comes up. Losing focus with the button held drops the touch
+       at once (btn goes 0 below, which releases the drag), and getting it
+       back with the button still held does not revive it. SM64DS_TOUCH_PROBE,
+       the in-process stylus and SM64DS_SKIP_MENU never come through here. */
+    int btn;
+    if (inj) {
+        btn = 1;
+    } else {
+        static int raw_was, focus_was, hold_ok;
+        const int raw = (!g_headless && g_on && GetAsyncKeyState_ &&
+                         (GetAsyncKeyState_(VK_LBUTTON) & 0x8000)) ? 1 : 0;
+        const int foc = hal_window_focused();
+        if (!raw)              hold_ok = 0;
+        else if (!raw_was)     hold_ok = foc && focus_was;
+        else if (!foc)         hold_ok = 0;
+        btn = raw && foc && hold_ok;
+        raw_was = raw;
+        focus_was = foc;
+    }
     if (!btn) {
         drag_own = 0;
         /* and a resize that was in progress is finished and written down */
