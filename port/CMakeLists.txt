@@ -1127,6 +1127,16 @@ else()
                    "setup TUs route through hostgen (shipped arm).")
     list(APPEND PORT_HOSTGEN_TU ${SAMECLASS_BOOT_TU})
 endif()
+# run hunt5 lane DRAW1: the title drawing's nearest-point finder. It answers
+# "which node of another stroke is closest" through the hardware square-root
+# unit (SQRTCNT 0x40002b0, SQRT_PARAM 0x40002b8, SQRT_RESULT 0x40002b4) and
+# hands the root back to its caller as the search radius for the next stroke.
+# Built plain, those stores land in mapped memory, the unit never runs, and the
+# result word is whatever an earlier routine left there, so func_ov007_020c6b58
+# hooks the strokes' ends to wrong, far away nodes. Routed like the other
+# whole-TU hostgen sources above; the ov007 SQRT drivers left out of the TITEX
+# set (func_ov007_020c30ac, func_ov007_020c7d60) are not touched here.
+list(APPEND PORT_HOSTGEN_TU src/func_ov007_020c31e0.c)
 get_filename_component(PORT_HOSTGEN_TU_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 set(PORT_HOSTGEN_TU_GEN "")
 foreach(_hgt_rel IN LISTS PORT_HOSTGEN_TU)
