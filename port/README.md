@@ -1,8 +1,25 @@
 # port/ - the native PC build
 
-This tree hosts the PC port of the decompiled game: the same `src/` sources
-compiled for the host, a platform seam instead of DS hardware, and its own
-build that never touches the byte-matching pipeline.
+The PC port compiles the same `src/` sources for Windows, with a platform
+layer standing in for the DS hardware and its own build that never touches the
+byte-matching pipeline. It is a full, playable game. Download it at
+[tangos.dev/downloads](https://tangos.dev/downloads); like everything else in
+this repo, it runs from your own cartridge dump.
+
+## Where the playable port lives
+
+The game is developed on the `port/*` branches and shipped from the
+`release/game-*` branches. The 0.5.4 download, for example, was built from
+`release/game-0.5.4`. Those branches carry the whole `port/` tree (the game
+executable, renderer, audio, saves, the graphics options and the launcher
+hooks) and their own copy of this README, which covers how the game boots,
+where saves go, and the toggles the launcher sets. Read that copy for anything
+about the game itself.
+
+What sits under `port/` on `main` is the smoke suite the port grew out of: small
+test programs that each prove one piece of the engine runs on a PC with real
+game data. It stays here so changes to `src/` and `include/` on `main` get a
+quick host check of their own. The rest of this file describes that suite.
 
 ## Rules
 
@@ -18,8 +35,7 @@ build that never touches the byte-matching pipeline.
 
 ## Build locally on Windows
 
-The current port is a suite of native smoke executables, not yet a standalone
-playable game. It requires Visual Studio with the **Desktop development with
+This builds the smoke suite, not the game. It requires Visual Studio with the **Desktop development with
 C++** workload and its x86 tools, plus CMake, Ninja, Python, and the normal local
 ROM setup described in the repository README.
 
@@ -78,7 +94,7 @@ destination. Benchmarks on 2026-08-02 showed natives inside the hybrid are
 performance-neutral (~2% of the emulated clock), which is the measured
 argument for building the port rather than growing the hybrid further.
 
-## Frontier baseline (2026-08-02)
+## Frontier baseline (2026-08-02, kept as history)
 
 First full sweep of `tools/host_frontier.py` (cl /Zs, 32-bit, all of src/):
 
