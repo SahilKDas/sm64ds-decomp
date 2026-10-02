@@ -686,6 +686,15 @@ inline bool hide3d_off_env() {
     return v != 0;
 }
 
+inline bool winobj_off_env() {
+    static int v = -1;
+    if (v < 0) {
+        const char *e = std::getenv("SM64DS_WINOBJ_OFF");
+        v = (e && *e && *e != '0') ? 1 : 0;
+    }
+    return v != 0;
+}
+
 void hide_3d_outside_windows(uint32_t dispcnt, const Windows &w, ntr::Framebuffer &fb)
 {
     if (!w.any || hide3d_off_env() || !bg0_3d_shown(dispcnt)) return;
@@ -1894,6 +1903,20 @@ void raster_obj(uint32_t dispcnt, const Blend &bl, const Windows &win,
                    Taking it out after the priority tests would let it lose to
                    a sprite it is about to be moved away from. */
                 if (arrow) { arrow_capture(px, py, color); continue; }
+                /* THE WINDOW UNIT GATES THE SPRITES TOO (run hunt5, lane WIPES1).
+                   WINOUT / WININ bit 4 is the OBJ layer, and the star / circle
+                   wipes of the minigames program WINOUT = 0 on both engines
+                   (dWipe_c, src/func_0202ee94.c): outside the shape not even a
+                   sprite shows, only the backdrop. The BG loop and the 3D layer
+                   (hide_3d_outside_windows) already honour that mask; the
+                   sprites did not, so the lives counter, the score and the
+                   playfield sprites of a minigame stayed on the screen outside
+                   the star. Engine B's raster_obj has always tested this bit.
+                   A window-less frame answers 0x3F, so only a frame with an
+                   armed window can drop a pixel here. SM64DS_WINOBJ_OFF=1 puts
+                   the old picture back on this binary. */
+                if (!winobj_off_env() && !(window_mask(win, px, py) & 0x10))
+                    continue;
                 /* OBJ-vs-OBJ IS RESOLVED BY PRIORITY, NOT BY OAM INDEX, and
                    this test is what makes that true on engine A. GBATEK's OAM
                    notes: attribute 2 bits 10-11 order a sprite against the
