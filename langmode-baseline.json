@@ -7,7 +7,7 @@
     "extern_vtable_classes": 74,
     "inline_asm": 13,
     "launder_or_forced": 145,
-    "launder_sites": 372
+    "launder_sites": 371
   },
   "exclusions": {
     "by_value_class_param": 55
@@ -60,8 +60,8 @@
     "pad_layout": 246
   },
   "totals": {
-    "c_extension": 3415,
-    "cpp_extension": 1840,
+    "c_extension": 3414,
+    "cpp_extension": 1841,
     "src_files": 5255
   }
 }
