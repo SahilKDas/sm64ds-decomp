@@ -3,10 +3,10 @@
   "codegen_hacks": {
     "cv_launder": 3,
     "cv_launder_sites": 6,
-    "extern_vtable": 72,
+    "extern_vtable": 59,
     "extern_vtable_classes": 74,
     "inline_asm": 13,
-    "launder_or_forced": 156,
+    "launder_or_forced": 154,
     "launder_sites": 380
   },
   "exclusions": {
@@ -53,15 +53,15 @@
     "unmigrated_total": 73
   },
   "shadow_decls": {
-    "local_body_no_include": 686,
-    "local_body_no_include_cpp": 168,
-    "local_struct_body": 1248,
-    "local_struct_body_cpp": 546,
-    "pad_layout": 271
+    "local_body_no_include": 671,
+    "local_body_no_include_cpp": 167,
+    "local_struct_body": 1229,
+    "local_struct_body_cpp": 542,
+    "pad_layout": 268
   },
   "totals": {
-    "c_extension": 3945,
-    "cpp_extension": 2120,
-    "src_files": 6065
+    "c_extension": 3856,
+    "cpp_extension": 2055,
+    "src_files": 5911
   }
 }
