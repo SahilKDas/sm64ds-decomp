@@ -484,6 +484,60 @@ void track_stop(int p, int t, const char *why)
 // the track on a channel that never ends. The two are told apart by that, not
 // by the tie.
 
+/* THE PSG VOICES. A type 2 note is the DS's pulse generator and a type 3 note
+ * its noise generator; neither has a wave in the archive. The channel start
+ * (0x037FE3C4) gives both the same base timer, 0x1F46 = 8006 (0x037FC468 /
+ * 0x037FC4BC, stored at ch+0x3C), so at the record's root key a hardware step
+ * comes every 8006 ticks of the 16.757 MHz clock: 2093 steps a second (the
+ * port's integer rate; the exact 2093.05 is 0.003 percent away). A pulse is 8
+ * steps to a cycle, so the root key sounds at 261.6 Hz, which is C4.
+ *
+ * PULSE: the record's first u16 is the duty, 0..6 = 1..7 high steps of 8, 7 =
+ * silent (GBATEK, "DS sound channels", and the same table in melonDS's SPU);
+ * the high steps are the last ones of the cycle, and the level is +-0x7FFF,
+ * a 16 bit sample at full scale that then runs the same volume path as a
+ * sampled voice.
+ *
+ * NOISE: the 15 bit shift register the hardware clocks once per step: start
+ * 0x7FFF, shift right, and when the bit that fell out was 1 xor 0x6000 in and
+ * output -0x7FFF, otherwise +0x7FFF. Its period is 32767 steps, so the whole
+ * cycle is one looping table.
+ *
+ * Both play as a looping table at the pulse's own rate with no interpolation
+ * (sd_mix_set_hold). WHAT THE PORT DID BEFORE: read the duty as an index into
+ * the linked SWAR and played that wave, so the red coin's jingle (SEQARC 2
+ * entries 47..55, program 128 of bank 1, a duty 3 pulse) and Balloon Mario's
+ * B (SEQARC 0 entry 190, program 107 of bank 0, also duty 3) sounded as a
+ * 2976 sample ADPCM click, and so does every other pulse instrument. */
+const sd_s16 *psg_table(const SdatNote &n, SdatWave *w)
+{
+    static sd_s16 pulse[8][8];
+    static sd_s16 noise[32767];
+    static int built;
+    if (!built) {
+        built = 1;
+        for (int d = 0; d < 8; d++)
+            for (int k = 0; k < 8; k++)
+                pulse[d][k] = (d < 7 && k >= 7 - d) ? 0x7fff : -0x7fff;
+        unsigned lfsr = 0x7fff;
+        for (int k = 0; k < 32767; k++) {
+            const unsigned out = lfsr & 1;
+            lfsr >>= 1;
+            if (out) lfsr ^= 0x6000;
+            noise[k] = out ? -0x7fff : 0x7fff;
+        }
+    }
+    w->loop = 1;
+    w->loopStart = 0;
+    w->sampleRate = 2093;
+    if (n.type == 3) {
+        w->totalSamples = 32767;
+        return noise;
+    }
+    w->totalSamples = 8;
+    return pulse[n.swav & 7];
+}
+
 void start_note(Player &pl, int pi, int ti, Track &tk, int note, int vel,
                 int ticks)
 {
@@ -504,7 +558,10 @@ void start_note(Player &pl, int pi, int ti, Track &tk, int note, int vel,
     }
 
     SdatWave w;
-    if (!sdat_swar_wave(swar, n.swav, &w)) {
+    const int psg = n.type == 2 || n.type == 3;
+    if (psg) {
+        w.pcm = psg_table(n, &w);
+    } else if (!sdat_swar_wave(swar, n.swav, &w)) {
         SD_VT("note p%d t%d key %d DROPPED: wave %d unresolvable\n", pi, ti,
               key, n.swav);
         return;
@@ -632,7 +689,10 @@ void start_note(Player &pl, int pi, int ti, Track &tk, int note, int vel,
     }
 
     const int prio = pl.cpr + tk.priority;
-    int ch = sd_mix_alloc(prio);
+    /* The channel set follows the note type: 0xFFFF sampled, 0x3F00 pulse,
+       0xC000 noise (0x037FD4A0..0x037FD4D0). */
+    int ch = sd_mix_alloc_mask(prio, n.type == 2 ? 0x3f00u
+                                     : n.type == 3 ? 0xc000u : 0xffffu);
     if (ch < 0) {
         SD_VT("note p%d t%d key %d DROPPED: no mixer channel free\n", pi, ti,
               key);
@@ -645,6 +705,7 @@ void start_note(Player &pl, int pi, int ti, Track &tk, int note, int vel,
               g_note[ch].player, g_note[ch].track);
 
     sd_mix_start(ch, &w, &n, db10, pan, rate, prio);
+    if (psg) sd_mix_set_hold(ch);
     sd_mix_set_pitch_base(ch, baseRate, pitchUnits);
     note_env(tk, ch);
     note_sweep(pl, tk, ch, key, ticks);

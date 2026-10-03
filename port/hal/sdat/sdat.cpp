@@ -467,6 +467,20 @@ static void read_note_rec(const sd_u8 *p, SdatNote *n)
     n->pan      = p[9];
 }
 
+/* THE NOTE TYPE. The ARM7's instrument lookup (0x037FE4B0) leaves the type in
+ * the first byte of the record it hands back: the instrument's own type for a
+ * single instrument, the region's own leading u16 for a drum set or key split.
+ * The note-on (0x037FD49C) and the channel start (0x037FE3C4) both switch on
+ * it:
+ *
+ *     1, 4   a sampled channel (0xFFFF = any of the 16)
+ *     2      PSG pulse: the record's first u16 is the DUTY, not a wave index;
+ *            channels 8..13 only (0x3F00)         -> 0x037FC46C
+ *     3      PSG noise: channels 14 and 15 only (0xC000) -> 0x037FC420
+ *
+ * This reader used to treat every type 1..5 as a sampled record, so a pulse
+ * instrument's duty (3 in all but a few of the 27) was read as a wave index
+ * and the note played wave 3 of the linked SWAR instead of a square wave. */
 int sdat_bank_note(const sd_u8 *sbnk, int prog, int note,
                    SdatNote *out, const sd_u8 **swarOut)
 {
@@ -480,12 +494,16 @@ int sdat_bank_note(const sd_u8 *sbnk, int prog, int note,
     if (!type || !off) return 0;
     const sd_u8 *rec = sbnk + off;
 
+    *swarOut = 0;
     if (type >= 1 && type <= 5) {
         read_note_rec(rec, out);
+        out->type = (sd_u8)type;
     } else if (type == 0x10) {              // drum set
         int lo = rec[0], hi = rec[1];
         if (note < lo || note > hi) return 0;
-        read_note_rec(rec + 2 + (note - lo) * 12 + 2, out);
+        const sd_u8 *reg = rec + 2 + (note - lo) * 12;
+        read_note_rec(reg + 2, out);
+        out->type = reg[0];
     } else if (type == 0x11) {              // key split
         int region = -1;
         for (int i = 0; i < 8; i++) {
@@ -493,10 +511,16 @@ int sdat_bank_note(const sd_u8 *sbnk, int prog, int note,
             if (note <= rec[i]) { region = i; break; }
         }
         if (region < 0) return 0;
-        read_note_rec(rec + 8 + region * 12 + 2, out);
+        const sd_u8 *reg = rec + 8 + region * 12;
+        read_note_rec(reg + 2, out);
+        out->type = reg[0];
     } else {
         return 0;
     }
+
+    // PSG notes have no wave: the duty (pulse) or nothing (noise) is all the
+    // record carries, and there is no SWAR to link.
+    if (out->type == 2 || out->type == 3) return 1;
 
     // The linked SWAR comes out of the SBNK's own reserved wave-link slots,
     // which func_0205b78c patched when the game started the sequence -- the
