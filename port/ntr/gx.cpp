@@ -1106,6 +1106,13 @@ int smooth_try(const GxVertex &a, const GxVertex &b, const GxVertex &c,
     }
 
     smooth_count(SMOOTH_COUNT_SUBDIVIDED, 1);
+    /* THE BUDGET'S DEMAND (ntr/smooth.h, THE BUDGET): one curved triangle
+       the tick's own picture asked for. A SmoothMotion replay walks the same
+       stream again and would count the same triangle once per blended
+       picture, so it does not count; the verdict above does not depend on
+       the level the picture is drawn at (the floor is 1), so this is a
+       property of the scene. */
+    if (!g_ip_replaying) smooth_count(SMOOTH_COUNT_DEMAND, 1);
 
     /* THE GEOMETRY is what the store remembers, and this is where a triangle
        that has been seen before costs a lookup instead of a patch. */

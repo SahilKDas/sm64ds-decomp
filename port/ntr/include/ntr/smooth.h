@@ -246,9 +246,51 @@ enum {
     SMOOTH_COUNT_EDGE,
     SMOOTH_COUNT_W,
     SMOOTH_COUNT_MODE3,
-    SMOOTH_COUNT_ORTHO
+    SMOOTH_COUNT_ORTHO,
+    // A curved triangle the TICK'S OWN picture asked to subdivide (a
+    // SmoothMotion replay of the same tick does not count again). This is the
+    // budget's demand, see THE BUDGET below.
+    SMOOTH_COUNT_DEMAND
 };
 void smooth_count(int which, uint64_t n);
+
+// ---------------------------------------------------------------------------
+// THE BUDGET (SM64DS_SMOOTH_BUDGET, in sub-triangles per picture; 0 is off).
+//
+// WHY. The level is a flat multiplier: every curved triangle becomes
+// 4^level sub-triangles, whatever the scene. Ordinary courses at level 3 ask
+// for 450 to 950 curved triangles a picture (29k to 61k sub-triangles) and
+// hold full speed. The castle basement's goo painting is a 25 x 25 wave grid
+// whose 1,150 triangles are ALL curved every frame, and Picture Poker's top
+// screen is the same shape of thing: 1,280 to 1,590 curved triangles, 82k to
+// 102k sub-triangles, 11 to 15 ms of patch maths on one processor thread, and
+// the game slows down (that is where the "slow motion at the goo" reports
+// come from).
+//
+// WHAT IT DOES. Each picture is drawn at ONE level for all of it: the set
+// level, or the highest lower level whose demand (curved triangles x 4^level)
+// fits the budget. The demand is what the previous tick's picture asked for,
+// counted live, so the decision costs one compare per picture and the whole
+// scene steps down together (a goo scene at level 3 looks like level 2, which
+// is what it would look like had the player picked 2) instead of the models
+// drawn last in a picture going flat. It steps down at once and back up one
+// level at a time only after a second of fitting with an eighth of the
+// budget to spare, so a scene on the border does not flicker. The floor is
+// level 1, never 0, so the demand stays a property of the scene and not of
+// the level it is being drawn at (a flat picture would ask for nothing and
+// the next one would jump back up). The first picture after a level change
+// or at boot is drawn at the set level; the count it produces decides the
+// next.
+//
+// WHAT IT DOES NOT TOUCH. The game: the demand is read from the smoother's
+// own verdicts and nothing game-visible is fed from it. Levels whose demand
+// fits: a scene under the budget is drawn exactly as it was, every
+// triangle, every vertex, so the ordinary courses are pixel-identical. The
+// store: the level is part of the key, so grids built at two levels sit
+// side by side and a level change never evicts anything.
+// ---------------------------------------------------------------------------
+int smooth_budget();          // the cap in sub-triangles per picture, 0 off
+int smooth_level_drawn();     // the level this picture is drawn at (<= set)
 
 // Called once per frame from gx_reset. Advances the frame counter and, when
 // the crack census is on, closes the frame's edge book and prints it.

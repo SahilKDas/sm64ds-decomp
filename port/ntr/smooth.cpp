@@ -411,6 +411,15 @@ namespace {
 int g_level = 0;
 SmoothCounters g_counters;
 
+/* THE BUDGET'S STATE (smooth.h, THE BUDGET). g_drawn is the level the
+   current picture is drawn at; g_demand counts the curved triangles the
+   tick's own picture asked for, and is read and cleared at the frame mark. */
+int g_drawn = 0;
+uint64_t g_demand = 0;
+uint64_t g_last_demand = 0;
+int g_budget = -1;
+int g_budget_said = 0;
+
 float env_float(const char *name, float dflt) {
     const char *s = getenv(name);
     if (!s || !*s) return dflt;
@@ -513,10 +522,36 @@ void smooth_configure(int level) {
        clean hook the geometry stage owns. */
     if (level != g_level) smooth_store_clear();
     g_level = level;
+    g_drawn = level;
+    g_demand = 0;
     g_policy.level = level;
 }
 
 int smooth_level() { return g_level; }
+
+int smooth_budget() {
+    if (g_budget < 0) {
+        /* THE NUMBER. Measured on the base build at level 3 with the counters
+           on, 570 pictures a row, idle and moving (the lane report has the
+           rows): castle grounds asks for 450 to 615 curved triangles a
+           picture (29k to 39k sub-triangles), Bob-omb Battlefield 700 to
+           950 (45k to 61k), Whomp's Fortress 650 to 920 (42k to 59k), and
+           all of them hold full speed; the goo painting asks for 1,590
+           (102k) and Picture Poker's top screen 1,280 (82k), and they do
+           not. 72k sits above every ordinary picture measured (the worst,
+           Bob-omb moving, is 61k) and under the two that hurt; at level 2
+           those two ask for 25k and 20k, well inside it. */
+        g_budget = 72000;
+        const char *s = getenv("SM64DS_SMOOTH_BUDGET");
+        if (s && *s) {
+            const int v = atoi(s);
+            g_budget = v < 0 ? 0 : v;
+        }
+    }
+    return g_budget;
+}
+
+int smooth_level_drawn() { return g_drawn; }
 
 const SmoothPolicy &smooth_policy() {
     if (!g_policy_loaded) {
@@ -525,9 +560,59 @@ const SmoothPolicy &smooth_policy() {
         g_policy.max_radius = env_float("SM64DS_SMOOTH_MAX_RADIUS", g_policy.max_radius);
         g_policy.max_edge   = env_float("SM64DS_SMOOTH_MAX_EDGE", g_policy.max_edge);
     }
-    g_policy.level = g_level;
+    /* The level the picture is DRAWN at. With the budget off, or with a
+       scene whose demand fits, this is the set level and the policy is the
+       one it has always been. */
+    g_policy.level = g_drawn;
     return g_policy;
 }
+
+namespace {
+
+/* ONE DECISION PER PICTURE, at the frame mark, from the demand the previous
+   tick's picture produced. DOWN AT ONCE, while the demand at this level is
+   over the budget. UP SLOWLY: one level, after the demand at the next level
+   up has fitted with an eighth to spare for thirty pictures in a row (a
+   second of a course). A scene whose demand swings across the budget from
+   frame to frame (the Bowser arenas, 1,000 to 1,550 curved triangles) would
+   otherwise flip between two levels every few pictures, and a level flip is
+   the one thing in this that a player could see happen. Never below 1,
+   never above the set level. */
+int g_fit_run = 0;
+
+void budget_pick() {
+    const uint64_t n = g_demand;
+    g_last_demand = n;
+    g_demand = 0;
+    const int b = smooth_budget();
+    if (b <= 0 || g_level <= 0) { g_drawn = g_level; g_fit_run = 0; return; }
+    int L = g_drawn;
+    if (L < 1) L = 1;
+    if (L > g_level) L = g_level;
+    while (L > 1 && (n << (2 * L)) > (uint64_t)b) { --L; g_fit_run = 0; }
+    if (L < g_level && (n << (2 * (L + 1))) <= (uint64_t)(b - b / 8)) {
+        if (++g_fit_run >= 30) { ++L; g_fit_run = 0; }
+    } else {
+        g_fit_run = 0;
+    }
+    if (L != g_drawn) {
+        /* Say so once, plainly, the first time a scene is held under the
+           budget; after that the counters line carries it. */
+        if (L < g_level && !g_budget_said) {
+            g_budget_said = 1;
+            fprintf(stderr,
+                    "[smooth] SmoothModels %d: this picture asked for %llu "
+                    "curved triangles (%llu sub-triangles at level %d), over "
+                    "the budget of %d a picture; drawing at level %d until it "
+                    "fits again (SM64DS_SMOOTH_BUDGET, 0 = no budget)\n",
+                    g_level, (unsigned long long)n,
+                    (unsigned long long)(n << (2 * g_level)), g_level, b, L);
+        }
+        g_drawn = L;
+    }
+}
+
+}  // namespace
 
 void smooth_counters(SmoothCounters &out) { out = g_counters; }
 void smooth_counters_reset() {
@@ -728,7 +813,7 @@ void counters_report(uint64_t frame) {
     fprintf(stderr,
             "[smoothcnt] f%llu in %llu out %llu sub %llu | flat %llu nonrm %llu"
             " rad %llu edge %llu w %llu mode3 %llu ortho %llu"
-            " | TOTin %llu TOTout %llu\n",
+            " | TOTin %llu TOTout %llu | demand %llu drawn %d of %d budget %d\n",
             (unsigned long long)frame,
             (unsigned long long)(c.tris_in - prev.tris_in),
             (unsigned long long)(c.tris_out - prev.tris_out),
@@ -740,7 +825,9 @@ void counters_report(uint64_t frame) {
             (unsigned long long)(c.skip_w - prev.skip_w),
             (unsigned long long)(c.skip_mode3 - prev.skip_mode3),
             (unsigned long long)(c.skip_ortho - prev.skip_ortho),
-            (unsigned long long)c.tris_in, (unsigned long long)c.tris_out);
+            (unsigned long long)c.tris_in, (unsigned long long)c.tris_out,
+            (unsigned long long)g_last_demand, g_drawn, g_level,
+            smooth_budget());
     prev = c;
 
     SmoothStoreStats s;
@@ -1032,6 +1119,10 @@ void smooth_prof_add(int bucket, long long dt_ns, unsigned n) {
 
 void smooth_frame_mark() {
     ++g_counters.frames;
+    /* The budget's one decision a picture, BEFORE the counters line so the
+       line reports the demand that was just decided on and the level the
+       coming picture will be drawn at. */
+    budget_pick();
     if (smooth_census_on()) census_report(g_counters.frames);
     if (counters_on()) counters_report(g_counters.frames);
     if (smooth_prof_on()) prof_report(g_counters.frames);
@@ -1060,6 +1151,7 @@ void smooth_count(int which, uint64_t n) {
         case SMOOTH_COUNT_W:           g_counters.skip_w += n; break;
         case SMOOTH_COUNT_MODE3:       g_counters.skip_mode3 += n; break;
         case SMOOTH_COUNT_ORTHO:       g_counters.skip_ortho += n; break;
+        case SMOOTH_COUNT_DEMAND:      g_demand += n; break;
         default: break;
     }
 }
