@@ -5946,6 +5946,34 @@ static const char *scn_bmp_stacked;
    has to present it. */
 static ntr::Framebuffer scn_fb;
 
+/* THE LAYOUT PREDICATE, ONE COPY (run hunt6, lane MGSAVE1). It lived inline in
+   port_scene_layout_propose, which a process asks once at boot. A scene that
+   is reached IN the process (the level-to-scene crossing: the rabbit's Save
+   and play minigames row opens the minigame menu, and the menu then spawns the
+   picked minigame, both without a relaunch) needs the same answer for the
+   scene that comes up, so the predicate is a function and both callers use it.
+   Nothing about the answer changed: propose still takes it for the id the run
+   was asked for, the crossing takes it for the id the ROM asked for. */
+static bool scene_layout_mg_wide(void)
+{
+    const char *e = std::getenv("SM64DS_MG_WIDE");
+    return e && *e && *e != '0';
+}
+
+extern "C" int port_scene_layout_two_screen(int scene)
+{
+    return scene >= 0 &&
+           (IsMinigameActorID((unsigned)scene) || scene == 1 ||
+            (ntr::widescreen && !scene_layout_mg_wide()));
+}
+
+/* the presentation field for the same scene: every scene is the DS's own 4:3
+   centred in the wide framebuffer, only a level keeps the wide field */
+extern "C" int port_scene_layout_native(int scene)
+{
+    return scene >= 0 && !scene_layout_mg_wide();
+}
+
 /* THE LAYOUT, PROPOSED FROM THE ROM'S OWN PREDICATE. src/IsMinigameActorID.c
    is `id >= 0x169 && id <= 0x186` and it is already what gates the ov006
    overlay constructors (hal/scene_mg.cpp's port_scene_mg_prepare), so the
@@ -6016,13 +6044,8 @@ extern "C" void port_scene_layout_propose(void)
        SM64DS_MG_WIDE=1 puts the whole widescreen treatment back for one run --
        both the field below and this layout term -- so the before and the after
        can be captured off ONE binary. Unset is the ruling. */
-    const bool mg_wide = [] {
-        const char *e = std::getenv("SM64DS_MG_WIDE");
-        return e && *e && *e != '0';
-    }();
-    const int two_screen = scene >= 0 &&
-                           (IsMinigameActorID((unsigned)scene) || scene == 1 ||
-                            (ntr::widescreen && !mg_wide));
+    const bool mg_wide = scene_layout_mg_wide();
+    const int two_screen = port_scene_layout_two_screen(scene);
     /* AND THE PRESENTATION WIDTH, decided in the same place and from the same
        predicate, because it is the same kind of fact: a per-scene answer the
        host has to know before the first frame.

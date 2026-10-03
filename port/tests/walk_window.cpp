@@ -9392,6 +9392,53 @@ static void host_layout_follow_scene(HWND hwnd, int two_screen, const char *what
     fflush(stderr);
 }
 
+/* ---- THE LEVEL-TO-SCENE CROSSING'S RE-DERIVE POINT (run hunt6, lane MGSAVE1)
+ *
+ * A second member of the family host_layout_follow_scene's banner describes:
+ * hal/level_change.cpp's crossing replaces the scene under the window WITHOUT
+ * starting a process. The rabbit's "save and play minigames" row asks for scene
+ * 5 (the minigame menu) from inside the adventure; the menu then asks for the
+ * minigame the player touched; the minigame's own exit hands a level back. Every
+ * one of those scenes ran in the adventure's window and the adventure's
+ * corner-inset layout, so the menu's bottom screen (the one the player has to
+ * touch) sat in a 128x96 corner and a picked minigame, which is always laid out
+ * both-screens-full-size, did too. Reported as "the game never swaps the screen
+ * positioning to the ones used in other scenes".
+ *
+ * THE ANSWER IS THE ONE A PROCESS THAT STARTED ON THAT SCENE WOULD HAVE GIVEN,
+ * because it is the same predicate: hal/scene_boot.cpp's
+ * port_scene_layout_two_screen / port_scene_layout_native, which
+ * port_scene_layout_propose itself now calls. `scene` is the id the ROM asked
+ * for (data_02092664) or -1 for the level the crossing hands back to, where
+ * both answers are no. The re-shape is host_layout_follow_scene's, unchanged.
+ *
+ * AFTER ITS CALL THE FIELD IS SET FROM THE NATIVE PREDICATE, not from the
+ * layout answer host_layout_follow_scene stores there: the two agree wherever
+ * the setting is on, and differ only under SM64DS_MG_WIDE=1, where propose's
+ * own answer is the one a scene run gets. */
+extern "C" int port_scene_layout_two_screen(int scene);   /* hal/scene_boot.cpp */
+extern "C" int port_scene_layout_native(int scene);       /* hal/scene_boot.cpp */
+
+static void port_crossing_scene_layout(int scene)
+{
+    if (!g_present_hwnd)
+        return;                 /* no window: the headless frame has no shape */
+    char what[32];
+    if (scene < 0)
+        snprintf(what, sizeof what, "the level");
+    else
+        snprintf(what, sizeof what, "scene %d", scene);
+    host_layout_follow_scene(g_present_hwnd, port_scene_layout_two_screen(scene),
+                             what);
+    ntr::set_present_native(port_scene_layout_native(scene) != 0);
+}
+
+/* handed to hal/level_change.cpp through a pointer (it is on the smoke targets,
+   this file is not), seated at static init like port_title_front_door_hook */
+extern "C" void (*port_crossing_scene_layout_hook)(int scene);
+static const int port_crossing_scene_layout_seated =
+    (port_crossing_scene_layout_hook = port_crossing_scene_layout, 1);
+
 /* camera folded into the GX projection matrix: P(perspective) * V(lookAt),
    built in floats and pushed as 4096-fixed.
    ITS CALLERS THINK IN WORLD UNITS and the frame is drawn in SCENE units
