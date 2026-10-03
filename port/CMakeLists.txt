@@ -7058,10 +7058,15 @@ endif()
 # quoting a register does not count as a writer. Twelve ov007 translation
 # units reach a geometry command port that way; they are all here. THE THREE
 # ov007 DIVIDER TUs THAT THE SAME SCAN FOUND (func_ov007_020c30ac,
-# _020c31e0, _020c7d60) ARE DELIBERATELY NOT IN THIS SET: they are the
-# DIV/SQRT unit, run mg15's SQRT lane owns that register block in the same
+# _020c31e0, _020c7d60) WERE DELIBERATELY NOT IN THIS SET: they are the
+# DIV/SQRT unit, run mg15's SQRT lane owned that register block in the same
 # wave, and two lanes routing the same class in one run is how a duplicate
-# symbol arrives. They are recorded in this lane's results for the next wave.
+# symbol arrives. They were recorded in this lane's results for the next wave.
+# Since run hunt5 lane DRAW1 one of them, func_ov007_020c31e0 (the title
+# drawing's nearest-point finder), IS routed, through its own
+# list(APPEND PORT_HOSTGEN_TU ...) line beside the other whole-TU hostgen
+# sources near the top of this file, not through this TITEX set. The other
+# two (func_ov007_020c30ac, func_ov007_020c7d60) are still built plain.
 #
 # THE KILL SWITCH IS -DTITEX_GX_PLAIN=ON and it gives the plain arm back on the
 # same tree, which is what a build-time routing can honestly offer. It is a
