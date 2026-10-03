@@ -2895,16 +2895,41 @@ static void frame_pace(void)
 {
     static LARGE_INTEGER qpf, next;
     static int trace = -1;
+    static int fix = -1;         /* SM64DS_PACE_FIX=0: the per-turn reset */
+    static int pace_frame = -1;  /* the tick the turns below are counted in */
+    static int turn;             /* pump turns this tick has had so far */
     LARGE_INTEGER now;
 
     if (trace < 0) {
         const char *e = getenv("SM64DS_TRACE_PACE");
         trace = e ? atoi(e) : 0;
+        e = getenv("SM64DS_PACE_FIX");
+        fix = (e && e[0] == '0' && e[1] == '\0') ? 0 : 1;
     }
     pt_mark(PS_PACE);
     if (!qpf.QuadPart) QueryPerformanceFrequency(&qpf);
     QueryPerformanceCounter(&now);
     g_ip_pace_seen = now.QuadPart;
+
+    /* THE TICK'S LAST TURN (run hunt5, lane PACE1). Under the ROM's own frame
+       loop the pump above paces ONE VBLANK per turn and the ROM's wake needs
+       port_frame_divider() of them (hal/boot2_thread.cpp step 4: one edge per
+       halt, the handler wakes the frame at data_0208ee44 edges), so a course
+       tick is two turns of this function and the ending's is three. Every
+       other caller -- the host loop, the scene loop, the level loop's own
+       call -- paces a whole tick in one turn. The count restarts when the
+       ROM's frame number moves, which it does once per tick at phase 6
+       (hal/rom_frame.cpp port_rom_frame_phase6), before the tick's wait. */
+    const int turns = g_pace_div_override ? port_frame_divider() : 1;
+    {
+        const int f = port_rom_frame();
+        if (f != pace_frame) {
+            pace_frame = f;
+            turn = 0;
+        }
+        ++turn;
+    }
+    const int last = turn >= turns;
 
     /* RUNG E1 (lane R3E). port_frame_divider() is VBLANKS PER GAME TICK, so
        this budget is a whole game frame -- right while this loop calls the pump
@@ -2927,7 +2952,31 @@ static void frame_pace(void)
     } else {
         next.QuadPart += step;
         if (next.QuadPart <= now.QuadPart) {
-            next.QuadPart = now.QuadPart;   /* overran: reset, do not sprint */
+
+            /* THE OVERRUN, AND WHICH TURN SEES IT (run hunt5, lane PACE1).
+               The tick's work ran before its first turn, so a tick that takes
+               longer than one VBLANK arrives here on turn 1 with `next` behind.
+               Resetting on that turn threw the VBLANK that elapsed during the
+               work away: turn 2 then slept a whole slice from the reset point
+               and the tick cost work + 16.65 ms where the cartridge's handler
+               (src/_ZN3IRQ13VBlankHandlerEv.cpp) counts every VBLANK the work
+               overlapped and wakes the frame at the second one -- 33.3 ms for
+               any work under 33.3. Measured at the castle basement's goo
+               painting with SmoothModels 3: 31 ms of work made a 49.9 ms tick
+               (20 ticks a second) under this loop and a 34.9 ms tick under the
+               host loop, which paces a whole tick per turn; the fleet's
+               performance reports put 28.7% of all course windows in that
+               band (work between one and two VBLANKs, a steady 30 lost).
+               So the reset is the LAST turn's alone. An earlier turn leaves
+               `next` where the grid put it and sleeps nothing, and the last
+               turn either sleeps to the tick's real end or, when the whole
+               tick overran its budget, resets there as it always did: a hitch
+               is still not a debt and a tick is still never sprinted. The
+               budget is unchanged for every tick whose work fits in one
+               VBLANK (both turns sleep as before) and for every one-turn
+               caller. SM64DS_PACE_FIX=0 keeps the per-turn reset. */
+            if (last || !fix)
+                next.QuadPart = now.QuadPart;   /* overran: reset, do not sprint */
         } else {
             const double ms =
                 (next.QuadPart - now.QuadPart) * 1000.0 / (double)qpf.QuadPart;
@@ -2967,8 +3016,8 @@ static void frame_pace(void)
        SM64DS_TRACE_PACE=1 is the cheap one: a rate over the last 120 frames,
        which is the number to quote. */
     if (trace >= 2)
-        fprintf(stderr, "[pace] div=%d budget=%.2f slept=%.2f\n",
-                div, budget, slept);
+        fprintf(stderr, "[pace] div=%d budget=%.2f slept=%.2f turn=%d/%d\n",
+                div, budget, slept, turn, turns);
 }
 
 /* THE FRAME CLOCK'S OWN REPORT, and it is deliberately NOT part of frame_pace
