@@ -3080,6 +3080,9 @@ extern "C" int data_0208ee44;
 /* hal/actor_classes_painting.cpp: the bss clear the cartridge's overlay load
    performs on ov080, which the port's empty LoadOverlay face does not. */
 extern "C" void port_painting_texcache_overlay_load(int id);
+/* hal/actor_classes_ov073.cpp: the same bss clear for ov073's ice-block instance
+   counters (Chief Chilly Challenge). */
+extern "C" void port_ov073_overlay_load(int id);
 
 /* The actor death table and the two per-level words the sublevel clear owns
    (Stage::InitResources:188-196). Read here by the watch and the seed below;
@@ -3350,6 +3353,7 @@ extern "C" void *port_stage_boot_body(void *mc, int spawn)
        with it cold and re-uploads the picture to the current VRAM cursor.
        hal/actor_classes_painting.cpp has the whole reading. */
     port_painting_texcache_overlay_load(80);
+    port_ov073_overlay_load(73);
 
     /* STAGE B: THE TABLES ARE BACK ON. Stage A1 zeroed the Entrance, Door and
        Exit counts in the host copy of the overlay and dropped the sub-table
