@@ -986,7 +986,14 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
         return 0;
     }
 
+    /* ZEROED FIRST. The store hashes the key's bytes, padding included (two
+       bytes between the int16 positions and the normals), and a key built on
+       the stack over whatever the last triangle left there hashed the same
+       shape to different slots: on Bob-omb Battlefield that turned 1,200
+       distinct shapes into 14,000 misses. The compare is on the fields, so
+       nothing was ever replayed wrongly; it was only ever found by luck. */
     SmoothKey key;
+    std::memset(&key, 0, sizeof key);
     const GxRaw *r[3] = {&ra, &rb, &rc};
     for (int i = 0; i < 3; ++i) {
         key.p[i][0] = r[i]->x; key.p[i][1] = r[i]->y; key.p[i][2] = r[i]->z;
@@ -996,6 +1003,8 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
 
     const long long t_sub = prof ? smooth_prof_ticks() : 0;
     const SmoothEntry *e = smooth_store_find(key);
+    float pts[SMOOTH_MAX_GRID * 3];
+    const float *grid;
     if (!e) {
         /* THE ONCE. Build the corners in the model's own space out of the
            display list's own numbers -- the same FX12 scaling project() puts
@@ -1011,13 +1020,25 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
             raw_normal(r[i]->nrm, l[i].nx, l[i].ny, l[i].nz);
             l[i].u = 0.0f; l[i].v = 0.0f; l[i].color = 0;
         }
-        float pts[SMOOTH_MAX_GRID * 3];
         smooth_grid_positions(l[0], l[1], l[2], tf, pts);
-        e = smooth_store_add(key, tf, pts);
-        if (!e) return 0;
+        /* KEPT ON THE SECOND SIGHTING (ntr/smooth.h, smooth_store_miss). The
+           goo painting's vertices move every frame, so its keys are new
+           every picture and a grid kept for them is never asked for again;
+           a static shape is asked for again on the next picture and is kept
+           then. Either way THIS picture draws from the grid just built, the
+           same floats the pool would hold, so what reaches the raster does
+           not depend on whether the grid was kept. */
+        if (smooth_store_miss(key)) {
+            e = smooth_store_add(key, tf, pts);
+            if (!e) return 0;
+            grid = smooth_store_grid(e);
+        } else {
+            grid = pts;
+        }
+    } else {
+        if (e->tf != tf) return 0;     /* built at another level: rebuild live */
+        grid = smooth_store_grid(e);
     }
-    if (e->tf != tf) return 0;     /* built at another level: rebuild live */
-    const float *grid = smooth_store_grid(e);
     if (!grid) return 0;
 
     if (smooth_abdiff_on()) {

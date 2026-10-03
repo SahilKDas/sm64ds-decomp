@@ -835,7 +835,7 @@ void counters_report(uint64_t frame) {
     fprintf(stderr,
             "[smoothstore] f%llu hits %llu misses %llu entries %llu "
             "bytes %llu cap %llu clears %llu | live %llu crossmtx %llu "
-            "nonsim %llu zeronrm %llu\n",
+            "nonsim %llu zeronrm %llu | held %llu purges %llu\n",
             (unsigned long long)frame,
             (unsigned long long)s.hits, (unsigned long long)s.misses,
             (unsigned long long)s.entries, (unsigned long long)s.bytes,
@@ -843,7 +843,8 @@ void counters_report(uint64_t frame) {
             (unsigned long long)s.live_calls,
             (unsigned long long)s.skip_crossmtx,
             (unsigned long long)s.skip_nonsim,
-            (unsigned long long)s.skip_zeronrm);
+            (unsigned long long)s.skip_zeronrm,
+            (unsigned long long)s.held, (unsigned long long)s.purges);
     fprintf(stderr,
             "[smoothwhy] f%llu cross corner %llu normal %llu stale %llu | "
             "nonsim len %llu ortho %llu vec %llu\n",
@@ -946,50 +947,134 @@ void smooth_store_clear() {
     ++g_st.clears;
 }
 
-const SmoothEntry *smooth_store_find(const SmoothKey &k) {
-    if (g_st_table.empty()) { ++g_st.misses; return 0; }
+namespace {
+
+/* The slot of `k`, kept or grid-less, or -1. The hash only picks a start;
+   every candidate is compared against the whole key. */
+int32_t store_slot(const SmoothKey &k) {
+    if (g_st_table.empty()) return -1;
     uint32_t s = key_hash(k) & g_st_mask;
     for (;;) {
         const int32_t i = g_st_table[s];
-        if (i < 0) { ++g_st.misses; return 0; }
-        if (key_equal(g_st_entry[(size_t)i].key, k)) {
-            ++g_st.hits;
-            return &g_st_entry[(size_t)i];
-        }
+        if (i < 0) return -1;
+        if (key_equal(g_st_entry[(size_t)i].key, k)) return i;
         s = (s + 1) & g_st_mask;
     }
+}
+
+/* THE CAP'S FIRST RESORT: drop the grid-less notes (shapes seen once and
+   never again, which at the goo painting is 1,150 new ones a picture) and
+   keep every grid. The pool is untouched, the entry rows are compacted and
+   the table rebuilt, so a static model's grid survives the painting. */
+void store_purge_notes() {
+    std::vector<SmoothEntry> kept;
+    kept.reserve(g_st_entry.size());
+    for (size_t i = 0; i < g_st_entry.size(); ++i)
+        if (g_st_entry[i].tf > 0) kept.push_back(g_st_entry[i]);
+    g_st_entry.swap(kept);
+    store_rehash(g_st_entry.size() + 64);
+    g_st.entries = g_st_entry.size();
+    g_st.bytes = store_bytes();
+    ++g_st.purges;
+}
+
+/* Append a row for `k` and index it. */
+SmoothEntry &store_append(const SmoothKey &k) {
+    if (g_st_table.empty() || g_st_entry.size() * 2 + 2 > g_st_table.size())
+        store_rehash(g_st_entry.size() + 64);
+    SmoothEntry e;
+    e.key = k;
+    e.tf = 0;
+    e.off = 0;
+    e.pic = 0;
+    g_st_entry.push_back(e);
+    uint32_t s = key_hash(k) & g_st_mask;
+    while (g_st_table[s] >= 0) s = (s + 1) & g_st_mask;
+    g_st_table[s] = (int32_t)(g_st_entry.size() - 1);
+    return g_st_entry.back();
+}
+
+}  // namespace
+
+const SmoothEntry *smooth_store_find(const SmoothKey &k) {
+    const int32_t i = store_slot(k);
+    /* A grid-less note is a miss to the caller: it has nothing to replay.
+       smooth_store_miss is where the note is read. */
+    if (i < 0 || g_st_entry[(size_t)i].tf <= 0) { ++g_st.misses; return 0; }
+    ++g_st.hits;
+    return &g_st_entry[(size_t)i];
+}
+
+int smooth_store_miss(const SmoothKey &k) {
+    const uint32_t pic = (uint32_t)g_counters.frames + 1;   /* never 0 */
+    const int32_t i = store_slot(k);
+    if (i >= 0) {
+        SmoothEntry &e = g_st_entry[(size_t)i];
+        /* Seen before in one of the TWO PREVIOUS pictures: keep it this
+           time. The same picture (a second instance of the shape, or a
+           SmoothMotion replay of the same tick) does not count: the
+           painting's keys come back in every replay of the tick that
+           invented them. Nor does a sighting further back: the goo's wave
+           is periodic and a few hundred of its keys a picture come round
+           again after some seconds, and a grid kept for each of those
+           filled the pool just the same, only slower. A static shape is on
+           screen on consecutive pictures and is kept on its second; a
+           shape that drops out and comes back a second later is noted
+           again and kept on the picture after that. */
+        if (e.tf <= 0 && e.pic != pic) {
+            if (pic - e.pic <= 2u) return 1;
+            e.pic = pic;
+        }
+        ++g_st.held;
+        return 0;
+    }
+    /* First sighting: a 48-byte note, no grid. Under the cap the notes go
+       first; a cap too small for even the notes keeps nothing, which is the
+       live path's own behaviour and costs no more than it. */
+    if (store_bytes() + sizeof(SmoothEntry) > store_cap_bytes()) {
+        store_purge_notes();
+        if (store_bytes() + sizeof(SmoothEntry) > store_cap_bytes()) {
+            ++g_st.held;
+            return 0;
+        }
+    }
+    SmoothEntry &e = store_append(k);
+    e.pic = pic;
+    g_st.entries = g_st_entry.size();
+    g_st.bytes = store_bytes();
+    ++g_st.held;
+    return 0;
 }
 
 const SmoothEntry *smooth_store_add(const SmoothKey &k, int tf,
                                     const float *grid) {
     const int npts = (tf > 1 && grid) ? smooth_grid_points(tf) : 0;
     const size_t add = sizeof(SmoothEntry) + (size_t)npts * 3 * sizeof(float);
-    /* EVICTION IS A CLEAR. Every entry is equally cheap to rebuild (one patch
-       and one grid), the working set of a level is far below the cap, and an
-       LRU would cost more bookkeeping per lookup than the work it saves. So
-       the full pool empties, once, loudly enough to be counted. */
+    /* EVICTION IS A CLEAR, after the notes have gone. Every grid is equally
+       cheap to rebuild (one patch and one grid), the working set of a level
+       is far below the cap, and an LRU would cost more bookkeeping per
+       lookup than the work it saves. So the grid-less notes go first, and if
+       that is not enough the full pool empties, once, loudly enough to be
+       counted. */
     if (store_bytes() + add > store_cap_bytes()) {
-        smooth_store_clear();
-        if (add > store_cap_bytes()) return 0;
+        store_purge_notes();
+        if (store_bytes() + add > store_cap_bytes()) {
+            smooth_store_clear();
+            if (add > store_cap_bytes()) return 0;
+        }
     }
-    if (g_st_table.empty() || g_st_entry.size() * 2 + 2 > g_st_table.size())
-        store_rehash(g_st_entry.size() + 64);
-
-    SmoothEntry e;
-    e.key = k;
+    /* The key's own note, if it has one, becomes the entry: no twin rows. */
+    const int32_t have = store_slot(k);
+    SmoothEntry &e = (have >= 0 && g_st_entry[(size_t)have].tf <= 0)
+                     ? g_st_entry[(size_t)have] : store_append(k);
     e.tf = npts ? tf : 1;
     e.off = (uint32_t)g_st_pool.size();
     if (npts) g_st_pool.insert(g_st_pool.end(), grid, grid + npts * 3);
-    g_st_entry.push_back(e);
-
-    uint32_t s = key_hash(k) & g_st_mask;
-    while (g_st_table[s] >= 0) s = (s + 1) & g_st_mask;
-    g_st_table[s] = (int32_t)(g_st_entry.size() - 1);
 
     ++g_st.inserts;
     g_st.entries = g_st_entry.size();
     g_st.bytes = store_bytes();
-    return &g_st_entry.back();
+    return &e;
 }
 
 const float *smooth_store_grid(const SmoothEntry *e) {

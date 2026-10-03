@@ -370,9 +370,31 @@ struct SmoothKey {
 
 struct SmoothEntry {
     SmoothKey key;
-    int32_t tf;          // the factor the grid was built at
+    int32_t tf;          // the factor the grid was built at; 0 = seen once, no grid yet
     uint32_t off;        // first float of this entry's grid in the pool
+    uint32_t pic;        // the picture that first saw it (smooth_store_miss)
 };
+
+// A SHAPE IS KEPT ON ITS SECOND SIGHTING, NOT ITS FIRST. The castle
+// basement's goo painting moves its 625 vertices every frame, so every one
+// of its 1,150 triangles is a new key every picture: 32,000 misses in 37
+// frames, each one a 45-point grid into the pool, 19 MB of the 32 MB cap,
+// then a clear that threw away every static model's grid along with them,
+// so those were rebuilt too. A grid that will never be asked for again is
+// not worth keeping; a grid that will be is asked for again on the very
+// next picture. So on a miss the caller builds the grid, draws from it (the
+// SAME floats the pool would have held, so the picture does not depend on
+// whether the grid was kept) and calls smooth_store_miss: the first time a
+// key is seen it is noted in a grid-less entry stamped with the picture and
+// the answer is 0, keep nothing; seen again in one of the next two pictures
+// the answer is 1 and the caller adds the grid for real (further apart than
+// that it is noted afresh: the wave's keys do come round again, seconds
+// later). The painting's keys are never seen twice in a row; a goomba's are
+// seen on its second frame. The price of the
+// rule is one extra live build per static shape, once, and the grid-less
+// notes are what the cap purges first (SmoothStoreStats::purges) before it
+// ever empties a grid.
+int smooth_store_miss(const SmoothKey &k);
 
 // WHAT IS DELIBERATELY NOT IN HERE: the policy verdict. An earlier version of
 // this store remembered all of it, including whether the three corner normals
@@ -416,6 +438,8 @@ struct SmoothStoreStats {
     uint64_t nonsim_vec;      // the vector matrix carries a different rotation
     uint64_t entries;
     uint64_t bytes, cap_bytes;
+    uint64_t held;            // first sightings drawn but not kept (smooth_store_miss)
+    uint64_t purges;          // cap reached: the grid-less notes were dropped, grids kept
 };
 void smooth_store_stats(SmoothStoreStats &out);
 // The geometry stage bumps the four skip rows through this, so gx.cpp holds
