@@ -440,6 +440,7 @@ struct SmoothStoreStats {
     uint64_t bytes, cap_bytes;
     uint64_t held;            // first sightings drawn but not kept (smooth_store_miss)
     uint64_t purges;          // cap reached: the grid-less notes were dropped, grids kept
+    uint64_t sweeps;          // old grid-less notes dropped early (too old to become a grid)
 };
 void smooth_store_stats(SmoothStoreStats &out);
 // The geometry stage bumps the four skip rows through this, so gx.cpp holds

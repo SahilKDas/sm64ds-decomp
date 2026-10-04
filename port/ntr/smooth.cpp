@@ -844,7 +844,8 @@ void counters_report(uint64_t frame) {
             (unsigned long long)s.skip_crossmtx,
             (unsigned long long)s.skip_nonsim,
             (unsigned long long)s.skip_zeronrm,
-            (unsigned long long)s.held, (unsigned long long)s.purges);
+            (unsigned long long)s.held, (unsigned long long)s.purges,
+            (unsigned long long)s.sweeps);
     fprintf(stderr,
             "[smoothwhy] f%llu cross corner %llu normal %llu stale %llu | "
             "nonsim len %llu ortho %llu vec %llu\n",
@@ -870,6 +871,9 @@ std::vector<int32_t> g_st_table;       // open-addressed index, -1 empty
 std::vector<float> g_st_pool;          // every grid, back to back
 uint32_t g_st_mask;                    // g_st_table.size() - 1
 SmoothStoreStats g_st;
+uint64_t g_st_notes;                   // grid-less notes among g_st_entry
+uint64_t g_st_sweep_at = 16384;        // notes held before the next sweep of the old ones
+uint32_t g_st_sweep_pic;               // the picture that last swept
 int g_st_cap_loaded;
 
 size_t store_cap_bytes() {
@@ -944,6 +948,7 @@ void smooth_store_clear() {
     g_st_mask = 0;
     g_st.entries = 0;
     g_st.bytes = 0;
+    g_st_notes = 0;
     ++g_st.clears;
 }
 
@@ -962,19 +967,32 @@ int32_t store_slot(const SmoothKey &k) {
     }
 }
 
-/* THE CAP'S FIRST RESORT: drop the grid-less notes (shapes seen once and
-   never again, which at the goo painting is 1,150 new ones a picture) and
-   keep every grid. The pool is untouched, the entry rows are compacted and
-   the table rebuilt, so a static model's grid survives the painting. */
-void store_purge_notes() {
+/* DROP NOTES. keep_from == 0 drops every grid-less note (THE CAP'S FIRST
+   RESORT: shapes seen once and never again, which at the goo painting is
+   1,150 new ones a picture, and keep every grid); otherwise a note is kept
+   while a second sighting could still make a grid of it, that is while it
+   is no more than two pictures old (smooth_store_miss), and older ones go.
+   The pool is untouched, the entry rows are compacted and the table
+   rebuilt, so a static model's grid survives the painting. */
+void store_drop_notes(uint32_t keep_from) {
     std::vector<SmoothEntry> kept;
     kept.reserve(g_st_entry.size());
-    for (size_t i = 0; i < g_st_entry.size(); ++i)
-        if (g_st_entry[i].tf > 0) kept.push_back(g_st_entry[i]);
+    uint64_t notes = 0;
+    for (size_t i = 0; i < g_st_entry.size(); ++i) {
+        const SmoothEntry &e = g_st_entry[i];
+        if (e.tf > 0) { kept.push_back(e); continue; }
+        if (keep_from && e.pic >= keep_from) { kept.push_back(e); ++notes; }
+    }
     g_st_entry.swap(kept);
     store_rehash(g_st_entry.size() + 64);
+    g_st_notes = notes;
     g_st.entries = g_st_entry.size();
     g_st.bytes = store_bytes();
+}
+
+/* The cap's first resort, counted. */
+void store_purge_notes() {
+    store_drop_notes(0);
     ++g_st.purges;
 }
 
@@ -1028,6 +1046,20 @@ int smooth_store_miss(const SmoothKey &k) {
         ++g_st.held;
         return 0;
     }
+    /* OLD NOTES GO EARLY. A note more than two pictures old can no longer
+       become a grid (a sighting that late is noted afresh, above), so it is
+       worth exactly what no note is worth. At the goo painting they are 1,150
+       a picture and, left to the cap, filled 28 MB and then went in one sweep
+       of half a million rows: a 55 ms stall every 600 pictures. So once
+       16,384 notes are held (or twice what the last sweep left, so a scene
+       whose notes are all young does not sweep on every miss) the old ones
+       are dropped, a sweep of a few thousand rows a dozen pictures apart. */
+    if (g_st_notes >= g_st_sweep_at && g_st_sweep_pic != pic) {
+        g_st_sweep_pic = pic;
+        store_drop_notes(pic > 2u ? pic - 2u : 1u);
+        g_st_sweep_at = g_st_notes * 2 > 16384 ? g_st_notes * 2 : 16384;
+        ++g_st.sweeps;
+    }
     /* First sighting: a 48-byte note, no grid. Under the cap the notes go
        first; a cap too small for even the notes keeps nothing, which is the
        live path's own behaviour and costs no more than it. */
@@ -1040,6 +1072,7 @@ int smooth_store_miss(const SmoothKey &k) {
     }
     SmoothEntry &e = store_append(k);
     e.pic = pic;
+    ++g_st_notes;
     g_st.entries = g_st_entry.size();
     g_st.bytes = store_bytes();
     ++g_st.held;
@@ -1065,8 +1098,9 @@ const SmoothEntry *smooth_store_add(const SmoothKey &k, int tf,
     }
     /* The key's own note, if it has one, becomes the entry: no twin rows. */
     const int32_t have = store_slot(k);
-    SmoothEntry &e = (have >= 0 && g_st_entry[(size_t)have].tf <= 0)
-                     ? g_st_entry[(size_t)have] : store_append(k);
+    const bool was_note = have >= 0 && g_st_entry[(size_t)have].tf <= 0;
+    if (was_note && g_st_notes) --g_st_notes;
+    SmoothEntry &e = was_note ? g_st_entry[(size_t)have] : store_append(k);
     e.tf = npts ? tf : 1;
     e.off = (uint32_t)g_st_pool.size();
     if (npts) g_st_pool.insert(g_st_pool.end(), grid, grid + npts * 3);
