@@ -2258,6 +2258,16 @@ const void *port_scene_framebuffer(void);    /* hal/scene_boot.cpp */
 int hal_sub_screen_write_bmp(const char *path);   /* hal/sub_screen.cpp */
 }
 
+/* THE CROSSING'S PRESENTATION POINT (run hunt6, lane MGSAVE1). The scene a
+   crossing runs is a scene like any other, and the window it runs in has to be
+   shaped for it the way a process that started on it would have been: the
+   minigame menu and every minigame the menu spawns are two-screen scenes, the
+   level the crossing hands back to is not. tests/walk_window.cpp owns the
+   window and answers this; level_change.cpp is also linked into targets that
+   have no window, so it is a pointer the window seats at static init (the
+   port_interlude_frame_hook shape) and a target without one leaves it 0. */
+extern "C" void (*port_crossing_scene_layout_hook)(int scene) = 0;
+
 static int g_crossing_live;       /* the reap pump is running: slot 3 may run
                                      the ROM's own body (hal/stage_bridges.cpp) */
 /* g_crossed_scenes (defined above port_level_change_apply): a crossing
@@ -2428,7 +2438,20 @@ static int port_level_scene_crossing(void)
     unsigned was_pending = 0xffffu, was_latch = 0xffu;
     int was_level = -2;
     int f = 0, closed = 0, handed = 0;
+    unsigned layout_for = 0xffffu;
     for (; cap <= 0 || f < cap; ++f) {
+        /* THE WINDOW FOLLOWS THE SCENE ABOUT TO SPAWN. The old scene is gone
+           (spawned latch clear) and a real id is pending: that is the frame
+           before Scene::SpawnIfNecessary brings the next scene up, so the
+           layout, the present field and the window shape are re-derived for
+           it here, once per scene. At the first frame this is the scene the
+           crossing was entered for; later it is the minigame the menu picked. */
+        if (data_02092660 == 0 && data_02092664 != 0x187 &&
+            data_02092664 != layout_for) {
+            layout_for = data_02092664;
+            if (port_crossing_scene_layout_hook)
+                port_crossing_scene_layout_hook((int)layout_for);
+        }
         if (port_interlude_frame_hook) {
             if (port_interlude_frame_hook(f)) {
                 closed = 1;
@@ -2474,6 +2497,9 @@ static int port_level_scene_crossing(void)
            no for a used file (CONTINUE reads bit 7 set), for SM64DS_SKIP_INTRO,
            and for a mode other than 0; the ROM's gate decides the rest. */
         port_intro_arm_for_entry();
+        /* the level boots in a window shaped for a level again */
+        if (port_crossing_scene_layout_hook)
+            port_crossing_scene_layout_hook(-1);
         return 1;
     }
     std::fprintf(stderr, "[cross] %s at crossing frame %d (pending scene %u, "
