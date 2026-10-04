@@ -977,7 +977,37 @@ extern "C" { int overlay_60, overlay_98; }
    The observable each face has to reproduce is nothing: three return void and
    the fourth is void, none has an out-parameter, and the ROM's own answer when
    the overlay is not resident is to do nothing. */
-extern "C" void LoadOverlay(int)                       {}
+/* THE ONE LOAD THIS FACE DOES ANSWER: ov006, the minigame overlay (run hunt6,
+   lane MGSAVE1). On the cartridge LoadOverlay's visible effect is that the
+   overlay's static-init range runs before the scene factory is reached, and
+   the ROM asks for it through exactly one path: func_0201a694 (src/
+   func_0201a694.c, the pre-spawn hook func_0201a5cc seats in data_020a4b58)
+   -> GetSceneOverlayID(id) == &overlay_6 for 0x169..0x186 -> func_0201a798
+   (src/func_0201a798.c), which loads ov004 and then ov006. The port's mounts
+   are static arrays, so the only part of that load with anything to do is the
+   thirty-five constructors, and those are hal/scene_mg.cpp's
+   port_scene_mg_overlay_load (once per process, in the ROM's ov004-then-ov006
+   order).
+   WHY THE FACE HAS TO ASK FOR THEM. The port's own hook for that slot,
+   port_prespawn_hook (hal/actor_registry.cpp), runs them -- but only while it
+   is the occupant. A boot that goes through the title (every player's launch)
+   runs func_0201a5cc AFTER the registry installs the port's hook (the ROM's
+   own func_0201a054 tail, hal/boot_os.cpp port_boot_rom_game_init_tail), so the
+   ROM's func_0201a694 is the occupant for the whole session, reaches this
+   face for overlay_6, and nothing ran the constructors: the minigame graphics
+   block (data_ov004_020beb74) kept a zero vtable word and the first frame of
+   the picked minigame called through it (func_02019404, access 4). Reported as
+   "selecting a minigame closes the game" after Save and play minigames.
+   overlay_4 is not asked: func_0201a798 loads ov004 and ov006 in one go and
+   port_scene_mg_overlay_load runs both overlays' constructors in that order,
+   so asking on ov006 alone is the DS's own sequence, once. */
+extern "C" void port_scene_mg_overlay_load(void);     /* hal/scene_mg.cpp */
+extern "C" int overlay_6;                             /* hal/boot_globals.cpp */
+extern "C" void LoadOverlay(int id)
+{
+    if (id == (int)(size_t)&overlay_6)
+        port_scene_mg_overlay_load();
+}
 /* func_02017e94's face MOVED (run link100, lane LOADOV) and did not retire: it
    is hal/nitrofs_face.cpp's now, on smoke_player alone, and the two window
    targets link the ROM's own src/func_02017e94.c through
@@ -5916,6 +5946,34 @@ static const char *scn_bmp_stacked;
    has to present it. */
 static ntr::Framebuffer scn_fb;
 
+/* THE LAYOUT PREDICATE, ONE COPY (run hunt6, lane MGSAVE1). It lived inline in
+   port_scene_layout_propose, which a process asks once at boot. A scene that
+   is reached IN the process (the level-to-scene crossing: the rabbit's Save
+   and play minigames row opens the minigame menu, and the menu then spawns the
+   picked minigame, both without a relaunch) needs the same answer for the
+   scene that comes up, so the predicate is a function and both callers use it.
+   Nothing about the answer changed: propose still takes it for the id the run
+   was asked for, the crossing takes it for the id the ROM asked for. */
+static bool scene_layout_mg_wide(void)
+{
+    const char *e = std::getenv("SM64DS_MG_WIDE");
+    return e && *e && *e != '0';
+}
+
+extern "C" int port_scene_layout_two_screen(int scene)
+{
+    return scene >= 0 &&
+           (IsMinigameActorID((unsigned)scene) || scene == 1 ||
+            (ntr::widescreen && !scene_layout_mg_wide()));
+}
+
+/* the presentation field for the same scene: every scene is the DS's own 4:3
+   centred in the wide framebuffer, only a level keeps the wide field */
+extern "C" int port_scene_layout_native(int scene)
+{
+    return scene >= 0 && !scene_layout_mg_wide();
+}
+
 /* THE LAYOUT, PROPOSED FROM THE ROM'S OWN PREDICATE. src/IsMinigameActorID.c
    is `id >= 0x169 && id <= 0x186` and it is already what gates the ov006
    overlay constructors (hal/scene_mg.cpp's port_scene_mg_prepare), so the
@@ -5986,13 +6044,8 @@ extern "C" void port_scene_layout_propose(void)
        SM64DS_MG_WIDE=1 puts the whole widescreen treatment back for one run --
        both the field below and this layout term -- so the before and the after
        can be captured off ONE binary. Unset is the ruling. */
-    const bool mg_wide = [] {
-        const char *e = std::getenv("SM64DS_MG_WIDE");
-        return e && *e && *e != '0';
-    }();
-    const int two_screen = scene >= 0 &&
-                           (IsMinigameActorID((unsigned)scene) || scene == 1 ||
-                            (ntr::widescreen && !mg_wide));
+    const bool mg_wide = scene_layout_mg_wide();
+    const int two_screen = port_scene_layout_two_screen(scene);
     /* AND THE PRESENTATION WIDTH, decided in the same place and from the same
        predicate, because it is the same kind of fact: a per-scene answer the
        host has to know before the first frame.

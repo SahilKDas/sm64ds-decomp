@@ -646,6 +646,93 @@ inline unsigned window_mask(const Windows &w, int x, int y) {
     return w.out;
 }
 
+/* ---- THE 3D LAYER INSIDE THE WINDOW UNIT (run hunt5, lane WIPES1) -------------
+ *
+ * The minigames' star / circle wipes (dWipe_c, src/func_0202ee94.c) are not a
+ * fade. The game programs engine A and engine B with the SAME two windows,
+ * rewrites WIN0H / WIN1H on every scanline from its HBlank handler
+ * (func_0202f2c4 -> ntr::rt_window_rows), and sets WINOUT to 0: outside the
+ * shape no layer is drawn, so the screen shows the BACKDROP, palette entry 0,
+ * which is white in every minigame (0x05000000 and 0x05000400 both read 7fff on
+ * scene 390). Inside the shape every layer shows.
+ *
+ * BG0 IS ONE OF THOSE LAYERS WHEN DISPCNT BIT 3 MAKES IT THE 3D ENGINE'S
+ * OUTPUT (bg0_is_3d above), and WINOUT bit 0 gates it like any other BG. The
+ * port rendered the 3D frame into the framebuffer before this unit ran and then
+ * masked only the 2D layers by window, so on engine A the 3D scene (and the
+ * frame's clear fill, gx_clear_argb's navy where the clear alpha is 0) stayed
+ * visible OUTSIDE the shape while engine B, which has no 3D, showed the white
+ * backdrop. The cartridge shows the same colour outside the shape on both
+ * screens.
+ *
+ * WHAT THIS DOES. For every host pixel whose DS cell the window unit gives a
+ * mask with bit 0 clear it (1) removes the pixel from the 3D coverage mask,
+ * which is exactly what a 3D layer that is not there looks like to the loops
+ * below (a 2D layer behind the 3D layer then paints there, the way the BG loop
+ * already does where 3D drew nothing), and (2) writes the backdrop into the
+ * framebuffer, which is what shows where no 2D layer covers. The hit cells the
+ * BG / OBJ loops produce afterwards overwrite it exactly as they overwrite the
+ * 3D frame. Runs only on a frame whose window unit is armed AND whose BG0 is
+ * the shown 3D layer; a window that lets BG0 through (every dialogue box) finds
+ * no pixel to hide and costs one table scan.
+ *
+ * SM64DS_WIPE3D_OFF=1 puts the old picture back on this binary. */
+inline bool hide3d_off_env() {
+    static int v = -1;
+    if (v < 0) {
+        const char *e = std::getenv("SM64DS_WIPE3D_OFF");
+        v = (e && *e && *e != '0') ? 1 : 0;
+    }
+    return v != 0;
+}
+
+inline bool winobj_off_env() {
+    static int v = -1;
+    if (v < 0) {
+        const char *e = std::getenv("SM64DS_WINOBJ_OFF");
+        v = (e && *e && *e != '0') ? 1 : 0;
+    }
+    return v != 0;
+}
+
+void hide_3d_outside_windows(uint32_t dispcnt, const Windows &w, ntr::Framebuffer &fb)
+{
+    if (!w.any || hide3d_off_env() || !bg0_3d_shown(dispcnt)) return;
+    /* the DS columns / rows whose mask clears BG0, one verdict per DS pixel */
+    static uint8_t hid[192][256];
+    bool any_hidden = false;
+    for (int y = 0; y < 192; ++y)
+        for (int x = 0; x < 256; ++x) {
+            const bool h = (window_mask(w, x, y) & 1u) == 0;
+            hid[y][x] = h ? 1 : 0;
+            any_hidden |= h;
+        }
+    const bool out_hidden = (w.out & 1u) == 0;
+    if (!any_hidden && !out_hidden) return;
+    uint8_t *const cover = const_cast<uint8_t *>(ntr::gx_coverage());
+    uint32_t *const pre = ntr::gx_aa_preimage();
+    const uint32_t bd = bgr555(rd16(kPlttBase));
+    const int sx = ntr::active_w / 256, sy = ntr::active_h / 192;
+    const int uni = sy, margin = ntr::active_w - 256 * uni;
+    for (int hy = 0; hy < ntr::active_h; ++hy) {
+        const int y = hy / sy;
+        for (int hx = 0; hx < ntr::active_w; ++hx) {
+            int x;
+            if (ntr::widescreen) {
+                const int d = hx - margin / 2;
+                x = d < 0 ? -1 : d / uni;
+            } else {
+                x = hx / sx;
+            }
+            const bool h = (x >= 0 && x < 256 && y < 192) ? hid[y][x] != 0 : out_hidden;
+            if (!h) continue;
+            fb.px[hy][hx] = bd;
+            if (pre) pre[(size_t)hy * ntr::SCREEN_W + hx] = bd;
+            if (cover) cover[(size_t)hy * ntr::SCREEN_W + hx] = 0;
+        }
+    }
+}
+
 // ---- the colour special-effects unit (BLDCNT, engine A) --------------------
 // Alpha only (mode 1) plus the always-on semi-transparent-OBJ alpha; brightness
 // modes 2/3 are the fade path's (see the header note). Mirror of ppu_sub.cpp's
@@ -1816,6 +1903,20 @@ void raster_obj(uint32_t dispcnt, const Blend &bl, const Windows &win,
                    Taking it out after the priority tests would let it lose to
                    a sprite it is about to be moved away from. */
                 if (arrow) { arrow_capture(px, py, color); continue; }
+                /* THE WINDOW UNIT GATES THE SPRITES TOO (run hunt5, lane WIPES1).
+                   WINOUT / WININ bit 4 is the OBJ layer, and the star / circle
+                   wipes of the minigames program WINOUT = 0 on both engines
+                   (dWipe_c, src/func_0202ee94.c): outside the shape not even a
+                   sprite shows, only the backdrop. The BG loop and the 3D layer
+                   (hide_3d_outside_windows) already honour that mask; the
+                   sprites did not, so the lives counter, the score and the
+                   playfield sprites of a minigame stayed on the screen outside
+                   the star. Engine B's raster_obj has always tested this bit.
+                   A window-less frame answers 0x3F, so only a frame with an
+                   armed window can drop a pixel here. SM64DS_WINOBJ_OFF=1 puts
+                   the old picture back on this binary. */
+                if (!winobj_off_env() && !(window_mask(win, px, py) & 0x10))
+                    continue;
                 /* OBJ-vs-OBJ IS RESOLVED BY PRIORITY, NOT BY OAM INDEX, and
                    this test is what makes that true on engine A. GBATEK's OAM
                    notes: attribute 2 bits 10-11 order a sprite against the
@@ -2667,6 +2768,7 @@ extern "C" void port_message_composite_engine_a(void *fbp)
         read_windows(dispcnt, w0);
         w0.obj_on = false;
         w0.any = w0.on[0] || w0.on[1];
+        hide_3d_outside_windows(dispcnt, w0, fb);
         if (bm_needed(w0)) bm_fill_default(dispcnt, w0);
         return;
     }
@@ -2679,6 +2781,9 @@ extern "C" void port_message_composite_engine_a(void *fbp)
 
     Windows win;
     read_windows(dispcnt, win);
+    /* the 3D layer is a layer like the others: WINOUT / WININ bit 0 gate it
+       (see hide_3d_outside_windows) */
+    hide_3d_outside_windows(dispcnt, win, fb);
     /* the brightness targets' default pass (see ENGINE A'S BRIGHTNESS
        TARGETS); the final blit below fills in every 2D pixel */
     bool bm_on = false;

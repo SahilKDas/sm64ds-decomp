@@ -120,6 +120,8 @@ int hal_present_client_to_sub(int cx, int cy, int *dsx, int *dsy);
 /* the layout mode, defined at the bottom of this file */
 int hal_sub_screen_stacked(void);
 void hal_touch_client_probe(void);
+/* defined at the bottom of this file; poll_touch asks it who owns the keyboard */
+int hal_window_focused(void);
 /* THE THREE ATTENTION ARROWS, re-anchored above the panel (engine A's raster,
    hal/message_compositor.cpp, which owns the sprites; this file owns where the
    panel is). Called with the panel rect this frame's compose just drew, so the
@@ -216,6 +218,10 @@ extern void *data_0209f318;      /* the Camera actor */
    data_0209f2d4 is that function's own state word. */
 extern unsigned char data_0209f20c;
 extern unsigned char data_0209f2d4;
+/* the NEW COIN RECORD flag: LC_Update's case 1 sets it when the course's coin
+   total beats the saved record, and LC_Render then draws the "HIGH SCORE"
+   banner above the coin total (see kCoinRow0Rec) */
+extern unsigned char data_0209f2b0;
 /* and the button LC_Update's case 3 takes on Start: see hal_lc_menu_pad */
 extern unsigned char data_0209f2e0;
 }
@@ -1566,6 +1572,9 @@ struct SwapGeom {
     int cy_src, cy_dst, c_h;     /* the coin total, at the very bottom */
 };
 SwapGeom g_sw;
+/* the picture size g_sw was last computed for, so the lift's question can
+   recompute it with THIS frame's record flag (see hal_lc_compose_rows) */
+int g_sw_picw, g_sw_pich;
 
 /* The option, asked once per process and latched, like the improved map's. */
 int save_menu_on_top(void)
@@ -1656,8 +1665,20 @@ const int kTextRow0 = 0x22;      /* 34: one row above the COURSE N line */
 const int kTextRow1 = 0x74;      /* 116: one row below CLEAR! */
 const int kCoinRow0 = 0x7a;      /* 122 */
 const int kCoinRow1 = 0x90;      /* 144 */
+/* THE COIN BAND WHEN THE COURSE HAS A NEW COIN RECORD. LC_Render
+   (src/_ZN5Stage9LC_RenderEv.cpp) then draws the "HIGH SCORE" banner as an
+   OBJ sprite at DS y 0x80 and Stage::Render moves the coin total down under
+   it, so the block the top screen carries is no longer 125..141. Measured on
+   the star row (level 6, a record of 12 coins, the compose off): the pixels
+   that differ from the same frame with no record span picture rows 240..319
+   at 512x384, DS rows 120..159. The 122..144 band cut that block in two:
+   the banner's top rows and the total's lower half stayed in the picture
+   behind the plates while the middle was lifted to the bottom. One row of
+   margin either side, the same as the plain band. */
+const int kCoinRow0Rec = 0x77;   /* 119 */
+const int kCoinRow1Rec = 0xa0;   /* 160 */
 
-void swap_geom_for(int w, int h, SwapGeom *o)
+void swap_geom_for(int w, int h, SwapGeom *o, int record)
 {
     SwapGeom g;
     std::memset(&g, 0, sizeof g);
@@ -1679,7 +1700,9 @@ void swap_geom_for(int w, int h, SwapGeom *o)
     int vs = h / ntr::SUB_H;
     if (vs < 1) vs = 1;
     g.t_h = (kTextRow1 - kTextRow0) * vs;
-    g.c_h = (kCoinRow1 - kCoinRow0) * vs;
+    const int cr0 = record ? kCoinRow0Rec : kCoinRow0;
+    const int cr1 = record ? kCoinRow1Rec : kCoinRow1;
+    g.c_h = (cr1 - cr0) * vs;
     if (g.t_h < 1) g.t_h = 1;
     if (g.c_h < 1) g.c_h = 1;
     /* a picture too short to hold both bands and a plate between them gives
@@ -1692,7 +1715,7 @@ void swap_geom_for(int w, int h, SwapGeom *o)
     if (g.ty_src + g.t_h > h) g.ty_src = h - g.t_h;
     if (g.ty_src < 0) g.ty_src = 0;
     g.ty_dst = 0;
-    g.cy_src = kCoinRow0 * vs;
+    g.cy_src = cr0 * vs;
     if (g.cy_src + g.c_h > h) g.cy_src = h - g.c_h;
     if (g.cy_src < 0) g.cy_src = 0;
     g.cy_dst = h - g.c_h;
@@ -1940,7 +1963,7 @@ void swap_layout_selftest(void)
             const int h = hs[hi];
             int w = asp[ai] > 0.0 ? (int)(h * asp[ai] + 0.5) : h * 4 / 3;
             w &= ~1;
-            swap_geom_for(w, h, &g_sw);
+            swap_geom_for(w, h, &g_sw, 0);
             const SwapGeom g = g_sw;
             char fails[8];
             int nf = 0, dx, dy, in, ok = 1;
@@ -2256,13 +2279,22 @@ int g_cam_reader_at = -1;        /* g_tp_frame of the last level-loop poll */
  * whole screen, and the arrows' own corners are exactly where the player icon
  * sits when the owner is at the bottom of a course, so a position test would
  * make Mario's head vanish at the bottom of the map. The key is the TILE
- * NUMBER the arrows' own templates carry. OAM::Render copies a template's
- * attr2 into the entry it writes and patches only the palette and priority
- * fields out of it, so the tile bits arrive unchanged; and the eight templates
- * are ROM data this binary links by name (ov002_data.c.obj, aliased in
- * hal/sub_actors.cpp). The set is therefore read from the cartridge's own
- * tables at run time. No literal, no guess, and a graphic that moved would
- * take its tile with it.
+ * NUMBER AND THE PALETTE the arrows' own templates carry.
+ * HUD::RenderCameraButtons (src/_ZN3HUD19RenderCameraButtonsEv.cpp) passes
+ * palette -1, so OAM::Render keeps each template's own palette in the entry it
+ * writes (the priority field is patched, which is why bits 10-11 are not part
+ * of the key); and the eight templates are ROM data this binary links by name
+ * (ov002_data.c.obj, aliased in hal/sub_actors.cpp). The set is therefore read
+ * from the cartridge's own tables at run time. No literal, no guess, and a
+ * graphic that moved would take its tile with it.
+ *
+ * THE PALETTE IS PART OF THE KEY because engine B's OBJ VRAM is shared by
+ * every bottom-screen sprite. Every attr2 in those eight lists carries palette
+ * 9, while the star select's "TOUCH ME!" pieces, the Picture Poker icons and
+ * the title's arrows reuse the same tile numbers (468 / 476) with palette 0,
+ * so a tile-number test alone hid them whenever the improved map was on. The
+ * palette is what tells the two apart on any frame, with no dependence on
+ * which loop ran last.
  *
  * Tile 0 is never added: it is the ROM's own "nothing here" and unrelated
  * templates carry it.
@@ -2280,6 +2312,7 @@ extern const unsigned short _ZN3OAM22S_CAM_BUTTON_L_PRESSEDE[];
 extern const unsigned short _ZN3OAM22S_CAM_BUTTON_R_PRESSEDE[];
 }
 
+/* attr2 with the priority bits dropped: tile (bits 0-9) and palette (12-15). */
 unsigned short g_cam_tiles[64];
 int g_cam_tiles_n = -1;
 
@@ -2291,13 +2324,13 @@ void cam_tiles_add(const unsigned short *t)
     for (int i = 0; i < 16; ++i) {
         const unsigned short a2 = t[i * 4 + 2];
         const unsigned short a3 = t[i * 4 + 3];
-        const unsigned short tile = (unsigned short)(a2 & 0x03FFu);
-        if (tile && g_cam_tiles_n <
+        const unsigned short key = (unsigned short)(a2 & 0xF3FFu);
+        if ((key & 0x03FFu) && g_cam_tiles_n <
                 (int)(sizeof g_cam_tiles / sizeof g_cam_tiles[0])) {
             int seen = 0;
             for (int k = 0; k < g_cam_tiles_n; ++k)
-                if (g_cam_tiles[k] == tile) { seen = 1; break; }
-            if (!seen) g_cam_tiles[g_cam_tiles_n++] = tile;
+                if (g_cam_tiles[k] == key) { seen = 1; break; }
+            if (!seen) g_cam_tiles[g_cam_tiles_n++] = key;
         }
         if (a3 == 0xffff) return;
     }
@@ -2316,16 +2349,18 @@ int cam_button_veto(unsigned short a2)
         cam_tiles_add(_ZN3OAM22S_CAM_BUTTON_L_PRESSEDE);
         cam_tiles_add(_ZN3OAM22S_CAM_BUTTON_R_PRESSEDE);
         if (std::getenv("SM64DS_MINIMAP_TRACE")) {
-            std::fprintf(stderr, "[mmtrace] camera-button tiles (%d):",
+            std::fprintf(stderr, "[mmtrace] camera-button tile/palette (%d):",
                          g_cam_tiles_n);
             for (int k = 0; k < g_cam_tiles_n; ++k)
-                std::fprintf(stderr, " %u", (unsigned)g_cam_tiles[k]);
+                std::fprintf(stderr, " %u/%u",
+                             (unsigned)(g_cam_tiles[k] & 0x03FFu),
+                             (unsigned)(g_cam_tiles[k] >> 12));
             std::fprintf(stderr, "\n");
         }
     }
-    const unsigned short tile = (unsigned short)(a2 & 0x03FFu);
+    const unsigned short key = (unsigned short)(a2 & 0xF3FFu);
     for (int k = 0; k < g_cam_tiles_n; ++k)
-        if (g_cam_tiles[k] == tile)
+        if (g_cam_tiles[k] == key)
             return improved_map_on() ? 3 : 1;
     return 0;
 }
@@ -2691,9 +2726,38 @@ void poll_touch(void)
        hand reaches. Unarmed this costs one load and nothing else. */
     const int inj = g_inj_armed;
     if (inj) ++g_inj_frames;
-    const int btn = inj ? 1
-                        : (!g_headless && g_on && GetAsyncKeyState_ &&
-                           (GetAsyncKeyState_(VK_LBUTTON) & 0x8000) ? 1 : 0);
+    /* THE OS BUTTON IS MACHINE-GLOBAL, so it only counts as the stylus while
+       this window is the foreground one and the press began while it already
+       was. GetAsyncKeyState(VK_LBUTTON) reads the physical button for the
+       whole desktop: without this a click in a browser or a chat window
+       that happened to sit over the bottom screen touched the game behind it
+       (file select, pause menu, minigames), the same hole the keyboard and
+       the pad were closed against (hal_window_focused).
+         raw_was    the button was down at the last poll
+         focus_was  the window was foreground at the last poll
+         hold_ok    the hold that is down right now began on a focused window
+       The click that BRINGS the window to the front is not a touch: it flips
+       the foreground and the button in the same instant, so at the poll before
+       it the window was not focused (focus_was 0) and the hold is dead until
+       the button comes up. Losing focus with the button held drops the touch
+       at once (btn goes 0 below, which releases the drag), and getting it
+       back with the button still held does not revive it. SM64DS_TOUCH_PROBE,
+       the in-process stylus and SM64DS_SKIP_MENU never come through here. */
+    int btn;
+    if (inj) {
+        btn = 1;
+    } else {
+        static int raw_was, focus_was, hold_ok;
+        const int raw = (!g_headless && g_on && GetAsyncKeyState_ &&
+                         (GetAsyncKeyState_(VK_LBUTTON) & 0x8000)) ? 1 : 0;
+        const int foc = hal_window_focused();
+        if (!raw)              hold_ok = 0;
+        else if (!raw_was)     hold_ok = foc && focus_was;
+        else if (!foc)         hold_ok = 0;
+        btn = raw && foc && hold_ok;
+        raw_was = raw;
+        focus_was = foc;
+    }
     if (!btn) {
         drag_own = 0;
         /* and a resize that was in progress is finished and written down */
@@ -4033,10 +4097,19 @@ extern "C" int hal_lc_compose_rows(int *text_r0, int *text_r1,
     }
     if (!swap_now()) return 0;
     g_lc_lift_pending = 1;
-    *text_r0 = g_sw.ty_src;
-    *text_r1 = g_sw.ty_src + g_sw.t_h;
-    *coin_r0 = g_sw.cy_src;
-    *coin_r1 = g_sw.cy_src + g_sw.c_h;
+    /* THE RECORD FLAG CAN FLIP BETWEEN THE LAST PRESENT AND THIS LIFT (the game
+       tick sets it, the present has not run yet), and a band taken from last
+       frame's rectangles would lift the plain coin rows on the one frame the
+       banner first appears. So the bands are recomputed here with this
+       frame's flag, from the same function and the same picture size the
+       present is about to use. */
+    SwapGeom now = g_sw;
+    if (g_sw_picw > 0 && g_sw_pich > 0)
+        swap_geom_for(g_sw_picw, g_sw_pich, &now, data_0209f2b0 != 0);
+    *text_r0 = now.ty_src;
+    *text_r1 = now.ty_src + now.t_h;
+    *coin_r0 = now.cy_src;
+    *coin_r1 = now.cy_src + now.c_h;
     return 1;
 }
 
@@ -4164,7 +4237,9 @@ static void sub_screen_present_body(unsigned int *dst, int w, int h)
        this frame's numbers on the very frame the plates come on. */
     {
         static int swap_frame;
-        swap_geom_for(w, h, &g_sw);
+        g_sw_picw = w;
+        g_sw_pich = h;
+        swap_geom_for(w, h, &g_sw, data_0209f2b0 != 0);
         g_menu_up = save_menu_is_up();
         g_swap = swap_now();
         swap_trace(w, h, swap_frame++);

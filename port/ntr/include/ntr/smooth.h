@@ -246,9 +246,51 @@ enum {
     SMOOTH_COUNT_EDGE,
     SMOOTH_COUNT_W,
     SMOOTH_COUNT_MODE3,
-    SMOOTH_COUNT_ORTHO
+    SMOOTH_COUNT_ORTHO,
+    // A curved triangle the TICK'S OWN picture asked to subdivide (a
+    // SmoothMotion replay of the same tick does not count again). This is the
+    // budget's demand, see THE BUDGET below.
+    SMOOTH_COUNT_DEMAND
 };
 void smooth_count(int which, uint64_t n);
+
+// ---------------------------------------------------------------------------
+// THE BUDGET (SM64DS_SMOOTH_BUDGET, in sub-triangles per picture; 0 is off).
+//
+// WHY. The level is a flat multiplier: every curved triangle becomes
+// 4^level sub-triangles, whatever the scene. Ordinary courses at level 3 ask
+// for 450 to 950 curved triangles a picture (29k to 61k sub-triangles) and
+// hold full speed. The castle basement's goo painting is a 25 x 25 wave grid
+// whose 1,150 triangles are ALL curved every frame, and Picture Poker's top
+// screen is the same shape of thing: 1,280 to 1,590 curved triangles, 82k to
+// 102k sub-triangles, 11 to 15 ms of patch maths on one processor thread, and
+// the game slows down (that is where the "slow motion at the goo" reports
+// come from).
+//
+// WHAT IT DOES. Each picture is drawn at ONE level for all of it: the set
+// level, or the highest lower level whose demand (curved triangles x 4^level)
+// fits the budget. The demand is what the previous tick's picture asked for,
+// counted live, so the decision costs one compare per picture and the whole
+// scene steps down together (a goo scene at level 3 looks like level 2, which
+// is what it would look like had the player picked 2) instead of the models
+// drawn last in a picture going flat. It steps down at once and back up one
+// level at a time only after a second of fitting with an eighth of the
+// budget to spare, so a scene on the border does not flicker. The floor is
+// level 1, never 0, so the demand stays a property of the scene and not of
+// the level it is being drawn at (a flat picture would ask for nothing and
+// the next one would jump back up). The first picture after a level change
+// or at boot is drawn at the set level; the count it produces decides the
+// next.
+//
+// WHAT IT DOES NOT TOUCH. The game: the demand is read from the smoother's
+// own verdicts and nothing game-visible is fed from it. Levels whose demand
+// fits: a scene under the budget is drawn exactly as it was, every
+// triangle, every vertex, so the ordinary courses are pixel-identical. The
+// store: the level is part of the key, so grids built at two levels sit
+// side by side and a level change never evicts anything.
+// ---------------------------------------------------------------------------
+int smooth_budget();          // the cap in sub-triangles per picture, 0 off
+int smooth_level_drawn();     // the level this picture is drawn at (<= set)
 
 // Called once per frame from gx_reset. Advances the frame counter and, when
 // the crack census is on, closes the frame's edge book and prints it.
@@ -328,9 +370,31 @@ struct SmoothKey {
 
 struct SmoothEntry {
     SmoothKey key;
-    int32_t tf;          // the factor the grid was built at
+    int32_t tf;          // the factor the grid was built at; 0 = seen once, no grid yet
     uint32_t off;        // first float of this entry's grid in the pool
+    uint32_t pic;        // the picture that first saw it (smooth_store_miss)
 };
+
+// A SHAPE IS KEPT ON ITS SECOND SIGHTING, NOT ITS FIRST. The castle
+// basement's goo painting moves its 625 vertices every frame, so every one
+// of its 1,150 triangles is a new key every picture: 32,000 misses in 37
+// frames, each one a 45-point grid into the pool, 19 MB of the 32 MB cap,
+// then a clear that threw away every static model's grid along with them,
+// so those were rebuilt too. A grid that will never be asked for again is
+// not worth keeping; a grid that will be is asked for again on the very
+// next picture. So on a miss the caller builds the grid, draws from it (the
+// SAME floats the pool would have held, so the picture does not depend on
+// whether the grid was kept) and calls smooth_store_miss: the first time a
+// key is seen it is noted in a grid-less entry stamped with the picture and
+// the answer is 0, keep nothing; seen again in one of the next two pictures
+// the answer is 1 and the caller adds the grid for real (further apart than
+// that it is noted afresh: the wave's keys do come round again, seconds
+// later). The painting's keys are never seen twice in a row; a goomba's are
+// seen on its second frame. The price of the
+// rule is one extra live build per static shape, once, and the grid-less
+// notes are what the cap purges first (SmoothStoreStats::purges) before it
+// ever empties a grid.
+int smooth_store_miss(const SmoothKey &k);
 
 // WHAT IS DELIBERATELY NOT IN HERE: the policy verdict. An earlier version of
 // this store remembered all of it, including whether the three corner normals
@@ -374,6 +438,9 @@ struct SmoothStoreStats {
     uint64_t nonsim_vec;      // the vector matrix carries a different rotation
     uint64_t entries;
     uint64_t bytes, cap_bytes;
+    uint64_t held;            // first sightings drawn but not kept (smooth_store_miss)
+    uint64_t purges;          // cap reached: the grid-less notes were dropped, grids kept
+    uint64_t sweeps;          // old grid-less notes dropped early (too old to become a grid)
 };
 void smooth_store_stats(SmoothStoreStats &out);
 // The geometry stage bumps the four skip rows through this, so gx.cpp holds

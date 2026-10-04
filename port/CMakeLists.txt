@@ -1127,6 +1127,16 @@ else()
                    "setup TUs route through hostgen (shipped arm).")
     list(APPEND PORT_HOSTGEN_TU ${SAMECLASS_BOOT_TU})
 endif()
+# run hunt5 lane DRAW1: the title drawing's nearest-point finder. It answers
+# "which node of another stroke is closest" through the hardware square-root
+# unit (SQRTCNT 0x40002b0, SQRT_PARAM 0x40002b8, SQRT_RESULT 0x40002b4) and
+# hands the root back to its caller as the search radius for the next stroke.
+# Built plain, those stores land in mapped memory, the unit never runs, and the
+# result word is whatever an earlier routine left there, so func_ov007_020c6b58
+# hooks the strokes' ends to wrong, far away nodes. Routed like the other
+# whole-TU hostgen sources above; the ov007 SQRT drivers left out of the TITEX
+# set (func_ov007_020c30ac, func_ov007_020c7d60) are not touched here.
+list(APPEND PORT_HOSTGEN_TU src/func_ov007_020c31e0.c)
 get_filename_component(PORT_HOSTGEN_TU_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 set(PORT_HOSTGEN_TU_GEN "")
 foreach(_hgt_rel IN LISTS PORT_HOSTGEN_TU)
@@ -7048,10 +7058,15 @@ endif()
 # quoting a register does not count as a writer. Twelve ov007 translation
 # units reach a geometry command port that way; they are all here. THE THREE
 # ov007 DIVIDER TUs THAT THE SAME SCAN FOUND (func_ov007_020c30ac,
-# _020c31e0, _020c7d60) ARE DELIBERATELY NOT IN THIS SET: they are the
-# DIV/SQRT unit, run mg15's SQRT lane owns that register block in the same
+# _020c31e0, _020c7d60) WERE DELIBERATELY NOT IN THIS SET: they are the
+# DIV/SQRT unit, run mg15's SQRT lane owned that register block in the same
 # wave, and two lanes routing the same class in one run is how a duplicate
-# symbol arrives. They are recorded in this lane's results for the next wave.
+# symbol arrives. They were recorded in this lane's results for the next wave.
+# Since run hunt5 lane DRAW1 one of them, func_ov007_020c31e0 (the title
+# drawing's nearest-point finder), IS routed, through its own
+# list(APPEND PORT_HOSTGEN_TU ...) line beside the other whole-TU hostgen
+# sources near the top of this file, not through this TITEX set. The other
+# two (func_ov007_020c30ac, func_ov007_020c7d60) are still built plain.
 #
 # THE KILL SWITCH IS -DTITEX_GX_PLAIN=ON and it gives the plain arm back on the
 # same tree, which is what a build-time routing can honestly offer. It is a

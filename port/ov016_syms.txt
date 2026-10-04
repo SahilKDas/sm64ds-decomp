@@ -29,10 +29,14 @@
 # overlay_0016.bin -- the dsd export is stale, the ovdata.py trap): each record's
 # +0 word is its factory (0x021129d0 / 021129a0 / 02112ec4 / 02112fbc / 02112588
 # / 02113510) and its +4 halfword is its own id (56/57/58/60/242/313). Each
-# SpawnInfo is pinned to the record's real 0x1c (or Unagi's 0x10) so the +4 id
+# SpawnInfo is pinned to the record's real 0x1c so the +4 id
 # halfword the registry cross-checks reads out of the right bytes; the natural
 # next-symbol delta on four of them is 0x24, which runs into trailing padding.
-g_profile_MORAY:0x10
+# UNAGI's record is 0x1c as well (0x021148e0..0x021148fc, the next symbol is
+# 0x02114908): dActor_c's constructor reads its +0x10 / +0x14 / +0x18 words as the
+# clip radius and distances, so a mount cut at 0x10 left the eel's radius 0 and
+# its camera-space position (+0x74, the 3D sound position) never computed.
+g_profile_MORAY:0x1c
 g_profile_KI_FUNE:0x1c
 g_profile_KI_FUNE_UP:0x1c
 g_profile_KI_HASIRA:0x1c

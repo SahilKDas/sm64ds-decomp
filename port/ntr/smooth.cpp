@@ -411,6 +411,15 @@ namespace {
 int g_level = 0;
 SmoothCounters g_counters;
 
+/* THE BUDGET'S STATE (smooth.h, THE BUDGET). g_drawn is the level the
+   current picture is drawn at; g_demand counts the curved triangles the
+   tick's own picture asked for, and is read and cleared at the frame mark. */
+int g_drawn = 0;
+uint64_t g_demand = 0;
+uint64_t g_last_demand = 0;
+int g_budget = -1;
+int g_budget_said = 0;
+
 float env_float(const char *name, float dflt) {
     const char *s = getenv(name);
     if (!s || !*s) return dflt;
@@ -513,10 +522,36 @@ void smooth_configure(int level) {
        clean hook the geometry stage owns. */
     if (level != g_level) smooth_store_clear();
     g_level = level;
+    g_drawn = level;
+    g_demand = 0;
     g_policy.level = level;
 }
 
 int smooth_level() { return g_level; }
+
+int smooth_budget() {
+    if (g_budget < 0) {
+        /* THE NUMBER. Measured on the base build at level 3 with the counters
+           on, 570 pictures a row, idle and moving (the lane report has the
+           rows): castle grounds asks for 450 to 615 curved triangles a
+           picture (29k to 39k sub-triangles), Bob-omb Battlefield 700 to
+           950 (45k to 61k), Whomp's Fortress 650 to 920 (42k to 59k), and
+           all of them hold full speed; the goo painting asks for 1,590
+           (102k) and Picture Poker's top screen 1,280 (82k), and they do
+           not. 72k sits above every ordinary picture measured (the worst,
+           Bob-omb moving, is 61k) and under the two that hurt; at level 2
+           those two ask for 25k and 20k, well inside it. */
+        g_budget = 72000;
+        const char *s = getenv("SM64DS_SMOOTH_BUDGET");
+        if (s && *s) {
+            const int v = atoi(s);
+            g_budget = v < 0 ? 0 : v;
+        }
+    }
+    return g_budget;
+}
+
+int smooth_level_drawn() { return g_drawn; }
 
 const SmoothPolicy &smooth_policy() {
     if (!g_policy_loaded) {
@@ -525,9 +560,59 @@ const SmoothPolicy &smooth_policy() {
         g_policy.max_radius = env_float("SM64DS_SMOOTH_MAX_RADIUS", g_policy.max_radius);
         g_policy.max_edge   = env_float("SM64DS_SMOOTH_MAX_EDGE", g_policy.max_edge);
     }
-    g_policy.level = g_level;
+    /* The level the picture is DRAWN at. With the budget off, or with a
+       scene whose demand fits, this is the set level and the policy is the
+       one it has always been. */
+    g_policy.level = g_drawn;
     return g_policy;
 }
+
+namespace {
+
+/* ONE DECISION PER PICTURE, at the frame mark, from the demand the previous
+   tick's picture produced. DOWN AT ONCE, while the demand at this level is
+   over the budget. UP SLOWLY: one level, after the demand at the next level
+   up has fitted with an eighth to spare for thirty pictures in a row (a
+   second of a course). A scene whose demand swings across the budget from
+   frame to frame (the Bowser arenas, 1,000 to 1,550 curved triangles) would
+   otherwise flip between two levels every few pictures, and a level flip is
+   the one thing in this that a player could see happen. Never below 1,
+   never above the set level. */
+int g_fit_run = 0;
+
+void budget_pick() {
+    const uint64_t n = g_demand;
+    g_last_demand = n;
+    g_demand = 0;
+    const int b = smooth_budget();
+    if (b <= 0 || g_level <= 0) { g_drawn = g_level; g_fit_run = 0; return; }
+    int L = g_drawn;
+    if (L < 1) L = 1;
+    if (L > g_level) L = g_level;
+    while (L > 1 && (n << (2 * L)) > (uint64_t)b) { --L; g_fit_run = 0; }
+    if (L < g_level && (n << (2 * (L + 1))) <= (uint64_t)(b - b / 8)) {
+        if (++g_fit_run >= 30) { ++L; g_fit_run = 0; }
+    } else {
+        g_fit_run = 0;
+    }
+    if (L != g_drawn) {
+        /* Say so once, plainly, the first time a scene is held under the
+           budget; after that the counters line carries it. */
+        if (L < g_level && !g_budget_said) {
+            g_budget_said = 1;
+            fprintf(stderr,
+                    "[smooth] SmoothModels %d: this picture asked for %llu "
+                    "curved triangles (%llu sub-triangles at level %d), over "
+                    "the budget of %d a picture; drawing at level %d until it "
+                    "fits again (SM64DS_SMOOTH_BUDGET, 0 = no budget)\n",
+                    g_level, (unsigned long long)n,
+                    (unsigned long long)(n << (2 * g_level)), g_level, b, L);
+        }
+        g_drawn = L;
+    }
+}
+
+}  // namespace
 
 void smooth_counters(SmoothCounters &out) { out = g_counters; }
 void smooth_counters_reset() {
@@ -728,7 +813,7 @@ void counters_report(uint64_t frame) {
     fprintf(stderr,
             "[smoothcnt] f%llu in %llu out %llu sub %llu | flat %llu nonrm %llu"
             " rad %llu edge %llu w %llu mode3 %llu ortho %llu"
-            " | TOTin %llu TOTout %llu\n",
+            " | TOTin %llu TOTout %llu | demand %llu drawn %d of %d budget %d\n",
             (unsigned long long)frame,
             (unsigned long long)(c.tris_in - prev.tris_in),
             (unsigned long long)(c.tris_out - prev.tris_out),
@@ -740,7 +825,9 @@ void counters_report(uint64_t frame) {
             (unsigned long long)(c.skip_w - prev.skip_w),
             (unsigned long long)(c.skip_mode3 - prev.skip_mode3),
             (unsigned long long)(c.skip_ortho - prev.skip_ortho),
-            (unsigned long long)c.tris_in, (unsigned long long)c.tris_out);
+            (unsigned long long)c.tris_in, (unsigned long long)c.tris_out,
+            (unsigned long long)g_last_demand, g_drawn, g_level,
+            smooth_budget());
     prev = c;
 
     SmoothStoreStats s;
@@ -748,7 +835,7 @@ void counters_report(uint64_t frame) {
     fprintf(stderr,
             "[smoothstore] f%llu hits %llu misses %llu entries %llu "
             "bytes %llu cap %llu clears %llu | live %llu crossmtx %llu "
-            "nonsim %llu zeronrm %llu\n",
+            "nonsim %llu zeronrm %llu | held %llu purges %llu\n",
             (unsigned long long)frame,
             (unsigned long long)s.hits, (unsigned long long)s.misses,
             (unsigned long long)s.entries, (unsigned long long)s.bytes,
@@ -756,7 +843,9 @@ void counters_report(uint64_t frame) {
             (unsigned long long)s.live_calls,
             (unsigned long long)s.skip_crossmtx,
             (unsigned long long)s.skip_nonsim,
-            (unsigned long long)s.skip_zeronrm);
+            (unsigned long long)s.skip_zeronrm,
+            (unsigned long long)s.held, (unsigned long long)s.purges,
+            (unsigned long long)s.sweeps);
     fprintf(stderr,
             "[smoothwhy] f%llu cross corner %llu normal %llu stale %llu | "
             "nonsim len %llu ortho %llu vec %llu\n",
@@ -782,6 +871,9 @@ std::vector<int32_t> g_st_table;       // open-addressed index, -1 empty
 std::vector<float> g_st_pool;          // every grid, back to back
 uint32_t g_st_mask;                    // g_st_table.size() - 1
 SmoothStoreStats g_st;
+uint64_t g_st_notes;                   // grid-less notes among g_st_entry
+uint64_t g_st_sweep_at = 16384;        // notes held before the next sweep of the old ones
+uint32_t g_st_sweep_pic;               // the picture that last swept
 int g_st_cap_loaded;
 
 size_t store_cap_bytes() {
@@ -856,53 +948,167 @@ void smooth_store_clear() {
     g_st_mask = 0;
     g_st.entries = 0;
     g_st.bytes = 0;
+    g_st_notes = 0;
     ++g_st.clears;
 }
 
-const SmoothEntry *smooth_store_find(const SmoothKey &k) {
-    if (g_st_table.empty()) { ++g_st.misses; return 0; }
+namespace {
+
+/* The slot of `k`, kept or grid-less, or -1. The hash only picks a start;
+   every candidate is compared against the whole key. */
+int32_t store_slot(const SmoothKey &k) {
+    if (g_st_table.empty()) return -1;
     uint32_t s = key_hash(k) & g_st_mask;
     for (;;) {
         const int32_t i = g_st_table[s];
-        if (i < 0) { ++g_st.misses; return 0; }
-        if (key_equal(g_st_entry[(size_t)i].key, k)) {
-            ++g_st.hits;
-            return &g_st_entry[(size_t)i];
-        }
+        if (i < 0) return -1;
+        if (key_equal(g_st_entry[(size_t)i].key, k)) return i;
         s = (s + 1) & g_st_mask;
     }
+}
+
+/* DROP NOTES. keep_from == 0 drops every grid-less note (THE CAP'S FIRST
+   RESORT: shapes seen once and never again, which at the goo painting is
+   1,150 new ones a picture, and keep every grid); otherwise a note is kept
+   while a second sighting could still make a grid of it, that is while it
+   is no more than two pictures old (smooth_store_miss), and older ones go.
+   The pool is untouched, the entry rows are compacted and the table
+   rebuilt, so a static model's grid survives the painting. */
+void store_drop_notes(uint32_t keep_from) {
+    std::vector<SmoothEntry> kept;
+    kept.reserve(g_st_entry.size());
+    uint64_t notes = 0;
+    for (size_t i = 0; i < g_st_entry.size(); ++i) {
+        const SmoothEntry &e = g_st_entry[i];
+        if (e.tf > 0) { kept.push_back(e); continue; }
+        if (keep_from && e.pic >= keep_from) { kept.push_back(e); ++notes; }
+    }
+    g_st_entry.swap(kept);
+    store_rehash(g_st_entry.size() + 64);
+    g_st_notes = notes;
+    g_st.entries = g_st_entry.size();
+    g_st.bytes = store_bytes();
+}
+
+/* The cap's first resort, counted. */
+void store_purge_notes() {
+    store_drop_notes(0);
+    ++g_st.purges;
+}
+
+/* Append a row for `k` and index it. */
+SmoothEntry &store_append(const SmoothKey &k) {
+    if (g_st_table.empty() || g_st_entry.size() * 2 + 2 > g_st_table.size())
+        store_rehash(g_st_entry.size() + 64);
+    SmoothEntry e;
+    e.key = k;
+    e.tf = 0;
+    e.off = 0;
+    e.pic = 0;
+    g_st_entry.push_back(e);
+    uint32_t s = key_hash(k) & g_st_mask;
+    while (g_st_table[s] >= 0) s = (s + 1) & g_st_mask;
+    g_st_table[s] = (int32_t)(g_st_entry.size() - 1);
+    return g_st_entry.back();
+}
+
+}  // namespace
+
+const SmoothEntry *smooth_store_find(const SmoothKey &k) {
+    const int32_t i = store_slot(k);
+    /* A grid-less note is a miss to the caller: it has nothing to replay.
+       smooth_store_miss is where the note is read. */
+    if (i < 0 || g_st_entry[(size_t)i].tf <= 0) { ++g_st.misses; return 0; }
+    ++g_st.hits;
+    return &g_st_entry[(size_t)i];
+}
+
+int smooth_store_miss(const SmoothKey &k) {
+    const uint32_t pic = (uint32_t)g_counters.frames + 1;   /* never 0 */
+    const int32_t i = store_slot(k);
+    if (i >= 0) {
+        SmoothEntry &e = g_st_entry[(size_t)i];
+        /* Seen before in one of the TWO PREVIOUS pictures: keep it this
+           time. The same picture (a second instance of the shape, or a
+           SmoothMotion replay of the same tick) does not count: the
+           painting's keys come back in every replay of the tick that
+           invented them. Nor does a sighting further back: the goo's wave
+           is periodic and a few hundred of its keys a picture come round
+           again after some seconds, and a grid kept for each of those
+           filled the pool just the same, only slower. A static shape is on
+           screen on consecutive pictures and is kept on its second; a
+           shape that drops out and comes back a second later is noted
+           again and kept on the picture after that. */
+        if (e.tf <= 0 && e.pic != pic) {
+            if (pic - e.pic <= 2u) return 1;
+            e.pic = pic;
+        }
+        ++g_st.held;
+        return 0;
+    }
+    /* OLD NOTES GO EARLY. A note more than two pictures old can no longer
+       become a grid (a sighting that late is noted afresh, above), so it is
+       worth exactly what no note is worth. At the goo painting they are 1,150
+       a picture and, left to the cap, filled 28 MB and then went in one sweep
+       of half a million rows: a 55 ms stall every 600 pictures. So once
+       16,384 notes are held (or twice what the last sweep left, so a scene
+       whose notes are all young does not sweep on every miss) the old ones
+       are dropped, a sweep of a few thousand rows a dozen pictures apart. */
+    if (g_st_notes >= g_st_sweep_at && g_st_sweep_pic != pic) {
+        g_st_sweep_pic = pic;
+        store_drop_notes(pic > 2u ? pic - 2u : 1u);
+        g_st_sweep_at = g_st_notes * 2 > 16384 ? g_st_notes * 2 : 16384;
+        ++g_st.sweeps;
+    }
+    /* First sighting: a 48-byte note, no grid. Under the cap the notes go
+       first; a cap too small for even the notes keeps nothing, which is the
+       live path's own behaviour and costs no more than it. */
+    if (store_bytes() + sizeof(SmoothEntry) > store_cap_bytes()) {
+        store_purge_notes();
+        if (store_bytes() + sizeof(SmoothEntry) > store_cap_bytes()) {
+            ++g_st.held;
+            return 0;
+        }
+    }
+    SmoothEntry &e = store_append(k);
+    e.pic = pic;
+    ++g_st_notes;
+    g_st.entries = g_st_entry.size();
+    g_st.bytes = store_bytes();
+    ++g_st.held;
+    return 0;
 }
 
 const SmoothEntry *smooth_store_add(const SmoothKey &k, int tf,
                                     const float *grid) {
     const int npts = (tf > 1 && grid) ? smooth_grid_points(tf) : 0;
     const size_t add = sizeof(SmoothEntry) + (size_t)npts * 3 * sizeof(float);
-    /* EVICTION IS A CLEAR. Every entry is equally cheap to rebuild (one patch
-       and one grid), the working set of a level is far below the cap, and an
-       LRU would cost more bookkeeping per lookup than the work it saves. So
-       the full pool empties, once, loudly enough to be counted. */
+    /* EVICTION IS A CLEAR, after the notes have gone. Every grid is equally
+       cheap to rebuild (one patch and one grid), the working set of a level
+       is far below the cap, and an LRU would cost more bookkeeping per
+       lookup than the work it saves. So the grid-less notes go first, and if
+       that is not enough the full pool empties, once, loudly enough to be
+       counted. */
     if (store_bytes() + add > store_cap_bytes()) {
-        smooth_store_clear();
-        if (add > store_cap_bytes()) return 0;
+        store_purge_notes();
+        if (store_bytes() + add > store_cap_bytes()) {
+            smooth_store_clear();
+            if (add > store_cap_bytes()) return 0;
+        }
     }
-    if (g_st_table.empty() || g_st_entry.size() * 2 + 2 > g_st_table.size())
-        store_rehash(g_st_entry.size() + 64);
-
-    SmoothEntry e;
-    e.key = k;
+    /* The key's own note, if it has one, becomes the entry: no twin rows. */
+    const int32_t have = store_slot(k);
+    const bool was_note = have >= 0 && g_st_entry[(size_t)have].tf <= 0;
+    if (was_note && g_st_notes) --g_st_notes;
+    SmoothEntry &e = was_note ? g_st_entry[(size_t)have] : store_append(k);
     e.tf = npts ? tf : 1;
     e.off = (uint32_t)g_st_pool.size();
     if (npts) g_st_pool.insert(g_st_pool.end(), grid, grid + npts * 3);
-    g_st_entry.push_back(e);
-
-    uint32_t s = key_hash(k) & g_st_mask;
-    while (g_st_table[s] >= 0) s = (s + 1) & g_st_mask;
-    g_st_table[s] = (int32_t)(g_st_entry.size() - 1);
 
     ++g_st.inserts;
     g_st.entries = g_st_entry.size();
     g_st.bytes = store_bytes();
-    return &g_st_entry.back();
+    return &e;
 }
 
 const float *smooth_store_grid(const SmoothEntry *e) {
@@ -1032,6 +1238,10 @@ void smooth_prof_add(int bucket, long long dt_ns, unsigned n) {
 
 void smooth_frame_mark() {
     ++g_counters.frames;
+    /* The budget's one decision a picture, BEFORE the counters line so the
+       line reports the demand that was just decided on and the level the
+       coming picture will be drawn at. */
+    budget_pick();
     if (smooth_census_on()) census_report(g_counters.frames);
     if (counters_on()) counters_report(g_counters.frames);
     if (smooth_prof_on()) prof_report(g_counters.frames);
@@ -1060,6 +1270,7 @@ void smooth_count(int which, uint64_t n) {
         case SMOOTH_COUNT_W:           g_counters.skip_w += n; break;
         case SMOOTH_COUNT_MODE3:       g_counters.skip_mode3 += n; break;
         case SMOOTH_COUNT_ORTHO:       g_counters.skip_ortho += n; break;
+        case SMOOTH_COUNT_DEMAND:      g_demand += n; break;
         default: break;
     }
 }

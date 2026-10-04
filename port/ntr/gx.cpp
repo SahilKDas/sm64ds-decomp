@@ -699,7 +699,27 @@ GxVertex clip_lerp(const GxVertex &a, const GxVertex &b, float t) {
     return o;
 }
 
+/* W-BUFFERED DEPTH (the DS's own, SWAP_BUFFERS bit 1). The game writes 3 to
+   0x04000540 every frame (src/func_020190b8.c, src/Initialise3dGraphics.cpp),
+   so its depth buffer holds W, not the post-divide Z. The raster below used
+   Z, which in float sits within a few units of 1.0 across the whole far half
+   of a perspective scene: the eyes of a star-select star (flush with the
+   star body) and a pond's water plane against its cliff walls then fell
+   inside one ulp of each other and z-fought. g_frame_ortho notes that this
+   frame submitted a triangle through a constant-w projection (the 2D-in-3D
+   screens); those keep Z, because W is the same for every polygon of an
+   orthographic scene and would order nothing. g_wdepth is the per-frame
+   decision gx_render makes from it. The depth key is -(1/w) interpolated
+   linearly in screen space: larger is farther, it orders exactly as W does,
+   and a float keeps its full relative precision on it where the post-divide
+   Z leaves it only the last few bits below 1.0. SM64DS_WDEPTH=0 keeps the
+   old Z key, for an A/B on one binary. */
+static bool g_frame_ortho;
+static bool g_wdepth;
+
 void push_screen_tri(const GxVertex &a, const GxVertex &b, const GxVertex &c) {
+    if (g.proj.m[3] == 0.0f && g.proj.m[7] == 0.0f && g.proj.m[11] == 0.0f)
+        g_frame_ortho = true;
     /* value-initialised: smoke_gx memcmps whole GxTriangles between the two
        submit paths, so the padding has to be deterministic */
     GxTriangle t{};
@@ -966,7 +986,14 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
         return 0;
     }
 
+    /* ZEROED FIRST. The store hashes the key's bytes, padding included (two
+       bytes between the int16 positions and the normals), and a key built on
+       the stack over whatever the last triangle left there hashed the same
+       shape to different slots: on Bob-omb Battlefield that turned 1,200
+       distinct shapes into 14,000 misses. The compare is on the fields, so
+       nothing was ever replayed wrongly; it was only ever found by luck. */
     SmoothKey key;
+    std::memset(&key, 0, sizeof key);
     const GxRaw *r[3] = {&ra, &rb, &rc};
     for (int i = 0; i < 3; ++i) {
         key.p[i][0] = r[i]->x; key.p[i][1] = r[i]->y; key.p[i][2] = r[i]->z;
@@ -976,6 +1003,8 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
 
     const long long t_sub = prof ? smooth_prof_ticks() : 0;
     const SmoothEntry *e = smooth_store_find(key);
+    float pts[SMOOTH_MAX_GRID * 3];
+    const float *grid;
     if (!e) {
         /* THE ONCE. Build the corners in the model's own space out of the
            display list's own numbers -- the same FX12 scaling project() puts
@@ -991,13 +1020,25 @@ int smooth_try_store(const SmoothVertex s[3], const GxRaw &ra, const GxRaw &rb,
             raw_normal(r[i]->nrm, l[i].nx, l[i].ny, l[i].nz);
             l[i].u = 0.0f; l[i].v = 0.0f; l[i].color = 0;
         }
-        float pts[SMOOTH_MAX_GRID * 3];
         smooth_grid_positions(l[0], l[1], l[2], tf, pts);
-        e = smooth_store_add(key, tf, pts);
-        if (!e) return 0;
+        /* KEPT ON THE SECOND SIGHTING (ntr/smooth.h, smooth_store_miss). The
+           goo painting's vertices move every frame, so its keys are new
+           every picture and a grid kept for them is never asked for again;
+           a static shape is asked for again on the next picture and is kept
+           then. Either way THIS picture draws from the grid just built, the
+           same floats the pool would hold, so what reaches the raster does
+           not depend on whether the grid was kept. */
+        if (smooth_store_miss(key)) {
+            e = smooth_store_add(key, tf, pts);
+            if (!e) return 0;
+            grid = smooth_store_grid(e);
+        } else {
+            grid = pts;
+        }
+    } else {
+        if (e->tf != tf) return 0;     /* built at another level: rebuild live */
+        grid = smooth_store_grid(e);
     }
-    if (e->tf != tf) return 0;     /* built at another level: rebuild live */
-    const float *grid = smooth_store_grid(e);
     if (!grid) return 0;
 
     if (smooth_abdiff_on()) {
@@ -1086,6 +1127,13 @@ int smooth_try(const GxVertex &a, const GxVertex &b, const GxVertex &c,
     }
 
     smooth_count(SMOOTH_COUNT_SUBDIVIDED, 1);
+    /* THE BUDGET'S DEMAND (ntr/smooth.h, THE BUDGET): one curved triangle
+       the tick's own picture asked for. A SmoothMotion replay walks the same
+       stream again and would count the same triangle once per blended
+       picture, so it does not count; the verdict above does not depend on
+       the level the picture is drawn at (the floor is 1), so this is a
+       property of the scene. */
+    if (!g_ip_replaying) smooth_count(SMOOTH_COUNT_DEMAND, 1);
 
     /* THE GEOMETRY is what the store remembers, and this is where a triangle
        that has been seen before costs a lookup instead of a patch. */
@@ -2334,6 +2382,7 @@ void gx_mip_report() {
 
 void gx_reset() {
     ++g_resets;
+    g_frame_ortho = false;
     /* MDL. gx_reset is the host's own "begin a frame's command stream" (see
        the long note below), so it is the frame boundary the smoother's
        counters and its crack census are keyed to. It is also the flush point
@@ -4291,6 +4340,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
     const bool have_translucent = ra.have_translucent;
     const bool want_id = ra.want_id;
     const int pass_lo = ra.pass_lo, pass_hi = ra.pass_hi;
+    const bool wdepth = g_wdepth;
     DepthRow *const depth = g_depth;
     MaskRow *const stencil = g_stencil;
     MaskRow *const attrid = g_attrid;
@@ -4421,7 +4471,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                         const float w0 = n0 / area, w1 = n1 / area,
                                     w2 = n2 / area;
                         const float l0 = w1, l1 = w2, l2 = w0;
-                        const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                        const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                         if (z >= drow[x]) srow[x] = 1;
                     }
                 }
@@ -4451,7 +4501,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                         const float w0 = n0 / area, w1 = n1 / area,
                                     w2 = n2 / area;
                         const float l0 = w1, l1 = w2, l2 = w0;
-                        const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                        const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                         if (z >= drow[x]) continue;
                         if (irow[x] == t.polyid) continue;
                         uint32_t texel = 0xFFFFFFFFu;
@@ -4521,7 +4571,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                     continue;
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
-                const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                 if (z >= drow[x]) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
@@ -4990,6 +5040,17 @@ void gx_render(Framebuffer &fb) {
        drew sets the low bound to 1, so the band runs the translucent and
        shadow pass alone over the buffers the card filled. */
     int pass_lo = 0, pass_hi = 1;
+    {
+        static int wd_env = -1;
+        if (wd_env < 0) {
+            const char *e = getenv("SM64DS_WDEPTH");
+            wd_env = (e && *e == '0') ? 0 : 1;
+        }
+        /* the card renderer's own depth readback is Z, and the translucent
+           pass reads it: that frame keeps Z */
+        g_wdepth = wd_env && !g_frame_ortho && !g_gpu_opaque &&
+                   (g_swap_param & 2) != 0;
+    }
     /* the tile shape, set below once the frame's work is known */
     int tile_h = SCREEN_H, ntiles = 1, nt = 1;
     auto band_impl = [&](int tile, auto ftag) {
@@ -5000,6 +5061,7 @@ void gx_render(Framebuffer &fb) {
        filter, no branch per pixel and no call through a pointer: it is the
        instruction stream it was before filtering existed. */
     constexpr int FILTER = decltype(ftag)::value;
+    const bool wdepth = g_wdepth;
     /* This tile's rows. */
     const int ty0 = tile * tile_h;
     const int ty1 = (ty0 + tile_h < SCREEN_H ? ty0 + tile_h : SCREEN_H) - 1;
@@ -5147,7 +5209,7 @@ void gx_render(Framebuffer &fb) {
                         const float w0 = n0 / area, w1 = n1 / area,
                                     w2 = n2 / area;
                         const float l0 = w1, l1 = w2, l2 = w0;
-                        const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                        const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                         if (z >= drow[x]) srow[x] = 1;
                     }
                 }
@@ -5180,7 +5242,7 @@ void gx_render(Framebuffer &fb) {
                         const float w0 = n0 / area, w1 = n1 / area,
                                     w2 = n2 / area;
                         const float l0 = w1, l1 = w2, l2 = w0;
-                        const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                        const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                         if (z >= drow[x]) continue;
                         if (irow[x] == t.polyid) continue;
                         uint32_t texel = 0xFFFFFFFFu;
@@ -5253,7 +5315,7 @@ void gx_render(Framebuffer &fb) {
                     continue;
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
-                const float z = l0 * a.z + l1 * b.z + l2 * c.z;
+                const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
                 if (z >= drow[x]) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
