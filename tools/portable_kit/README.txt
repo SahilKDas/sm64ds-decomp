@@ -116,6 +116,13 @@ Extra keys:
     F8   save a state (not during cutscenes)
     F9   load the saved state (it is not loaded automatically at startup)
 
+Smooth motion is off by default. To turn it on, open Settings in the
+launcher, pick a Frame rate of 60 or more on the General page and tick
+Smooth motion right under it.
+
+First-person look (Y and Z above) can be rebound like the other buttons,
+under Controls in the launcher's Settings.
+
 
 WHAT YOU CAN DO IN IT
 ---------------------
