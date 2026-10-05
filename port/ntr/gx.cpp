@@ -717,6 +717,39 @@ GxVertex clip_lerp(const GxVertex &a, const GxVertex &b, float t) {
 static bool g_frame_ortho;
 static bool g_wdepth;
 
+/* THE W-BUFFER'S TIE RULE (run hunt7, lane POLES1). The depth key above is
+   exact to a float ulp, and the cartridge's is not: its geometry engine cuts
+   every polygon's vertex W to 16 significant bits before it interpolates
+   (melonDS GPU3D.cpp SetupPolygon: wsize is the smallest multiple of four bits
+   that holds the polygon's largest W, and the low wsize-16 bits of each vertex
+   W are dropped), the interpolated depth is an integer, and the test is a
+   strict less-than. Two polygons on one plane therefore land on the SAME
+   integer and the one drawn first keeps the pixel. With the key left at float
+   precision, two coincident polygons differ by rounding noise and the pixel
+   goes to whichever one the noise favours: Hazy Maze Cave's second room draws
+   each climb pole twice (cave_all.bmd r1, the red box then a copy in the cave
+   wall's texture, same eight corners) and the pole came out speckled.
+   w_tie_q is that integer's step in the port's w units (one raw unit is
+   1/4096); a later polygon must be nearer than the pixel by one step to win.
+   In the 1/w key a step of Q in w is Q * k * k, k = 1/w = -key, to first order
+   (Q * k is at most 2^-12, so the first order is exact enough). A Z frame
+   passes q = 0, and then the test is the old z >= d bit for bit. */
+static inline float w_tie_q(const GxVertex &a, const GxVertex &b,
+                            const GxVertex &c) {
+    float m = std::fabs(a.w);
+    if (std::fabs(b.w) > m) m = std::fabs(b.w);
+    if (std::fabs(c.w) > m) m = std::fabs(c.w);
+    const float raw = m * 4096.0f;
+    const uint32_t r = raw >= 4294967040.0f ? 0xFFFFFFFFu : (uint32_t)raw;
+    unsigned wsize = 0;
+    while (wsize < 32 && (r >> wsize)) wsize += 4;
+    const unsigned s = wsize > 16 ? wsize - 16 : 0;
+    return (float)(1u << s) * (1.0f / 4096.0f);
+}
+static inline bool w_depth_fail(float z, float d, float q) {
+    return z >= (d < 0.0f ? d - q * d * d : d);
+}
+
 void push_screen_tri(const GxVertex &a, const GxVertex &b, const GxVertex &c) {
     if (g.proj.m[3] == 0.0f && g.proj.m[7] == 0.0f && g.proj.m[11] == 0.0f)
         g_frame_ortho = true;
@@ -4407,6 +4440,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
         const float iwa = (std::fabs(a.w) > 1e-6f) ? 1.0f / a.w : 0.0f;
         const float iwb = (std::fabs(b.w) > 1e-6f) ? 1.0f / b.w : 0.0f;
         const float iwc = (std::fabs(c.w) > 1e-6f) ? 1.0f / c.w : 0.0f;
+        const float wq = wdepth ? w_tie_q(a, b, c) : 0.0f;
         /* NOTE the UV terms below stay written as l0 * a.u * iwa. Folding
            a.u * iwa out to the triangle would regroup the multiply, and float
            multiplication does not associate -- (l0*a.u)*iwa and l0*(a.u*iwa)
@@ -4572,7 +4606,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
                 const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
-                if (z >= drow[x]) continue;
+                if (w_depth_fail(z, drow[x], wq)) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
                 // Texture first; the vertex colour modulates it. UVs are
@@ -5140,6 +5174,7 @@ void gx_render(Framebuffer &fb) {
         const float iwa = (std::fabs(a.w) > 1e-6f) ? 1.0f / a.w : 0.0f;
         const float iwb = (std::fabs(b.w) > 1e-6f) ? 1.0f / b.w : 0.0f;
         const float iwc = (std::fabs(c.w) > 1e-6f) ? 1.0f / c.w : 0.0f;
+        const float wq = wdepth ? w_tie_q(a, b, c) : 0.0f;
         /* NOTE the UV terms below stay written as l0 * a.u * iwa. Folding
            a.u * iwa out to the triangle would regroup the multiply, and float
            multiplication does not associate -- (l0*a.u)*iwa and l0*(a.u*iwa)
@@ -5316,7 +5351,7 @@ void gx_render(Framebuffer &fb) {
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
                 const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
-                if (z >= drow[x]) continue;
+                if (w_depth_fail(z, drow[x], wq)) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
                 // Texture first; the vertex colour modulates it. UVs are
