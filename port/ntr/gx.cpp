@@ -4820,6 +4820,25 @@ void rab_compare(Framebuffer &fb, int lo, int hi) {
 
 }  // namespace
 
+/* SM64DS_COVER_DUMP=<path>: after the frame's passes (and before the edge
+   smoothing, which rewrites the mask) write the 3D coverage mask, one byte a
+   pixel, 255 where the 3D engine wrote the pixel, as a binary PGM. Each frame
+   overwrites the file, so the last frame drawn is what is left. With
+   SM64DS_TEX_ONLY on the same run (which now also limits the card's triangles)
+   this is one texture's footprint, which is how TextureFilter 0, 1 and 2 are
+   compared pixel for pixel. Off unless the variable is set. */
+static void cover_dump(const char *path, int cw, int ch) {
+    FILE *f = std::fopen(path, "wb");
+    if (!f) return;
+    std::fprintf(f, "P5\n%d %d\n255\n", cw, ch);
+    std::vector<unsigned char> row((size_t)cw);
+    for (int y = 0; y < ch; ++y) {
+        for (int x = 0; x < cw; ++x) row[(size_t)x] = g_cover[y][x] ? 255 : 0;
+        std::fwrite(row.data(), 1, row.size(), f);
+    }
+    std::fclose(f);
+}
+
 void gx_render(Framebuffer &fb) {
     /* run interp1: what reached the raster is the frame; seal its record. */
     if (g_ip_rec) ip_rec_seal();
@@ -5614,6 +5633,16 @@ void gx_render(Framebuffer &fb) {
         std::memset(&f, 0, sizeof f);
         f.tris = g.tris.data();
         f.count = g.tris.size();
+        /* SM64DS_TEX_ONLY limits the card's triangles the way it limits the
+           software raster's (see cover_dump) */
+        static std::vector<GxTriangle> only_tris;
+        if (only) {
+            only_tris.clear();
+            for (const GxTriangle &ot : g.tris)
+                if (ot.dbg_tex == only) only_tris.push_back(ot);
+            f.tris = only_tris.data();
+            f.count = only_tris.size();
+        }
         f.fb = &fb.px[0][0];
         f.depth = &g_depth[0][0];
         f.cover = &g_cover[0][0];
@@ -5910,6 +5939,10 @@ void gx_render(Framebuffer &fb) {
        cannot write one, and needs no list of regions to avoid.
        Inside the timed section deliberately: it is part of what a frame costs
        when the setting is on, and the perf line should say so. */
+    {
+        static const char *cd = getenv("SM64DS_COVER_DUMP");
+        if (cd && *cd) cover_dump(cd, cw, ch);
+    }
     aa_pass(fb, cw, ch, nt);
     aa_report();
 
