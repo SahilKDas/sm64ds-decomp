@@ -1557,6 +1557,7 @@ extern signed char data_0209f2f8;    /* the level currently up */
    the compositor can fade the framebuffer. */
 int port_fader_blend_state(int *evy, int *toWhite);
 void port_fader_start_color(int frames, int toEnd, unsigned short color);
+int port_fader_entrance_wipe_armed(void);   /* hal/fader_wipes.cpp */
 /* dialogue pipeline (hal/message_pump.cpp, hal/message_compositor.cpp,
    hal/message_probe.cpp): pump ticks the box state machine (Stage's own
    UpdateMessage dialogue arm); the compositor rasters engine A's 2D box over
@@ -14885,7 +14886,16 @@ int main(void)
                    (white, 0x7fff) but the reverse direction, so the panel
                    un-whitens to the new level rather than flashing to black. */
                 if (scene_fade == 2) {
-                    port_fader_start_color(16, 0, 0x7fff);
+                    /* A level entered through a door-type entrance has
+                       already had the ROM arm its own entrance wipe
+                       (LoadEntranceObjects -> StartEntranceFaderWipe) and
+                       dScene_c::BeforeBehavior opens it once the scene
+                       request is released, as on a normal entry. Laying the
+                       colour fade over it left data_0209d4ac driving a wipe
+                       that nothing reversed: black screen, black dialogue
+                       box, frozen dialogue. */
+                    if (!port_fader_entrance_wipe_armed())
+                        port_fader_start_color(16, 0, 0x7fff);
                     port_scene_fade_clear();
                     fprintf(stderr, "[fade] scene %d: covered, level booted, "
                             "fading in\n", scene_id);

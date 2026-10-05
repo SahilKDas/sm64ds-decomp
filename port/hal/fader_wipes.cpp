@@ -1108,6 +1108,31 @@ void port_fader_start_color(int frames, int toEnd, unsigned short color)
                  color ? "white" : "black", f->currInterp, f->speed);
 }
 
+/* Has the ROM armed a level-entrance wipe during this level's boot?
+   LoadEntranceObjects ends in StartEntranceFaderWipe (src/engine/fader/
+   StartEntranceFaderWipe.cpp) for every entrance whose row in data_ov002_
+   0210cb5c is not negative -- the castle rooms, sub-areas, secret courses and
+   the Bowser stages and arenas, i.e. the places reached without a star select.
+   It installs wipe N through Scene::SetFaders (data_0209f5bc AND data_0209d4ac,
+   the one func_02018efc advances every frame) and parks it at the end of its
+   travel; dScene_c::BeforeBehavior reverses it once the scene request is gone.
+   port_title_select's cover has just put the COLOUR fader in data_0209f5bc, so
+   a wipe sitting there now can only be the ROM's own, and the colour fader
+   sitting there means no wipe was armed (a stale data_0209d4ac from the level
+   before does not count).
+   A caller that wants to lay its own colour fade over the level opening must
+   not take over data_0209f5bc while this is true, because
+   port_fader_start_color does not move data_0209d4ac: the wipe would stay the
+   thing that is advanced, never be reversed, and leave the master brightness at
+   full black (the black screen, black dialogue box and black arena after a
+   debug level select into those areas). */
+int port_fader_entrance_wipe_armed(void)
+{
+    const unsigned char *p = (const unsigned char *)data_0209f5bc;
+    const unsigned char *w = (const unsigned char *)&hal_wipes[0];
+    return p >= w && p < w + sizeof hal_wipes;
+}
+
 /* Is a fade in motion right now, and how far along is it? Returns 1 and fills
    *evy (0..16, the EVY coefficient the compositor darkens/brightens by) and
    *toWhite (nonzero for a white fade, zero for black) when a fade is being
