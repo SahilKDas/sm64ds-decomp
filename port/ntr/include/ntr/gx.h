@@ -223,7 +223,7 @@ struct GxGpuFrame {
     // Every buffer below is row-major with the SAME stride, which is the
     // framebuffer's allocation width; a row y starts at base + y * stride.
     uint32_t *fb;          // the framebuffer, 0xAARRGGBB
-    float *depth;          // screen-linear z, cleared to 1e30
+    float *depth;          // screen-linear z (-(1/w) when wdepth), cleared to 1e30
     uint8_t *cover;        // the 3D coverage mask, cleared to 0
     uint8_t *attrid;       // the per-pixel polygon ID
     int stride;
@@ -231,6 +231,7 @@ struct GxGpuFrame {
     int px0, py0, pw, ph;  // the present rectangle, which is the scissor
     int want_attrid;       // the frame has a shadow volume, so the ID is read
     int want_depth;        // a second pass will read the depth back
+    int wdepth;            // this frame is W-buffered: depth is -(1/w), not z (gx_render's g_wdepth)
     int tex_filter;        // 0 nearest, 1 bilinear, 2 trilinear
     uint32_t tex_generation;
     uint32_t clear_argb;   // what the framebuffer held when gx_render started
