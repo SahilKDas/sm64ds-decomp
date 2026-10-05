@@ -269,6 +269,7 @@
 // copy nobody can call is a count rather than a port.
 
 #include "hal/screen_gap.h"
+#include "hal/dsstate_seg.h"   /* g_mg_mounts_done / g_mg_overlay_done roll back with the mount */
 
 #include "port_d16.h"   /* slot 16: fBase_c::AfterCleanupResources pushes the delete flag; PORT_D16 pops it */
 #include <cstdio>
@@ -986,21 +987,32 @@ static void port_scene_mg_gc_seat(void)
     std::fflush(stderr);
 }
 
+/* THE TWO ONE-SHOT GUARDS OF THE MINIGAME MOUNT, IN THE CAPTURED SECTION (run
+   hunt7, lane SAVESTATE1). They were host statics "on purpose" (run mg15, lane
+   RELOAD2): a SCENE run was handed the whole process before the frame loop that
+   owns F8/F9, so it could not meet a save state. Since 0.5.5 a minigame can run
+   inside a level process (the Save-and-play row opens the minigame menu from
+   the castle and a crossing runs the scene there), so it can. F8 in the castle,
+   pick a minigame (the mount runs and the guard is set), back to the castle,
+   F9: the restore puts the ov004/ov006 images and every constructor's writes
+   back to what they were before the mount and leaves the guard set, so the
+   next pick skipped the whole pass and the first minigame frame faulted on the
+   unconstructed tables. The rule hal/level_boot.cpp states on g_level_mounted
+   applies as written: a one-shot guard belongs on the same side of the captured
+   section as the work it guards. Both passes are re-runnable (the
+   constructors, the pack checks and the patches write the mounted images and
+   .dsstate globals only, and port_graph_block_register skips a table it
+   already holds), which is the second fact that rule needs. */
+DSSTATE_BEGIN
+static int g_mg_mounts_done;
+static int g_mg_overlay_done;
+DSSTATE_END
+
 static void port_scene_mg_mounts(void)
 {
-    /* HOST-SIDE ON PURPOSE, adjudicated by run mg15 lane RELOAD2. The other
-       eighteen patch-pass guards moved into .dsstate so a restore rolls them
-       back with what they guard; these four did not, because a SCENE run
-       cannot meet a save state at all. main() hands the whole process to
-       port_scene_run/scene_window_run BEFORE the level bring-up and therefore
-       before lk7_persist_read and before the frame loop that owns F8/F9, so a
-       run that reaches this pass can neither write nor read one. Bracketing
-       these would cost .dsstate bytes to insure against a shape that cannot
-       occur. */
-    static int done;
-    if (done)
+    if (g_mg_mounts_done)
         return;
-    done = 1;
+    g_mg_mounts_done = 1;
     port_ov004_pack_check();
     port_ov004_syms_patch();
     port_ov006_pack_check();
@@ -1014,19 +1026,10 @@ static void port_scene_mg_mounts(void)
 
 extern "C" void port_scene_mg_overlay_load(void)
 {
-    /* HOST-SIDE ON PURPOSE, adjudicated by run mg15 lane RELOAD2. The other
-       eighteen patch-pass guards moved into .dsstate so a restore rolls them
-       back with what they guard; these four did not, because a SCENE run
-       cannot meet a save state at all. main() hands the whole process to
-       port_scene_run/scene_window_run BEFORE the level bring-up and therefore
-       before lk7_persist_read and before the frame loop that owns F8/F9, so a
-       run that reaches this pass can neither write nor read one. Bracketing
-       these would cost .dsstate bytes to insure against a shape that cannot
-       occur. */
-    static int done;
-    if (done)
+    /* the guard is g_mg_overlay_done above, in the captured section */
+    if (g_mg_overlay_done)
         return;
-    done = 1;
+    g_mg_overlay_done = 1;
 
     /* idempotent, and already run by the fill on this boot. Called again so
        this function is correct read on its own. */
@@ -1894,7 +1897,7 @@ extern "C" void port_scene_fill_luigi(void)
 
     /* THE CONSTRUCTORS, gated on the requested id exactly as the curling fill
        gates them, and idempotent behind port_scene_mg_overlay_load's own
-       `static int done`. Whichever minigame row's fill runs first is the one
+       g_mg_overlay_done. Whichever minigame row's fill runs first is the one
        that runs them; the rest are no-ops. */
     port_scene_mg_prepare(port_scene_env_want());
 
