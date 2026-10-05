@@ -3044,6 +3044,29 @@ static uint32_t sample_filtered(const TriTex &tt, const uint32_t *base, int w,
     return (a << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0);
 }
 
+/* COVERAGE BELONGS TO THE TEXEL THE DS WOULD HAVE PICKED (run hunt7, lane
+   FILTEREDGE1). The filter's alpha is a blend, so a cut-out's rim pixel comes
+   back with a PARTIAL alpha next to a transparent texel. Taken at face value
+   that did two wrong things: the footprint grew by up to half a texel (a pixel
+   whose own texel is transparent still passed the "alpha 0 means no pixel"
+   test), and a pixel whose own texel is opaque went down the translucent path
+   with its alpha scaled by the blend, which writes no depth, so whatever was
+   behind it was free to paint over the sprite's edge. The card's pass had the
+   worse form of the same thing (it blended the partial alpha over the clear
+   colour AND wrote depth, so the rim showed what was drawn first).
+   The rule here is the one TextureFilter 0 has always followed: the texel at
+   the sample point decides whether the pixel exists (alpha 0: no pixel) and,
+   when that texel is fully opaque, the pixel is fully opaque and writes depth.
+   The filter only supplies the COLOUR of a pixel that exists. A texel with a
+   partial alpha of its own (an A3I5 or A5I3 gradient) keeps the filtered alpha
+   so its fade stays smooth. `nearest_px` is the nearest texel's 0xAARRGGBB. */
+static inline uint32_t filtered_texel_cover(uint32_t filtered, uint32_t nearest_px) {
+    const uint32_t na = nearest_px >> 24;
+    if (na == 0) return 0;
+    if (na == 0xFF) return filtered | 0xFF000000u;
+    return (filtered >> 24) ? filtered : nearest_px;
+}
+
 /* THE LEVEL OF DETAIL, ONE PER TRIANGLE, from the ratio of its area in texels
    to its area in pixels. A triangle covering a quarter of the pixels its
    texels would fill is half the size in each direction, which is one level
@@ -4603,6 +4626,9 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                         texel = ref_sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = ref_tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = ref_tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
@@ -5347,6 +5373,9 @@ void gx_render(Framebuffer &fb) {
                         texel = sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
