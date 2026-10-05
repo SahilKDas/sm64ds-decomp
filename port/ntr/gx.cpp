@@ -3077,6 +3077,29 @@ static uint32_t sample_filtered(const TriTex &tt, const uint32_t *base, int w,
     return (a << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0);
 }
 
+/* COVERAGE BELONGS TO THE TEXEL THE DS WOULD HAVE PICKED (run hunt7, lane
+   FILTEREDGE1). The filter's alpha is a blend, so a cut-out's rim pixel comes
+   back with a PARTIAL alpha next to a transparent texel. Taken at face value
+   that did two wrong things: the footprint grew by up to half a texel (a pixel
+   whose own texel is transparent still passed the "alpha 0 means no pixel"
+   test), and a pixel whose own texel is opaque went down the translucent path
+   with its alpha scaled by the blend, which writes no depth, so whatever was
+   behind it was free to paint over the sprite's edge. The card's pass had the
+   worse form of the same thing (it blended the partial alpha over the clear
+   colour AND wrote depth, so the rim showed what was drawn first).
+   The rule here is the one TextureFilter 0 has always followed: the texel at
+   the sample point decides whether the pixel exists (alpha 0: no pixel) and,
+   when that texel is fully opaque, the pixel is fully opaque and writes depth.
+   The filter only supplies the COLOUR of a pixel that exists. A texel with a
+   partial alpha of its own (an A3I5 or A5I3 gradient) keeps the filtered alpha
+   so its fade stays smooth. `nearest_px` is the nearest texel's 0xAARRGGBB. */
+static inline uint32_t filtered_texel_cover(uint32_t filtered, uint32_t nearest_px) {
+    const uint32_t na = nearest_px >> 24;
+    if (na == 0) return 0;
+    if (na == 0xFF) return filtered | 0xFF000000u;
+    return (filtered >> 24) ? filtered : nearest_px;
+}
+
 /* THE LEVEL OF DETAIL, ONE PER TRIANGLE, from the ratio of its area in texels
    to its area in pixels. A triangle covering a quarter of the pixels its
    texels would fill is half the size in each direction, which is one level
@@ -4637,6 +4660,9 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                         texel = ref_sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = ref_tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = ref_tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
@@ -4827,6 +4853,25 @@ void rab_compare(Framebuffer &fb, int lo, int hi) {
 }
 
 }  // namespace
+
+/* SM64DS_COVER_DUMP=<path>: after the frame's passes (and before the edge
+   smoothing, which rewrites the mask) write the 3D coverage mask, one byte a
+   pixel, 255 where the 3D engine wrote the pixel, as a binary PGM. Each frame
+   overwrites the file, so the last frame drawn is what is left. With
+   SM64DS_TEX_ONLY on the same run (which now also limits the card's triangles)
+   this is one texture's footprint, which is how TextureFilter 0, 1 and 2 are
+   compared pixel for pixel. Off unless the variable is set. */
+static void cover_dump(const char *path, int cw, int ch) {
+    FILE *f = std::fopen(path, "wb");
+    if (!f) return;
+    std::fprintf(f, "P5\n%d %d\n255\n", cw, ch);
+    std::vector<unsigned char> row((size_t)cw);
+    for (int y = 0; y < ch; ++y) {
+        for (int x = 0; x < cw; ++x) row[(size_t)x] = g_cover[y][x] ? 255 : 0;
+        std::fwrite(row.data(), 1, row.size(), f);
+    }
+    std::fclose(f);
+}
 
 void gx_render(Framebuffer &fb) {
     /* run interp1: what reached the raster is the frame; seal its record. */
@@ -5383,6 +5428,9 @@ void gx_render(Framebuffer &fb) {
                         texel = sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
@@ -5621,6 +5669,16 @@ void gx_render(Framebuffer &fb) {
         std::memset(&f, 0, sizeof f);
         f.tris = g.tris.data();
         f.count = g.tris.size();
+        /* SM64DS_TEX_ONLY limits the card's triangles the way it limits the
+           software raster's (see cover_dump) */
+        static std::vector<GxTriangle> only_tris;
+        if (only) {
+            only_tris.clear();
+            for (const GxTriangle &ot : g.tris)
+                if (ot.dbg_tex == only) only_tris.push_back(ot);
+            f.tris = only_tris.data();
+            f.count = only_tris.size();
+        }
         f.fb = &fb.px[0][0];
         f.depth = &g_depth[0][0];
         f.cover = &g_cover[0][0];
@@ -5918,6 +5976,10 @@ void gx_render(Framebuffer &fb) {
        cannot write one, and needs no list of regions to avoid.
        Inside the timed section deliberately: it is part of what a frame costs
        when the setting is on, and the perf line should say so. */
+    {
+        static const char *cd = getenv("SM64DS_COVER_DUMP");
+        if (cd && *cd) cover_dump(cd, cw, ch);
+    }
     aa_pass(fb, cw, ch, nt);
     aa_report();
 
