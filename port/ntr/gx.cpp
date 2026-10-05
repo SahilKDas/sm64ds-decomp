@@ -5046,9 +5046,10 @@ void gx_render(Framebuffer &fb) {
             const char *e = getenv("SM64DS_WDEPTH");
             wd_env = (e && *e == '0') ? 0 : 1;
         }
-        /* the card renderer's own depth readback is Z, and the translucent
-           pass reads it: that frame keeps Z */
-        g_wdepth = wd_env && !g_frame_ortho && !g_gpu_opaque &&
+        /* a card frame is W-buffered too: hal/gpu_raster.cpp draws c/w with
+           a GREATER test and the readback hands the translucent pass the same
+           -(1/w) key this loop uses (GxGpuFrame::wdepth, set below) */
+        g_wdepth = wd_env && !g_frame_ortho &&
                    (g_swap_param & 2) != 0;
     }
     /* the tile shape, set below once the frame's work is known */
@@ -5602,6 +5603,7 @@ void gx_render(Framebuffer &fb) {
            and shadow pass is the only reader, so a frame with neither skips
            it. The A/B reads it too, and says so. */
         f.want_depth = (have_translucent || have_shadow || ab_mode()) ? 1 : 0;
+        f.wdepth = g_wdepth ? 1 : 0;
         f.tex_filter = filt;
         f.tex_generation = g_tex_generation;
         /* The colour a pixel this pass does not reach keeps. Taken from the

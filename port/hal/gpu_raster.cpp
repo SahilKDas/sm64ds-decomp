@@ -155,6 +155,30 @@ int g_fail_device;
    been measured to make. */
 const float kDepthScale = 0.5f;     /* z on the card */
 const float kDepthUnscale = 2.0f;   /* and back again, both exact */
+
+/* ---- THE W-BUFFERED FRAME (the card half of ntr/gx.cpp's g_wdepth) ---------
+   The DS depth-buffers on W (the game writes SWAP_BUFFERS = 3 every frame), and
+   the software raster keys on -(1/w), screen-linear. A card frame used to keep
+   the post-divide z, which in float sits within an ulp of 1.0 over the far half
+   of a perspective scene (1 ulp ~ 0.5 world units at w ~ 3900), so the
+   translucent pass, reading that depth back, let a pond's water plane through
+   the far shore on a lattice of pixels: the dotted band along the water's far
+   edge at the castle grounds and the Tall Tall Mountain waterfall. Ordering a
+   frame by W on the card is a clip-space trick: with clip z held CONSTANT the
+   hardware's z/w divide gives kWDepthC / w, which is linear in screen space
+   (the same interpolation as -(1/w)), larger for nearer, and floating point is
+   densest near zero, so the far range keeps its relative precision. Nearer is
+   larger, so a W frame tests GREATER and clears to 0. The readback turns the
+   card's c/w into the software key -(1/w) by multiplying with -1/c (a power
+   of two, exact); a pixel nothing covered is never copied, so it keeps the
+   software's own clear. kWDepthC is far below any w the camera produces
+   (the viewport clamps depth to [0, 1], so c / w must stay under 1). A frame
+   gx_render did not mark wdepth (an orthographic scene, SM64DS_WDEPTH=0) draws
+   exactly as before. */
+const float kWDepthC = 1.0f / 256.0f;
+const float kWDepthUnscale = -256.0f;
+float g_depth_unscale = kDepthUnscale;   /* what this frame's readback multiplies by */
+bool g_frame_w;                          /* this frame is W-buffered */
 int g_addrcheck;       /* SM64DS_RENDERER_ADDRCHECK: the six DS address ranges */
 
 /* ---- what the run learned, for the one line at exit ---------------------- */
@@ -177,7 +201,7 @@ ID3D11VertexShader   *g_vs;
 ID3D11PixelShader    *g_ps;
 ID3D11InputLayout    *g_layout;
 ID3D11RasterizerState *g_rast;
-ID3D11DepthStencilState *g_dss;
+ID3D11DepthStencilState *g_dss, *g_dss_w;
 ID3D11BlendState     *g_blend;
 ID3D11Buffer         *g_vb;
 UINT                  g_vb_verts;
@@ -318,6 +342,9 @@ bool make_pipeline()
     dd.StencilEnable = FALSE;
     hr = g_dev->CreateDepthStencilState(&dd, &g_dss);
     if (FAILED(hr)) { fall_back("no depth state", hr); return false; }
+    dd.DepthFunc = D3D11_COMPARISON_GREATER;     /* the W frame: nearer is larger */
+    hr = g_dev->CreateDepthStencilState(&dd, &g_dss_w);
+    if (FAILED(hr)) { fall_back("no W depth state", hr); return false; }
 
     /* The colour target blends by the shader's own alpha, which is the DS's
        effective alpha over 31. At TextureFilter 0 that alpha is always 1 and
@@ -640,6 +667,7 @@ void at_exit()
     if (g_white) { g_white->Release(); g_white = 0; }
     if (g_blend) { g_blend->Release(); g_blend = 0; }
     if (g_dss) { g_dss->Release(); g_dss = 0; }
+    if (g_dss_w) { g_dss_w->Release(); g_dss_w = 0; }
     if (g_rast) { g_rast->Release(); g_rast = 0; }
     for (int a = 0; a < 3; ++a)
         for (int b = 0; b < 3; ++b)
@@ -690,7 +718,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
     const __m128i alpha = _mm_set1_epi32((int)0xFF000000u);
     const __m128i ones = _mm_set1_epi8(1);
     const __m128i low6 = _mm_set1_epi8(0x3F);
-    const __m128 two = _mm_set1_ps(kDepthUnscale);
+    const __m128 two = _mm_set1_ps(g_depth_unscale);
     const bool want_id = f->want_attrid != 0;
     for (int y = by0; y < by1; ++y) {
         const uint32_t *crow =
@@ -728,7 +756,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
                 fbrow[k] = 0xFF000000u | (crow[k] & 0x00FFFFFFu);
                 cvrow[k] = 1;
                 if (want_id) idrow[k] = (uint8_t)(idv & 0x3Fu);
-                if (drow) dprow[k] = drow[k] * kDepthUnscale;
+                if (drow) dprow[k] = drow[k] * g_depth_unscale;
             }
         }
         for (; x < bx1; ++x) {
@@ -737,7 +765,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
             fbrow[x] = 0xFF000000u | (crow[x] & 0x00FFFFFFu);
             cvrow[x] = 1;
             if (want_id) idrow[x] = (uint8_t)(idv & 0x3Fu);
-            if (drow) dprow[x] = drow[x] * kDepthUnscale;
+            if (drow) dprow[x] = drow[x] * g_depth_unscale;
         }
     }
 }
@@ -826,7 +854,7 @@ int read_back(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
             fbrow[x] = 0xFF000000u | (crow[x] & 0x00FFFFFFu);
             cvrow[x] = 1;
             if (f->want_attrid) idrow[x] = (uint8_t)(idv & 0x3Fu);
-            if (drow) dprow[x] = drow[x] * kDepthUnscale;
+            if (drow) dprow[x] = drow[x] * g_depth_unscale;
         }
     }
 
@@ -1254,6 +1282,11 @@ int draw_frame(const ntr::GxGpuFrame *f)
         return 0;
     }
 
+    /* this frame's depth key (see kWDepthC): the vertex build, the clear, the
+       depth state and the readback below all read these two */
+    g_frame_w = f->wdepth != 0;
+    g_depth_unscale = g_frame_w ? kWDepthUnscale : kDepthUnscale;
+
     if (f->tex_generation != g_tex_gen_seen) {
         g_tex_gen_seen = f->tex_generation;
         release_textures();
@@ -1358,7 +1391,8 @@ int draw_frame(const ntr::GxGpuFrame *f)
             const float yn = 1.0f - (float)v.y * inv_ch;
             o.x = xn * v.w;
             o.y = yn * v.w;
-            o.z = v.z * kDepthScale * v.w;   /* see kDepthScale above */
+            o.z = g_frame_w ? kWDepthC                 /* c / w on the card, see kWDepthC */
+                            : v.z * kDepthScale * v.w;   /* see kDepthScale above */
             o.w = v.w;
             o.u = textured ? v.u * tsc * iw : 0.0f;
             o.v = textured ? v.v * tsc * ih : 0.0f;
@@ -1408,7 +1442,7 @@ int draw_frame(const ntr::GxGpuFrame *f)
     if (!nothing) {
         g_ctx->ClearRenderTargetView(g_col_rtv, clr);
         g_ctx->ClearRenderTargetView(g_id_rtv, zero);
-        g_ctx->ClearDepthStencilView(g_dep_dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
+        g_ctx->ClearDepthStencilView(g_dep_dsv, D3D11_CLEAR_DEPTH, g_frame_w ? 0.0f : 1.0f, 0);
 
         if (!ensure_vb(g_scratch.size())) return 0;
         D3D11_MAPPED_SUBRESOURCE ms;
@@ -1435,7 +1469,7 @@ int draw_frame(const ntr::GxGpuFrame *f)
         sc.bottom = f->py0 + f->ph;
         g_ctx->RSSetScissorRects(1, &sc);
         g_ctx->RSSetState(g_rast);
-        g_ctx->OMSetDepthStencilState(g_dss, 0);
+        g_ctx->OMSetDepthStencilState(g_frame_w ? g_dss_w : g_dss, 0);
         const float bf[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
         g_ctx->OMSetBlendState(g_blend, bf, 0xffffffffu);
         g_ctx->IASetInputLayout(g_layout);
