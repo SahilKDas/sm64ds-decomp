@@ -173,14 +173,16 @@ BOOT_CONSTANT = {
     "_data_02075720", "data_02075720",
 }
 
-# Object files whose data_* symbols are READ-ONLY ROM constants, not mutable
-# game state: the game never writes them, so they never diverge between a save
-# and a load and do not need to roll back. romdata.py emits only such constants
-# (its own header says so, and it explicitly excludes the symbols that ARE
-# written at runtime, which live in model_host.cpp / auto_bss.cpp and so are in
-# .dsstate). Capturing them would just bloat the snapshot by the ROM's constant
-# tables. They are allowed to sit outside .dsstate.
-CONST_OBJS = ("romdata.c.obj",)
+# Object files whose data_* symbols are READ-ONLY ROM constants and may sit
+# outside .dsstate. EMPTY NOW. This used to exempt romdata.c.obj on the claim
+# that tools/romdata.py emits only constants, and the claim was false: the
+# arm9 .data the port hosts with a ROM initial value includes words the game
+# writes (data_0209211c, SetNextLevel's return-to-level latch, ROM value -1; the
+# loaded-song word; the minigame menu's selection). Left outside, a load put
+# the world back and not those words, and a second star after an F9 came out at
+# the castle front. tools/romdata.py now routes everything it emits into
+# .dsstate, and this guard checks it like any other hosted symbol.
+CONST_OBJS = ()
 
 
 def main():
@@ -279,7 +281,7 @@ def main():
             by_name += 1
         else:
             by_obj += 1
-        if obj.endswith(CONST_OBJS):   # read-only ROM constants, never diverge
+        if CONST_OBJS and obj.endswith(CONST_OBJS):   # none today
             continue
         if not (lo <= rva < hi):
             outside.append((name, rva, obj))

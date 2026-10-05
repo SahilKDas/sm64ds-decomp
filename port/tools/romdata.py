@@ -1062,6 +1062,22 @@ def _emit(root, data):
         # --rom-clean zeroes the arrays; the bytes load from romdata.bin.
         lines.append("#include <string.h>")   # for the apply memcpy
     lines.append("")
+    # THE ARM9 .data THIS FILE HOSTS IS GAME STATE, NOT A TABLE OF CONSTANTS. The
+    # DS writes it (SetNextLevel's return-to-level latch data_0209211c, the
+    # loaded-song word data_0208e43c, the minigame menu's selection
+    # data_0208a174 ...), so a save state that leaves it out is half a rollback:
+    # F9 put the world back and left the return latch at the -1 the first star
+    # exit had written, and the next star exit came out at the castle front
+    # instead of the painting. These arrays used to sit in the plain .data that
+    # the snapshot never copies, on the claim that this file only emits
+    # read-only ROM constants; that claim was false for every symbol the port
+    # had to host WITH a ROM initial value. Route all of it into the section the
+    # snapshot captures wholesale (hal/dsstate_seg.h), so no list has to be
+    # kept of which of these the game writes. About 120 KB. The section
+    # declaration comes first for the reason ovdata.py gives (LNK4078).
+    lines.append('#pragma section(".dsstate$mmm", read, write)')
+    lines.append('#pragma data_seg(".dsstate$mmm")')
+    lines.append('#pragma bss_seg(".dsstate$mmm")')
     for addr, length, ctype in TABLES:
         off = addr - BASE
         blob = data[off:off + length]
@@ -1115,7 +1131,10 @@ def _emit(root, data):
                      f"{len(members)} symbols, laid out in ROM order "
                      f"(align {align}) */")
         for i, (name, addr, size) in enumerate(members):
-            sec = f".{tag}${i:04d}"
+            # the run stays contiguous inside the captured section: sections
+            # of one family sort by the text after the `$`, and no other
+            # contribution to .dsstate carries this prefix
+            sec = f".dsstate$rom{tag}{i:04d}"
             lines.append(f'#pragma section("{sec}", read, write)')
             blob = data[addr - BASE:addr - BASE + size]
             lines.append(f'__declspec(allocate("{sec}")) '
@@ -1127,6 +1146,12 @@ def _emit(root, data):
                      f"{last[2]};")
         lines.append(f"unsigned {tag}_run_span = "
                      f"{members[-1][1] + members[-1][2] - members[0][1]};")
+    lines.append("")
+
+    # Everything above is hosted DS storage and is inside the captured section;
+    # what follows is host-shaped (string-literal pointers) and stays out.
+    lines.append('#pragma data_seg()')
+    lines.append('#pragma bss_seg()')
     lines.append("")
 
     # The archive-mount table at data_0208ecf4: 13 entries of
