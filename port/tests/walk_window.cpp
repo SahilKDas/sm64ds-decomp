@@ -1244,8 +1244,26 @@ static void ss_file_keep(SsFileKeep *k)
     memcpy(k->cae4, data_0209cae4, sizeof k->cae4);
     memcpy(k->caf4, data_0209caf4, sizeof k->caf4);
 }
+/* THE STAR BYTES ARE THE ONE PIECE THAT DOES ROLL BACK (run hunt7, lane
+   SAVESTATE1). Everything above is kept so that no save the player made is
+   lost, but the star bytes are also what the world SHOWS: a star actor is blue
+   when its bit is set, and the HUD's star count and every star door read the
+   same bytes. Keeping the newer copy meant F8 before a star, the star, F9, and
+   the star was already blue ("loading a state did not undo the star", report on
+   0.5.5). So when the snapshot is of the same open file (the slot byte at
+   +0x328 matches), the star bytes come from the snapshot and the star is gold
+   again, as at the F8. What the player had saved is still safe: the card is
+   never rolled back, and SaveData::SaveFile ORs the stars already on the card
+   into whatever it writes (src/_ZN8SaveData8SaveFileEjP12FileSaveData.cpp), so
+   a later save can add to the file and never take a star out of it. A snapshot
+   of ANOTHER file (the player went back to the title and opened a different
+   slot) keeps the old behaviour: the open file stays whole. */
 static void ss_file_put_back(const SsFileKeep *k)
 {
+    const int slot_at = 0x328 - 0x54;   /* data_0209caf4 + this = caa0 + 0x328 */
+    const int same_file = data_0209caf4[slot_at] == k->caf4[slot_at];
+    unsigned char snap_stars[sizeof k->cab4];
+    memcpy(snap_stars, data_0209cab4, sizeof snap_stars);
     const int moved =
         memcmp(data_0209caa0, k->caa0, sizeof k->caa0) ||
         memcmp(data_0209cab4, k->cab4, sizeof k->cab4) ||
@@ -1257,10 +1275,22 @@ static void ss_file_put_back(const SsFileKeep *k)
     memcpy(data_0209cad2, k->cad2, sizeof k->cad2);
     memcpy(data_0209cae4, k->cae4, sizeof k->cae4);
     memcpy(data_0209caf4, k->caf4, sizeof k->caf4);
+    int stars_back = 0;
+    if (same_file) {
+        for (size_t i = 0; i < sizeof snap_stars; ++i)
+            if (snap_stars[i] != data_0209cab4[i])
+                ++stars_back;
+        memcpy(data_0209cab4, snap_stars, sizeof snap_stars);
+    }
     fprintf(stderr, "[savestate] the open save file was kept as it was before "
-                    "the load (%s)\n",
+                    "the load (%s); star bytes %s (%d course byte(s) differed "
+                    "from the snapshot's)\n",
             moved ? "the snapshot held an older copy of it"
-                  : "the snapshot's copy was the same");
+                  : "the snapshot's copy was the same",
+            same_file ? "put back to the snapshot's, so a star collected after "
+                        "the save is uncollected again"
+                      : "kept (the snapshot is of another file)",
+            stars_back);
 }
 static int ss_load_state(void)
 {
