@@ -1336,22 +1336,23 @@ return func_0200fc44((int)s,(Vector3 *)&t,r1);
 /* ROM ordinal 18 -- func_0200fc44
  * 0x0200fc44  size 0x88 */
 typedef struct RaycastGroundPod { int filler[17]; int resultY; int pad[2]; } RaycastGroundPod;
+struct dBgCh_Gnd;
 extern "C" {
-extern void _ZN9dBgCh_GndC1Ev(RaycastGroundPod* c);
-extern void _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c(RaycastGroundPod* c, Vector3* pos, void* actor);
+extern void _ZN9dBgCh_GndC1Ev(dBgCh_Gnd* c);
+extern void _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c(dBgCh_Gnd* c, const Vector3* pos, void* actor);
 extern int _ZN9dBgCh_Gnd10DetectClsnEv(RaycastGroundPod* c);
-extern void _ZN9dBgCh_GndD1Ev(RaycastGroundPod* c);
+extern void _ZN9dBgCh_GndD1Ev(dBgCh_Gnd* c);
 }
 extern "C" int func_0200fc44(int a, Vector3* pos, int flag) {
     if (flag) {
         RaycastGroundPod rg;
-        _ZN9dBgCh_GndC1Ev(&rg);
+        _ZN9dBgCh_GndC1Ev((dBgCh_Gnd*)&rg);
         int* yp = (int*)((int)pos + 4);
         *yp += 0x32000;
-        _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c(&rg, pos, 0);
+        _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c((dBgCh_Gnd*)&rg, pos, 0);
         if (_ZN9dBgCh_Gnd10DetectClsnEv(&rg))
             pos->y = rg.resultY;
-        _ZN9dBgCh_GndD1Ev(&rg);
+        _ZN9dBgCh_GndD1Ev((dBgCh_Gnd*)&rg);
     }
     int* yp2 = (int*)((int)pos + 4);
     *yp2 += 0x19000;
@@ -1459,12 +1460,12 @@ extern "C" int func_0200fa04(int a, Vector3* pos, int flag)
 {
     RaycastGroundPod rc;
     if (flag) {
-        _ZN9dBgCh_GndC1Ev(&rc);
+        _ZN9dBgCh_GndC1Ev((dBgCh_Gnd*)&rc);
         *(int*)(((int)pos + 4)) += 0x32000;
-        _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c(&rc, pos, 0);
+        _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c((dBgCh_Gnd*)&rc, pos, 0);
         if (_ZN9dBgCh_Gnd10DetectClsnEv(&rc))
             pos->y = rc.resultY;
-        _ZN9dBgCh_GndD1Ev(&rc);
+        _ZN9dBgCh_GndD1Ev((dBgCh_Gnd*)&rc);
     }
     *(int*)(((int)pos + 4)) += 0x78000;
     return _ZN8Particle6System9NewSimpleEj5Fix12IiES2_S2_(0x1b, pos->x, pos->y, pos->z);

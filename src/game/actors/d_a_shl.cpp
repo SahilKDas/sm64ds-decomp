@@ -92,7 +92,7 @@ void *_ZN9dBgCh_GndC1Ev(void *self);
 void _ZN9dBgCh_GndD1Ev(void *self);
 void _ZN5dBgCh19StartDetectingWaterEv(void *self);
 void _ZN9dBgCh_Gnd12SetObjAndPosERK7Vector3P8dActor_c(void *self,
-                                                      Vector3 *pos,
+                                                      const Vector3 *pos,
                                                       void *actor);
 int  _ZN9dBgCh_Gnd10DetectClsnEv(void *self);
 
