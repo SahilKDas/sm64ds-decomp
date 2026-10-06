@@ -8615,6 +8615,10 @@
     "src/actors/dScStage_c.cpp#_ZN10dScStage_c9VE_UpdateEv": "ruspecial",
     "src/actors/dScStage_c.cpp#_ZN10dScStage_cD0Ev": "tangosdev",
     "src/actors/dScStage_c.cpp#_ZN10dScStage_cD1Ev": "tangosdev",
-    "src/actors/dScStage_c.cpp#_ZN10dScStage_c9PS_UpdateEv": "andrewboudreau"
+    "src/actors/dScStage_c.cpp#_ZN10dScStage_c9PS_UpdateEv": "andrewboudreau",
+    "src/engine/gx/G3X.cpp#_ZN3G3X13SetClearColorEtiiib": "tangosdev",
+    "src/engine/gx/G3X.cpp#func_020555a4": "tangosdev",
+    "src/engine/gx/G3X.cpp#_ZN3G3X11SetFogTableEPv": "ruspecial",
+    "src/engine/gx/G3X.cpp#_ZN3G3X6SetFogEbiii": "tangosdev"
   }
 }

@@ -1,0 +1,79 @@
+{
+  "id": "arm9/G3X",
+  "module": "arm9",
+  "source": "src/engine/gx/G3X.cpp",
+  "promoted_source": "src/engine/gx/G3X.cpp",
+  "status": "promoted",
+  "boundary_confidence": "high",
+  "boundary_evidence": [
+    "The class's complete member set in one contiguous run: SetClearColor at 0x02055574 through SetFog ending at 0x02055624 -- config/arm9/symbols.txt records exactly three _ZN3G3X symbols, all here.",
+    "func_020555a4 inside the run is a file-local helper, not a member: its signature is (void* dst) with no receiver and its body snapshots the register block at 0x4000380 through MultiCopyHalf. It folds into the TU under its own func_ name, the same disposition dBgPi gave its absorbed func_ shards (minus the member rename, which its signature does not support).",
+    "func_020554bc below and func_02055624 above are unenrolled free-function neighbours, not G3X members.",
+    "No lifecycle or RTTI: G3X has no instance state and no virtuals (include/G3X.h documents the all-static shape), so nothing but the four functions emits."
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "start": "0x02055574",
+      "end": "0x02055624"
+    }
+  ],
+  "functions": [
+    {
+      "symbol": "_ZN3G3X13SetClearColorEtiiib",
+      "address": "0x02055574",
+      "size": "0x00000030",
+      "legacy_source": "src/_ZN3G3X13SetClearColorEtiiib.cpp",
+      "ordinal": 0
+    },
+    {
+      "symbol": "func_020555a4",
+      "address": "0x020555a4",
+      "size": "0x00000018",
+      "legacy_source": "src/func_020555a4.c",
+      "ordinal": 1
+    },
+    {
+      "symbol": "_ZN3G3X11SetFogTableEPv",
+      "address": "0x020555bc",
+      "size": "0x00000014",
+      "legacy_source": "src/_ZN3G3X11SetFogTableEPv.cpp",
+      "ordinal": 2
+    },
+    {
+      "symbol": "_ZN3G3X6SetFogEbiii",
+      "address": "0x020555d0",
+      "size": "0x00000054",
+      "legacy_source": "src/_ZN3G3X6SetFogEbiii.cpp",
+      "ordinal": 3
+    }
+  ],
+  "data": [],
+  "bss": [],
+  "relocations": [],
+  "compiler_only_output": [],
+  "externalized_output": [],
+  "notes": [],
+  "verification": {
+    "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
+    "toolchain": "tools/mwccarm/2004/b56/mwccarm.exe",
+    "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
+    "object": "build/tu/arm9-G3X/G3X.o (gitignored)",
+    "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
+    "functions_matched": 4,
+    "functions_declared": 4,
+    "compilerOnlyOutput": {
+      "requested": [],
+      "deadstripped": [],
+      "data": [],
+      "dataExternalized": []
+    },
+    "criteria": {
+      "every_declared_function_defined": "PASS",
+      "every_declared_function_bytes_match": "PASS",
+      "declared_function_set_equals_defined_function_set": "PASS",
+      "functions_occur_in_expected_order": "PASS",
+      "relocation_destinations_verified": "PASS"
+    }
+  }
+}

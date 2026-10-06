@@ -7106,21 +7106,9 @@ src/func_020554bc.c:
     complete
     .text start:0x020554bc end:0x02055574
 
-src/_ZN3G3X13SetClearColorEtiiib.cpp:
+src/engine/gx/G3X.cpp:
     complete
-    .text start:0x02055574 end:0x020555a4
-
-src/func_020555a4.c:
-    complete
-    .text start:0x020555a4 end:0x020555bc
-
-src/_ZN3G3X11SetFogTableEPv.cpp:
-    complete
-    .text start:0x020555bc end:0x020555d0
-
-src/_ZN3G3X6SetFogEbiii.cpp:
-    complete
-    .text start:0x020555d0 end:0x02055624
+    .text start:0x02055574 end:0x02055624
 
 src/func_02055624.c:
     complete
