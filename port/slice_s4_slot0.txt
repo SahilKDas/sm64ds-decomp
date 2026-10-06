@@ -77,13 +77,11 @@ src/IsLevelTinyHugeIslandOutside.c
 src/func_020308a8.c
 src/func_0203da3c.c
 src/func_0203dad4.c
-src/func_ov001_020ab2e4.c
+src/actors/dCapIcon_c.cpp
 src/engine/fader/_ZN9FaderWipeC1Ev.cpp
 src/engine/fader/_ZN9FaderWipeD1Ev.cpp
-src/_ZN8dScene_c20Initialise3dGraphicsEv.cpp
+src/actors/dScene_c.cpp
 src/_ZN4Heap10SetDefaultEv.cpp
-src/_ZN2GX15DisableAllBanksEv.cpp
-src/_ZN5Stage12SetVramBanksEv.cpp
 src/_ZN2GX15SetGraphicsModeEiii.cpp
 src/_ZN3GXS15SetGraphicsModeEi.cpp
 src/_ZN2GX6DispOnEv.cpp

@@ -19,19 +19,16 @@ src/__sinit_ov015_0211333c.c
 # Gate 60: TOWER_STEP (id 52). Its factory installs vtable 0x02114650, so an
 # id-52 object runs the _ZN14MovingBarSmall* lifecycle. Factory + the five
 # lifecycle methods its vtable's own slots point at.
-src/d_a_obj_bk_lift.c
+src/actors/daObjBk_Lift_c.cpp
 src/game/actors/d_a_obj_bk_rotebar.cpp
-src/_ZN9TowerStep8BehaviorEv.cpp
 # Seat B (PAIR): TOWER_STEP slot 31 Kill (0x0211233c) and slot 27
 # OnHitByMegaChar (0x021123a0). The slot-27 body credits the mega kill then
 # virtual-dispatches its OWN slot 31 (ldr [r0]; ldr [r1,#0x7c]; blx r1), so the
 # Kill body it lands on must be the real thiscall body seated in the same table.
 # Both are matched ov015 src, in no prior slice; seat together.
-src/_ZN9TowerStep4KillEv.cpp
-src/_ZN9TowerStep15OnHitByMegaCharER6Player.cpp
 
 # Gate 61: ROTATING_BRIDGE (id 51). Its factory installs vtable 0x02114714, so
-# an id-51 object runs the _ZN9TowerStep* lifecycle. Factory + the five
+# an id-51 object runs the _ZN14daObjBk_Lift_c* lifecycle. Factory + the five
 # lifecycle methods.
 
 # Gate 62: POLE_BILLBOARD (id 42) installs the billboard base vtable 0x02114360
@@ -39,26 +36,20 @@ src/_ZN9TowerStep15OnHitByMegaCharER6Player.cpp
 # and KNOCK_DOWN_PLANK (id 44) installs 0x02114420 and runs the
 # _ZN13PoleBillboard* lifecycle.
 src/game/actors/d_a_obj_bk_billboard.cpp
-src/d_a_obj_bk_botaosi.c
-src/_ZN14KnockDownPlank13InitResourcesEv.cpp
+src/actors/daObjBk_Botaosi_c.cpp
 src/game/actors/d_a_obj_bk_dossunbar.cpp
-src/_ZN14KnockDownPlank8BehaviorEv.cpp
 # Seat A: KNOCK_DOWN_PLANK slot 27 OnHitByMegaChar (0x021113c0). A leaf
 # dispatcher: it credits the mega kill through the helper at 0x020bee44 (already
 # in the link) and writes two fields, no vtable dispatch, no ClosestPlayer. This
 # class already seats slot 31 as Platform::Kill (wf_kill), so slot 27 is
 # standalone and needs no pairing.
-src/_ZN14KnockDownPlank15OnHitByMegaCharER6Player.cpp
 
 # Gate 63: ROTATING_PLATFORM_WF (id 50) installs the unnamed table
 # 0x021147e8 and runs the plain-C func_ov015_02112c* lifecycle; its Behavior and
 # Render are ov002's shared Platform bodies, already in the build, no PMF.
 src/game/actors/d_a_obj_bk_ukisima.cpp
 # its ov002 shared Platform Behavior/Render/helpers (the floating-platform base)
-src/_ZN16daObjKaitendai_c6RenderEv.cpp
-src/_ZN16daObjKaitendai_c8BehaviorEv.cpp
-src/func_ov002_020b676c.cpp
-src/func_ov002_020b66a8.c
+src/actors/daObjKaitendai_c.cpp
 
 # Gate 76: MOVING_BAR_BIG (53) and MOVING_BAR_SMALL (54). Both factories install
 # vtable 0x0211458c and run KnockDownPlank's lifecycle. Behavior is a host copy
@@ -79,12 +70,7 @@ src/func_ov002_020b66a8.c
 # Helper closure the two platforms' InitResources/Behavior reach: two ov015
 # helpers and the two MeshColliderBase update paths their MovingMeshCollider
 # threads through (both matched src, not yet in any slice).
-src/func_ov015_021123c8.cpp
-src/func_ov015_021128f8.c
-src/func_ov015_021128e8.c
-src/func_ov015_021114f0.c
-src/func_ov015_0211166c.c
-src/_ZN7fBase_c8BehaviorEv.cpp
+src/actors/ActorBase.cpp
 src/_ZN4dBgW16UpdatePosAndAngsERS_P8dActor_cR5dBgPiR7Vector3P10Vector3_16S8_.cpp
 src/_ZN4dBgW21UpdatePosWithVelocityERS_P8dActor_cR5dBgPiR7Vector3P10Vector3_16S8_.cpp
 src/_ZN4dBgW22UpdatePosWithTransformERS_P8dActor_cR5dBgPiR7Vector3P10Vector3_16S8_.cpp
@@ -100,10 +86,8 @@ src/game/actors/d_a_obj_bk_fall_block.cpp
 # the ov098 (daObjBk base) behavior, render, death slots and their closure
 src/actors/daObjFallBlock_c.cpp
 # the ov098 init/cleanup veneers FallBlockWf's ov015 methods tail-call into.
-# func_ov098_0213a794's matched .cpp cannot be compiled verbatim on MSVC (it
+# daObjFallBlock_c_InitResources's matched .cpp cannot be compiled verbatim on MSVC (it
 # re-declares itself with a pointer type decl_common.h already declares, a C2733
 # extern-C overload), so its body is a host copy in
 # port/unmatched/FallBlockWf_InitVeneer.cpp; the cleanup veneer's .c compiles as
 # is.
-src/func_ov098_0213a8ec.c
-src/func_ov098_0213a8e0.c

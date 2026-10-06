@@ -32,8 +32,8 @@ describes the PRE-#1336 state. On current main:
         func_ov006_020d6084 0x020d6084  size 0x34
         func_ov006_020e17f8        0x020e17f8  size 0xb0
     the ov006 bodies at those addresses are now
-      src/func_ov006_020cac30.cpp, src/actors/dScMgBomroom_c.cpp and
-      src/func_ov006_020e17f8.cpp
+      src/actors/dMgTrmpln2Mario_c.cpp, src/actors/dScMgBomroom_c.cpp and
+      src/actors/dScMgCurling_c.cpp
 
 MAIN GOT IT RIGHT AND THE PORT'S COMMENT HAS IT BACKWARDS. See section
 1's closing note: the byte evidence gathered here sides with #1336, not
@@ -60,13 +60,13 @@ they are not Player methods at all:
   src/actors/dScMgBomroom_c.cpp -- writes this+0x62ad
     and this+0x62af. sizeof(Player) is 0x768. "the Player name is a
     community label applied to the wrong overlay's bytes."
-  src/func_ov006_020e17f8.cpp -- reads this+0x4eb0/0x4eb4/
+  src/actors/dScMgCurling_c.cpp -- reads this+0x4eb0/0x4eb4/
     0x4ee5, ~0x4700 past the end of a Player.
-  src/_ZN6Player29TryExitCharacterDoorWithIntroEv.cpp -- constructor
+  src/actors/dMgTrmpln2Mario_c.cpp -- constructor
     shape (base call, vptr store, member ctor at this+0x78), not a
     state handler.
 
-A fourth, src/func_ov006_020cac30.cpp, reads data_ov006_021405bc
+A fourth, src/actors/dMgTrmpln2Mario_c.cpp, reads data_ov006_021405bc
 and walks an array of 0xdc-byte records at data_ov006_02140554. That is
 ov006's own storage, not Player's.
 
@@ -206,7 +206,7 @@ hit, _func_ov006_020e3078, and it is attributed to
 func_ov002_020e3078.c.obj. It is not an ov006 TU. It is an
 /alternatename alias, port/hal/cxx_aliases.cpp:864 and :908, pointing
 the ov006 name at the ov002 body at the same shared address. The ov006
-TU of that name, src/func_ov006_020e3078.cpp, is not linked, so
+TU of that name, src/actors/dScMgCurling_c.cpp, is not linked, so
 linkage.py's ov006 linked=0 is correct. Anyone auditing reach by
 grepping the map needs to know that one name is an alias, and that the
 alias is the shared-window artifact again in a third form.
@@ -257,9 +257,9 @@ has already broken on main:
 
   the matched sources moved too. On main the func_ov002_* stems for
   these three no longer exist; the bodies are
-  src/func_ov006_020cac30.cpp,
+  src/actors/dMgTrmpln2Mario_c.cpp,
   src/actors/dScMgBomroom_c.cpp and
-  src/func_ov006_020e17f8.cpp, and the func_ov006_* stems
+  src/actors/dScMgCurling_c.cpp, and the func_ov006_* stems
   now hold the ov006 bodies.
 
 So a rebase that regenerates the .inc leaves three cases calling

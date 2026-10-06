@@ -325,8 +325,8 @@ extern "C" int _ZN11CommonModel6RenderEPK7Vector3(void *self, const void *scale)
    name, its calling convention and its parameter types, nothing about
    layout, so one method is the whole declaration that is needed. */
 struct StarMarkerFace { void SpawnRedCoinStarIfNecessary(); };
-#pragma comment(linker, "/alternatename:?SpawnRedCoinStarIfNecessary@StarMarkerFace@@QAEXXZ=?SpawnRedCoinStarIfNecessary@StarMarker@@QAEXXZ")
-extern "C" void _ZN10StarMarker27SpawnRedCoinStarIfNecessaryEv(void *self)
+#pragma comment(linker, "/alternatename:?SpawnRedCoinStarIfNecessary@StarMarkerFace@@QAEXXZ=?SpawnRedCoinStarIfNecessary@daStarBase_c@@QAEXXZ")
+extern "C" void _ZN12daStarBase_c27SpawnRedCoinStarIfNecessaryEv(void *self)
 { ((StarMarkerFace *)self)->SpawnRedCoinStarIfNecessary(); }
 
 // ---- COIN (288), RED_COIN (289), BLUE_COIN (290) -- ov002 ------------------
@@ -354,12 +354,12 @@ extern "C" void _ZN10StarMarker27SpawnRedCoinStarIfNecessaryEv(void *self)
 // destroyed every single time one is collected. Member order is the reverse
 // of the factory's construction order, which is what the ROM's own D0 does.
 extern "C" {
-int _ZN4Coin13InitResourcesEv(char *self);
-int _ZN4Coin16CleanupResourcesEv(char *self);
-int _ZN4Coin8BehaviorEv(void *self);            /* port/unmatched */
-int _ZN4Coin13OnYoshiTryEatEv(void);                  /* OnYoshiTryEat */
-void _ZN4Coin13OnTurnIntoEggER6Player(char *self, int arg);  /* OnTurnIntoEgg */
-void *_ZTV4Coin[31];
+int _ZN8daCoin_c13InitResourcesEv(char *self);
+int _ZN8daCoin_c16CleanupResourcesEv(char *self);
+int _ZN8daCoin_c8BehaviorEv(void *self);            /* port/unmatched */
+int _ZN8daCoin_c13OnYoshiTryEatEv(void);                  /* OnYoshiTryEat */
+void _ZN8daCoin_c13OnTurnIntoEggER6Player(char *self, int arg);  /* OnTurnIntoEgg */
+void *_ZTV8daCoin_c[31];
 void port_coin_states_seat(void);               /* port/unmatched */
 /* the five member destructors the D1 body runs, in reverse order */
 void _ZN10dBgCh_ActrD1Ev(void *);
@@ -368,22 +368,20 @@ void _ZN11ShadowModelD1Ev(void *);
 void *_ZN11CommonModelD1Ev(void *);
 void *_ZN8dActor_cD2Ev(void *);
 }
-/* Coin's own D0 spells its table by the RTTI name. */
-#pragma comment(linker, "/alternatename:__ZTV8daCoin_c=__ZTV4Coin")
 /* Gate 204: slot 17, the coin's own deleting destructor. src/_ZN4CoinD0Ev.cpp
    has been on slice_gate33.txt since that gate with nothing referencing it,
    so /OPT:REF dropped it before the map was written. */
-extern "C" int *_ZN4CoinD0Ev(int *self);
+extern "C" int *_ZN8daCoin_cD0Ev(int *self);
 
-#include "Coin.h"
+#include "daCoin_c.h"
 #include "dtor_faces_cpp.h"
 
 static int __fastcall coin_init(void *s, void *)
-{ return _ZN4Coin13InitResourcesEv((char *)s); }
+{ return _ZN8daCoin_c13InitResourcesEv((char *)s); }
 static int __fastcall coin_clean(void *s, void *)
-{ return _ZN4Coin16CleanupResourcesEv((char *)s); }
+{ return _ZN8daCoin_c16CleanupResourcesEv((char *)s); }
 static int __fastcall coin_behavior(void *s, void *)
-{ return _ZN4Coin8BehaviorEv(s); }
+{ return _ZN8daCoin_c8BehaviorEv(s); }
 /* SM64DS_ACTOR_PROBE=1 for a CommonModel. The shared probe in
    hal/actor_classes.cpp reads a MODEL's layout (file at +0x0c, transforms at
    +0x14, matrix at +0x1c) and a CommonModel is a different, shorter object --
@@ -409,17 +407,17 @@ static int __fastcall coin_render(void *s, void *)
     /* Two CommonModels: 0xd8 is the one drawn with flag 0x10 clear and 0x114
        the one drawn with it set. */
     coin_model_probe("COIN", (const char *)s + 0xd8);
-    return ((Coin *)s)->Coin::Render();
+    return ((daCoin_c *)s)->daCoin_c::Render();
 }
 /* slot 16 is the matched src/_ZN4CoinD1Ev.cpp, reached through
    hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP); the transcription that
    stood here spelled the same chain by hand. */
 static int __fastcall coin_d0(void *s, void *)
-{ return (int)(size_t)_ZN4CoinD0Ev((int *)s); }
+{ return (int)(size_t)_ZN8daCoin_cD0Ev((int *)s); }
 static int __fastcall coin_yoshi(void *, void *)
-{ return _ZN4Coin13OnYoshiTryEatEv(); }
+{ return _ZN8daCoin_c13OnYoshiTryEatEv(); }
 static int __fastcall coin_egg(void *s, void *, int a)
-{ _ZN4Coin13OnTurnIntoEggER6Player((char *)s, a); return 0; }
+{ _ZN8daCoin_c13OnTurnIntoEggER6Player((char *)s, a); return 0; }
 
 // ---- the coin's models are preloaded by Stage::InitResources ---------------
 //
@@ -483,7 +481,7 @@ static void port_coin_models_preload(void)
 
 extern "C" void hal_fill_coin_vtable(void)
 {
-    void **vt = _ZTV4Coin;
+    void **vt = _ZTV8daCoin_c;
     hal_fill_common_model_vtable();
     port_coin_models_preload();
     port_coin_states_seat();
@@ -522,8 +520,8 @@ extern "C" void hal_fill_coin_vtable(void)
 //   297  g_profile_HEART       _ZTV7Seaweed          12daObjHeart_c
 //   11   g_profile_HANSWITCH  _ZTV10StarSwitch      13daObjSwitch_c
 //   329  g_profile_SECRET_COIN    _ZTV15InvisibleSecret 13daObjNumber_c
-//   299  g_profile_YAJIRUSI_L      _ZTV14ArrowSignRight  15daObjYajirusi_c
-//   300  g_profile_YAJIRUSI_R     _ZTV14ArrowSignRight  (same table)
+//   299  g_profile_YAJIRUSI_L      _ZTV15daObjYajirusi_c  15daObjYajirusi_c
+//   300  g_profile_YAJIRUSI_R     _ZTV15daObjYajirusi_c  (same table)
 //   208  g_profile_WATERBOMB          _ZTV9WaterBomb        7daWbm_c
 //   220  g_profile_IRONBALL    _ZTV15RollingIronBall 7daIbl_c
 //   298  g_profile_DOKAN           _ZTV13FortressTower   15daObjSimpleBg_c
@@ -566,19 +564,19 @@ void _ZN5ModelD1Ev(void *);
 // rather than from a boot; no level-6 census has ever produced one. The other
 // three ids of this class sit at 321 (levels 0/7/42), 323 (0/8/10) and
 // 324 (0/42x2), and level 0 is the only level carrying all four.
-#include "BrickBlock.h"
+#include "daObjBlockItemTag_c.h"
 extern "C" {
-int _ZN10BrickBlock13InitResourcesEv(char *self);
-int *_ZN10BrickBlockD0Ev(int *self);           /* slot 17, DTOR-PAIRS seat (ov002 0x020b4180) */
-void *_ZTV10BrickBlock[31];
+int _ZN19daObjBlockItemTag_c13InitResourcesEv(char *self);
+int *_ZN19daObjBlockItemTag_cD0Ev(int *self);  /* slot 17, DTOR-PAIRS seat (ov002 0x020b4180) */
+void *_ZTV19daObjBlockItemTag_c[31];
 }
 static int __fastcall mmbt_init(void *s, void *)
-{ return _ZN10BrickBlock13InitResourcesEv((char *)s); }
+{ return _ZN19daObjBlockItemTag_c13InitResourcesEv((char *)s); }
 static int __fastcall mmbt_clean(void *s, void *)
-{ return ((BrickBlock *)s)->BrickBlock::CleanupResources(); }
+{ return ((daObjBlockItemTag_c *)s)->daObjBlockItemTag_c::CleanupResources(); }
 static void itemtag_probe_tick(char *tag);
 static int __fastcall mmbt_behavior(void *s, void *)
-{ itemtag_probe_tick((char *)s); return ((BrickBlock *)s)->BrickBlock::Behavior(); }
+{ itemtag_probe_tick((char *)s); return ((daObjBlockItemTag_c *)s)->daObjBlockItemTag_c::Behavior(); }
 static int __fastcall mmbt_render(void *s, void *)
 { return ((fBase_c *)s)->fBase_c::Render(); }
 /* slot 16 is the matched src D1 through hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP);
@@ -588,7 +586,7 @@ static int __fastcall mmbt_render(void *s, void *)
    ROM's own relocation for the store (ov002 from:0x020b41b0 -> 0x02108c18),
    the BookShotSpawner D0 treatment. HEAP stays the game heap. */
 static int __fastcall mmbt_d0(void *s, void *)
-{ return (int)(size_t)_ZN10BrickBlockD0Ev((int *)s); }
+{ return (int)(size_t)_ZN19daObjBlockItemTag_cD0Ev((int *)s); }
 
 // ---- THE FOUR-CELL ITEM-TAG DISPATCH SEAT ----------------------------------
 //
@@ -627,10 +625,10 @@ static int __fastcall mmbt_d0(void *s, void *)
 //   idx 2  id 323 GREEN_SHELL_BLOCK_TAG       ROM 0x020b41f8  spawns 0x11d
 //   idx 3  id 324 SILVER_STAR_BLOCK_TAG       ROM 0x020b42e4  star + marker
 extern "C" {
-void _ZN10BrickBlock18SpawnOneUpMushroomEv(char *self);
-void _ZN10BrickBlock17SpawnMegaMushroomEv(char *self);
-void _ZN10BrickBlock15SpawnKoopaShellEv(char *self);
-void _ZN10BrickBlock15SpawnSilverStarEv(char *self);
+void _ZN19daObjBlockItemTag_c18SpawnOneUpMushroomEv(char *self);
+void _ZN19daObjBlockItemTag_c17SpawnMegaMushroomEv(char *self);
+void _ZN19daObjBlockItemTag_c15SpawnKoopaShellEv(char *self);
+void _ZN19daObjBlockItemTag_c15SpawnSilverStarEv(char *self);
 }
 
 // ---- SM64DS_TAG_PROBE: the headless exercise -------------------------------
@@ -661,7 +659,7 @@ void _ZN10BrickBlock15SpawnSilverStarEv(char *self);
 // SM64DS_SPAWN_ACTOR=15,<id> (a brick block and a tag together at the player)
 // is the fallback for exercising one id on a level that does not place it.
 extern "C" {
-void _ZN13BigBrickBlock4KillEv(char *self);          /* daObjBlockL_c::Kill */
+void _ZN13daObjBlockL_c4KillEv(char *self);          /* daObjBlockL_c::Kill */
 void *_ZN8dActor_c4NextEPKS_(const void *prev);
 }
 static int itemtag_probe_on(void)
@@ -701,19 +699,19 @@ static void itemtag_probe_tick(char *tag)
                     "id %u -- calling daObjBlockL_c::Kill\n",
                     (void *)tag, *(unsigned short *)(tag + 0xc),
                     *(unsigned char *)(tag + 0xd7), (void *)o, t);
-        _ZN13BigBrickBlock4KillEv(o);
+        _ZN13daObjBlockL_c4KillEv(o);
         return;
     }
 }
 
 static void __fastcall itemtag_state0(void *s)
-{ itemtag_probe_note(0, s); _ZN10BrickBlock18SpawnOneUpMushroomEv((char *)s); }
+{ itemtag_probe_note(0, s); _ZN19daObjBlockItemTag_c18SpawnOneUpMushroomEv((char *)s); }
 static void __fastcall itemtag_state1(void *s)
-{ itemtag_probe_note(1, s); _ZN10BrickBlock17SpawnMegaMushroomEv((char *)s); }
+{ itemtag_probe_note(1, s); _ZN19daObjBlockItemTag_c17SpawnMegaMushroomEv((char *)s); }
 static void __fastcall itemtag_state2(void *s)
-{ itemtag_probe_note(2, s); _ZN10BrickBlock15SpawnKoopaShellEv((char *)s); }
+{ itemtag_probe_note(2, s); _ZN19daObjBlockItemTag_c15SpawnKoopaShellEv((char *)s); }
 static void __fastcall itemtag_state3(void *s)
-{ itemtag_probe_note(3, s); _ZN10BrickBlock15SpawnSilverStarEv((char *)s); }
+{ itemtag_probe_note(3, s); _ZN19daObjBlockItemTag_c15SpawnSilverStarEv((char *)s); }
 
 struct PortItemTagCell { unsigned fn, delta; };
 extern "C" PortItemTagCell data_ov002_0210dd30[4];
@@ -751,7 +749,7 @@ extern "C" void hal_fill_mega_mushroom_block_tag_vtable(void)
        main() has run ov002's constructors, so the ROM words are in place by
        the time this reads them. */
     port_itemtag_states_seat();
-    void **vt = _ZTV10BrickBlock;
+    void **vt = _ZTV19daObjBlockItemTag_c;
     bw_fill_shared(vt);
     vt[0] = (void *)mmbt_init;
     vt[3] = (void *)mmbt_clean;
@@ -922,15 +920,13 @@ extern "C" void hal_fill_shutter_bob_vtable(void)
 // destructors. daObjSeesaw_c_classInit_BOMB_SEESAW is the matched src -- it installs _ZTV9SeesawBob
 // with a single store, so no host copy is needed. The vtable is a HOST array
 // the registry fills (the ov085/ov080 rule), deliberately NOT in ov095_syms.txt.
-#include "SeesawBob.h"
+#include "daObjSeesaw_c.h"
 extern "C" {
-int _ZN9SeesawBob15OnGroundPoundedER8dActor_c(char *self, char *other);   /* slot 21, OnGroundPounded */
-int *_ZN9SeesawBobD1Ev(int *self);                   /* .c, C linkage */
-int *_ZN9SeesawBobD0Ev(int *self);                   /* .c, C linkage */
-void *_ZTV9SeesawBob[32];
+int _ZN13daObjSeesaw_c15OnGroundPoundedER8dActor_c(char *self, char *other);
+int *_ZN13daObjSeesaw_cD1Ev(int *self);
+int *_ZN13daObjSeesaw_cD0Ev(int *self);
+void *_ZTV13daObjSeesaw_c[32];
 }
-/* the destructors spell the class's own table by its RTTI name */
-#pragma comment(linker, "/alternatename:__ZTV13daObjSeesaw_c=__ZTV9SeesawBob")
 /* InitResources takes the ADDRESS of MeshColliderBase::UpdatePosWithTransform,
    declared `extern int [...][]`, so MSVC mangles the reference as a DATA name
    (?...@@3PAHA). The real static's MSVC symbol is the SAX... method; alias the
@@ -938,20 +934,20 @@ void *_ZTV9SeesawBob[32];
    cxx_aliases.cpp. */
 #pragma comment(linker, "/alternatename:?_ZN4dBgW22UpdatePosWithTransformERS_P8dActor_cR5dBgPiR7Vector3P10Vector3_16S8_@@3PAHA=?UpdatePosWithTransform@dBgW@@SAXAAU1@PAUActor@@AAUClsnResult@@AAUVector3@@PAUVector3_16@@4@Z")
 static int __fastcall ssb_init(void *s, void *)
-{ return ((SeesawBob *)s)->SeesawBob::InitResources(); }
+{ return ((daObjSeesaw_c *)s)->daObjSeesaw_c::InitResources(); }
 static int __fastcall ssb_clean(void *s, void *)
-{ return ((SeesawBob *)s)->SeesawBob::CleanupResources(); }
+{ return ((daObjSeesaw_c *)s)->daObjSeesaw_c::CleanupResources(); }
 static int __fastcall ssb_behavior(void *s, void *)
-{ return ((SeesawBob *)s)->SeesawBob::Behavior(); }
+{ return ((daObjSeesaw_c *)s)->daObjSeesaw_c::Behavior(); }
 /* the C name, not the C++ method: Render is a ModelAnim slot-5 host copy in
    port/unmatched/ModelAnim_Renders.cpp (the Whomp/UpDownLiftBbh case), so the
    matched src is dropped from slice_gate83.txt and this dispatches the host copy
    by its extern-"C" name, the way ssb_behavior calls the class method. */
-extern "C" int _ZN9SeesawBob6RenderEv(void *self);   /* ModelAnim slot-5 host copy */
+extern "C" int _ZN13daObjSeesaw_c6RenderEv(void *self);
 static int __fastcall ssb_render(void *s, void *)
 {
     port_actor_render_probe("SEESAW_BOB", (char *)s + 0xd4);
-    return _ZN9SeesawBob6RenderEv(s);
+    return _ZN13daObjSeesaw_c6RenderEv(s);
 }
 /* Slot 21 takes a second argument (the pounder) in r1 on the ROM side. On the
    host it does NOT ride the __fastcall thunk's second slot: that slot is edx,
@@ -962,14 +958,14 @@ static int __fastcall ssb_render(void *s, void *)
    pushed word, and declaring it both delivers the real pounder and makes the
    thunk `ret 4`, the same shape crate_egg and whomp_mega already use. */
 static int __fastcall ssb_pounded(void *s, void *, void *pounder)
-{ _ZN9SeesawBob15OnGroundPoundedER8dActor_c((char *)s, (char *)pounder); return 0; }
+{ _ZN13daObjSeesaw_c15OnGroundPoundedER8dActor_c((char *)s, (char *)pounder); return 0; }
 static int __fastcall ssb_d1(void *s, void *)
-{ return (int)(size_t)_ZN9SeesawBobD1Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjSeesaw_cD1Ev((int *)s); }
 static int __fastcall ssb_d0(void *s, void *)
-{ return (int)(size_t)_ZN9SeesawBobD0Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjSeesaw_cD0Ev((int *)s); }
 extern "C" void hal_fill_seesaw_bob_vtable(void)
 {
-    void **vt = _ZTV9SeesawBob;
+    void **vt = _ZTV13daObjSeesaw_c;
     hal_fill_platform_vtable();
     bw_fill_shared(vt);
     vt[0] = (void *)ssb_init;
@@ -1143,42 +1139,41 @@ extern "C" void hal_fill_cap_vtable(void)
 // _ZTV7Seaweed, ov002 0x02109c74, RTTI 12daObjHeart_c. The spinning heart that
 // refills the meter: 372 bytes, a ModelAnim at +0xd4 and a MovingCylinderClsn
 // at +0x138. Slot 16 is the ROM's D0 minus its Deallocate.
-#include "HealingHeart.h"
+#include "daObjHeart_c.h"
 extern "C" {
-int _ZN12HealingHeart16CleanupResourcesEv(char *self);
-int _ZN12HealingHeart8BehaviorEv(char *self);
-void *_ZTV7Seaweed[31];
+int _ZN12daObjHeart_c16CleanupResourcesEv(char *self);
+int _ZN12daObjHeart_c8BehaviorEv(char *self);
+void *_ZTV12daObjHeart_c[31];
 }
 static int __fastcall hh_init(void *s, void *)
-{ return ((HealingHeart *)s)->HealingHeart::InitResources(); }
+{ return ((daObjHeart_c *)s)->daObjHeart_c::InitResources(); }
 static int __fastcall hh_clean(void *s, void *)
-{ return _ZN12HealingHeart16CleanupResourcesEv((char *)s); }
+{ return _ZN12daObjHeart_c16CleanupResourcesEv((char *)s); }
 static int __fastcall hh_behavior(void *s, void *)
-{ return _ZN12HealingHeart8BehaviorEv((char *)s); }
+{ return _ZN12daObjHeart_c8BehaviorEv((char *)s); }
 /* the C name, not the C++ method: Seaweed::Render is a ModelAnim slot-5 host
    copy in port/unmatched/ModelAnim_Renders.cpp (the Whomp/UpDownLiftBbh case), so
    the matched src is dropped from slice_gate33.txt and this dispatches the host
    copy by its extern-"C" name. HEALING_HEART shares _ZTV7Seaweed, so this is the
    dispatch that actually faulted on the king-defeat path (frame 354). */
-extern "C" int _ZN12HealingHeart6RenderEv(void *self);   /* ModelAnim slot-5 host copy */
+extern "C" int _ZN12daObjHeart_c6RenderEv(void *self);
 /* Gate 204: slot 17. The heart's own D0 spells its table by the RTTI name, so
    both spellings have to resolve to one object -- the CannonHatch/StarSwitch
    treatment three sections down, and the head of this file derives the shift
    that makes 12daObjHeart_c and _ZTV7Seaweed the same table. */
-#pragma comment(linker, "/alternatename:__ZTV12daObjHeart_c=__ZTV7Seaweed")
-extern "C" int *_ZN12HealingHeartD0Ev(int *self);
+extern "C" int *_ZN12daObjHeart_cD0Ev(int *self);
 static int __fastcall hh_render(void *s, void *)
 {
     port_actor_render_probe("HEALING_HEART", (char *)s + 0xd4);
-    return _ZN12HealingHeart6RenderEv(s);
+    return _ZN12daObjHeart_c6RenderEv(s);
 }
 /* slot 16 is the matched src D1 through hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP);
    the transcribed thunk that stood here (hh_d1) spelled the same chain by hand. */
 static int __fastcall hh_d0(void *s, void *)
-{ return (int)(size_t)_ZN12HealingHeartD0Ev((int *)s); }
+{ return (int)(size_t)_ZN12daObjHeart_cD0Ev((int *)s); }
 extern "C" void hal_fill_healing_heart_vtable(void)
 {
-    void **vt = _ZTV7Seaweed;
+    void **vt = _ZTV12daObjHeart_c;
     bw_fill_shared(vt);
     vt[0] = (void *)hh_init;
     vt[3] = (void *)hh_clean;
@@ -1202,12 +1197,12 @@ extern "C" void hal_fill_healing_heart_vtable(void)
 // ExclamationSwitch carries the Platform vtable. It does, in the sense that
 // its constructor is Platform's; the table its factory installs is
 // _ZTV10StarSwitch and the RTTI settles that it really is a switch.
-#include "StarSwitch.h"
+#include "daObjSwitch_c.h"
 extern "C" {
-int _ZN10StarSwitch13InitResourcesEv(char *self);
-int *_ZN10StarSwitchD1Ev(int *self);
-int *_ZN10StarSwitchD0Ev(int *self);           /* slot 17, DTOR-PAIRS seat (ov002 0x020b9ea8) */
-void *_ZTV10StarSwitch[32];
+int _ZN13daObjSwitch_c13InitResourcesEv(char *self);
+int *_ZN13daObjSwitch_cD1Ev(int *self);
+int *_ZN13daObjSwitch_cD0Ev(int *self);
+void *_ZTV13daObjSwitch_c[32];
 }
 /* PORT_HOST_ABI: two names of ONE ROM table, read off the ROM rather than
    off a comment (lane ALIASCHK). ov002 0x02109940 carries its own RTTI
@@ -1218,22 +1213,21 @@ void *_ZTV10StarSwitch[32];
    daObjSwitch_c_classInit_HANSWITCH, daObjSwitch_c_classInit_STAR_SWITCH, _ZN10StarSwitchD0Ev. Read out
    of extracted/overlays/overlay_0002.bin; the LHS is not a config symbol
    anywhere, so the alias cannot be defeated by a later slice. */
-#pragma comment(linker, "/alternatename:__ZTV13daObjSwitch_c=__ZTV10StarSwitch")
 static int __fastcall xs_init(void *s, void *)
-{ return _ZN10StarSwitch13InitResourcesEv((char *)s); }
+{ return _ZN13daObjSwitch_c13InitResourcesEv((char *)s); }
 static int __fastcall xs_clean(void *s, void *)
-{ return ((StarSwitch *)s)->StarSwitch::CleanupResources(); }
+{ return ((daObjSwitch_c *)s)->daObjSwitch_c::CleanupResources(); }
 static int __fastcall xs_behavior(void *s, void *)
-{ return ((StarSwitch *)s)->StarSwitch::Behavior(); }
+{ return ((daObjSwitch_c *)s)->daObjSwitch_c::Behavior(); }
 static int __fastcall xs_render(void *s, void *)
 {
     port_actor_render_probe("EXCLAMATION_SWITCH", (char *)s + 0xd4);
-    return ((StarSwitch *)s)->StarSwitch::Render();
+    return ((daObjSwitch_c *)s)->daObjSwitch_c::Render();
 }
 static int __fastcall xs_d1(void *s, void *)
-{ return (int)(size_t)_ZN10StarSwitchD1Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjSwitch_cD1Ev((int *)s); }
 static int __fastcall xs_d0(void *s, void *)
-{ return (int)(size_t)_ZN10StarSwitchD0Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjSwitch_cD0Ev((int *)s); }
 /* Slot 21, OnGroundPounded. The switch has its OWN body (ov002 0x020b9fec,
    StarSwitch_OnGroundPounded), not Actor's do-nothing: a ground pound is how
    this switch fires its event. The ROM body takes only `this` and ignores the
@@ -1244,13 +1238,13 @@ static int __fastcall xs_d0(void *s, void *)
    pushed pounder so MSVC emits `ret 4`, and drops it -- the same shape
    ssb_pounded and bbb_pounded already ship. A two-parameter thunk would read
    edx as the pounder, pop nothing, and return the caller one slot short. */
-extern "C" void _ZN10StarSwitch15OnGroundPoundedER8dActor_c(char *self);   /* slice_gate33 */
+extern "C" void _ZN13daObjSwitch_c15OnGroundPoundedER8dActor_c(char *self);
 static int __fastcall xs_pounded(void *s, void *, void *)
-{ _ZN10StarSwitch15OnGroundPoundedER8dActor_c((char *)s); return 0; }
+{ _ZN13daObjSwitch_c15OnGroundPoundedER8dActor_c((char *)s); return 0; }
 extern "C" void port_exclamation_switch_states_seat(void);  /* port/unmatched */
 extern "C" void hal_fill_exclamation_switch_vtable(void)
 {
-    void **vt = _ZTV10StarSwitch;
+    void **vt = _ZTV13daObjSwitch_c;
     /* gate 51: seat the five-state PMF table data_ov002_0210e00c that
        __sinit_ov002_02101588 left as DS code addresses. StarSwitch::Behavior
        reaches it through the two host-copied dispatchers (OneUpMushroom case,
@@ -1507,43 +1501,43 @@ extern "C" void hal_fill_camera_tag_vtable(void)
 
 // ---- ARROW_SIGN_LEFT (299) and ARROW_SIGN_RIGHT (300), ov098 ----------------
 //
-// _ZTV14ArrowSignRight, ov098 0x0213c3d8, RTTI 15daObjYajirusi_c (yajirushi:
+// _ZTV15daObjYajirusi_c, ov098 0x0213c3d8, RTTI 15daObjYajirusi_c (yajirushi:
 // arrow). Two ids, one class, one table -- the coins' arrangement again, and
 // the class reads its own id back to pick which way the arrow points. Bob-omb
 // Battlefield names two lefts and three rights on the mountain path.
 //
 // THE TABLE IS ALREADY REAL STORAGE and already carries this class's methods:
-// hal/actor_vtables.cpp defines _ZTV14ArrowSignRight as an initialised
-// twenty-slot array, because ArrowSignRight is the class gate 9 proved the
+// hal/actor_vtables.cpp defines _ZTV15daObjYajirusi_c as an initialised
+// twenty-slot array, because daObjYajirusi_c is the class gate 9 proved the
 // whole actor lifecycle with. What it does NOT carry is a registry row, and
 // its slots 13/14/16/17 abort by name from that gate's own trap set. Filling
 // it again at registration time replaces those with this gate's, so the two
 // ids get the same treatment as everything else on the roster; the gate-9
 // smoke keeps its own copy of the array and is untouched.
-#include "ArrowSignRight.h"
+#include "daObjYajirusi_c.h"
 extern "C" {
-int _ZN14ArrowSignRight13InitResourcesEv(char *self);
-int *_ZN14ArrowSignRightD1Ev(int *self);
-int *_ZN14ArrowSignRightD0Ev(int *self);       /* slot 17, DTOR-PAIRS seat (ov098 0x02137c2c) */
-extern void *_ZTV14ArrowSignRight[32];
+int _ZN15daObjYajirusi_c13InitResourcesEv(char *self);
+int *_ZN15daObjYajirusi_cD1Ev(int *self);
+int *_ZN15daObjYajirusi_cD0Ev(int *self);       /* slot 17, DTOR-PAIRS seat (ov098 0x02137c2c) */
+extern void *_ZTV15daObjYajirusi_c[32];
 }
 static int __fastcall as_init(void *s, void *)
-{ return _ZN14ArrowSignRight13InitResourcesEv((char *)s); }
+{ return _ZN15daObjYajirusi_c13InitResourcesEv((char *)s); }
 static int __fastcall as_clean(void *s, void *)
-{ return ((ArrowSignRight *)s)->ArrowSignRight::CleanupResources(); }
+{ return ((daObjYajirusi_c *)s)->daObjYajirusi_c::CleanupResources(); }
 static int __fastcall as_behavior(void *s, void *)
-{ return ((ArrowSignRight *)s)->ArrowSignRight::Behavior(); }
+{ return ((daObjYajirusi_c *)s)->daObjYajirusi_c::Behavior(); }
 static int __fastcall as_render(void *s, void *)
 {
     port_actor_render_probe("ARROW_SIGN", (char *)s + 0xd4);
-    return ((ArrowSignRight *)s)->ArrowSignRight::Render();
+    return ((daObjYajirusi_c *)s)->daObjYajirusi_c::Render();
 }
 static int __fastcall as_d1(void *s, void *)
-{ return (int)(size_t)_ZN14ArrowSignRightD1Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjYajirusi_cD1Ev((int *)s); }
 static int __fastcall as_d0(void *s, void *)
-{ return (int)(size_t)_ZN14ArrowSignRightD0Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjYajirusi_cD0Ev((int *)s); }
 /* Slot 27, OnHitByMegaChar(Player &). The sign has its OWN body (ov098
-   0x02137d80, ArrowSignRight_OnHitByMegaChar), not Actor's do-nothing. Both of
+   0x02137d80, daObjYajirusi_c_OnHitByMegaChar), not Actor's do-nothing. Both of
    the slot's linked dispatch sites are thiscall and PUSH the mega char: the two
    sites are func_ov002_020eed24 (walk_window.exe 0x45345e: `mov ecx,this /
    push [ebp+0xc] / call [edx+0x6c]`, then `mov eax,1 / pop / ret`, NO add esp)
@@ -1554,11 +1548,11 @@ static int __fastcall as_d0(void *s, void *)
    ship. The body's closure (Player::IncMegaKillCount, func_02012694,
    Platform::KillByMegaChar) is all linked and dispatches no further vtable slot,
    so the chain terminates here. */
-extern "C" void _ZN14ArrowSignRight15OnHitByMegaCharER6Player(void *self, void *player);  /* slice_gate33 */
+extern "C" void _ZN15daObjYajirusi_c15OnHitByMegaCharER6Player(void *self, void *player);  /* slice_gate33 */
 static int __fastcall as_mega(void *s, void *, void *player)
-{ _ZN14ArrowSignRight15OnHitByMegaCharER6Player(s, player); return 0; }
+{ _ZN15daObjYajirusi_c15OnHitByMegaCharER6Player(s, player); return 0; }
 /* Slot 31, Kill(). The sign has its OWN Kill (ov098 0x02137ccc,
-   ArrowSignRight_Kill -- a poof-dust + Sound::PlayBank3 + MarkForDestruction
+   daObjYajirusi_c_Kill -- a poof-dust + Sound::PlayBank3 + MarkForDestruction
    body), not the generic Platform::Kill. Every linked slot-31 dispatch site is
    thiscall with NO stack argument: the object's vptr is loaded, `this` is put in
    ecx, and `call [reg+0x7c]` runs with nothing pushed and no caller cleanup
@@ -1568,11 +1562,11 @@ static int __fastcall as_mega(void *s, void *, void *player)
    The body closes over Particle::System::NewSimple, Actor::DisappearPoofDustAt,
    Sound::PlayBank3 and ActorBase::MarkForDestruction -- all linked, none a
    vtable dispatch, so the chain terminates here. */
-extern "C" int _ZN14ArrowSignRight4KillEv(char *self);  /* slice_gate33 */
+extern "C" int _ZN15daObjYajirusi_c4KillEv(char *self);  /* slice_gate33 */
 static int __fastcall as_kill(void *s, void *)
-{ return _ZN14ArrowSignRight4KillEv((char *)s); }
+{ return _ZN15daObjYajirusi_c4KillEv((char *)s); }
 /* Slot 22, OnAttacked1(Actor &). The sign has its OWN body (ov098 0x02137d40,
-   ArrowSignRight_OnAttacked1). Its one linked dispatcher (func_ov002_020ef228,
+   daObjYajirusi_c_OnAttacked1). Its one linked dispatcher (func_ov002_020ef228,
    walk_window.exe 0x481474) is thiscall and PUSHES the attacker, so a
    three-parameter __fastcall veneer reads `this` from ecx, names the pushed
    argument to force `ret 4`, and forwards -- the bw_atk1 shape. The body's only
@@ -1582,12 +1576,12 @@ static int __fastcall as_kill(void *s, void *)
    the inner dispatch as a C++ thiscall virtual so it lands on as_kill correctly,
    the Player_HeadBonk treatment. With that the chain closes on the already
    linked slot-31 body. */
-extern "C" void _ZN14ArrowSignRight11OnAttacked1ER8dActor_c(void *self, char *o);  /* HOST COPY, slice_gate33 */
+extern "C" void _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c(void *self, char *o);  /* HOST COPY, slice_gate33 */
 static int __fastcall as_atk1(void *s, void *, void *o)
-{ _ZN14ArrowSignRight11OnAttacked1ER8dActor_c(s, (char *)o); return 0; }
+{ _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c(s, (char *)o); return 0; }
 extern "C" void hal_fill_arrow_sign_vtable(void)
 {
-    void **vt = _ZTV14ArrowSignRight;
+    void **vt = _ZTV15daObjYajirusi_c;
     hal_fill_platform_vtable();
     bw_fill_shared(vt);
     vt[0] = (void *)as_init;
@@ -1662,33 +1656,32 @@ extern "C" void hal_fill_arrow_sign_vtable(void)
 //
 // Both are the routine seat/closure shape the other three of the four already
 // took; there was no cannon-side infrastructure to build.
-#include "WaterBomb.h"
+#include "daWbm_c.h"
 extern "C" {
-int *_ZN9WaterBombD1Ev(int *self);
-int *_ZN9WaterBombD0Ev(int *self);             /* slot 17, DTOR-PAIRS seat (ov098 0x0213b4c4) */
-void *_ZTV9WaterBomb[31];
+int *_ZN7daWbm_cD1Ev(int *self);
+int *_ZN7daWbm_cD0Ev(int *self);
+void *_ZTV7daWbm_c[31];
 }
 /* The D0 spells the table by its RTTI name; config puts both spellings on
    ov098 0x0213c770 and the body's own store relocates there. */
-#pragma comment(linker, "/alternatename:__ZTV7daWbm_c=__ZTV9WaterBomb")
 static int __fastcall wb_init(void *s, void *)
-{ return ((WaterBomb *)s)->WaterBomb::InitResources(); }
+{ return ((daWbm_c *)s)->daWbm_c::InitResources(); }
 static int __fastcall wb_clean(void *s, void *)
-{ return ((WaterBomb *)s)->WaterBomb::CleanupResources(); }
+{ return ((daWbm_c *)s)->daWbm_c::CleanupResources(); }
 static int __fastcall wb_behavior(void *s, void *)
-{ return ((WaterBomb *)s)->WaterBomb::Behavior(); }
+{ return ((daWbm_c *)s)->daWbm_c::Behavior(); }
 static int __fastcall wb_render(void *s, void *)
 {
     port_actor_render_probe("WATER_BOMB", (char *)s + 0x300);
-    return ((WaterBomb *)s)->WaterBomb::Render();
+    return ((daWbm_c *)s)->daWbm_c::Render();
 }
 static int __fastcall wb_d1(void *s, void *)
-{ return (int)(size_t)_ZN9WaterBombD1Ev((int *)s); }
+{ return (int)(size_t)_ZN7daWbm_cD1Ev((int *)s); }
 static int __fastcall wb_d0(void *s, void *)
-{ return (int)(size_t)_ZN9WaterBombD0Ev((int *)s); }
+{ return (int)(size_t)_ZN7daWbm_cD0Ev((int *)s); }
 extern "C" void hal_fill_water_bomb_vtable(void)
 {
-    void **vt = _ZTV9WaterBomb;
+    void **vt = _ZTV7daWbm_c;
     bw_fill_shared(vt);
     vt[0] = (void *)wb_init;
     vt[3] = (void *)wb_clean;
@@ -1713,33 +1706,32 @@ extern "C" void hal_fill_water_bomb_vtable(void)
 // slope at (423,2620,-5428) and (1477,3745,-5526), two on the lower at
 // (-99,800,-3345) and (-1313,790,-3673). Gate 21 mounted ov100 and its header
 // already lists the iron ball as a class other levels name.
-#include "RollingIronBall.h"
+#include "daIbl_c.h"
 extern "C" {
-int *_ZN15RollingIronBallD1Ev(int *self);
-int *_ZN15RollingIronBallD0Ev(int *self);      /* slot 17, DTOR-PAIRS seat (ov100 0x02141f4c) */
-void *_ZTV15RollingIronBall[31];
+int *_ZN7daIbl_cD1Ev(int *self);
+int *_ZN7daIbl_cD0Ev(int *self);
+void *_ZTV7daIbl_c[31];
 }
 /* The D0 spells the table by its RTTI name; config puts both spellings on
    ov100 0x02147f7c and the body's own store relocates there. */
-#pragma comment(linker, "/alternatename:__ZTV7daIbl_c=__ZTV15RollingIronBall")
 static int __fastcall rib_init(void *s, void *)
-{ return ((RollingIronBall *)s)->RollingIronBall::InitResources(); }
+{ return ((daIbl_c *)s)->daIbl_c::InitResources(); }
 static int __fastcall rib_clean(void *s, void *)
-{ return ((RollingIronBall *)s)->RollingIronBall::CleanupResources(); }
+{ return ((daIbl_c *)s)->daIbl_c::CleanupResources(); }
 static int __fastcall rib_behavior(void *s, void *)
-{ return ((RollingIronBall *)s)->RollingIronBall::Behavior(); }
+{ return ((daIbl_c *)s)->daIbl_c::Behavior(); }
 static int __fastcall rib_render(void *s, void *)
 {
     port_actor_render_probe("ROLLING_IRON_BALL", (char *)s + 0x2cc);
-    return ((RollingIronBall *)s)->RollingIronBall::Render();
+    return ((daIbl_c *)s)->daIbl_c::Render();
 }
 static int __fastcall rib_d1(void *s, void *)
-{ return (int)(size_t)_ZN15RollingIronBallD1Ev((int *)s); }
+{ return (int)(size_t)_ZN7daIbl_cD1Ev((int *)s); }
 static int __fastcall rib_d0(void *s, void *)
-{ return (int)(size_t)_ZN15RollingIronBallD0Ev((int *)s); }
+{ return (int)(size_t)_ZN7daIbl_cD0Ev((int *)s); }
 extern "C" void hal_fill_rolling_iron_ball_vtable(void)
 {
-    void **vt = _ZTV15RollingIronBall;
+    void **vt = _ZTV7daIbl_c;
     bw_fill_shared(vt);
     vt[0] = (void *)rib_init;
     vt[3] = (void *)rib_clean;
@@ -1778,11 +1770,11 @@ extern "C" void hal_fill_rolling_iron_ball_vtable(void)
 // stands on it is the Player's own warp state plus a fader wipe and a
 // level/entrance change, and the port has no level change: hal/level_boot.cpp
 // mounts ov009 by name. That is port-beta-lvl's seam, not this gate's.
-#include "FortressTower.h"
+#include "daObjSimpleBg_c.h"
 extern "C" {
-int *_ZN13FortressTowerD1Ev(int *self);
-int *_ZN13FortressTowerD0Ev(int *self);        /* slot 17, DTOR-PAIRS seat (ov102 0x02148ac4) */
-void *_ZTV13FortressTower[32];
+int *_ZN15daObjSimpleBg_cD1Ev(int *self);
+int *_ZN15daObjSimpleBg_cD0Ev(int *self);
+void *_ZTV15daObjSimpleBg_c[32];
 }
 /* PORT_HOST_ABI: two names of ONE ROM table, read off the ROM rather than
    off a comment (lane ALIASCHK). ov102 0x0214e1d8 carries its own RTTI
@@ -1793,25 +1785,24 @@ void *_ZTV13FortressTower[32];
    daObjSimpleBg_c_classInit_MC_DODAI, daObjSimpleBg_c_classInit_BK_TOWER, daObjSimpleBg_c_classInit_KI_HASIRA_DAI. Read out of
    extracted/overlays/overlay_0102.bin; the LHS is not a config symbol
    anywhere, so the alias cannot be defeated by a later slice. */
-#pragma comment(linker, "/alternatename:__ZTV15daObjSimpleBg_c=__ZTV13FortressTower")
 static int __fastcall wp_init(void *s, void *)
-{ return ((FortressTower *)s)->FortressTower::InitResources(); }
+{ return ((daObjSimpleBg_c *)s)->daObjSimpleBg_c::InitResources(); }
 static int __fastcall wp_clean(void *s, void *)
-{ return ((FortressTower *)s)->FortressTower::CleanupResources(); }
+{ return ((daObjSimpleBg_c *)s)->daObjSimpleBg_c::CleanupResources(); }
 static int __fastcall wp_behavior(void *s, void *)
-{ return ((FortressTower *)s)->FortressTower::Behavior(); }
+{ return ((daObjSimpleBg_c *)s)->daObjSimpleBg_c::Behavior(); }
 static int __fastcall wp_render(void *s, void *)
 {
     port_actor_render_probe("WARP_PIPE", (char *)s + 0xd4);
-    return ((FortressTower *)s)->FortressTower::Render();
+    return ((daObjSimpleBg_c *)s)->daObjSimpleBg_c::Render();
 }
 static int __fastcall wp_d1(void *s, void *)
-{ return (int)(size_t)_ZN13FortressTowerD1Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjSimpleBg_cD1Ev((int *)s); }
 static int __fastcall wp_d0(void *s, void *)
-{ return (int)(size_t)_ZN13FortressTowerD0Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjSimpleBg_cD0Ev((int *)s); }
 extern "C" void hal_fill_warp_pipe_vtable(void)
 {
-    void **vt = _ZTV13FortressTower;
+    void **vt = _ZTV15daObjSimpleBg_c;
     hal_fill_platform_vtable();
     bw_fill_shared(vt);
     vt[0] = (void *)wp_init;
@@ -2034,7 +2025,7 @@ extern "C" void port_bob_debug_watch(void)
      Whomp            ov079  vt 0x02127c80 + 4*9 = 0x02127ca4 -> 0x02125f78  function(arm,size=0x54)
      Butterfly        ov100  vt 0x02147e9c + 4*9 = 0x02147ec0 -> 0x021419d4  function(arm,size=0x6c)
      Fish             ov100  vt 0x021484bc + 4*9 = 0x021484e0 -> 0x02146b04  function(arm,size=0x34)
-     QuestionBlock    ov102  vt 0x0214e47c + 4*9 = 0x0214e4a0 -> 0x0214a2ac  function(arm,size=0x80)
+     daObjHatenaBlock_c    ov102  vt 0x0214e47c + 4*9 = 0x0214e4a0 -> 0x0214a2ac  function(arm,size=0x80)
      Scuttlebug       ov071  vt 0x02122c2c + 4*9 = 0x02122c50 -> 0x0212033c  function(arm,size=0x5c)
      PowerStar        ov002  vt 0x0210ab3c + 4*9 = 0x0210ab60 -> 0x020eacf4  function(arm,size=0x9c)
      Bully            ov064  vt 0x0211b870 + 4*9 = 0x0211b894 -> 0x02116cf0  function(arm,size=0x2c)
@@ -2064,49 +2055,49 @@ extern "C" void port_bob_debug_watch(void)
    hal/actor_classes_montymole.cpp, which this lane does not own. */
 #include "daBmb_c.h"
 #include "daKrb_c.h"
-#include "BobOmbBuddy.h"
+#include "daRedBombhei_c.h"
 #include "daWanwan_c.h"
 #include "daObjWanwanShutter_c.h"
-#include "KoopaTheQuick.h"
-#include "KoopaFlag.h"
-#include "Whomp.h"
-#include "Butterfly.h"
-#include "Fish.h"
-#include "QuestionBlock.h"
+#include "daRNk_c.h"
+#include "daRFlag_c.h"
+#include "daBtn_c.h"
+#include "daBtfly_c.h"
+#include "daFish_c.h"
+#include "daObjHatenaBlock_c.h"
 #include "Scuttlebug.h"
-#include "PowerStar.h"
-#include "Bully.h"
-#include "BigBully.h"
-#include "RotatingFirebar.h"
-#include "UpDownLiftBbh.h"
-#include "HealingHeart.h"
-#include "SeesawBob.h"
-#include "UnchainedChomp.h"
-#include "BabyPenguin.h"
-#include "HootTheOwl.h"
-#include "BasementWater.h"
-#include "Spindrift.h"
+#include "daStar_c.h"
+#include "daOts_c.h"
+#include "daBDonketu_c.h"
+#include "daObjFl_KomaU_c.h"
+#include "daUdlift_c.h"
+#include "daObjHeart_c.h"
+#include "daObjSeesaw_c.h"
+#include "daWanwan2_c.h"
+#include "daPgBby_c.h"
+#include "daOwl_c.h"
+#include "daObjC0Water_c.h"
+#include "daHuwa_c.h"
 #include "daGmch_c.h"
-#include "PowerFlower.h"
+#include "daObjPowerUpItem_c.h"
 #include "daTrs_c.h"
 #include "daPropeller_Heyho_c.h"
-#include "YoshiEgg.h"
+#include "daYegg_c.h"
 #include "daObjHatenaSwitch_c.h"
 
 extern "C" {
 int _ZN7daBmb_c6RenderEv(void *s)           { return ((daBmb_c *)s)->daBmb_c::Render(); }
 int _ZN7daKrb_c6RenderEv(void *s)           { return ((daKrb_c *)s)->daKrb_c::Render(); }
-int _ZN11BobOmbBuddy6RenderEv(void *s)     { return ((BobOmbBuddy *)s)->BobOmbBuddy::Render(); }
+int _ZN14daRedBombhei_c6RenderEv(void *s)  { return ((daRedBombhei_c *)s)->daRedBombhei_c::Render(); }
 int _ZN10daWanwan_c6RenderEv(void *s)      { return ((daWanwan_c *)s)->daWanwan_c::Render(); }
 int _ZN20daObjWanwanShutter_c6RenderEv(void *s) { return ((daObjWanwanShutter_c *)s)->daObjWanwanShutter_c::Render(); }
-int _ZN13KoopaTheQuick6RenderEv(void *s)   { return ((KoopaTheQuick *)s)->KoopaTheQuick::Render(); }
-int _ZN9KoopaFlag6RenderEv(void *s)        { return ((KoopaFlag *)s)->KoopaFlag::Render(); }
-int _ZN5Whomp6RenderEv(void *s)            { return ((Whomp *)s)->Whomp::Render(); }
-int _ZN9Butterfly6RenderEv(void *s)        { return ((Butterfly *)s)->Butterfly::Render(); }
-int _ZN4Fish6RenderEv(void *s)             { return ((Fish *)s)->Fish::Render(); }
-int _ZN13QuestionBlock6RenderEv(void *s)   { return ((QuestionBlock *)s)->QuestionBlock::Render(); }
+int _ZN7daRNk_c6RenderEv(void *s)          { return ((daRNk_c *)s)->daRNk_c::Render(); }
+int _ZN9daRFlag_c6RenderEv(void *s)        { return ((daRFlag_c *)s)->daRFlag_c::Render(); }
+int _ZN7daBtn_c6RenderEv(void *s)          { return ((daBtn_c *)s)->daBtn_c::Render(); }
+int _ZN9daBtfly_c6RenderEv(void *s)        { return ((daBtfly_c *)s)->daBtfly_c::Render(); }
+int _ZN8daFish_c6RenderEv(void *s)         { return ((daFish_c *)s)->daFish_c::Render(); }
+int _ZN18daObjHatenaBlock_c6RenderEv(void *s)   { return ((daObjHatenaBlock_c *)s)->daObjHatenaBlock_c::Render(); }
 int _ZN10Scuttlebug6RenderEv(void *s)      { return ((Scuttlebug *)s)->Scuttlebug::Render(); }
-int _ZN9PowerStar6RenderEv(void *s)        { return ((PowerStar *)s)->PowerStar::Render(); }
+int _ZN8daStar_c6RenderEv(void *s)         { return ((daStar_c *)s)->daStar_c::Render(); }
 /* daOts_c AND NOT Bully, corrected run link100 wave 9c, lane LINK21. The C name
    on the left of this row was renamed to daOts_c's by the SLOT5 lane and the
    qualified call on the right was left spelling Bully::Render, which asked the
@@ -2119,20 +2110,20 @@ int _ZN9PowerStar6RenderEv(void *s)        { return ((PowerStar *)s)->PowerStar:
    ?Render@daOts_c@@UAEHXZ defined. Bully inherits it, so this is the same call it
    always was, spelled at the class that owns it. */
 int _ZN7daOts_c6RenderEv(void *s)            { return ((daOts_c *)s)->daOts_c::Render(); }
-int _ZN8BigBully6RenderEv(void *s)         { return ((BigBully *)s)->BigBully::Render(); }
-int _ZN15RotatingFirebar6RenderEv(void *s) { return ((RotatingFirebar *)s)->RotatingFirebar::Render(); }
-int _ZN13UpDownLiftBbh6RenderEv(void *s)   { return ((UpDownLiftBbh *)s)->UpDownLiftBbh::Render(); }
-int _ZN12HealingHeart6RenderEv(void *s)          { return ((HealingHeart *)s)->HealingHeart::Render(); }
-int _ZN9SeesawBob6RenderEv(void *s)        { return ((SeesawBob *)s)->SeesawBob::Render(); }
-int _ZN14UnchainedChomp6RenderEv(void *s)  { return ((UnchainedChomp *)s)->UnchainedChomp::Render(); }
-int _ZN11BabyPenguin6RenderEv(void *s)     { return ((BabyPenguin *)s)->BabyPenguin::Render(); }
-int _ZN10HootTheOwl6RenderEv(void *s)      { return ((HootTheOwl *)s)->HootTheOwl::Render(); }
-int _ZN13BasementWater6RenderEv(void *s)    { return ((BasementWater *)s)->BasementWater::Render(); }
-int _ZN9Spindrift6RenderEv(void *s)        { return ((Spindrift *)s)->Spindrift::Render(); }
+int _ZN12daBDonketu_c6RenderEv(void *s)    { return ((daBDonketu_c *)s)->daBDonketu_c::Render(); }
+int _ZN15daObjFl_KomaU_c6RenderEv(void *s) { return ((daObjFl_KomaU_c *)s)->daObjFl_KomaU_c::Render(); }
+int _ZN10daUdlift_c6RenderEv(void *s)      { return ((daUdlift_c *)s)->daUdlift_c::Render(); }
+int _ZN12daObjHeart_c6RenderEv(void *s)          { return ((daObjHeart_c *)s)->daObjHeart_c::Render(); }
+int _ZN13daObjSeesaw_c6RenderEv(void *s)   { return ((daObjSeesaw_c *)s)->daObjSeesaw_c::Render(); }
+int _ZN11daWanwan2_c6RenderEv(void *s)     { return ((daWanwan2_c *)s)->daWanwan2_c::Render(); }
+int _ZN9daPgBby_c6RenderEv(void *s)        { return ((daPgBby_c *)s)->daPgBby_c::Render(); }
+int _ZN7daOwl_c6RenderEv(void *s)          { return ((daOwl_c *)s)->daOwl_c::Render(); }
+int _ZN14daObjC0Water_c6RenderEv(void *s)  { return ((daObjC0Water_c *)s)->daObjC0Water_c::Render(); }
+int _ZN8daHuwa_c6RenderEv(void *s)         { return ((daHuwa_c *)s)->daHuwa_c::Render(); }
 int _ZN8daGmch_c6RenderEv(void *s)         { return ((daGmch_c *)s)->daGmch_c::Render(); }
-int _ZN11PowerFlower6RenderEv(void *s)        { return ((PowerFlower *)s)->PowerFlower::Render(); }
+int _ZN18daObjPowerUpItem_c6RenderEv(void *s) { return ((daObjPowerUpItem_c *)s)->daObjPowerUpItem_c::Render(); }
 int _ZN7daTrs_c6RenderEv(void *s)              { return ((daTrs_c *)s)->daTrs_c::Render(); }
 int _ZN19daPropeller_Heyho_c6RenderEv(void *s)           { return ((daPropeller_Heyho_c *)s)->daPropeller_Heyho_c::Render(); }
-int _ZN8YoshiEgg6RenderEv(void *s)         { return ((YoshiEgg *)s)->YoshiEgg::Render(); }
+int _ZN8daYegg_c6RenderEv(void *s)         { return ((daYegg_c *)s)->daYegg_c::Render(); }
 int _ZN19daObjHatenaSwitch_c6RenderEv(void *s)  { return ((daObjHatenaSwitch_c *)s)->daObjHatenaSwitch_c::Render(); }
 }

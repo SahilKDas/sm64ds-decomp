@@ -31,7 +31,7 @@
 #
 # so the second argument is the ROM's own zero at both sites, and both setters
 # are already in the link with their real two-argument shape
-# (src/func_ov072_02121d50.c and src/func_ov080_0212513c.c both spell
+# (src/game/actors/d_a_pg_bby.cpp and src/actors/daBttBk_c.cpp both spell
 # `(char* c, int i)` and store data_...[i << 4]).
 #
 # THE BRIDGE. hal/method_faces.cpp defines one zero-index forwarder per row --
@@ -63,8 +63,8 @@
 # (func_ov080_02124e60) are not shadow rows -- neither name is in the queue --
 # so retiring them would be a change with no measurement behind it.
 #
-src/_ZN11BabyPenguin13InitResourcesEv.cpp
-src/_ZN11CrazedCrate13InitResourcesEv.cpp
+src/game/actors/d_a_pg_bby.cpp
+src/actors/daBttBk_c.cpp
 
 # ---------------------------------------------------------------------------
 # RUNG 2: THE LAKITU BRO'S InitResources, AND THE THIRD ARGUMENT THAT IS THE
@@ -110,7 +110,7 @@ src/_ZN11CrazedCrate13InitResourcesEv.cpp
 # port/unmatched/Ov085_LakituBro_IntroEnd.cpp -- so the watch still reports on
 # the opening; this one line of it does not.
 #
-src/_ZN9LakituBro13InitResourcesEv.cpp
+src/game/actors/d_a_c_jugem.cpp
 
 # ---------------------------------------------------------------------------
 # RUNG 3: THE SHADOW WHOSE SEAM IS A RETURN TYPE

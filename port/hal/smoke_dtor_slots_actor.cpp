@@ -98,4 +98,3 @@ Vector3 dActor_c::OnAimedAtWithEggReturnVec()
 // _ZTV9ModelBase.  Plain data on both sides: one table, two names.  Copied
 // verbatim from hal/smoke_aliases_model.cpp:113 (itself hal/cxx_aliases.cpp:3684),
 // which this batch does not otherwise carry.
-#pragma comment(linker, "/alternatename:_data_0208e87c=__ZTV9ModelBase")

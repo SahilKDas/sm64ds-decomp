@@ -2,10 +2,10 @@
  * lane cast-ov090. Three sites; see unmatched/Skeeter_HostSites.cpp for the
  * full derivation of the ModelAnim and PMF shapes.
  *
- * (1) src/_ZN10CheepCheep6RenderEv.cpp -- the ModelAnim slot-5 collision (T1),
+ * (1) src/actors/daPukupuku_c.cpp -- the ModelAnim slot-5 collision (T1),
  *     guarded by unk_0b0 & 0x40000 the way Skeeter's is, null scale.
- * (2) src/func_ov090_021332e8.cpp -- the state setter, record 0 (ENTER).
- * (3) src/_ZN10CheepCheep8BehaviorEv.cpp -- the record-1 (TICK)
+ * (2) src/actors/daPukupuku_c.cpp -- the state setter, record 0 (ENTER).
+ * (3) src/actors/daPukupuku_c.cpp -- the record-1 (TICK)
  *     pointer-to-member call. This one is spelled as a REAL C++ METHOD in the
  *     source (`int CheepCheep::Behavior()`, out of include/CheepCheep.h) with
  *     the PMF taken through a forward-declared `struct Enemy;` -- incomplete
@@ -31,7 +31,7 @@ struct PortOv090Pmf { unsigned int fn; int delta; };
 typedef int (*PortOv090StateFn)(void *);
 
 /* func_ov090_021332e8 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov090_021332e8.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daPukupuku_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.
@@ -46,7 +46,7 @@ char *_ZN8dActor_c13ClosestPlayerEv(void *thiz);
 void func_ov090_02133338(void *c);
 void func_ov090_021330c8(void *c);
 
-/* HOST COPY RETIRED, run link100 lane PMFB7 gate 1. src/_ZN10CheepCheep8BehaviorEv.cpp
+/* HOST COPY RETIRED, run link100 lane PMFB7 gate 1. src/actors/daPukupuku_c.cpp
    dispatches its own field now: with /vmg /vmm (block R8) MSVC's pointer to
    member IS the ROM's eight-byte {code, adjust} pair, so the widening this
    banner was written for does not happen. The per-frame half of every state

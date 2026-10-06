@@ -38,7 +38,7 @@
 //    in ROM/Itanium numbering, so its slot 5 is Render; the host
 //    _ZTV9ModelAnim is MSVC-numbered and its slot 5 is Virtual18, which takes
 //    two arguments where the shadow passes one. That is the measured
-//    Butterfly / Fish / QuestionBlock / Whomp / BabyPenguin fault, and the fix
+//    Butterfly / Fish / daObjHatenaBlock_c / Whomp / BabyPenguin fault, and the fix
 //    is theirs: a host copy in port/unmatched/Ov064_Clam.cpp with the dispatch
 //    spelled as the qualified ModelAnim::Render. The matched TU is held out of
 //    port/slice_w12c.txt.
@@ -293,6 +293,6 @@ extern "C" void hal_fill_clam_vtable(void)
 // ---- method face -----------------------------------------------------------
 // The one body src defines as a real C++ method. Its Cleanup, Behavior and D0
 // are extern-C already; its Render is a host copy and its D1 has no C name.
-#include "Clam.h"
+#include "daObjShell_c.h"
 extern "C" int _ZN4Clam13InitResourcesEv(void *self)
-{ return ((Clam *)self)->Clam::InitResources(); }
+{ return ((daObjShell_c *)self)->daObjShell_c::InitResources(); }

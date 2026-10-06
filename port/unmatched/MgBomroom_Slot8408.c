@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov006_020d8408.c, dScMgBomroom_c ("Sort or 'Splode",
+/* HOST COPY of src/actors/dScMgBomroom_c.cpp, dScMgBomroom_c ("Sort or 'Splode",
  * actor id 0x172, scene 370). Run link100 wave 10 round 2, lane SCENES2.
  *
  * PORT_HOST_ABI: ONE ARGUMENT THAT RIDES THROUGH r1 ON ARM AND IS NOT PUSHED
@@ -53,7 +53,7 @@
  * reproduce it byte for byte:
  *
  *     sed 's|((void (\*)(char \*)) func_ov006_020d66c4)(c);|func_ov006_020d66c4(c, z1);|' \
- *         src/func_ov006_020d8408.c
+ *         src/actors/dScMgBomroom_c.cpp
  *
  * Everything below this comment is the src TU unchanged.
  *

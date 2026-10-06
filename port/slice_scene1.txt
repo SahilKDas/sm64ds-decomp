@@ -35,7 +35,7 @@
 # the eight Scene:: lifecycle halves) was already in the walk_window link set.
 # These four were not: the spawn entry, its tail-call veneer, and the two
 # halves the vtable holds at slots 2 and 5.
-src/_ZN8dScene_c16SpawnIfNecessaryEv.cpp
+src/actors/dScene_c.cpp
 src/actors/ActorDerived.cpp
 src/func_02042fe4.c
 # _ZN8dScene_c21AfterCleanupResourcesEj is the matched TU through hostgen
@@ -65,14 +65,12 @@ src/_ZN12dScStarSel_c16CleanupResourcesEv.cpp
 # slot 6  Behavior  (NONMATCHING)
 src/_ZN12dScStarSel_c8BehaviorEv.cpp
 # slot 9  Render  (NONMATCHING)
-src/_ZN12dScStarSel_c6RenderEv.cpp
+src/actors/dScStarSel_c.cpp
 # slot 12 OnPendingDestroy
-src/_ZN12dScStarSel_c16OnPendingDestroyEv.cpp
 # slot 16 D2
-src/_ZN12dScStarSel_cD1Ev.cpp
 # slot 17 D0
-# RETIRED at SLICE1: body now in src/_ZN12dScStarSel_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dScStarSel_cD0Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/dScStarSel_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScStarSel_c.cpp
 # its own closure: the star grid, the cursor, the OAM emitters and the
 # character-select row the Behavior and the Render drive.
 #
@@ -90,14 +88,7 @@ src/_ZN12dScStarSel_cD1Ev.cpp
 # calls. scene_boot_map.txt section 8 names all eighteen in one place.
 src/func_ov003_020adc74.cpp
 src/func_ov003_020adcbc.cpp
-src/func_ov003_020adec0.c
-src/func_ov003_020adf50.c
-src/func_ov003_020adfc8.cpp
-src/func_ov003_020ae0b0.c
-src/func_ov003_020ae1a4.c
-src/func_ov003_020ae238.c
 # (NONMATCHING)
-src/func_ov003_020ae358.c
 
 # ---- the arm9 closure the star select opens up -----------------------------
 # Everything dScStarSel_c reaches that no level ever did. All matched, all
@@ -195,7 +186,7 @@ src/_ZN5Sound21UnsetPlayerVoiceGroupEv.cpp
 #
 # dScTitle_c (id 2) is what is left, and only half of one blocker is left with
 # it: its six bodies are ruled in the same file, so what remains is the
-# placeholder trio in src/_ZN10dScTitle_cD1Ev.cpp (_ZTV10dScTitle_c /
+# placeholder trio in src/actors/dScTitle_c.cpp (_ZTV10dScTitle_c /
 # _ZTV8dScene_c / _ZTV7dBase_c, ROM words 0x020b1650 / 0x02092680 /
 # 0x0208e4b8) plus a row and a slice block. The treatment is the one
 # port/CMakeLists.txt's gate mpg2 block already spells out.
@@ -212,7 +203,7 @@ src/_ZN5Sound21UnsetPlayerVoiceGroupEv.cpp
 #       dScGameOver_c: 020b0b3c 020b0b34 020b0814 020b0810 020b05bc.)
 #
 #   2. THREE of the dtor TUs spell their vptr writes as PER-TU PLACEHOLDERS,
-#      not as symbols: src/_ZN10dScTitle_cD1Ev.cpp writes _ZTV10dScTitle_c /
+#      not as symbols: src/actors/dScTitle_c.cpp writes _ZTV10dScTitle_c /
 #      _ZTV8dScene_c / _ZTV7dBase_c, src/actors/dScGameOver_c.cpp writes
 #      _ZTV13dScGameOver_c / the same two, and src/actors/dScGameOver_c.cpp writes
 #      VT0 / VT1 / VT2 and deallocates against G0. None of those six names

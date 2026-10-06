@@ -47,7 +47,7 @@ void *_ZN5Model8LoadFileER13SharedFilePtr(void *ptr);
 void *_ZN7dBgW_Kc8LoadFileER13SharedFilePtr(void *ptr);
 /* gate 42: the two methods PeachPainting's Behavior reaches by shadow name.
    DistToCPlayer is C-named in src (slice_gate16); the ROM's ApplyOpacity is a
-   one-argument body (src/_ZN9ModelBase12ApplyOpacityEj.cpp), but the painting's
+   one-argument body (src/_ZN9ModelBase12ApplyOpacityEjj.cpp), but the painting's
    call passes the ROM's r2=1 as a second argument the body ignores, so the face
    forwards only the opacity, the gate-16 reading of the same method. */
 int _ZN8dActor_c13DistToCPlayerEv(void *self);

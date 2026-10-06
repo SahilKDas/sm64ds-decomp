@@ -33,13 +33,9 @@
 # minimap is the thing that turns BG3 on, and hal/sub_screen.cpp has been
 # publishing that mask into DISPCNT_B every frame with nothing setting the bit.
 
-src/d_map.cpp
+src/actors/dMap_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN7MinimapD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN7MinimapD0Ev.cpp
-src/_ZN7MinimapD1Ev.cpp
-src/_ZN7Minimap13InitResourcesEv.cpp
-src/_ZN7Minimap16CleanupResourcesEv.cpp
-src/_ZN7Minimap16OnPendingDestroyEv.cpp
 # Behavior and Render index the three per-player tables (mPlayerIconX/Y @0x70/
 # 0x80, mPlayerMapIDs @0x21e) by PLAYER NUMBER. The ROM sizes them at four; this
 # port hosts sixteen players (port/hal/vs_width.h), so a console on slot 8..15
@@ -53,10 +49,6 @@ src/_ZN7Minimap16OnPendingDestroyEv.cpp
 # src/_ZN7Minimap6RenderEv.cpp
 
 # the leaves the three big methods reach
-src/_ZN7Minimap19UpdateLevelSpecificEv.cpp
-src/_ZN7Minimap21FixTHIPaintingRoomPosER7Vector3.cpp
-src/_ZN7Minimap15GetPosOnMinimapER7Vector3S1_5Fix12IiEsS1_.cpp
-src/_ZN7Minimap20GetPosFromMinimapPosER7Vector3S1_5Fix12IiEsS1_.cpp
 
 # the minimap's own file-id and scale lookups
 src/func_0202a980.c

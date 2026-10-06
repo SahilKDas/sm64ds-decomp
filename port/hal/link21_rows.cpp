@@ -72,7 +72,7 @@
 //   ?_ZN3G2S13GetBG0CharPtrEv@@YAPAHXZ
 //       Not a class member at all: a free function literally NAMED
 //       _ZN3G2S13GetBG0CharPtrEv, which is what
-//       src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp:36 gets for declaring the flat
+//       src/minigames/d_s_mg_base.cpp:36 gets for declaring the flat
 //       ROM name `extern int*` instead of extern "C". The body is
 //       src/_ZN3G2S13GetBG0CharPtrEv.cpp on port/slice_gate25.txt:34, emitting
 //       ?GetBG0CharPtr@G2S@@YAIXZ. The return types differ, int* against
@@ -119,10 +119,10 @@
 // =========================================================================
 //
 // ??0fBase_c@@QAE@XZ is referenced by src/_ZN8dActor_cC1Ev.cpp and by
-// src/_ZN11dScMgBase_cC2Ev.cpp, both real C++ constructors, which is why they
+// src/minigames/d_s_mg_base.cpp, both real C++ constructors, which is why they
 // call the base constructor by its decorated name.
 //
-// THE SEAT WAS TRIED FIRST AND IT COSTS FOUR ROWS. src/_ZN7fBase_cC2Ev.cpp is a
+// THE SEAT WAS TRIED FIRST AND IT COSTS FOUR ROWS. src/actors/ActorBase.cpp is a
 // real C++ constructor of a polymorphic class, so compiling it makes MSVC emit
 // ??_7fBase_c@@6B@ and ??_GfBase_c@@UAEPAXI@Z, and a vftable references every
 // slot of the class. Compiled standalone with this build's own flags and read
@@ -131,7 +131,7 @@
 //
 //     ?Virtual34@fBase_c@@UAEHII@Z   ?Virtual38@fBase_c@@UAEHII@Z
 //         the link has the Q spelling of both, because
-//         src/_ZN7fBase_c9Virtual34Ejj.cpp and its sibling declare a
+//         src/actors/ActorBase.cpp and its sibling declare a
 //         NON-virtual local shadow, so the vftable's virtual spelling has no
 //         body anywhere
 //     __ZN6Memory10DeallocateEPvP4Heap   _data_020a0eac
@@ -144,7 +144,7 @@
 // Four arrivals to close one row is the wrong trade. The other option the brief
 // names, aliasing MSVC's vftable name onto a ROM-shaped table, answers a
 // question this tree does not have: ??_7fBase_c@@6B@ is ALREADY defined in the
-// link, by src/_ZN7fBase_cD1Ev.cpp on port/slice_gate13.txt.
+// link, by src/actors/ActorBase.cpp on port/slice_gate13.txt.
 //
 // THE ANSWER IS THE SHADOW, and it is port/hal/int4_rows.cpp:341's shape. A
 // mangle depends on the name, the class, the convention and the signature and
@@ -395,7 +395,7 @@ int data_ov062_0211d9c0(void)
 //     02111b6c  0000fa14        02111b70  25e26810
 //
 // THE READ IS A SHARED-WINDOW READ and the port has already ruled on it. The
-// referrer, src/unnamed/ov063/func_ov063_02117cdc.c:160, tests
+// referrer, src/actors/daTrs_c.cpp:160, tests
 // (&data_ov008_02111b6c)[0] == 0x1f000 in the Boo cutscene's TALK sub-state, and
 // config/arm9/overlays/ov002/relocs.txt:6676 says thirteen overlays claim that
 // address. port/unmatched/Boo_StateTalk.c:19-31 is the host copy of this very

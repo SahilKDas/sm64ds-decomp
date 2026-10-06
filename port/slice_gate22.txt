@@ -20,7 +20,7 @@
 # array hal/actor_classes.cpp fills.
 
 # ---- the six own slots ----------------------------------------------------
-src/d_a_door.c
+src/actors/daDoor_c.cpp
 src/game/actors/d_a_star_gate.cpp
 # CleanupResources moved to a HOST COPY at gate 31 (port/unmatched/
 # Door_CleanupResources.cpp): it deletes the door's second Model through a
@@ -45,40 +45,19 @@ src/game/actors/d_a_star_gate.cpp
 # THE DESTRUCTORS ARE NOT HERE and slots 16/17 trap by name, the gate-17
 # reading: nothing on the castle grounds destroys a door -- the three live
 # from the level boot to the level teardown.
-src/func_ov100_02145370.c
 
 # ---- the fifteen callbacks the two dispatch sites reach --------------------
 # All matched. Nine take (this, arg) and six take (this); the ROM passes both
 # in r0/r1 either way, which is the ride-through the seat's one call shape
 # relies on.
-src/func_ov100_02144730.cpp
-src/func_ov100_02144ccc.c
-src/func_ov100_02144c6c.c
-src/func_ov100_02144bf4.cpp
-src/func_ov100_02144c64.c
-src/func_ov100_021449c8.cpp
-src/func_ov100_02144a38.c
-src/func_ov100_02144468.c
-src/func_ov100_02144950.c
-src/func_ov100_021446f8.c
-src/func_ov100_02144528.c
-src/func_ov100_021444e8.c
-src/func_ov100_02144cf8.c
-src/func_ov100_0214491c.c
 
 # --- linkloop round 0 ---
 # The door's own five helpers, below the fifteen callbacks.
-src/func_ov100_02144f84.c
-src/func_ov100_02145080.c
-src/func_ov100_02145170.c
-src/func_ov100_021451c4.cpp
-src/func_ov100_021452e4.c
 # The key-model pair InitResources and CleanupResources drive (ov089's
 # SharedFilePtr table, which the port already carries as zeroed storage in
 # hal/cxx_aliases.cpp -- the castle grounds' three doors take the branch that
 # does not read it).
-src/LoadKeyModels.cpp
-src/UnloadKeyModels.cpp
+src/actors/daObjKey_c.cpp
 # THE PLAYER SIDE OF OPENING A DOOR. These are the arm9 entry points the
 # door's callbacks call when Mario reaches one: the star check, the two talk
 # paths, the big-door open, the character swap and the sound. They link and

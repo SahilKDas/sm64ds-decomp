@@ -1,6 +1,6 @@
 /* HOST COPIES of src/_ZN8Goomboss6RenderEv.cpp and src/func_ov074_021222e0.cpp
  * -- run rel0215 wave 2, lane w2-ov074. Both are the ModelAnim slot-5
- * collision, the Butterfly/Fish/QuestionBlock/Whomp/FlyingCarpet case
+ * collision, the Butterfly/Fish/daObjHatenaBlock_c/Whomp/FlyingCarpet case
  * documented at length in port/unmatched/ModelAnim_Renders.cpp.
  *
  * WHY BOTH: Goomboss HOLDS a ModelAnim at +0x210 (daKuriKing_c_classInit_KURIKING.cpp and

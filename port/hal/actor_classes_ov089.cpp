@@ -40,8 +40,8 @@
 // ---- ONE TABLE, TWO IDS ----------------------------------------------------
 //
 // ov089 defines exactly ONE vtable, _ZTV3Key at 0x02132ba8 (31 slots, plain
-// Actor), and BOTH factories store it -- src/d_a_obj_key_obj_key.c and
-// src/d_a_obj_key_last_star.c are byte-identical apart from their names, down to the
+// Actor), and BOTH factories store it -- src/actors/daObjKey_c.cpp and
+// src/actors/daObjKey_c.cpp are byte-identical apart from their names, down to the
 // 1136-byte allocation and the five member constructors. So LAST_STAR's
 // registry row carries a null fill and rides KEY's, the BLUE_FLAME/RED_FLAME
 // and GreenShellBlockTag shape. Both factories store the table by a REAL name,
@@ -302,10 +302,10 @@ extern "C" void hal_fill_key_vtable(void)
 // The three bodies src defines as real C++ methods against Key.h. The
 // IceSheet/ov045 recipe: the face is the C-name bridge INTO the matched
 // method, not a host copy of it.
-#include "Key.h"
+#include "daObjKey_c.h"
 extern "C" {
 int _ZN3Key13InitResourcesEv(void *self)
-{ return ((Key *)self)->Key::InitResources(); }
+{ return ((daObjKey_c *)self)->daObjKey_c::InitResources(); }
 int _ZN3Key16CleanupResourcesEv(void *self)
-{ return ((Key *)self)->Key::CleanupResources(); }
+{ return ((daObjKey_c *)self)->daObjKey_c::CleanupResources(); }
 }

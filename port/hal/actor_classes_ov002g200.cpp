@@ -310,15 +310,15 @@ extern "C" void hal_fill_mugen_bgm_vtable(void)
 // ..., not _ZN9PushBlock...) -- faced here, the IceSheet/SwitchPillar recipe.
 // PushBlock::Render is NOT faced: it is a host copy (two plain-Model slot-5
 // shadows, port/unmatched/ModelAnim_Renders.cpp), declared extern "C" above.
-#include "PowerFlower.h"
-#include "MugenBgm.h"
+#include "daObjPowerUpItem_c.h"
+#include "daMugenBGM_c.h"
 extern "C" {
 int _ZN11PowerFlower13InitResourcesEv(void *self)
-{ return ((PowerFlower *)self)->PowerFlower::InitResources(); }
+{ return ((daObjPowerUpItem_c *)self)->daObjPowerUpItem_c::InitResources(); }
 int _ZN11PowerFlower8BehaviorEv(void *self)
-{ return ((PowerFlower *)self)->PowerFlower::Behavior(); }
+{ return ((daObjPowerUpItem_c *)self)->daObjPowerUpItem_c::Behavior(); }
 int _ZN8MugenBgm13InitResourcesEv(void *self)
-{ return ((MugenBgm *)self)->MugenBgm::InitResources(); }
+{ return ((daMugenBGM_c *)self)->daMugenBGM_c::InitResources(); }
 int _ZN8MugenBgm8BehaviorEv(void *self)
-{ return ((MugenBgm *)self)->MugenBgm::Behavior(); }
+{ return ((daMugenBGM_c *)self)->daMugenBGM_c::Behavior(); }
 }

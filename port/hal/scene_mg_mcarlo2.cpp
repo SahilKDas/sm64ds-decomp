@@ -364,7 +364,7 @@ void  port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 
 /* The persistent minigame record this class's progress is keyed to. Nothing new
    is defined here: the storage is hal/level_boot.cpp's .dsstate$savblk0004 and
-   the index function is src/func_ov004_020adc3c.c. Named so the census can
+   the index function is src/minigames/d_s_mg_base.cpp. Named so the census can
    print the record rather than leave it to be inferred. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */

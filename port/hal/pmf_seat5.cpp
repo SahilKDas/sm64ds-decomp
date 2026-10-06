@@ -27,7 +27,7 @@
    _data_ov016_02114dbc. */
 #pragma comment(linker, "/alternatename:?data_ov016_02114dbc@@3PAXA=_data_ov016_02114dbc")
 
-/* src/func_ov102_021498e0.cpp: `extern PMF data_ov102_0214e870[][4];` and its
+/* src/actors/daObjHatenaBlock_c.cpp: `extern PMF data_ov102_0214e870[][4];` and its
    sibling, at file scope -> the array-of-4-pointers-to-member spellings below.
    Both tables are ov102 bss; the mount emits the C names.
    (?data_02082214@@3PAFA and ?data_0209f2f8@@3CA, the other two mangled

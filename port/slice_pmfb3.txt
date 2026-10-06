@@ -202,7 +202,7 @@ src/game/actors/d_a_sound_obj.cpp
 # its one declared cdecl argument lives and returns straight to the forwarder's
 # caller. So a PLAIN CDECL BODY is correct in the code word for every row in
 # this batch and NO FACE IS WRITTEN ANYWHERE IN IT. That is lane PMFB1's FREE-row
-# rule (slice_pmfb2.txt records it for src/func_ov002_020efa54.cpp), re-measured
+# rule (slice_pmfb2.txt records it for src/actors/dPathLiftActor_c.cpp), re-measured
 # per row here rather than carried.
 #
 # THE THREE TAKEN.
@@ -279,6 +279,5 @@ src/game/actors/d_a_sound_obj.cpp
 # four files is a lane, not a row, and half-doing it would leave a writer
 # handing a host address to a switch that only knows DS ones. Named here so the
 # next lane starts from the measurement rather than from the census.
-src/func_ov004_020add88.cpp
-src/func_ov004_020adf2c.cpp
+src/minigames/d_s_mg_base.cpp
 src/actors/dScMgPanel_c.cpp

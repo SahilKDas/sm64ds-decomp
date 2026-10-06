@@ -44,7 +44,7 @@
 //       treatment; HEAP is the game heap by the standing alias, which is the
 //       pool's second word (020A0EAC). co_d0 is the ecx->arg adapter over it.
 //
-//       data_020a0eac is not a guess: src/_ZN7fBase_cnwEj.cpp allocates every
+//       data_020a0eac is not a guess: src/actors/ActorBase.cpp allocates every
 //       actor out of it, and daDemo_c_classInit is an ActorBase::operator new
 //       of 260 bytes, so it is the heap this object came from.
 //
@@ -101,7 +101,7 @@ int *_ZN14CutsceneObjectD0Ev(int *self);                  /* slot 17, .c, DTOR-P
 void *_ZTV14CutsceneObject[31];
 
 /* the Actor chain co_d1/co_d0 end on, and the heap every actor is allocated
-   from (src/_ZN7fBase_cnwEj.cpp) */
+   from (src/actors/ActorBase.cpp) */
 void _ZN8dActor_cD2Ev(void *self);
 void _ZN6Memory10DeallocateEPvP4Heap(void *p, void *heap);
 extern void *data_020a0eac;

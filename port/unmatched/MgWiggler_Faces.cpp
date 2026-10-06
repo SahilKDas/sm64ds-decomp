@@ -86,7 +86,7 @@
 //       Its only call site is 0x020eceb0, `mov r0,r6 / mov r1,r5 / bl` --
 //       receiver and ONE argument, which the trap read off the ROM rather than
 //       off the src declaration, and the seated body takes the same two.
-//       NOW: src/func_ov006_020ec4dc.c, MATCHED at mwccarm 2004/b56 with strict
+//       NOW: src/actors/dScMgHanachan_c.cpp, MATCHED at mwccarm 2004/b56 with strict
 //       relocs and carrying a delink block. It lays out the fifteen-wiggler
 //       grid the difficulty ladder reaches at clear count 8.
 //

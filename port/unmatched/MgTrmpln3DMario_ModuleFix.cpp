@@ -22,7 +22,7 @@
  *     config/arm9/overlays/ov007/symbols.txt
  *         data_ov007_020cd72c kind:data(any)               addr:0x020cd72c
  *
- * and src/func_ov006_020cd12c.c calls the DATA one:
+ * and src/actors/dMgTrmpln2Mario_c.cpp calls the DATA one:
  *
  *     data_ov007_020cd72c(t);
  *
@@ -46,12 +46,12 @@
  * a call, and any ov007 name inside an ov006 TU -- returns exactly two hits,
  * and the second is worse placed than the first:
  *
- *     src/func_ov006_020cb16c.c   `data_ov007_020ccd78()`
+ *     src/actors/dMgTrmpln2Mario_c.cpp   `data_ov007_020ccd78()`
  *         from:0x020cb198 kind:arm_call to:0x020ccd78 module:overlay(6)
  *
  * func_ov006_020cb16c is one of the twenty-one dMgTrmpln3DMario_c STATE bodies
  * (unmatched/MgTrmpln3DMario_StateDispatch.cpp, the pair at 0x0213b20c that
- * src/func_ov006_020cb1a8.cpp installs), so it is on the play path rather than
+ * src/actors/dMgTrmpln2Mario_c.cpp installs), so it is on the play path rather than
  * only the construction path.
  *
  * IT ALSO DROPS THE RECEIVER.  The ROM's `bl 0x020ccd78` leaves r0 holding this
@@ -64,7 +64,7 @@
  * Both bodies below are their src verbatim with ONE call site re-pointed each
  * (and, for the second, the argument the ROM passes restored).  Nothing else
  * moved.  They take the same symbol names, so
- * src/func_ov006_020cd12c.c and src/func_ov006_020cb16c.c are OUT of
+ * src/actors/dMgTrmpln2Mario_c.cpp and src/actors/dMgTrmpln2Mario_c.cpp are OUT of
  * port/slice_tti.txt -- the unmatched/MgBSC_StateDispatch.cpp convention.
  *
  * ---- 3b. A THIRD INSTANCE, OUTSIDE EVERY SLICE --------------------------
@@ -72,7 +72,7 @@
  * This lane's sweep ran over ITS OWN SLICE and found two.  The independent
  * reviewer ran it over src/ and found a third:
  *
- *     src/func_ov006_020cd6f4.c   `data_ov007_020cd72c(c)`
+ *     src/actors/dMgTrmpln2Mario_c.cpp   `data_ov007_020cd72c(c)`
  *         from:0x020cd6fc kind:arm_call to:0x020cd72c module:overlay(6)
  *
  * -- the SAME wrong symbol as section 2's, in a different body, and a 0x2c
@@ -80,7 +80,7 @@
  * re-derived here rather than taken on the reviewer's word.
  *
  * IT IS NOT A LIVE DEFECT ON THIS TREE and it is listed anyway.  No wired
- * slice compiles src/func_ov006_020cd6f4.c, so nothing in the port can reach
+ * slice compiles src/actors/dMgTrmpln2Mario_c.cpp, so nothing in the port can reach
  * it today; the moment some lane's closure pulls it in, it is a jump into
  * ov007's bytes exactly like the other two were.  Scoping a sweep to your own
  * slice finds the instances that can hurt you and none of the ones that will
@@ -88,10 +88,10 @@
  *
  * ---- 3c. THE ROUTED DECOMP-SIDE CORRECTION LIST, ALL THREE ---------------
  *
- *     src/func_ov006_020cd12c.c   data_ov007_020cd72c  -> func_ov006_020cd72c
- *     src/func_ov006_020cb16c.c   data_ov007_020ccd78  -> func_ov006_020ccd78
+ *     src/actors/dMgTrmpln2Mario_c.cpp   data_ov007_020cd72c  -> func_ov006_020cd72c
+ *     src/actors/dMgTrmpln2Mario_c.cpp   data_ov007_020ccd78  -> func_ov006_020ccd78
  *                                 (and the receiver it drops)
- *     src/func_ov006_020cd6f4.c   data_ov007_020cd72c  -> func_ov006_020cd72c
+ *     src/actors/dMgTrmpln2Mario_c.cpp   data_ov007_020cd72c  -> func_ov006_020cd72c
  *
  * THIS IS A DECOMP-SIDE CORRECTION TO ROUTE, and it is worth the three lines
  * above in whatever carries them: the byte gate cannot see it (both spellings
@@ -111,7 +111,7 @@ void _ZN9ModelAnimC1Ev(char *self);
 extern int _ZTV18dMgTrmpln3DMario_c[];
 
 /* ROM 0x020cd12c: the ELEMENT CONSTRUCTOR of the four dMgTrmpln3DMario_c
-   records.  src/func_ov006_020cd12c.c verbatim with data_ov007_020cd72c ->
+   records.  src/actors/dMgTrmpln2Mario_c.cpp verbatim with data_ov007_020cd72c ->
    func_ov006_020cd72c. */
 // PORT_HOST_ABI: port mounts ov006 and ov007 together so the shared DS address is ambiguous; re-pointed to the ov006 function the ROM's relocation names
 int *func_ov006_020cd12c(int *t)
@@ -123,7 +123,7 @@ int *func_ov006_020cd12c(int *t)
 }
 
 /* ROM 0x020cb16c: one of the twenty-one element STATES.
-   src/func_ov006_020cb16c.c verbatim with data_ov007_020ccd78() ->
+   src/actors/dMgTrmpln2Mario_c.cpp verbatim with data_ov007_020ccd78() ->
    func_ov006_020ccd78(c), the argument the ROM rides through in r0. */
 // PORT_HOST_ABI: port mounts ov006 and ov007 together so the shared DS address is ambiguous; re-pointed to the ov006 function and the dropped receiver restored
 void func_ov006_020cb16c(int *c)

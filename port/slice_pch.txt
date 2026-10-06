@@ -64,11 +64,11 @@
 # port/unmatched/MgPachinko_StateDispatch.cpp because the mounted pair words
 # hold DS code addresses that no host symbol names:
 #
-#     src/func_ov006_020fad34.cpp   data_ov006_02142604
-#     src/func_ov006_020fc7d0.cpp   data_ov006_02142624
-#     src/func_ov006_020fe248.cpp   data_ov006_02142644
-#     src/func_ov006_020fb60c.cpp   data_ov006_0214266c
-#     src/func_ov006_020fda7c.cpp   data_ov006_02142694
+#     src/actors/dScMgPachinko_c.cpp   data_ov006_02142604
+#     src/actors/dScMgPachinko_c.cpp   data_ov006_02142624
+#     src/actors/dScMgPachinko_c.cpp   data_ov006_02142644
+#     src/actors/dScMgPachinko_c.cpp   data_ov006_0214266c
+#     src/actors/dScMgPachinko_c.cpp   data_ov006_02142694
 #
 # ONLY TWO OF THE FIVE ARE THE POINTER-TO-MEMBER WALL, and the split is the one
 # section 4's rulebook corollary keys on. A `::*` sweep of the whole 623-TU
@@ -96,7 +96,7 @@
 # and unmatched/MgBase_Slot7.cpp by run link60 lane MG2, and are excluded here
 # for that reason rather than re-hosted.
 #
-# THE DELETING DESTRUCTOR, src/_ZN15dScMgPachinko_cD0Ev.cpp, vtable slot 17. It spells
+# THE DELETING DESTRUCTOR, src/actors/dScMgPachinko_c.cpp, vtable slot 17. It spells
 # the two shared decl_common.h placeholders -- `t[0] = (int)VT;` and
 # `Memory::Deallocate(t, HEAP)` -- and hal/cxx_aliases.cpp binds bare VT to
 # _data_ov002_021081e4, the ENEMY base table, with the comment "a second
@@ -147,7 +147,7 @@
 # port/slice_mg1.txt.
 #
 # AMENDED, run mg12 lane PANEL: it is no longer a hole of that class. It has a src
-# TU now (src/func_ov004_020ae858.cpp, NONMATCHING at 10 of 118 words). It is still
+# TU now (src/minigames/d_s_mg_base.cpp, NONMATCHING at 10 of 118 words). It is still
 # true that no delink block covers it.
 #
 # THREE ADDRESSES HAVE A src FILE BUT NO DELINK BLOCK, which is a join miss and
@@ -161,39 +161,15 @@
 
 # ---- ov006, dScMgPachinko_c's own closure, wave 1 -----------------------
 
-src/d_s_mg_pachinko.c
-src/_ZN15dScMgPachinko_cD1Ev.cpp
-src/func_ov006_020fa844.c
-src/func_ov006_020fa924.c
-src/func_ov006_020fa9a0.c
-src/func_ov006_020fa9c8.c
-src/func_ov006_020faac8.c
-src/func_ov006_020fab70.c
-src/func_ov006_020fac48.c
-src/func_ov006_020fad90.c
-src/func_ov006_020fadfc.c
-src/func_ov006_020fae20.c
-src/func_ov006_020fae90.c
-src/func_ov006_020faeec.c
-src/func_ov006_020faf14.c
-src/func_ov006_020faf6c.c
-src/func_ov006_020fb0fc.c
-src/func_ov006_020fb1c4.c
+src/d_s_mg_pachinko.cpp
+src/actors/dScMgPachinko_c.cpp
 # Run mg5, lane PCOLL, the HIT-DETECTION CHAIN; see the wave 5 section at the
 # foot of this file for the whole chain and where each of its four bodies came
 # from. 020fb230 = state 2 of data_ov006_0214266c and a callee of
-# src/func_ov006_020fb45c.c, void(char*,int) over the 0x1c-stride array; from
+# src/actors/dScMgPachinko_c.cpp, void(char*,int) over the 0x1c-stride array; from
 # origin/main, byte-matched there. Was a reported floor in the dispatch switch
 # AND a trap; both are gone and the switch calls it.
-src/func_ov006_020fb230.c
-src/func_ov006_020fb45c.c
-src/func_ov006_020fb4e0.c
-src/func_ov006_020fb670.c
-src/func_ov006_020fb74c.c
-src/func_ov006_020fb8fc.c
-src/func_ov006_020fb97c.c
-src/func_ov006_020fba28.cpp
-# Run mg5, lane HSDISP. src/func_ov006_020fba48.c IS EXCLUDED, host-copied in
+# Run mg5, lane HSDISP. src/actors/dScMgPachinko_c.cpp IS EXCLUDED, host-copied in
 # port/unmatched/MgHud_HighScore.cpp. It is the HIGH SCORE half of this class's
 # HUD and the ROM rides the 32-bit score from func_ov004_020adc1c into
 # func_ov004_020b19f0 in r0 (0x020fba50, 0x020fba54). The src TU declares that
@@ -203,35 +179,15 @@ src/func_ov006_020fba28.cpp
 # getters measured 0. Litter above the cap paints 999999, litter that lands
 # negative misses func_ov004_020b1ea4's signed clamp and indexes the glyph
 # table out of bounds. See that file's banner for the disassembly.
-src/func_ov006_020fba64.c
-src/func_ov006_020fbad4.c
-src/func_ov006_020fbbe8.c
-src/func_ov006_020fbcb8.c
-src/func_ov006_020fbd38.c
-src/func_ov006_020fc144.c
-src/func_ov006_020fc1b4.c
-src/func_ov006_020fc1f8.c
-src/func_ov006_020fc2ec.c
-src/func_ov006_020fc500.c
-src/func_ov006_020fc844.c
 # Run mg5, lane INTEG: dScMgPachinko_c bodies recovered on branch decomp/pach-
 # bodies (78e6499d0). 020fc8c0 = slot-9 render homing helper, void(char*);
 # its trap in MgPachinko_Traps.cpp is removed.
-src/func_ov006_020fc8c0.c
-src/func_ov006_020fc9b0.c
-src/func_ov006_020fca1c.c
 # Run mg5, lane PCOLL, wave 5. 020fcb4c = THE HIT REACTION, void(char*,int);
 # from branch decomp/pach-bodies (ba851ff71) where it is BYTE-MATCHED. Tail-
 # called from three sites -- 0x020fd2b0 in func_ov006_020fd17c, 0x020fd864 in
 # func_ov006_020fd2d8, 0x020fd9b0 in func_ov006_020fd894 -- all three of which
 # are already in this slice, so before this line all three tail calls landed in
 # the do-nothing trap. Its trap is removed.
-src/func_ov006_020fcb4c.c
-src/func_ov006_020fcd8c.c
-src/func_ov006_020fce04.c
-src/func_ov006_020fcec4.c
-src/func_ov006_020fd088.c
-src/func_ov006_020fd17c.c
 # Run mg5, lane PCOLL, wave 5. 020fd2d8 = state 2 of data_ov006_02142694, the
 # IN-FLIGHT state, void(char*,int); from origin/main, byte-matched there. It is
 # the frame driver of the whole chain: it integrates the slot's velocity,
@@ -245,39 +201,21 @@ src/func_ov006_020fd17c.c
 # `(char *)(int)` macros, which is free on the DS and TRUNCATES A 64-BIT HOST
 # POINTER here. The three sites are rewritten as char* plus integer offset. The
 # decomp-side TU on main is deliberately left alone.
-src/func_ov006_020fd2d8.c
-src/func_ov006_020fd894.c
-src/func_ov006_020fd9cc.c
 # Run mg5, lane PCOLL, wave 5. 020fdaf0 = THE PROXIMITY SCAN, void(char*,int);
 # from branch decomp/pach-bodies (34e6c0e8c). NONMATCHING (size 0x23c vs 0x250,
 # codegen residue only) but logic-verified against the ROM disassembly, and
 # audited host-safe by this lane: all five of its `(int)` casts are integer-on-
 # integer, none of them touches a pointer. Called by func_ov006_020fd088,
 # _020fd17c and _020fd2d8; its trap is removed.
-src/func_ov006_020fdaf0.c
 # Run mg5, lane INTEG: 020fdd40 = slot-6 spawn body, void(char*); trap removed.
-src/func_ov006_020fdd40.cpp
-src/func_ov006_020fe1a8.c
-src/func_ov006_020fe1d0.c
-src/func_ov006_020fe2bc.c
-src/func_ov006_020fe2e4.c
 # Run mg5, lane INTEG: 020fe394 = state 1 of data_ov006_02142644, void(char*,int);
 # wired into the address switch in MgPachinko_StateDispatch.cpp (was a floor).
-src/func_ov006_020fe394.cpp
-src/func_ov006_020fe750.c
-src/func_ov006_020fe90c.c
-src/func_ov006_020fea54.c
-src/func_ov006_020feba8.c
-src/_ZN15dScMgPachinko_c13OnYoshiTryEatEi.cpp
-src/_ZN15dScMgPachinko_c6RenderEv.cpp
-src/_ZN15dScMgPachinko_c8BehaviorEv.cpp
 # Run mg5, lane INTEG: dScMgPachinko_c::InitResources (vtable slot 0), the
 # copy-across black-screen fix from origin/main. Compiles as the __thiscall C++
 # member against include/dScMgPachinko_c.h; a cdecl face in MgPachinko_Faces.cpp
 # forwards to it and MgPachinko_Faces.cpp aliases _ZN15dScMgPachinko_c13InitResourcesEv onto that
 # face. Its trap in MgPachinko_Traps.cpp is removed.
-src/_ZN15dScMgPachinko_c13InitResourcesEv.cpp
-src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
+src/actors/dScMgSlots.cpp
 
 # ---- WAVE 1's CORRECTION: FOUR ov004 LINES REMOVED --------------------------
 #
@@ -287,10 +225,10 @@ src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
 # lines this walk found are exactly that -- run link60 lane MG2 excluded them
 # and put the bodies in port/unmatched/:
 #
-#     src/_ZN11dScMgBase_c25OnAimedAtWithEggReturnVecEv.cpp   MgBase_DeclConflict.cpp
-#     src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp   MgBase_DeclConflict.cpp
+#     src/minigames/d_s_mg_base.cpp   MgBase_DeclConflict.cpp
+#     src/minigames/d_s_mg_base.cpp   MgBase_DeclConflict.cpp
 #     src/minigames/d_s_mg_base.cpp   MgBase_Slot1.cpp
-#     src/func_ov004_020b2cb8.c     MgBase_LangTable.cpp
+#     src/actors/unit020b2c84.cpp     MgBase_LangTable.cpp
 #
 # The first three are port/mg_fanout_costs.txt section 6a's declaration
 # conflict and they announce themselves loudly: MSVC refuses each with
@@ -299,7 +237,7 @@ src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
 #
 # because include/decl_common.h declares them with void* while their src TUs
 # define them with char* and Obj*. The fourth is QUIETER AND WOULD HAVE BEEN
-# WORSE. src/func_ov004_020b2cb8.c is a .c file, so it compiles clean and
+# WORSE. src/actors/unit020b2c84.cpp is a .c file, so it compiles clean and
 # collides only at link, as an LNK2005 against MgBase_LangTable.cpp's
 # definition -- and that host copy exists because the src TU's fabricated
 # 29-entry ramp initialiser faulted the first minigame boot at 0x00000065
@@ -315,12 +253,10 @@ src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
 #
 # ---- ov004, the framework lines no earlier slice carried, wave 1 -------
 
-src/func_ov004_020aff38.cpp
-src/func_ov004_020b1a5c.c
+src/minigames/d_s_mg_base.cpp
 # Run mg5, lane INTEG: the BG-layer setup helper the seated InitResources calls;
 # the link named it. Matched .cpp with its own delink block; its callees are all
 # framework GX/G2/G2S functions already in the build.
-src/func_ov004_020af2f8.cpp
 
 # ---- WAVE 2: THE THREE JOIN-MISS TUs, now that the linker has asked --------
 #
@@ -331,8 +267,8 @@ src/func_ov004_020af2f8.cpp
 # are the linker asking for exactly the three the header predicted, which is
 # the wave method working rather than a miss.
 #
-#     func_ov006_020fb7e0   called by src/_ZN15dScMgPachinko_c8BehaviorEv.cpp (vtable slot 6)
-#     func_ov006_020fea70   called by src/_ZN15dScMgPachinko_c8BehaviorEv.cpp (vtable slot 6)
+#     func_ov006_020fb7e0   called by src/actors/dScMgPachinko_c.cpp (vtable slot 6)
+#     func_ov006_020fea70   called by src/actors/dScMgPachinko_c.cpp (vtable slot 6)
 #     func_ov006_020fc718   state 0 of data_ov006_02142624, called by this
 #                           class's address switch
 # func_ov006_020fb7e0 IS EXCLUDED, host-copied in
@@ -347,13 +283,11 @@ src/func_ov004_020af2f8.cpp
 # into the high score. That is the "HIGH SCORE 999999 / SCORE 0" the owner
 # reported. The host copy is src verbatim with the callee declared as it is
 # DEFINED and the ROM's own r2 value passed; see that file's header.
-src/func_ov006_020fc718.c
-src/func_ov006_020fea70.c
 
 # ---- WAVE 2: NO arm9 LINE, AND THAT IS THE POINT --------------------------
 #
 # The fifth unresolved external of wave 2 was _func_0205a448, and it is NOT a
-# missing slice line. src/func_ov006_020fb97c.c spells an arm9 callee by its
+# missing slice line. src/actors/dScMgPachinko_c.cpp spells an arm9 callee by its
 # ADDRESS while config/arm9 names it MultiStore16; src/MultiStore16.c is
 # already in port/slice_gate10.txt and _MultiStore16 was already in the
 # baseline walk_window map. Answered with a name-spelling alias in
@@ -379,11 +313,10 @@ src/func_ov006_020fea70.c
 # the walk on this class's three of them converges at exactly this one TU, so
 # the hole here was shallow; that is a measurement of these three bodies and
 # not a general guarantee.
-src/func_ov006_020fbb2c.c
 
 # ---- WAVE 4: ONE LINE REMOVED, A SECOND MOUNT COLLISION -------------------
 #
-# src/func_ov006_020fa7b8.cpp is EXCLUDED and host-copied in
+# src/actors/dScMgPachinko_c.cpp is EXCLUDED and host-copied in
 # port/unmatched/MgPachinko_OamRender.cpp. Its `extern "C"` block declares the
 # OAM::Render it calls and then writes `void* data_ov006_0213ac24;`, which in
 # C++ is a DEFINITION rather than a declaration -- C++ has no tentative

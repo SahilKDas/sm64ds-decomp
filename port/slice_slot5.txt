@@ -55,8 +55,8 @@
 # ---------------------------------------------------------------------------
 # BOB-OMB BATTLEFIELD's cast (host copies were unmatched/BobEnemy_Renders.cpp)
 src/actors/daBmb_c.cpp
-src/_ZN7daKrb_c6RenderEv.cpp
-src/_ZN11BobOmbBuddy6RenderEv.cpp
+src/actors/daKrb_c.cpp
+src/game/actors/d_a_red_bombhei.cpp
 # HELD AGAIN at SYNC6, and NOT for a compile family: this TU compiles on the
 # host now (main #2663/#2669), but seating it duplicates _daWanwan_c_classInit
 # against port/unmatched/ChainChomp_Spawn_hostcopy.cpp, which is a FACTORY host
@@ -71,35 +71,35 @@ src/_ZN11BobOmbBuddy6RenderEv.cpp
 # is a sixth row for that list, not a compile-family quarantine.
 #src/game/actors/d_a_wanwan.cpp
 src/game/actors/d_a_obj_wanwan_shutter.cpp
-src/_ZN13KoopaTheQuick6RenderEv.cpp
-src/_ZN9KoopaFlag6RenderEv.cpp
+src/actors/daRNk_c.cpp
+src/actors/daRFlag_c.cpp
 # ---------------------------------------------------------------------------
 # THE REST (host copies were unmatched/ModelAnim_Renders.cpp)
-src/_ZN5Whomp6RenderEv.cpp
-src/_ZN9Butterfly6RenderEv.cpp
-src/_ZN4Fish6RenderEv.cpp
-src/_ZN13QuestionBlock6RenderEv.cpp
+src/game/actors/d_a_btn.cpp
+src/actors/daBtfly_c.cpp
+src/game/actors/d_a_fish.cpp
+src/actors/daObjHatenaBlock_c.cpp
 src/actors/Scuttlebug.cpp
-src/_ZN9PowerStar6RenderEv.cpp
+src/_ZN8daStar_c6RenderEv.cpp
 src/actors/daOts_c.cpp
-src/_ZN8BigBully6RenderEv.cpp
-src/_ZN15RotatingFirebar6RenderEv.cpp
-src/_ZN13UpDownLiftBbh6RenderEv.cpp
-src/_ZN12HealingHeart6RenderEv.cpp
-src/_ZN9SeesawBob6RenderEv.cpp
-src/_ZN14UnchainedChomp6RenderEv.cpp
-src/_ZN11BabyPenguin6RenderEv.cpp
-src/_ZN10HootTheOwl6RenderEv.cpp
-src/_ZN13BasementWater6RenderEv.cpp
-src/_ZN9Spindrift6RenderEv.cpp
+src/actors/daBDonketu_c.cpp
+src/actors/daObjFl_KomaU_c.cpp
+src/actors/daUdlift_c.cpp
+src/actors/daObjHeart_c.cpp
+src/actors/daObjSeesaw_c.cpp
+src/actors/daWanwan2_c.cpp
+src/game/actors/d_a_pg_bby.cpp
+src/actors/daOwl_c.cpp
+src/game/actors/d_a_obj_c0_water.cpp
+src/actors/daHuwa_c.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_w3b host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/daGmch_c.cpp
-src/_ZN11PowerFlower6RenderEv.cpp
-src/game/actors/daTrs_c/_ZN7daTrs_c6RenderEv.cpp
+src/actors/daObjPowerUpItem_c.cpp
+src/actors/daTrs_c.cpp
 src/game/actors/d_a_propeller_heyho.cpp
-src/_ZN8YoshiEgg6RenderEv.cpp
+src/actors/daYegg_c.cpp
 src/game/actors/d_a_obj_hatena_switch.cpp

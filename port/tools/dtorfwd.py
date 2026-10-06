@@ -320,7 +320,7 @@ _ZN8daTree_cD1Ev
 #   src/_ZN15TextureSequenceD1Ev.cpp.obj    ??1TextureSequence@@UAE@XZ
 #   src/_ZN18TextureTransformerD1Ev.cpp.obj ??1TextureTransformer@@UAE@XZ
 #   src/_ZN11dCapEnemy_cD1Ev.cpp.obj        ??1dCapEnemy_c@@UAE@XZ
-#   src/_ZN15dScMgSnowball_cD1Ev.cpp.obj    ??1dScMgSnowball_c@@UAE@XZ
+#   src/actors/dScMgSnowball_c.cpp.obj    ??1dScMgSnowball_c@@UAE@XZ
 #
 # So the forwarder here does not make MSVC EMIT a destructor, it only CALLS one
 # that the ROM's own recovered body already provides.  The ROM-side question is
@@ -407,8 +407,8 @@ _ZN7daPkn_cD1Ev
 
 # FOUR ROWS ADDED TO BATCH 5 at the wave-9c fold (lane INT4), on the
 # coordinator's word and on this batch's own out-of-line premise. Nobody claimed
-# KnockDownPlank or TowerStep: include/KnockDownPlank.h:46 and
-# include/TowerStep.h:37 declare the destructor OUT OF LINE, and the
+# KnockDownPlank or daObjBk_Lift_c: include/KnockDownPlank.h:46 and
+# include/daObjBk_Lift_c.h:37 declare the destructor OUT OF LINE, and the
 # per-function structor TUs that define it sat on no slice row at all, which is
 # the whole of why the premise could not reach them. port/slice_int4.txt puts
 # ONE TU of each pair on a slice row. One and not both: the D0 file of each pair
@@ -429,8 +429,8 @@ _ZN9ModelAnimD1Ev
 _ZN9ModelAnimD2Ev
 _ZN14KnockDownPlankD0Ev
 _ZN14KnockDownPlankD1Ev
-_ZN9TowerStepD0Ev
-_ZN9TowerStepD1Ev
+_ZN14daObjBk_Lift_cD0Ev
+_ZN14daObjBk_Lift_cD1Ev
 """
 
 # Which premise each batch stands on.  "inline" is DTORS-A's: the header spells

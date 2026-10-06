@@ -407,7 +407,7 @@ static unsigned ghost_alpha()
 }
 
 /* ModelBase::ApplyOpacity, the ROM's own one-argument body (method_faces.cpp
-   forwards to the matched src/_ZN9ModelBase12ApplyOpacityEj.cpp). It walks the
+   forwards to the matched src/_ZN9ModelBase12ApplyOpacityEjj.cpp). It walks the
    model's components and stamps the alpha into each material, the same call
    Player::Render makes on the wings. Re-applied every frame because the
    material flags are rebuilt by the per-frame update. */
@@ -1350,7 +1350,7 @@ static void hsink_probe(char *c, const int *scene, const char *head,
 /* ---- THE VS COLOUR, AND WHY EVERY YOSHI WAS GREEN --------------------------
 
    In VS every player is Yoshi -- the spawn loop forces character 3 into every
-   slot (src/_Z19LoadEntranceObjectsRN11LVL_Overlay11ObjSubTableEij.cpp:68-71) --
+   slot (src/stage/LevelObjects.cpp:68-71) --
    and they are told apart by COLOUR. That is the ROM's own arrangement, not a
    mod: yoshi_model.bmd carries ONE palette, yoshi_all_16p_pl, 128 bytes = four
    stacked 16-colour rows, and a player selects his row by shifting the palette
@@ -2621,7 +2621,7 @@ extern "C" void port_player_set_character(void *player, unsigned ch)
  *
  * THE GAME SIDE of VS character selection. In VS the spawn loop forces every
  * player to Yoshi -- mCharacter = 3 into every slot's spawn param, the force in
- * the frozen src/_Z19LoadEntranceObjectsRN11LVL_Overlay11ObjSubTableEij.cpp.
+ * the frozen src/stage/LevelObjects.cpp.
  * This reads a per-slot pick the lobby assigns and, once the world is seated,
  * swaps each chosen slot to its character through the game's OWN in-place door
  * path (port_player_set_character -> SetRealCharacter) -- the exact swap the

@@ -34,13 +34,13 @@
 
 extern "C" {
 
-/* slot 9. src/_ZN7fBase_c6RenderEv.cpp is a //cpp TU that defines the real
+/* slot 9. src/actors/ActorBase.cpp is a //cpp TU that defines the real
    method, so the call below resolves to ?Render@fBase_c@@UAEHXZ -- the same
    shape port_scene_base_cleanup uses for CleanupResources one file over. */
 int port_scene_link100_base_render(void *self)
 { return ((fBase_c *)self)->fBase_c::Render(); }
 
-/* slot 12. Same shape; src/_ZN7fBase_c16OnPendingDestroyEv.cpp is the body
+/* slot 12. Same shape; src/actors/ActorBase.cpp is the body
    and it is already in the link through port/slice_gate9.txt. */
 void port_scene_link100_base_pending_destroy(void *self)
 { ((fBase_c *)self)->fBase_c::OnPendingDestroy(); }

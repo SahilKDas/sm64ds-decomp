@@ -316,7 +316,7 @@
 #      no state table.
 #
 #   AND THE THIRD SHAPE IS CHECKED BY READING, because lane FLW's open-coded
-#   int decode is invisible to 1 and 2 alike. Slot 6 (src/_ZN12dScMgAmida_c8BehaviorEv.cpp)
+#   int decode is invisible to 1 and 2 alike. Slot 6 (src/actors/dScMgAmida_c.cpp)
 #   was read for section 14's practical rule -- an eight-byte stride into an
 #   external array followed by `>> 1` and `& 1`. It does none of that: it
 #   declares a 37-virtual shadow class over the mounted table, dispatches slot
@@ -332,8 +332,8 @@
 #
 # AMENDED, run mg10 lane F371: ONE OF THE TWO IS CLOSED and the third floor
 # this file's header counts (the ov004 one, in section 7 below) is closed too.
-# func_ov006_020d36a4 is src/func_ov006_020d36a4.cpp now, seated at the end of
-# this file, and func_ov004_020ae5c4 is src/func_ov004_020ae5c4.cpp in
+# func_ov006_020d36a4 is src/actors/dScMgAmida_c.cpp now, seated at the end of
+# this file, and func_ov004_020ae5c4 is src/minigames/d_s_mg_base.cpp in
 # port/slice_mg1.txt. What follows is left as lane S371 wrote it because the
 # DERIVATION is still how both were found; only the status changed.
 # port/mg_fanout_costs.txt section 21 has the closures and maps the survivor.
@@ -371,46 +371,20 @@
 # there is no duplicate-symbol assertion for this slice to carry.
 
 src/__sinit_ov006_0212fc7c.c
-src/func_ov006_020d0fe4.c
-src/func_ov006_020d1008.c
-src/func_ov006_020d100c.c
-src/_ZN12dScMgAmida_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN12dScMgAmida_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dScMgAmida_cD0Ev.cpp
-src/func_ov006_020d116c.c
-src/_ZN12dScMgAmida_c9Virtual8CEv.cpp
-src/_ZN12dScMgAmida_c5Unk36Ev.cpp
-src/_ZN12dScMgAmida_c9Virtual7CEv.cpp
-src/func_ov006_020d122c.cpp
-src/func_ov006_020d1450.c
-src/_ZN12dScMgAmida_c9Virtual88Eiiii.cpp
-src/func_ov006_020d1958.cpp
-src/func_ov006_020d1a3c.cpp
-src/func_ov006_020d1ba0.cpp
-src/func_ov006_020d2580.c
-src/func_ov006_020d25fc.c
-src/func_ov006_020d3624.cpp
-src/func_ov006_020d3668.cpp
-# src/func_ov006_020d3ba0.cpp IS DELIBERATELY ABSENT and host-copied in
+src/actors/unit020cd744.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgAmida_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgAmida_c.cpp
+# src/actors/dScMgAmida_c.cpp IS DELIBERATELY ABSENT and host-copied in
 # port/unmatched/MgAmida_Slot3ba0.cpp. Its extern "C" block writes a bare
 # `int data_0209d4b8;`, which mwccarm takes as a tentative definition and MSVC
 # takes as a strong one, so it collides with hal/scene_mg_faces.cpp's hosted
 # arm9 RNG seed. Listing both would be a duplicate symbol and listing neither
 # would drop the body. The copy is mechanical and its header carries the sed
 # line that reproduces it.
-src/func_ov006_020d452c.c
-src/func_ov006_020d47f4.c
-src/_ZN12dScMgAmida_c6RenderEv.cpp
-src/_ZN12dScMgAmida_c8BehaviorEv.cpp
-src/_ZN12dScMgAmida_c13OnYoshiTryEatEi.cpp
-src/_ZN12dScMgAmida_c13InitResourcesEv.cpp
-src/_ZN12dScMgAmida_c21AfterCleanupResourcesEj.cpp
 # WAVE 2. The factory registers func_ov006_020d5a50 as an array element
 # destructor (its pool word at 0x020d5a4c), and 0x020d5a50 is the first
 # function AFTER this class's code block rather than inside it, so the block
 # walk did not reach it. It is a two-line empty body.
-src/func_ov006_020d5a50.c
-src/d_s_mg_amida.cpp
 # WAVE 3, run mg10 lane F371. THE FIRST OF THIS CLASS'S TWO ov006 FLOORS IS
 # CLOSED. func_ov006_020d36a4 is the ROUND SETUP: it shuffles the four ladder
 # lanes with the game's 15-bit range draw, refuses a board that repeats the
@@ -419,7 +393,7 @@ src/d_s_mg_amida.cpp
 # THE TAIL IS WHAT IDENTIFIES THE WHOLE CLASS, and it is a control this lane
 # did not arrange: the walker's start X is LANE[i] * 64 + 32, which is 32, 96,
 # 160 and 224, and those are exactly the four rail coordinates 0x20, 0x60, 0xa0
-# and 0xe0 that src/func_ov006_020d3ba0.cpp draws its vertical lines at. The board
+# and 0xe0 that src/actors/dScMgAmida_c.cpp draws its vertical lines at. The board
 # and the walkers agree on where the ladder is and neither half was read off the
 # other.
 #
@@ -428,9 +402,8 @@ src/d_s_mg_amida.cpp
 # beside a real definition is a duplicate symbol, not a safety net.
 #
 # It is a .c compiled as C++ (the slot-36 dispatch is spelled through a dummy
-# 37-virtual struct, the same device src/func_ov006_020d3ba0.cpp uses in this
+# 37-virtual struct, the same device src/actors/dScMgAmida_c.cpp uses in this
 # class), so it carries a LANGUAGE CXX row in port/CMakeLists.txt.
-src/func_ov006_020d36a4.cpp
 # WAVE 4, run mg10 lane WALKER. THE LAST FLOOR IN THIS SCENE IS CLOSED.
 # func_ov006_020d27dc is THE WALKER TICK, 0xe48 = 3656 bytes, the largest single
 # hole in any seated minigame, one caller at 0x020d4d78 inside vtable slot 6.
@@ -456,6 +429,5 @@ src/func_ov006_020d36a4.cpp
 #
 # It is a .c compiled as C++ -- three slot-36 dispatches (0x020D2924, 0x020D2ABC,
 # 0x020D2D8C) spelled through the same dummy 37-virtual struct
-# src/func_ov006_020d36a4.cpp and src/func_ov006_020d3ba0.cpp use -- so it carries a
+# src/actors/dScMgAmida_c.cpp and src/actors/dScMgAmida_c.cpp use -- so it carries a
 # LANGUAGE CXX row in port/CMakeLists.txt.
-src/func_ov006_020d27dc.c

@@ -116,7 +116,7 @@ DSSTATE_END
  * ONE RETURN VALUE, NOT TWO, and the difference from func_01ffadf0 in
  * hal/scene_vs_menu.cpp is worth naming so a reader does not "fix" one into
  * the other. That file hosts the ITCM ADDRESS 0x01ffadf0 as a `long long`
- * because ov075's own caller (src/func_ov075_021143e4.cpp) declares it that
+ * because ov075's own caller (src/actors/dEntObj_c.cpp) declares it that
  * way to read the quotient AND the remainder out of the r0/r1 pair. Every
  * caller of the NAME __aeabi_uidiv in this tree declares it
  * `unsigned int (unsigned int, unsigned int)` -- src/func_0204fce8.c,

@@ -41,7 +41,7 @@
 #
 # ---- FIVE TUs HELD OUT, AND WHY --------------------------------------------
 #
-# src/d_a_king_donketu.cpp             ARM r0 RIDE-THROUGH. It calls
+# src/actors/daKing_Donketu_c.cpp             ARM r0 RIDE-THROUGH. It calls
 #   `func_020aed98();` with NO ARGUMENT because in the ROM the object the
 #   allocator just returned is still in r0 when Enemy::C2 is entered
 #   (0x02121ed4 bl operator new / 0x02121ed8 movs r4, r0 / 0x02121ee0 bl
@@ -51,8 +51,8 @@
 #   from the disassembly. The three Ccc Spawns do NOT have this problem
 #   (`_ZN10dBgActor_cC2Ev(p)` names its receiver) and are in this slice.
 #
-# src/ChiefChilly_ChangeState.cpp       MSVC POINTER-TO-MEMBER, both of them.
-# src/func_ov073_021223a4.cpp           `struct C; typedef int (C::*PMF)();
+# src/actors/daKing_Donketu_c.cpp       MSVC POINTER-TO-MEMBER, both of them.
+# src/actors/daObjEwbIce_c.cpp           `struct C; typedef int (C::*PMF)();
 #   struct C { char pad[N]; PMF *pp; };` is the ov060 lane's measured
 #   "forward-declared, defined later in the same TU" shape: SIXTEEN bytes
 #   against the ROM's eight, and dispatched __thiscall against cdecl bodies.
@@ -80,69 +80,15 @@
 src/d_a_obj_ewb_ice_ewb_ice_a.c
 src/d_a_obj_ewb_ice_ewb_ice_b.c
 src/d_a_obj_ewb_ice_ewb_ice_c.c
-src/_ZN8CccArena13InitResourcesEv.cpp
-src/_ZN8CccArena16CleanupResourcesEv.cpp
-src/_ZN8CccArena8BehaviorEv.cpp
-src/_ZN8CccArena6RenderEv.cpp
-src/_ZN8CccArenaD1Ev.cpp
+src/actors/daObjEwbIce_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN8CccArenaD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8CccArenaD0Ev.cpp
-src/_ZN11ChiefChilly13InitResourcesEv.cpp
-src/_ZN11ChiefChilly16CleanupResourcesEv.cpp
-src/_ZN11ChiefChilly16OnPendingDestroyEv.cpp
-src/_ZN11ChiefChillyD1Ev.cpp
+src/actors/daKing_Donketu_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN11ChiefChillyD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN11ChiefChillyD0Ev.cpp
 src/__sinit_ov073_02122874.c
 src/__sinit_ov073_02122d48.c
 src/func_02011d08.c
 src/_ZN5Sound13Func_02048ec4Ev.cpp
-src/func_ov073_0211f144.c
-src/func_ov073_0211f2c0.c
-src/func_ov073_0211f494.c
-src/func_ov073_0211f61c.cpp
-src/func_ov073_0211fa74.c
-src/func_ov073_0211fbec.c
-src/func_ov073_0211fbf4.cpp
-src/func_ov073_0211fc70.c
-src/func_ov073_0211fc78.c
-src/func_ov073_0211fe84.c
-src/func_ov073_0211fe8c.c
-src/func_ov073_0212000c.cpp
-src/func_ov073_0212005c.cpp
-src/func_ov073_02120098.cpp
-src/func_ov073_021200e0.c
-src/func_ov073_02120390.c
-src/func_ov073_021203ac.c
-src/func_ov073_021205f0.c
-src/func_ov073_02120610.c
-src/func_ov073_0212081c.c
-src/func_ov073_02120844.c
-src/func_ov073_021208e4.c
-src/func_ov073_02120910.c
-src/func_ov073_02120ad8.c
-src/func_ov073_02120b78.c
-src/func_ov073_02120c08.c
-src/func_ov073_02120c7c.cpp
-src/func_ov073_02120d80.cpp
-src/func_ov073_02120dec.c
-src/func_ov073_02120e60.cpp
-src/func_ov073_02120ed0.c
-src/func_ov073_0212122c.c
-src/func_ov073_0212128c.c
-src/func_ov073_02121378.c
-src/func_ov073_02121388.c
-src/func_ov073_02121538.cpp
-src/func_ov073_021215cc.c
-src/_ZN11ChiefChilly16OnAimedAtWithEggEv.cpp
-src/func_ov073_0212202c.c
-src/func_ov073_02122034.cpp
-src/func_ov073_021220c0.c
-src/func_ov073_021221e0.c
-src/func_ov073_02122200.cpp
-src/func_ov073_021222c8.c
-src/func_ov073_021222ec.c
-src/func_ov073_0212239c.c
-src/_ZN8CccArena4KillEv.cpp
 src/func_ov073_02122730.c
 src/func_ov073_021227d0.c

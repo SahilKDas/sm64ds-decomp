@@ -93,7 +93,7 @@
 // the (void) veneer became precisely the scene_actor_faces defect class named
 // in the last sentence.
 //
-// THE FIX IS THE TAIL JUMP AND NOT A HOST COPY. src/func_ov006_020e285c.c
+// THE FIX IS THE TAIL JUMP AND NOT A HOST COPY. src/actors/dScMgCurling_c.cpp
 // stays in port/slice_mg1.txt exactly as it is -- the first attempt took it
 // out, hosted it, and cost the gate a linked TU (5831 -> 5830) for nothing.
 // The case below now declares 020e285c as (char *, int) and passes (c, a);
@@ -243,7 +243,7 @@ extern "C" unsigned port_mg_curling_state_hits(void)
    port/slice_seat4.txt, so the host copy that stood in for it is gone and
    the declaration above is what the faces in this file reach. */
 
-/* src/func_ov006_020e0d84.cpp. Two dispatches, two tables, both one-argument. */
+/* src/actors/dScMgCurling_c.cpp. Two dispatches, two tables, both one-argument. */
 /* PORT_HOST_ABI: mwcc pointer-to-member dispatch (dScMgCurling_c state table); the 8-byte {code,adj} pair is host-copied as an address switch, MSVC's 4-byte member pointer cannot express it */
 extern "C" void func_ov006_020e0d84(char *c, int i)
 {
@@ -256,7 +256,7 @@ extern "C" void func_ov006_020e0d84(char *c, int i)
     port_mg_call1(c, p1->code, p1->adj, i);
 }
 
-/* src/func_ov006_020e1214.cpp. SILENT: its table was declared inside
+/* src/actors/dScMgCurling_c.cpp. SILENT: its table was declared inside
    extern "C", so the link never named it. */
 #define F1E(b, i) (*(unsigned char *)((char *)(b) + 0x47aa + (i) * 0x24))
 
@@ -330,10 +330,10 @@ extern "C" void func_ov006_020e1214(char *base, int idx)
 // no r1 and pushes nothing. So 021418b0 and 02141950 take ZERO-argument faces
 // and 02141910 takes ONE-argument faces, ELEVEN faces in all.
 //
-// ONE /alternatename. src/_ZN14dScMgCurling_c8BehaviorEv.cpp wraps its member pointer in
+// ONE /alternatename. src/actors/dScMgCurling_c.cpp wraps its member pointer in
 // `struct Entry { PMF pmf[1]; }` at C++ linkage, so MSVC spells the reference
 // ?data_ov006_02141950@@3PAUEntry@@A -- read off the object with
-// dumpbin /symbols, not guessed. src/func_ov006_020e3078.cpp declares BOTH of
+// dumpbin /symbols, not guessed. src/actors/dScMgCurling_c.cpp declares BOTH of
 // its tables inside its own extern "C" block and both come in as the plain C
 // names the ov006 mount defines, which the UNDEF sweep of that object confirms
 // (_data_ov006_021418b0, _data_ov006_02141910, _func_ov006_020e1680 and nothing
@@ -349,12 +349,12 @@ extern "C" void func_ov006_020e1214(char *base, int idx)
 //
 // SLOT 2 OF 02141910 IS THE COLLISION RIDE-THROUGH, and its face calls it
 // exactly the way the switch did: `func_ov006_020e285c(c, a)` at C linkage,
-// with the declaration this file already carries. src/func_ov006_020e285c.c
+// with the declaration this file already carries. src/actors/dScMgCurling_c.cpp
 // declares itself (void) and tail-jumps to func_ov006_020e20bc, so r0 and r1 --
 // the two words the face pushes -- ride the veneer's reused frame into the
 // transcribed collision body. port/tools/tailjump_guard.py's CLASS C row for
 // that pair is unaffected: it asserts that 020e285c's OWN frame is a jmp, which
-// is a property of src/func_ov006_020e285c.c and of nothing here. Its note says
+// is a property of src/actors/dScMgCurling_c.cpp and of nothing here. Its note says
 // "unmatched/MgCurling_StateDispatch.cpp dispatches this address from a
 // one-argument slot and passes (c, a)", which is still true of this file --
 // through a cell rather than through a case. That file is not this lane's to

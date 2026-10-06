@@ -84,7 +84,7 @@ WHAT IT DOES NOT DO:
   * IT DOES NOT COVER THE FRAMEWORK HALF OF THE WALL, and a fan-out lane
     reading the ONE MECHANISM claim above as full coverage of
     mg_fanout_costs section 4 will be wrong in the most expensive
-    direction. src/_ZN10dMgState_c8SetStateEi.cpp is dScMgBase_c's state setter,
+    direction. src/actors/dMgState_c.cpp is dScMgBase_c's state setter,
     the TU section 4 says unblocks the framework half of all thirty
     minigames, and it is a DIFFERENT MECHANISM: it builds its twenty-entry
     member-pointer table IN-FUNCTION out of twenty individually named

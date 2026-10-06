@@ -60,7 +60,7 @@ int func_ov002_020fec94(void *c);   /* main : per-frame fly/collide/expire     *
 }  /* extern "C" */
 
 /* func_ov002_020fed2c IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov002_020fed2c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daPropeller_Heyho_Fire_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two

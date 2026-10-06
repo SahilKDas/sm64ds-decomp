@@ -85,7 +85,7 @@
 # 021498e0+0x2a8, stride EIGHT. ARITY ZERO, receiver in ecx, nothing pushed.
 # /Zp4 changes 0 listing lines outside the TITLE.
 # SEAT. One zero-argument __fastcall face per distinct code word (eight) in
-# port/unmatched/QuestionBlock_BounceDispatch.cpp, which keeps its 36-entry seat
+# port/unmatched/daObjHatenaBlock_c_BounceDispatch.cpp, which keeps its 36-entry seat
 # and loses only the host body and its qblock_content_call reader. The TU
 # publishes the flat C name itself, so no forwarder.
 #
@@ -101,7 +101,7 @@
 # __sinit_ov055_021118d4's own two loads, which copy both into the single
 # sixteen-byte cell data_ov055_02111b70. ONE cell, TWO halves, TWO readers, and
 # the readers are DISJOINT RECORDS: the ENTER word is read by
-# src/func_ov055_021112c4.cpp (PMFB8's own seat, already a __fastcall face) and
+# src/actors/daLuigi_c.cpp (PMFB8's own seat, already a __fastcall face) and
 # the TICK word is read by this row and by nothing else. CLOSED.
 # SENTINEL. Nothing compares a stored pair by value. NONE.
 # EMITTED. mov eax,[ecx+8] / test eax,eax / je / mov ecx,[ecx+12] / push ebx /
@@ -160,7 +160,7 @@
 #   table, which is a second thing a reviewer should see measured before it
 #   lands. Written up as a hunk in runs/link100/out/SEAT5/decomp_side.md.
 # ===========================================================================
-src/_ZN11MirrorLuigi8BehaviorEv.cpp
-src/_ZN5Unagi8BehaviorEv.cpp
-src/func_ov102_021498e0.cpp
+src/actors/daLuigi_c.cpp
+src/actors/daMoray_c.cpp
+src/actors/daObjHatenaBlock_c.cpp
 port/hal/pmf_seat5.cpp

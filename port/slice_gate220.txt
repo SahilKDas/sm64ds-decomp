@@ -31,7 +31,7 @@
 #     if ((b1 && data_0209fc68 == 0) || (data_0209caa0[2] & 0x80))
 #
 # where b1 is VS mode, so a single-player frame needs flags2 bit 7.  Exactly
-# one write in the whole image sets that bit: src/func_ov085_0212d5dc.cpp:51,
+# one write in the whole image sets that bit: src/game/actors/d_a_c_jugem.cpp:51,
 # LakituBro's last opening state, `data_0209caa0[2] |= 0x80`.  It is the
 # "the opening has been seen" bit -- HUD::Behavior and HUD::Render gate on the
 # same word -- so any run that has been through the opening reaches the pause

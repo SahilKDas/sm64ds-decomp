@@ -350,7 +350,7 @@ extern unsigned char data_ov074_02122f38[];   /* the file table's column 1 */
 #pragma comment(linker, "/alternatename:__ZN5Sound13Func_02048ee4Ev=?Func_02048ee4@Sound@@SAXXZ")
 
 /* ---- THE NAMING DELTA BETWEEN THE TWO LINES, BRIDGED BY ADDRESS ----------
-   run rel0215 lane prop17. src/func_ov074_021201f0.c is taken VERBATIM off
+   run rel0215 lane prop17. src/actors/daKuriKing_c.cpp is taken VERBATIM off
    the decomp line (main 6906f2af5, blob 91c48100976f13c2f5a464f816ce72d3e6d9d2c1)
    and that line has taken a C++ rename this branch has not: 1047 of its src
    files spell `_ZN8dActor_c...`, and this branch has none. Three names in that
@@ -479,11 +479,11 @@ extern "C" void port_ov074_level_files_seat(void)
 // prop17, when main 6906f2af5 matched their bodies and the lane propagated
 // them here by address:
 //
-//   port_ov074_state0_tick_face  ->  src/func_ov074_021201f0.c, seated by
+//   port_ov074_state0_tick_face  ->  src/actors/daKuriKing_c.cpp, seated by
 //        ADDRESS in g_ov074_seats below (its only reference in ov074's
 //        relocations is the code-pointer record at 0x02122de4, so the seat is
 //        the whole of its coverage).
-//   the func_ov074_021204c0 face ->  src/func_ov074_021204c0.c, which seats
+//   the func_ov074_021204c0 face ->  src/actors/daKuriKing_c.cpp, which seats
 //        plain under the ROM's own name; its two arm_call sites resolve to it
 //        directly and nothing here has to name it any more.
 //

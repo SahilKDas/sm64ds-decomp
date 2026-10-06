@@ -303,7 +303,7 @@ extern unsigned char data_020a0e40[];         /* the live TouchInfo index    */
 
 /* The persistent minigame record. Nothing new is defined here: the storage is
    hal/level_boot.cpp's .dsstate$savblk0004 and the index function is
-   src/func_ov004_020adc3c.c. */
+   src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int   func_ov004_020adc3c(void *c);           /* (self->field_8 >> 8) & 0xff */
@@ -908,4 +908,3 @@ extern "C" void port_scene_roulette_hits(void)
 #pragma comment(linker, "/alternatename:?data_ov006_021428d0@@3HA=_data_ov006_021428d0")
 #pragma comment(linker, "/alternatename:?data_ov006_0213e2dc@@3HA=_data_ov006_0213e2dc")
 #pragma comment(linker, "/alternatename:?data_ov006_02142aa4@@3PAPADA=_data_ov006_02142aa4")
-#pragma comment(linker, "/alternatename:_func_020b9488=_data_ov004_020b9488")

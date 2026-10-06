@@ -50,7 +50,7 @@ extern char data_0209f32c[];
 /* func_ov032_02111350 RETIRED (run link100, lane SEAT6, batch B6).
    The r0 passthrough into a thiscall Actor::ClosestPlayer is one
    declaration and one argument, not a body.
-   The matched TU src/func_ov032_02111350.c is seated in its place: port/tools/hostgen.py's REG_RIDE_ARG table gives the declaration its
+   The matched TU src/game/actors/d_a_bakubaku.cpp is seated in its place: port/tools/hostgen.py's REG_RIDE_ARG table gives the declaration its
    receiver and the call site the body's own `c`.
    port/tools/closestplayer_guard.py still refuses the RAW source in any
    slice line, and is right to: the raw source is not what is compiled.

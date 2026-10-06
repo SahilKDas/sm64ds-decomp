@@ -207,7 +207,7 @@
 #                              for a run-off to land on.
 # No symbol in this overlay is written past its dsd-inferred gap, so ov092
 # needs none of ov077's `data_ov077_02127c28:0x60` pins.
-data_ov092_02132074 data_ov092_02132080 data_ov092_0213208c data_ov092_02132220
+_ZN8daOnms_c16sLaunchVertSpeedE _ZN8daOnms_c16sLaunchHorzSpeedE _ZN8daOnms_c9sBankAxisE data_ov092_02132220
 data_ov092_02132240 data_ov092_02132248 data_ov092_02132250 data_ov092_02132258
 data_ov092_02132260 data_ov092_02132268 data_ov092_02132270 data_ov092_02132278
 data_ov092_02132280 _ZTS8daOnms_c data_ov092_02132294 _ZTI8daOnms_c

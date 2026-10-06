@@ -1,4 +1,4 @@
-/* HOST COPIES of src/func_ov002_020bbd5c.cpp and src/func_ov002_020bbda4.cpp
+/* HOST COPIES of src/actors/daObjTatefuda_c.cpp and src/actors/daObjTatefuda_c.cpp
  * -- the sign's own five-state machine, with the mwcc pointer-to-member pairs
  * read as plain function pointers and seated with host addresses.
  *
@@ -254,8 +254,8 @@ extern "C" void port_sign_post_states_seat(void)
     }
 }
 
-/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/func_ov002_020bbd5c.cpp and
-   src/func_ov002_020bbda4.cpp are on port/slice_pmf3.txt (run link100 lane
+/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/actors/daObjTatefuda_c.cpp and
+   src/actors/daObjTatefuda_c.cpp are on port/slice_pmf3.txt (run link100 lane
    PMF3): /vmg /vmm makes MSVC's pointer-to-member the ROM's 8-byte record, so
    the stride is the ROM's 0x10 and both bodies TAIL JUMP; the mangled table
    reference is bridged in port/hal/pmf3_aliases.cpp. The seat above is

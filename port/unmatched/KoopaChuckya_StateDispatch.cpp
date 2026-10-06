@@ -50,7 +50,7 @@
  * matched Koopa Behavior helpers (func_ov062_02118718/02118b4c/02118cdc) bl
  * into when the actor's state byte at +0x398 reads 3. This file described it
  * as UNMATCHED, first as an abort stub and then as a host copy over a "TRUE
- * FLOOR at 5 divergences". Both readings are dead: src/func_ov062_02117724.c
+ * FLOOR at 5 divergences". Both readings are dead: src/game/actors/d_a_nknk.cpp
  * is a verified byte-match on main (PR #1474, 8ec808874, 2026-08-13) and run
  * linkw wave 9 (lane w9-harvest) linked it here. CHUCKYA never calls it.
  */
@@ -260,7 +260,7 @@ extern "C" void port_chuckya_states_seat(void)
    nearmiss note calling the byte-match "a TRUE FLOOR at 5 divergences".
 
    Both statements were true of every tree this branch can see and FALSE of
-   main.  src/func_ov062_02117724.c is a verified byte-match, landed on main in
+   main.  src/game/actors/d_a_nknk.cpp is a verified byte-match, landed on main in
    PR #1474 (8ec808874, 2026-08-13); the floor was cracked and the near-miss
    note was never re-read from here because this branch forked at 7b2f913fe on
    2026-08-04.  The matched TU is now carried by port/slice_w9harvest.txt and

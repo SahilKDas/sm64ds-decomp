@@ -1,4 +1,4 @@
-/* HOST COPIES of src/func_ov094_02136188.cpp (the state-cell installer) and
+/* HOST COPIES of src/actors/daOwl_c.cpp (the state-cell installer) and
  * the inline PMF dispatch inside src/_ZN10HootTheOwl8BehaviorEv.cpp (the
  * per-frame state tick) -- HOOT_THE_OWL's (234, ov094, gate 194) own state
  * machine. The Unagi/MrBlizzard/BabyPenguin shape: a REAL C++ pointer-to-
@@ -110,7 +110,7 @@ extern "C" void port_hoot_the_owl_states_seat(void)
 }
 
 /* func_ov094_02136188, the state-cell installer, IS NO LONGER HOST-COPIED.
-   src/func_ov094_02136188.cpp is on port/slice_pmf3.txt (run link100 lane
+   src/actors/daOwl_c.cpp is on port/slice_pmf3.txt (run link100 lane
    PMF3): with /vmg /vmm target-wide, MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the emitted body is a TAIL JUMP -- the
    caller's own cdecl frame survives, so the seated body still reads its

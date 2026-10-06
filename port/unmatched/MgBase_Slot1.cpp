@@ -49,6 +49,10 @@ extern char data_0209f61c[];
 extern unsigned char data_0209d460[];
 extern unsigned char data_0209d458[];
 
+// local extern: this host copy calls the flat compatibility face emitted from
+// dScene_c.h's C++ member; the header intentionally declares only the member.
+int _ZN8dScene_c19BeforeInitResourcesEv(void *self);
+
 // PORT_HOST_ABI: decl_common.h declares this void* while src defines it char*, which MSVC rejects as C2733 where mwccarm accepts; host copy respells the parameter
 int _ZN11dScMgBase_c19BeforeInitResourcesEv(void *cv)
 {

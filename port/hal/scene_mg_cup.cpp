@@ -15,7 +15,7 @@
 //     -> (param >> 16) & 0xff = 11, the name-text index
 //     -> data_ov004_020bc070[11] = 559, the BMG message id. Cross-checked
 //        against the LIVE object: this file's census prints +0x465e, which
-//        src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp reads, and it also reads 559.
+//        src/minigames/d_s_mg_base.cpp reads, and it also reads 559.
 //     -> data/message/msg_data_eng.bin, LZ77 type 0x10, 91712 bytes,
 //        MESGbmg1 / INF1 (711 messages; the header field at +0x0a reads
 //        0x0040, which is 64 BITS -- an EIGHT-byte entry stride, not a
@@ -250,7 +250,7 @@
 // FIELD of the sub-object at +0x4f38 and which section 12 and
 // port/slice_mga361.txt both missed -- section 12's adjudication row for
 // 0x020e0204 calls it "the class ONLY pointer-to-member dispatch site" and
-// slice_mga361 lists src/func_ov006_020c2b8c.cpp as an ordinary slice line.
+// slice_mga361 lists src/actors/unit020bfec0.cpp as an ordinary slice line.
 // Both headers are the derivation. Nothing in THIS file dispatches a member
 // pointer.
 //
@@ -376,7 +376,7 @@ void     port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 
 /* the persistent minigame record, and the framework body that indexes it.
    Nothing new is defined here: the storage is hal/level_boot.cpp's
-   .dsstate$savblk0004 and the index function is src/func_ov004_020adc3c.c.
+   .dsstate$savblk0004 and the index function is src/minigames/d_s_mg_base.cpp.
    Named so the census can print the record this class is keyed to rather than
    leave it to be inferred -- run mg8 lane MMD's finding is that the record
    index is a real, per-minigame thing and that the port used to give every

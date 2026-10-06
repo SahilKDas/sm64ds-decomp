@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "description": "Central port-only adapter inventory for Tango path and symbol seams.",
+  "paths": {
+    "resource_pack_header": "port/hal/resource_pack.h",
+    "resource_pack_implementation": "port/hal/resource_pack.cpp",
+    "pc_menu": "port/tests/walk_window.cpp"
+  },
+  "retail_character_slots": ["Mario", "Luigi", "Wario", "Yoshi"],
+  "reserved_character_ids": [0, 1, 2, 3]
+}

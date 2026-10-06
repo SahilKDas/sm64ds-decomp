@@ -308,11 +308,6 @@ src/func_02016aac.c
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/daSanbo_c.cpp
-src/d_a_tor.c
-src/_ZN7Tornado16CleanupResourcesEv.cpp
-src/_ZN7TornadoD0Ev.cpp
+src/actors/daTor_c.cpp
 src/__sinit_ov096_0213770c.c
 src/__sinit_ov096_02137894.c
-src/_ZN7Tornado10UpdateSpinEi.cpp
-src/_ZN7Tornado6State2Ev.cpp
-src/_ZN7Tornado6State0Ev.cpp

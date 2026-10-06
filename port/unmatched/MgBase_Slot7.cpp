@@ -23,7 +23,7 @@
 #include "types.h"
 #include "decl_common.h"
 
-/* src/_ZN8dScene_c14BeforeBehaviorEv.cpp's real signature, which
+/* src/actors/dScene_c.cpp's real signature, which
    include/decl_Scene.h does not carry. */
 extern "C" int _ZN8dScene_c14BeforeBehaviorEv(char *self);
 
@@ -39,7 +39,7 @@ extern "C" int _ZN8dScene_c14BeforeBehaviorEv(char *self);
  *     extern int _ZN8dScene_c14BeforeBehaviorEv();
  *
  * with empty parens inside extern "C". The real definition,
- * src/_ZN8dScene_c14BeforeBehaviorEv.cpp, is
+ * src/actors/dScene_c.cpp, is
  *
  *     int _ZN8dScene_c14BeforeBehaviorEv(char* self)
  *

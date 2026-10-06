@@ -265,7 +265,7 @@ int *_ZN13daObjSwdoor_cD0Ev(int *self);         /* 021099e4 slot 17 */
    found. Its fill therefore OVERWRITES the mounted DS addresses in place,
    the way every fill over a mounted scene table does, and its width comes
    from the mount's own 124 bytes as well as the symbols.txt delta. */
-extern "C" unsigned char data_ov002_02108284[];
+extern "C" unsigned char _ZTV11dCapEnemy_c[];
 
 extern "C" {
 DSSTATE_BEGIN
@@ -489,7 +489,7 @@ extern "C" void hal_seat_ov002_base_tables(void)
 
     /* 0x02108284 -- 31 slots, Actor-derived, no slot 31 */
     {
-        void **vt = (void **)data_ov002_02108284;
+        void **vt = (void **)_ZTV11dCapEnemy_c;
         ob2_fill_shared(vt);
         vt[0]  = (void *)ob2_ab_init;
         vt[3]  = (void *)ob2_ab_clean;

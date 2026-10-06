@@ -12,7 +12,7 @@
 #
 # TEN of the thirteen are listed below. THREE ARE HELD OUT:
 #
-#   src/func_ov055_021112c4.cpp         -> port/unmatched/MirrorLuigi_StateEnter.cpp
+#   src/actors/daLuigi_c.cpp         -> port/unmatched/MirrorLuigi_StateEnter.cpp
 #   src/_ZN11MirrorLuigi8BehaviorEv.cpp -> port/unmatched/MirrorLuigi_Behavior.cpp
 #   src/_ZN11MirrorLuigiD1Ev.cpp        -> ml_d1 in hal/actor_classes_ov055.cpp
 #
@@ -95,7 +95,7 @@
 # ShadowModel, TextureSequence, SharedFilePtr, Memory, the array
 # construct/destroy helpers, func_ov002_020e496c and func_ov002_020e4374.
 #
-# ONE SLICED TU DID NOT REACH THE MAP, AND NOW DOES. src/func_ov055_02111264.c
+# ONE SLICED TU DID NOT REACH THE MAP, AND NOW DOES. src/actors/daLuigi_c.cpp
 # (set the mirror flag to 2 and play sound 0x179) had no caller in the seated
 # set: its only ROM caller is an arm_call from ov063 at 0x02118004, whose
 # module column read overlays(27,55) -- ov027 and ov055 share one DS load
@@ -112,9 +112,9 @@
 # member that takes `this` in r0; ov055's is func_ov055_02111264, void(void).
 # The same ov063 function's literal pool holds 0x02111b6c (inside ov055's bss
 # window, module column 55 and not 27) and calls func_0201277c, the one call
-# src/func_ov055_02111264.c itself makes.
+# src/actors/daLuigi_c.cpp itself makes.
 #
-# The caller, src/unnamed/ov063/func_ov063_02117cdc.c, spells the callee with
+# The caller, src/actors/daTrs_c.cpp, spells the callee with
 # the ov027 name (line 25 declares it, line 148 calls it with no arguments).
 # src/ is not edited for the host: port/CMakeLists.txt's R-L15B3 block renames
 # that one symbol per source, the d_a_obj_emm_log.cpp shape, and the src-side
@@ -122,17 +122,9 @@
 # commit on.
 
 # ---- the class -----------------------------------------------------------
-src/d_a_luigi.cpp
-src/_ZN11MirrorLuigiD0Ev.cpp
-src/_ZN11MirrorLuigi13InitResourcesEv.cpp
-src/_ZN11MirrorLuigi16CleanupResourcesEv.cpp
-src/_ZN11MirrorLuigi16OnPendingDestroyEv.cpp
-src/_ZN11MirrorLuigi6RenderEv.cpp
+src/actors/daLuigi_c.cpp
 
 # ---- the two state halves and the helper that enters the mirror ----------
-src/func_ov055_021112bc.c
-src/func_ov055_02111288.c
-src/func_ov055_02111264.c
 
 # ---- the static initialiser ----------------------------------------------
 src/__sinit_ov055_021118d4.c

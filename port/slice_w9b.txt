@@ -45,6 +45,5 @@
 # sub-object constructors as daKrb_c_classInit_KURIBO, and both FirePiranhaPlant{Big,
 # Small}_Spawn are 556 bytes over Enemy with the same three as
 # daFPkn_c_classInit_PAKUN2.
-src/d_a_krb_kuribo_l.c
-src/d_a_f_pkn_firepakun.c
-src/d_a_f_pkn_firepakun_s.c
+src/actors/daKrb_c.cpp
+src/actors/daFPkn_c.cpp

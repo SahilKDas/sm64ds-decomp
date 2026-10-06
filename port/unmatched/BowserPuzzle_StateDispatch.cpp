@@ -86,7 +86,7 @@ extern PortPmf data_ov064_0211c2e4[];     /* {fn=021197fc, 0} -> c934[0] (.a) */
  */
 
 /* func_ov064_0211982c IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov064_0211982c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daWater_Hakidasi_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two

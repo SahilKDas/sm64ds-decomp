@@ -8,7 +8,7 @@
 # banners. Re-read here, one file at a time, against src/ as it stands at
 # 2ddf31f57:
 #
-#   src/func_ov006_020d3ba0.cpp   dScMgAmida_c (the ladder game, scene 371),
+#   src/actors/dScMgAmida_c.cpp   dScMgAmida_c (the ladder game, scene 371),
 #       2444 bytes, the largest body in LINK15's whole candidate pool.
 #       unmatched/MgAmida_Slot3ba0.cpp said line 37 read `int data_0209d4b8;`,
 #       a mwcc tentative definition that under MSVC becomes a second strong
@@ -19,7 +19,7 @@
 #       data_ov006_0212e1xx arrays the host copy still spells as bare
 #       definitions, and deleted the u64 launder masks. Nothing else differs.
 #
-#   src/func_ov006_020fa7b8.cpp   dScMgPachinko_c (Slots Shot, scene 368),
+#   src/actors/dScMgPachinko_c.cpp   dScMgPachinko_c (Slots Shot, scene 368),
 #       the tenth and last call of vtable slot 9, so a boot that renders
 #       reaches it. unmatched/MgPachinko_OamRender.cpp said src:6 read
 #       `void* data_ov006_0213ac24;` and collided with the ov006 mount, which
@@ -27,7 +27,7 @@
 #       `extern void* data_ov006_0213ac24;`. Every other character already
 #       matched the host copy, loop bound, stride, four offsets, ten arguments.
 #
-#   src/func_ov004_020ad8b8.c     ov004's minigame-framework helper that
+#   src/minigames/d_s_mg_base.cpp     ov004's minigame-framework helper that
 #       dScMgFlower_c::InitResources ("Loves Me...?", scene 390) calls on its
 #       first statement, and that dScMgRoulette_c slot 0 seeds +0xa8 from.
 #       unmatched/MgFlower_InitScore.cpp said the src declared
@@ -41,7 +41,7 @@
 # THE ONE ROW LINK15 PUT IN THIS BATCH THAT IS STILL NOT HERE, and why, so the
 # next census does not find it again:
 #
-#   src/func_ov006_020d8408.c     REFUSED, the defect still holds. The census
+#   src/actors/dScMgBomroom_c.cpp     REFUSED, the defect still holds. The census
 #       tested callee ARITY and src:4 does declare
 #       `func_ov006_020d66c4(char *base, int idx)` with both parameters -- but
 #       the defect is at a CALL SITE, not a declaration: src:202 still reads
@@ -53,7 +53,7 @@
 #       func_ov006_020d66c4+0xc reading 0x3879cf6c. An arity check over
 #       declarations cannot see a cast at a call site.
 #
-#   src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp   SEATED, run link100 wave
+#   src/actors/dMg3DEspAnimSet_c.cpp   SEATED, run link100 wave
 #       15, lane ESP3D, off SEAT15D's REFUSED note above (kept here for the
 #       record: it was out of BATCH 3's ownership because the matched TU is a
 #       real C++ member, `s32 dScMg3DEsp_c::CleanupResources()`, so it does
@@ -64,7 +64,7 @@
 #       have collided with this TU (LNK2005). port/unmatched/Mg3DEsp_Cleanup.cpp
 #       is retired the way SEAT15D retired its three.
 #
-src/func_ov006_020d3ba0.cpp
-src/func_ov006_020fa7b8.cpp
-src/func_ov004_020ad8b8.c
-src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp
+src/actors/dScMgAmida_c.cpp
+src/actors/dScMgPachinko_c.cpp
+src/minigames/d_s_mg_base.cpp
+src/actors/dMg3DEspAnimSet_c.cpp

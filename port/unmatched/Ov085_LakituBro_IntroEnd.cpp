@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov085_0212d5dc.cpp -- LakituBro's LAST OPENING STATE,
+/* HOST COPY of src/game/actors/d_a_c_jugem.cpp -- LakituBro's LAST OPENING STATE,
  * the one that ends the new-file cutscene.
  *
  * THE r0-PASSTHROUGH SEAM, the same one as Ov085_LakituBro_ClosestPlayer.cpp
@@ -21,7 +21,7 @@
  *
  * THE TREE ALREADY KNEW: the pair is frozen in
  * port/tools/aritycheck_plainfunc_baseline.txt as
- *     func_ov002_020c3e8c|src/func_ov085_0212d5dc.cpp
+ *     func_ov002_020c3e8c|src/game/actors/d_a_c_jugem.cpp
  * It stayed latent because with the intro bit force-set in hal/level_boot.cpp
  * this state was unreachable -- LakituBro::InitResources only selects the
  * opening state chain when that bit is CLEAR. Opening the gate reaches it.

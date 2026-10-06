@@ -435,8 +435,8 @@ HEADER_SHADOW = {
     # found). The old text is in git at d9ea8dda4.
     # "func_ov002_020e444c": ("decl_common.h", ("func_ov002_020e3f90",)),
     # lane LINKMG, dScMgBase_c slots 30 and 29: decl_common.h:2352-2353 declare
-    # both `(void*)` inside its extern "C" block while src/_ZN11dScMgBase_c25OnAimedAtWithEggReturnVecEv.cpp
-    # defines `(char*)` and src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp defines `(Obj*)`. One
+    # both `(void*)` inside its extern "C" block while src/minigames/d_s_mg_base.cpp
+    # defines `(char*)` and src/minigames/d_s_mg_base.cpp defines `(Obj*)`. One
     # register on the ROM, C2733 to MSVC -- the func_ov102_0214b248 case
     # exactly. unmatched/MgBase_DeclConflict.cpp used to carry both bodies with
     # the parameter retyped; this entry retires that file.
@@ -573,6 +573,19 @@ MEMBER_REDECL = {
 # but builtin types: `int` where the member wrote `s32`, which is the same type
 # under a different spelling and keeps the block readable without a header.
 REDECL_CONFLICT_DECL = {
+    "daCoin_c": """\
+/* hostgen REDECL_CONFLICT: MSVC forbids function-local classes in extern
+   declarations. These are the TU's exact helper shapes, lifted to file scope. */
+struct daCoin_HandlerHost {};
+typedef void (daCoin_HandlerHost::*daCoin_Handler)();
+struct daCoin_FileEntry { void *sfp; void *bmd; };
+extern "C" {
+extern daCoin_Handler data_ov002_0210dc70[];
+extern daCoin_FileEntry *data_ov002_020ff06c[];
+extern daCoin_FileEntry *data_ov002_020ff060[];
+}
+
+""",
     "daMky_c": """\
 /* hostgen REDECL_CONFLICT: the file-scope half of the repair below. ONLY THE
    TYPES move. Each datum keeps its own block-scope declaration, in the member
@@ -610,31 +623,17 @@ struct VObj {
 }
 
 REDECL_CONFLICT = {
+    "daCoin_c": [
+        ("    struct HandlerHost {};\n"
+         "    typedef void (HandlerHost::*Handler)();\n"
+         "    extern Handler data_ov002_0210dc70[];\n", ""),
+        ("    (((HandlerHost *)this)->*data_ov002_0210dc70[mBehaviorType])();",
+         "    (((daCoin_HandlerHost *)this)->*data_ov002_0210dc70[mBehaviorType])();"),
+        ("    typedef struct { void* sfp; void* bmd; } FileEntry;\n", ""),
+        ("    extern FileEntry* data_ov002_020ff06c[];\n", ""),
+        ("    extern FileEntry* data_ov002_020ff060[];\n", ""),
+    ],
     "daMky_c": [
-        # The eighteen block-scope redeclarations, in file order. Each names a
-        # symbol the TU already declares at lines 155-169 or defines above.
-        ("    extern int func_0201267c(int a, void *b);\n", ""),
-        ("    extern void *_ZN8dActor_c13ClosestPlayerEv(void *a);\n", ""),
-        ("    extern void func_ov030_02111dd0(char *c);\n", ""),
-        ("    extern void func_ov030_02111ea4(char *c);\n", ""),
-        ("    extern void func_ov030_02111bc4(void* c);\n", ""),
-        ("    void *_ZN8dActor_c13ClosestPlayerEv(void *self);\n", ""),
-        ("    void _ZN5dCc_c5ClearEv(void *thiz);\n", ""),
-        ("    extern void func_ov030_02111bc4(void *a);\n", ""),
-        ("    extern void _ZN5dCc_c5ClearEv(void *p);\n", ""),
-        ("    extern int func_0201267c(int a, void* b);\n", ""),
-        ("    extern void _ZN5dCc_c5ClearEv(void* self);\n", ""),
-        ("    extern void _ZN5dCc_c5ClearEv(void *self);\n", ""),
-        ("    extern void *_ZN8dActor_c13ClosestPlayerEv(void *c);\n", ""),
-        ("    extern void func_ov030_02111bc4(void *c);\n", ""),
-        ("    extern void _ZN5dCc_c5ClearEv(void *c);\n", ""),
-        ("    extern void func_ov030_02111a00(char* c);\n", ""),
-        ("    extern void func_ov030_02111dd0(char* c);\n", ""),
-        ("    extern void func_ov030_02111ea4(char* c);\n", ""),
-        # The stray forward declaration that makes a LOCAL dActor_c out of the
-        # two elaborated specifiers under it. The real class is visible at file
-        # scope in this TU: func_ov030_021122b0 takes a dActor_c * at line 679.
-        ("    struct dActor_c;\n", ""),
         # The four local types, re-pointed at the file-scope ones in
         # REDECL_CONFLICT_DECL above. The two that are typedefs keep their
         # names, so every use in the member reads unchanged; the two that are
@@ -799,9 +798,9 @@ DS_DIV = {
     # x/0 = 0, x86 idiv faults c0000094 (measured on the VS castle grounds,
     # level 51, actor 0x1f, reproduced with SM64DS_LEVEL=51). `/ 0x1000` above
     # is a constant divisor and stays. This retires unmatched/VS_PathDivGuard.cpp.
-    "func_ov002_020ef670": [
-        ("ad2 / dv", "ds_idiv(ad2, dv)"),
-        ("ad1 / dv", "ds_idiv(ad1, dv)"),
+    "dPathLiftActor_c": [
+        ("pitchDiff / segFrames", "ds_idiv(pitchDiff, segFrames)"),
+        ("yawDiff / segFrames", "ds_idiv(yawDiff, segFrames)"),
     ],
     # Lane shadow-A: Animation::Advance's looping arm, `(frame + speed + len)
     # % len`, and len is ZERO on a ModelAnim that carries a model and no
@@ -940,7 +939,33 @@ def mmio_extern_patch(text, sym):
 # func_ov019_0211197c:44 and :79, func_ov019_021117a8:33. So there is no reader
 # to re-derive it for, on the host or on the DS.
 FALLS_OFF_RETURN = {
-    # ArrowSignRight::OnAttacked1 (ov098 0x02137d40, size 0x40). Run link100
+    "daObjBlockL_c": [
+        ("    if (b) {\n"
+         "        if (other.param1 != 2) return;\n"
+         "        Kill();\n"
+         "        return;\n"
+         "    }\n"
+         "    Kill();\n"
+         "}",
+         "    if (b) {\n"
+         "        if (other.param1 == 2) {\n"
+         "            Kill();\n"
+         "        }\n"
+         "    } else {\n"
+         "        Kill();\n"
+         "    }\n"
+         "}"),
+        ("    int b = (actorID == 0x11);\n"
+         "    if (b) return;\n"
+         "    Kill();\n"
+         "}",
+         "    int b = (actorID == 0x11);\n"
+         "    if (!b) {\n"
+         "        Kill();\n"
+         "    }\n"
+         "}"),
+    ],
+    # daObjYajirusi_c::OnAttacked1 (ov098 0x02137d40, size 0x40). Run link100
     # wave 9c, lane LINK21, and the one row in this table that answers a C2561
     # rather than a C4716: the body carries a BARE `return;` inside an int
     # function, so MSVC refuses the translation unit outright instead of warning
@@ -970,13 +995,13 @@ FALLS_OFF_RETURN = {
     # applied to the five siblings of this family: the early exit becomes the
     # ABSENCE of the call rather than a statement, and the body reaches its
     # closing brace with nothing to return. That is exactly the shape
-    # SignPost::OnAttacked1 and QuestionBlock::OnAttacked1 are already seated in,
+    # SignPost::OnAttacked1 and daObjHatenaBlock_c::OnAttacked1 are already seated in,
     # both of them on PORT_FALLS_OFF_END_SOURCES, which this TU joins.
     #
     # Nothing reads the result on the host either: the one caller,
     # port/hal/actor_classes_bob_world.cpp:1583, declares the flat ROM name void
     # and its face returns 0 of its own.
-    "_ZN14ArrowSignRight11OnAttacked1ER8dActor_c": [
+    "_ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c": [
         ("    if (r == 0) return;\n    Kill();\n}",
          "    if (r != 0) {\n"
          "        Kill();\n"
@@ -1161,7 +1186,7 @@ VIRTUAL_CALL = {
     # Process); 0x02099ea4/eac/eb4 = {0x18,1} {0x1c,1} {0x20,1} -> Behavior,
     # BeforeBehavior, AfterBehavior (func_02043288, the per-frame tick). The
     # patch inlines Process's own control flow over those slots (the body of
-    # src/_ZN7fBase_c7ProcessEMS_FivEMS_FbvEMS_FvjE.cpp, unchanged: before,
+    # src/actors/ActorBase.cpp, unchanged: before,
     # then main, then after(code)), through the same __fastcall thunk
     # convention as func_02016ff4 above. Retires
     # port/unmatched/func_0204335c_hostcopy.cpp and func_02043288_hostcopy.cpp.
@@ -1281,8 +1306,8 @@ VIRTUAL_CALL = {
     # const void*)` (hal/cxxname_bridge.cpp:522): the receiver never arrived
     # and four bytes were cleaned twice (measured: the spawn-assisted key
     # crashed frame 1, ecx=13811ba3, DEP-exec fault). Retires the
-    # _ZN9RabbitKey6RenderEv body in port/unmatched/Ov085_Renders.cpp.
-    "_ZN9RabbitKey6RenderEv": [
+    # _ZN15daObj_Mip_Key_c6RenderEv body in port/unmatched/Ov085_Renders.cpp.
+    "_ZN15daObj_Mip_Key_c6RenderEv": [
         ("        s->vt->fn14(s, 0);",
          "        /* hostgen VIRTUAL_CALL: byte +0x14 is word 5 of the Model\n"
          "           vptr -- Render -- and the host seats a __fastcall thunk\n"
@@ -1429,12 +1454,12 @@ VIRTUAL_CALL = {
          "  if (((int (__fastcall *)(void *, void *))"
          "(*(void ***)obj)[6])(obj, 0) == 0) return;"),
     ],
-    # ArrowSignRight::OnAttacked1's inner self-kill (ov098), vtable byte +0x7c
+    # daObjYajirusi_c::OnAttacked1's inner self-kill (ov098), vtable byte +0x7c
     # = word 31. The raw src loads the vtable pointer into ECX to reach the
     # slot and PUSHES `this`, while the seated veneer `static int __fastcall
     # as_kill(void *s, void *)` (hal/actor_classes_bob_world.cpp:1139,1190)
     # reads `this` from ECX: a WRONG RECEIVER, not a lost word -- the sign
-    # would have run its Kill against _ZTV14ArrowSignRight. The stack balances
+    # would have run its Kill against _ZTV15daObjYajirusi_c. The stack balances
     # (one push, one pop, `ret 0`), so nothing faults. Retires
     # port/unmatched/ArrowSign_OnAttacked1.cpp.
     # DROPPED 2026-09-13 (main -> port sync, lane SYNC5), reason gone: main's
@@ -1581,8 +1606,8 @@ MG_PMF_CALL = {
          "       and an adjustment; an MSVC member pointer to an incomplete\n"
          "       class is not that width. */\n"
          "    extern int data_ov006_02142840[];"),
-        ("            (((PanelC_ca4 *)c)->*data_ov006_02142840[*p])(i);",
-         "            port_mg_panel_call1(c + (data_ov006_02142840[*p * 2 + 1] >> 1),\n"
+        ("            (((PanelC_ca4 *)scene)->*data_ov006_02142840[*p])(i);",
+         "            port_mg_panel_call1(scene + (data_ov006_02142840[*p * 2 + 1] >> 1),\n"
          "                                (unsigned)data_ov006_02142840[*p * 2],\n"
          "                                data_ov006_02142840[*p * 2 + 1], i);"),
     ],
@@ -1799,20 +1824,20 @@ PMF_SEAM = {
     # ROM's `code != 0 && adj == 0` rule and reports anything else, which is
     # what all seven host copies did and all the ROM's own pairs support.
     "dScMgPanel_c": [
-        ("        (cc->*data_ov006_021427ec[*(u8 *)(c + 0x4000 + 0x686)])();",
+        ("        (cc->*data_ov006_021427ec[*(u8 *)(scene + 0x4000 + 0x686)])();",
          "        PORT_PMF_CALL0(port_mg_panel_call0, cc,\n"
          "                       data_ov006_021427ec[*(u8 *)(c + 0x4000 + 0x686)]);"),
         ("    (c->*data_ov006_02142820[c->idx])();",
          "    PORT_PMF_CALL0(port_mg_panel_call0, c, data_ov006_02142820[c->idx]);"),
-        ("        (((PanelC_eb8 *)c)->*data_ov006_02142840[idx])(i);",
-         "        PORT_PMF_CALL1(port_mg_panel_call1, c,\n"
-         "                       data_ov006_02142840[idx], i);"),
-        ("        (((PanelC_f44 *)c)->*data_ov006_02142840[idx])(i);",
-         "        PORT_PMF_CALL1(port_mg_panel_call1, c,\n"
-         "                       data_ov006_02142840[idx], i);"),
-        ("        (c->*data_ov006_02142840[idx])(i);",
-         "        PORT_PMF_CALL1(port_mg_panel_call1, c,\n"
-         "                       data_ov006_02142840[idx], i);"),
+        ("        (((PanelC_eb8 *)scene)->*data_ov006_02142840[index])(i);",
+         "        PORT_PMF_CALL1(port_mg_panel_call1, scene,\n"
+         "                       data_ov006_02142840[index], i);"),
+        ("        (((PanelC_f44 *)scene)->*data_ov006_02142840[index])(i);",
+         "        PORT_PMF_CALL1(port_mg_panel_call1, scene,\n"
+         "                       data_ov006_02142840[index], i);"),
+        ("        (scene->*data_ov006_02142840[index])(i);",
+         "        PORT_PMF_CALL1(port_mg_panel_call1, scene,\n"
+         "                       data_ov006_02142840[index], i);"),
     ],
     # dScMgHanachan_c. FOUR sites over THREE strings (func_ov006_020eb018 and
     # func_ov006_020eb31c spell the same two lines and take the same rewrite),
@@ -1883,8 +1908,8 @@ PMF_SEAM_ALLOW = {
 # context because `int cup;` alone appears more than once in the file.
 UNINIT_LOCAL = {
     "dScMgCup_c": [
-        ("    char *row = c + i;\n    int cup;",
-         "    char *row = c + i;\n"
+        ("    char *row = raw + i;\n    int cup;",
+         "    char *row = raw + i;\n"
          "    /* hostgen UNINIT_LOCAL: mwcc left this in r1, which still held\n"
          "       `i`; the gotos below reach the epilogue without assigning it,\n"
          "       and MSVC's allocation makes that a wild write. See the table. */\n"
@@ -2598,39 +2623,20 @@ def ledger_park(text, sym):
 # file-scope declaration sitting between a banner and a body can never fall
 # inside the #if 0.
 HOST_COPY_PARK = {
-    # func_ov006_0211ba88, ov006 0x0211ba88, host-copied by
-    # port/unmatched/MgSound_ShadowSlot35.cpp, whose header lists four measured
-    # defects in the matched translation unit (the dropped receiver at the
-    # vtable slot-35 call, the modulo approximated by one subtraction, an int
-    # store where the ROM stores a byte, and the n == 0 test nested inside the
-    # idx >= limit arm).
-    "dScMgSound_c": [
-        ("void func_ov006_0211ba88(char *base, int idx)\n{\n",
-         "/* hostgen HOST_COPY_PARK: port/unmatched/MgSound_ShadowSlot35.cpp\n"
-         "   defines this ROM name under a standing PORT_HOST_ABI ruling, so a\n"
-         "   second definition here is a duplicate symbol. Parked, not deleted;\n"
-         "   the host copy goes on defining the name and nothing dispatches\n"
-         "   differently. See the HOST_COPY_PARK table in tools/hostgen.py. */\n"
-         "#if 0  /* hostgen HOST_COPY_PARK: func_ov006_0211ba88 */\n"
-         "void func_ov006_0211ba88(char *base, int idx)\n{\n"),
-        ("    ctx->ent[idx].b0d = 0;\n    ctx->ent[idx].b0e = 0;\n}\n",
-         "    ctx->ent[idx].b0d = 0;\n    ctx->ent[idx].b0e = 0;\n}\n"
-         "#endif  /* hostgen HOST_COPY_PARK: func_ov006_0211ba88 */\n"),
-    ],
     # func_ov078_02123f1c, ov078 0x02123f1c, host-copied by
     # port/unmatched/KingBobOmb_HeldHealthCheck.cpp. The ruling is an implicit
     # register argument: Player::GetHealth's receiver is c->field_494 and rode
     # r0 on ARM, which is why the matched body calls it with no argument at all.
     # That spelling is still here in main's text, three lines below the anchor.
     "daBombking_c": [
-        ('extern "C" int func_ov078_02123f1c(CView* c)\n{\n',
+        ('extern "C" int func_ov078_02123f1c(char *c)\n{\n',
          "/* hostgen HOST_COPY_PARK: port/unmatched/KingBobOmb_HeldHealthCheck.cpp\n"
          "   defines this ROM name under a standing PORT_HOST_ABI ruling (the\n"
          "   GetHealth receiver rides r0), so a second definition here is a\n"
          "   duplicate symbol. Parked, not deleted. See the HOST_COPY_PARK\n"
          "   table in tools/hostgen.py. */\n"
          "#if 0  /* hostgen HOST_COPY_PARK: func_ov078_02123f1c */\n"
-         'extern "C" int func_ov078_02123f1c(CView* c)\n{\n'),
+         'extern "C" int func_ov078_02123f1c(char *c)\n{\n'),
         ("        KingBobOmb_SetState(c, data_ov078_0212709c);\n"
          "    }\n    return 1;\n}\n",
          "        KingBobOmb_SetState(c, data_ov078_0212709c);\n"
@@ -2700,11 +2706,11 @@ HOST_COPY_PARK = {
          "   table in tools/hostgen.py. */\n"
          "#if 0  /* hostgen HOST_COPY_PARK: dScMgCup_c_classInit */\n"
          'extern "C" void *dScMgCup_c_classInit()\n{\n'),
-        ("        __cxa_vec_ctor(scene + 0x53e8, 3, 8,\n"
+        ("        __cxa_vec_ctor(scene->mCup, 3, 8,\n"
          "                      (void *)func_0203d738,\n"
          "                      (void *)NullDestructor_0203d47c);\n"
          "    }\n    return scene;\n}\n",
-         "        __cxa_vec_ctor(scene + 0x53e8, 3, 8,\n"
+         "        __cxa_vec_ctor(scene->mCup, 3, 8,\n"
          "                      (void *)func_0203d738,\n"
          "                      (void *)NullDestructor_0203d47c);\n"
          "    }\n    return scene;\n}\n"
@@ -2873,7 +2879,7 @@ DATA_C_LINKAGE = {
     ]),
     # File scope, above this TU's own extern "C" region: the two file views the
     # step mounts and the collision-parameter block it hands dBgW_Kc.
-    "_ZN9TowerStep13InitResourcesEv": ('#include "dBgCh_Gnd.h"\n', [
+    "_ZN14daObjBk_Lift_c13InitResourcesEv": ('#include "dBgCh_Gnd.h"\n', [
         ("extern SharedFilePtr data_ov015_02114a64;", "data_ov015_02114a64"),
         ("extern SharedFilePtr data_ov015_02114a5c;", "data_ov015_02114a5c"),
         ("extern CLPS_Block data_ov015_02113594;", "data_ov015_02113594"),
@@ -2895,7 +2901,7 @@ DATA_C_LINKAGE = {
     # per spelling. See the block above the table.
     "func_ov002_020b5e58":
         _c_linkage_line("extern char %s;" % _DBGW_ANGS, _DBGW_ANGS),
-    "_ZN13TTC_MovingBar13InitResourcesEv":
+    "_ZN18daObjCtKaitendai_c13InitResourcesEv":
         _c_linkage_line("extern int %s;" % _DBGW_ANGS, _DBGW_ANGS),
     "_ZN16RotatingCogSmall13InitResourcesEv":
         _c_linkage_line("extern int %s;" % _DBGW_ANGS, _DBGW_ANGS),
@@ -2912,14 +2918,29 @@ DATA_C_LINKAGE = {
     "_ZN11PyramidStep13InitResourcesEv":
         _c_linkage_line("extern int %s;" % _DBGW_XFRM, _DBGW_XFRM),
     "d_a_obj_wc_obj04":
-        _c_linkage_line("extern int %s;" % _DBGW_XFRM, _DBGW_XFRM),
+        ('#include "SharedFilePtr.h"\n',
+         [("extern int %s;" % _DBGW_XFRM, _DBGW_XFRM)], "after"),
     "_ZN8CccArena13InitResourcesEv":
         _c_linkage_line("extern int %s[];" % _DBGW_XFRM, _DBGW_XFRM),
     "_ZN9SeesawBob13InitResourcesEv":
         _c_linkage_line("extern int %s[];" % _DBGW_XFRM, _DBGW_XFRM),
-    "_ZN6ShipUp13InitResourcesEv":
+    "_ZN14daObjKi_Fune_c13InitResourcesEv":
         _c_linkage_line("extern void* %s;" % _DBGW_XFRM, _DBGW_XFRM),
 }
+
+# Promoted TUs can replace the old flat datum spelling with a genuine static
+# member expression.  The DS stores the function address as data here; keep the
+# host reference on the flat ROM name so DATA_C_LINKAGE can give it C linkage.
+PROMOTED_DATA_ADDR = {
+    "d_a_obj_wc_obj04": [
+        ("&dBgW::UpdatePosWithTransform", "&%s" % _DBGW_XFRM),
+    ],
+}
+
+
+def promoted_data_addr_patch(text, sym):
+    return apply_patches(text, sym, PROMOTED_DATA_ADDR,
+                         "PROMOTED_DATA_ADDR")
 
 
 def data_c_linkage(text, sym):
@@ -3028,6 +3049,40 @@ def apply_patches(text, sym, table, what, decl=""):
     return (decl + text) if decl else text, n
 
 
+# Tango's promoted Smartball TU retains an anonymous `typedef ... V2` from
+# its C-derived shards, but one body still spells a local as `struct V2`.
+# mwccarm accepts that historical spelling; MSVC treats the tag as a distinct,
+# incomplete type. The host copy uses the typedef without changing its layout.
+SMARTBALL_TYPE = {
+    "dScMgSmartball_c": [
+        ("  struct V2 v;", "  V2 v;"),
+    ],
+}
+
+
+def smartball_type_patch(text, sym):
+    return apply_patches(text, sym, SMARTBALL_TYPE, "SMARTBALL_TYPE")
+
+
+# Tango's promoted Koopa TU defines Vec3 as an anonymous typedef, then one
+# legacy shard refers to `struct Vec3`. mwccarm accepts that C-derived spelling;
+# MSVC creates an unrelated incomplete tag. Keep the reconstructed source
+# untouched and normalize the four exact host-copy uses.
+NKNK_TYPE = {
+    "d_a_nknk": [
+        ("void Vec3_Asr(struct Vec3 *d, struct Vec3 *s, int sh);",
+         "void Vec3_Asr(Vec3 *d, Vec3 *s, int sh);"),
+        ("  struct Vec3 v;", "  Vec3 v;"),
+        ("Vec3_Asr(&v, (struct Vec3 *)&self->mPosX, 3);",
+         "Vec3_Asr(&v, (Vec3 *)&self->mPosX, 3);"),
+    ],
+}
+
+
+def nknk_type_patch(text, sym):
+    return apply_patches(text, sym, NKNK_TYPE, "NKNK_TYPE")
+
+
 def ds_div_patch(text, sym):
     """Reroute the named divisions through the DS-semantics helpers."""
     return apply_patches(text, sym, DS_DIV, "DS_DIV", DS_DIV_DECL)
@@ -3106,6 +3161,8 @@ def emit(src_path, out_dir, decomp_root, extern_data=False):
     text, _ = uninit_local_patch(text, sym)
     text, _ = member_redecl_patch(text, sym)
     text, _ = redecl_conflict_patch(text, sym)
+    text, _ = smartball_type_patch(text, sym)
+    text, _ = nknk_type_patch(text, sym)
     text, _ = ledger_park(text, sym)
     text, _ = host_copy_park(text, sym)
     text, _ = extern_c_data_patch(text, sym)
@@ -3113,6 +3170,7 @@ def emit(src_path, out_dir, decomp_root, extern_data=False):
     text, _ = arg_width_patch(text, sym)
     text, _ = callee_seam_patch(text, sym)
     text, _ = reg_ride_arg_patch(text, sym)
+    text, _ = promoted_data_addr_patch(text, sym)
     text, nztv = ztv_c_linkage(text, sym)
     if nztv and not QUIET_VPTR:
         print("  %s: %d vtable extern(s) given C linkage" % (sym, nztv))

@@ -19,7 +19,7 @@
 // SIX-VIRTUAL shadow class counted in ROM numbering and dispatches index 5.
 // The folded host table put Virtual18 there -- a different method taking a
 // different argument, which is the measured c0000005 the Butterfly, the Fish,
-// the QuestionBlock and the Whomp copies all recorded. It does not now.
+// the daObjHatenaBlock_c and the Whomp copies all recorded. It does not now.
 //
 // THE CONVENTION AGREES, and that is the half worth stating because the index
 // is not the whole story. MSVC compiles the shadow's `o->m5(x)` as a
@@ -50,7 +50,7 @@
 
 #include "CheepCheep.h"
 #include "ChiefChilly.h"
-#include "Clam.h"
+#include "daObjShell_c.h"
 #include "FirePiranhaPlantBig.h"
 #include "HeaveHo.h"
 #include "Lakitu.h"
@@ -71,7 +71,7 @@
    extern "C" block, so MSVC gives the declaration C++ linkage and asks the
    linker for a mangled name that nothing defines:
 
-     src/_ZN7HeaveHo6RenderEv.cpp        extern int data_0209f32c;
+     src/actors/daPopoi_c.cpp        extern int data_0209f32c;
      src/actors/daPkn_c.cpp  extern G2  data_ov084_02130df4;
 
    The mount defines both at C linkage (_data_0209f32c out of
@@ -95,7 +95,7 @@ extern "C" {
 
 int _ZN3MrI6RenderEv(void *s)                 { return ((MrI *)s)->MrI::Render(); }
 int _ZN11ChiefChilly6RenderEv(void *s)        { return ((ChiefChilly *)s)->ChiefChilly::Render(); }
-int _ZN4Clam6RenderEv(void *s)                { return ((Clam *)s)->Clam::Render(); }
+int _ZN4Clam6RenderEv(void *s)                { return ((daObjShell_c *)s)->daObjShell_c::Render(); }
 int _ZN13TreasureChest6RenderEv(void *s)      { return ((TreasureChest *)s)->TreasureChest::Render(); }
 int _ZN5Spiny6RenderEv(void *s)               { return ((Spiny *)s)->Spiny::Render(); }
 int _ZN5Shark6RenderEv(void *s)               { return ((Shark *)s)->Shark::Render(); }
@@ -153,14 +153,14 @@ int _ZN9LakituBro6RenderEv(void *s)           { return ((LakituBro *)s)->LakituB
 #include "SlidingBox.h"
 #include "Goomboss.h"
 #include "Player.h"
-#include "ShipUp.h"
+#include "daObjKi_Fune_c.h"
 
 extern "C" {
 
 /* Goomboss::Render, ROM 0x02121b70, _ZTV8Goomboss[9] @ 0x02122edc ("12daKuriKing_c"). */
 int _ZN8Goomboss6RenderEv(void *s)            { return ((Goomboss *)s)->Goomboss::Render(); }
-/* ShipUp::Render, ROM 0x02112744, _ZTV6ShipUp[9] @ 0x02114a60 ("14daObjKi_Fune_c"). */
-int _ZN6ShipUp6RenderEv(void *s)              { return ((ShipUp *)s)->ShipUp::Render(); }
+/* daObjKi_Fune_c::Render, ROM 0x02112744, _ZTV14daObjKi_Fune_c[9] @ 0x02114a60 ("14daObjKi_Fune_c"). */
+int _ZN14daObjKi_Fune_c6RenderEv(void *s)              { return ((daObjKi_Fune_c *)s)->daObjKi_Fune_c::Render(); }
 /* FloatOnWaterPlatformJrb::Render, ROM 0x02113130. The class name on the table
    is a decoy the host file recorded and this lane re-read from the ROM: the
    RTTI name string behind _ZTV23FloatOnWaterPlatformJrb[-1] @ 0x02114c88 says

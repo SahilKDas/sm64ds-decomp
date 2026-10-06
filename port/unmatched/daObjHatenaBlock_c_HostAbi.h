@@ -1,19 +1,19 @@
-/* PORT_HOST_ABI. QuestionBlock's own fields, put back where the ROM keeps
- * them. Force-included ahead of the ten src/_ZN13QuestionBlock*.cpp
+/* PORT_HOST_ABI. daObjHatenaBlock_c's own fields, put back where the ROM keeps
+ * them. Force-included ahead of the ten src/actors/daObjHatenaBlock_c.cpp
  * translation units so they address the ROM's member offsets instead of
  * MSVC's. Nothing in src/ or include/ changes. Run link100, lane CRASH8.
  *
  * The mechanism is the one port/unmatched/MgSmartball_HostAbi.h and
  * port/unmatched/Fader_HostAbi.h already use: pre-define a header's own guard
- * macro, so the src file still says #include "QuestionBlock.h", the include
+ * macro, so the src file still says #include "daObjHatenaBlock_c.h", the include
  * still happens, and the body is skipped because the guard is already defined.
  *
  * ---- WHAT IS WRONG WITHOUT THIS ----------------------------------------
  *
  * MSVC does not let a derived class reuse its base class's TAIL PADDING. The
  * Itanium ABI that mwccarm implements does. dBgActor_c has a DATA size of
- * 0x31e and a sizeof of 0x320, so mwccarm starts QuestionBlock's own fields at
- * 0x31e, include/QuestionBlock.h's `u8 pad_31e[0x2]` fills 0x31e..0x31f, and
+ * 0x31e and a sizeof of 0x320, so mwccarm starts daObjHatenaBlock_c's own fields at
+ * 0x31e, include/daObjHatenaBlock_c.h's `u8 pad_31e[0x2]` fills 0x31e..0x31f, and
  * ModelAnim mModelAnim lands on the ROM's 0x320. MSVC starts them at 0x320
  * instead, the same two-byte pad fills 0x320..0x321, and mModelAnim is pushed
  * to 0x324. Every field of this class from mModelAnim down is then four bytes
@@ -33,11 +33,11 @@
  * build/port/walk_window.exe at fd50368ad (md5 4c0c76c8):
  *
  *   _daObjHatenaBlock_c_classInit_HATENA_BLOCK  00521c00, from the C TU
- *   src/d_a_obj_hatena_block_hatena_block.c, which uses the ROM's literals:
+ *   src/actors/daObjHatenaBlock_c.cpp, which uses the ROM's literals:
  *     00521c1a  lea ecx, [esi + 0x320]   -> __ZN9ModelAnimC1Ev
  *     00521c2c  lea eax, [esi + 0x384]   -> __ZN11ShadowModelC1Ev
  *
- *   ?InitResources@QuestionBlock@@UAEHXZ  00530240, the C++ TU:
+ *   ?InitResources@daObjHatenaBlock_c@@UAEHXZ  00530240, the C++ TU:
  *     0053026b  lea esi, [edi + 0x324]   -> ModelBase::SetFile
  *     00530325  lea ecx, [edi + 0x388]   -> ShadowModel::InitCuboid
  *
@@ -71,7 +71,7 @@
  * reuses the base's tail padding nor skips a vfptr for a base that declares no
  * virtual of its own; measured 0x47d0 against the ROM's 0x47c8"), and any
  * header whose first own field follows a `u8 pad_NNN[k]` with NNN not
- * four-aligned has it. The complete fix belongs in include/QuestionBlock.h and
+ * four-aligned has it. The complete fix belongs in include/daObjHatenaBlock_c.h and
  * its peers, as
  *
  *     #ifndef _MSC_VER
@@ -82,7 +82,7 @@
  * _MSC_VER. That is a decomp-side edit, which this lane does not own, so it is
  * written up in the lane report and handed over instead.
  *
- * Everything below is include/QuestionBlock.h's own C++ declaration verbatim,
+ * Everything below is include/daObjHatenaBlock_c.h's own C++ declaration verbatim,
  * with pad_31e removed and nothing else touched, so the member types, the
  * member order, the class name and every method signature are unchanged and no
  * mangled name moves.
@@ -97,10 +97,10 @@
 #include "ModelAnim.h"
 #include "ShadowModel.h"
 
-/* shadows include/QuestionBlock.h */
+/* shadows include/daObjHatenaBlock_c.h */
 #define QUESTIONBLOCK_H
 
-struct QuestionBlock : dBgActor_c {
+struct daObjHatenaBlock_c : dBgActor_c {
     /* u8 pad_31e[0x2] lives here on the NDS side. See the header comment:
        MSVC has already spent those two bytes as the base's tail padding. */
     ModelAnim mModelAnim;             /* 0x320 */
@@ -117,7 +117,7 @@ struct QuestionBlock : dBgActor_c {
     u8 mContentType;                  /* 0x3f3 */
 
     /* --- vtable --- */
-    virtual ~QuestionBlock();
+    virtual ~daObjHatenaBlock_c();
 
     int Behavior();
     int CleanupResources();

@@ -56,26 +56,9 @@
 # above, by design).
 
 # ---- MR_I / BIG_MR_I (262 / 263), one class ---------------------------------
-src/d_a_eykn_eyekun.c
-src/d_a_eykn_eyekun_boss.c
+src/actors/daEykn_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN3MrID1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN3MrID0Ev.cpp
-src/_ZN3MrI13InitResourcesEv.cpp
-src/_ZN3MrI16CleanupResourcesEv.cpp
-src/_ZN3MrI16OnPendingDestroyEv.cpp
-src/_ZN3MrI8BehaviorEv.cpp
-src/func_ov071_02121634.c
-src/func_ov071_0212070c.c
-src/func_ov071_02120860.cpp
-src/func_ov071_021209c8.cpp
-src/func_ov071_02120a20.c
-src/func_ov071_02120a48.cpp
-src/func_ov071_02120b14.cpp
-src/func_ov071_02120c90.cpp
-src/func_ov071_0212110c.c
-src/func_ov071_021214f4.c
-src/func_ov071_0212152c.c
-src/func_ov071_02121570.c
 # The one arm9 body the closure reaches that no earlier gate had linked:
 # func_ov071_02120b14's call at 0x02120b50 relocates to 0x02010374 =
 # Actor::FindExplosionActor(CylinderClsn&) (arm9 symbols.txt, size 0x40), and

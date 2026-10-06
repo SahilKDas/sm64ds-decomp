@@ -53,7 +53,7 @@ src/_ZN5Stage18ResetMeshCollidersEv.cpp
 src/func_020308d0.c
 src/InitControllerMode.c
 src/UnloadSilverStarAndNumber.c
-src/UnloadKeyModels.cpp
+src/actors/daObjKey_c.cpp
 src/actors/Player.cpp
 # func_02073244 and func_0203cbc0 are HOST COPIES too (port/unmatched/): both
 # are ARM argument ride-throughs -- func_0203cbc0 is a veneer that forwards r0
@@ -70,9 +70,9 @@ src/actors/Player.cpp
 # destruction over shadow classes and are written out in actor_classes.cpp.
 src/game/actors/d_a_obj_mc_water.cpp
 src/game/actors/d_a_obj_mc_metalnet.cpp
-src/_ZN13QuestionBlockD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN13QuestionBlockD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN13QuestionBlockD0Ev.cpp
+src/actors/daObjHatenaBlock_c.cpp
+# RETIRED at SLICE1: body now in src/actors/daObjHatenaBlock_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/daObjHatenaBlock_c.cpp
 # CastleWater's own chain reaches the texture transformer it scrolls the moat
 # surface with; gate 17 landed the constructor and Update, this is the other
 # end of the same object.

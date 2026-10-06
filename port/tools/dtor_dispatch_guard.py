@@ -4,7 +4,7 @@ dispatching through ROM vtable slot 16.
 WHY THIS EXISTS. Commit 9cbd99048 brought the two-arm destructor spelling onto the
 port lineage. That change is right and closed forty measured wrong-slot dispatch
 sites. It also, as a side effect nobody booked, made `this->~fBase_c()` in
-src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp bind to a NON-VIRTUAL declaration, so
+src/actors/ActorBase.cpp bind to a NON-VIRTUAL declaration, so
 MSVC emitted a direct call to fBase_c's own destructor body and every actor's own
 cleanup was skipped from then on.
 

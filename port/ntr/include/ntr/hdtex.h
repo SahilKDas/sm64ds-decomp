@@ -56,6 +56,15 @@ namespace ntr {
 // business rather than an assumption about the caller's storage.
 void hdtex_configure(int enabled, const char *pack_dir);
 
+// Register one Lua resource-pack PNG under the same content hash used by the
+// directory pack. The path is copied and may point outside the configured HD
+// texture directory; the resource-pack loader has already confined it to the
+// pack that declared it. Last-writer replacement is refused by that registry.
+void hdtex_register(uint64_t name, const char *png_path);
+/* Clears only Lua/API registrations. The user's ordinary HD texture pack and
+   dump configuration remain untouched. Used by menu-safe resource-pack reload. */
+void hdtex_clear_registered(void);
+
 // What hdtex_configure was told. Unchanged from the seam's contract.
 int hdtex_enabled(void);
 const char *hdtex_pack_dir(void);

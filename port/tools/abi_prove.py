@@ -188,11 +188,11 @@ ARITY_FIXTURES = [
      "a member's receiver rides r0; declared (void) the caller passes nothing "
      "and the body reads its own caller's return address as `this`",
      "PR #1539, cons ba1b0a670, 2026-08-16"),
-    ("Enemy base ctor", "src/d_a_grock.c",
+    ("Enemy base ctor", "src/actors/daGrock_c.cpp",
      "extern void _ZN12dEnemyBase_cC2Ev(void);",
      "extern void _ZN12dEnemyBase_cC2Ev(void *);",
      "spawn sites that already had the receiver in hand and were not passing "
-     "it; the definition src/_ZN12dEnemyBase_cC2Ev.cpp:5 takes one",
+     "it; the definition src/actors/dEnemyBase_c.cpp takes one",
      "PR #1543, cons b74cf657d, 2026-08-16 (that PR fixed the ChainChomp / "
      "ChiefChilly / Wiggler spellings; this row re-breaks a sibling that "
      "carries the identical declaration today)"),
@@ -205,7 +205,7 @@ ARITY_FIXTURES = [
 # through that scoping.
 # --------------------------------------------------------------------------
 PLAIN_FIXTURES = [
-    ("Sort or 'Splode per-bomb tick", "src/func_ov006_020d8cc4.cpp",
+    ("Sort or 'Splode per-bomb tick", "src/actors/dScMgBomroom_c.cpp",
      'extern "C" void func_ov006_020d836c(void);',
      'extern "C" void func_ov006_020d836c(char* c);',
      "the bin-full sweep waits on the per-bomb tick; declared (void) the "

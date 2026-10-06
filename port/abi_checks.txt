@@ -40,7 +40,7 @@ data_ov007_02103254 points at, which nobody had resolved -- it is a teardown
 trampoline, so the callers were splicing a return address out of two lists.
 
 AMENDED AGAIN 2026-08-22 by run mg8 lane SBN's follow-up, after the receiver
-ratchet's own scoping shipped a softlock: src/func_ov006_020d8cc4.cpp declared
+ratchet's own scoping shipped a softlock: src/actors/dScMgBomroom_c.cpp declared
 `extern "C" int func_ov006_020d836c(void);` where the definition takes the
 per-bomb receiver, and scene 370's Sort or 'Splode hung forever at the first
 full sorting bin (fixed in ba2224f88; the byte gate was green over it because
@@ -578,7 +578,7 @@ ARITY FORM (8) -- an aritycheck ratchet must catch each when re-broken
   Enemy base ctor          PR #1543, cons b74cf657d
   Sort or 'Splode per-bomb tick   ba2224f88, run mg8 lane SBN, 2026-08-22.
                                The founding fixture of --gate-plainfunc: the
-                               declaration in src/func_ov006_020d8cc4.cpp is
+                               declaration in src/actors/dScMgBomroom_c.cpp is
                                rewritten back to (void) and the plain-name
                                ratchet must name it. The other seven arms run
                                against --gate-receiver; this one proves the
@@ -605,7 +605,7 @@ ARITY FORM (8) -- an aritycheck ratchet must catch each when re-broken
   The first two are the reason aritycheck is in the suite at all. Both landed on
   2026-08-16, both are the receiver shape, and NEITHER is an /alternatename,
   so aliascheck cannot see them and abicheck passes them (the frames balance).
-  The Enemy fixture re-breaks src/d_a_grock.c, a sibling that carries
+  The Enemy fixture re-breaks src/actors/daGrock_c.cpp, a sibling that carries
   the identical declaration today; #1543 itself fixed the ChainChomp /
   ChiefChilly / Wiggler spellings.
 
@@ -929,7 +929,7 @@ Ranked by blast radius.
   3. Player::GetHurtState                    FIXED
      the directive was at hal/actor_classes_ov073.cpp:190
      __ZN6Player12GetHurtStateEv = ?GetHurtState@Player@@QAEHXZ
-     src/func_ov073_02120ed0.c:112 and :113 and src/func_ov077_02126640.cpp:37
+     src/actors/daKing_Donketu_c.cpp:112 and :113 and src/actors/daPopoi_c.cpp:37
      all PUSH the player and call the flat name; all three TUs are compiled
      today. The body src/_ZN6Player12GetHurtStateEv.cpp:10 is __thiscall and
      reads `this` twice.

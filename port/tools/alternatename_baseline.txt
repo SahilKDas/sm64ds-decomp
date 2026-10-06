@@ -25,7 +25,7 @@
 # RATCHET TURNED AGAIN, run link100 (Andrew's third review of PR #2474):
 # __ZN12dEnemyBase_cC2Ev=_func_ov002_020aed98 is GONE. That pragma was not a fallback
 # with a live reader at all -- its RHS had no definition anywhere in the tree,
-# and its LHS is published by src/_ZN12dEnemyBase_cC2Ev.cpp.obj, so the directive could
+# and its LHS is published by src/actors/dEnemyBase_c.cpp.obj, so the directive could
 # never fire. The pragma was deleted in hal/cxx_aliases.cpp (the evidence is at
 # that line) and this row followed it BY HAND, one line, so the list stays
 # exactly the set of pairs that are still defeated. 23 pairs to 22.

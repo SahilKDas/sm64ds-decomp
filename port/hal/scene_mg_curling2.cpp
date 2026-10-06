@@ -435,7 +435,7 @@ extern "C" void port_scene_curling2_hits(void)
  * class's "/MG/..." path string; 0x020adc74 is func_ov004_020adc74 in
  * config/arm9/overlays/ov004/symbols.txt and the matched TU is already in the
  * image. That is the same misspelling port/mg_fanout_costs.txt section 6d
- * records for curling's own src/_ZN14dScMgCurling_c13InitResourcesEv.cpp, and
+ * records for curling's own src/actors/dScMgCurling_c.cpp, and
  * hal/scene_mg_faces.cpp:246 already carries the alias for it. A SECOND
  * DIRECTIVE FOR THE SAME LHS IS NOT FREE: port/tools/alternatename_guard.py
  * counts every pragma under port/ as a linker input, so a duplicate would show

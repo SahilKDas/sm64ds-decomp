@@ -505,7 +505,7 @@ neither blocker is the mount or the chain:
        dScGameOver_c: 020b0b3c 020b0b34 020b0814 020b0810 020b05bc
 
   2. THREE of the dtor TUs spell their vptr writes as PER-TU PLACEHOLDERS
-     rather than symbols: src/_ZN10dScTitle_cD1Ev.cpp writes _ZTV10dScTitle_c /
+     rather than symbols: src/actors/dScTitle_c.cpp writes _ZTV10dScTitle_c /
      _ZTV8dScene_c / _ZTV7dBase_c, src/actors/dScGameOver_c.cpp writes
      _ZTV13dScGameOver_c and the same two, and src/actors/dScGameOver_c.cpp writes
      VT0 / VT1 / VT2 and deallocates against G0. None of those six names exists

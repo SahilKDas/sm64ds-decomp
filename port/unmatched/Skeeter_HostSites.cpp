@@ -15,7 +15,7 @@
  *     &mScaleX, not 0 -- Skeeter is the only one of the four water classes
  *     that passes one, and it is read off the source, not assumed.
  *
- * (2) src/func_ov090_02131e00.cpp -- THE PMF DISEASE, the SoundObject / Cap /
+ * (2) src/actors/daMenbo_c.cpp -- THE PMF DISEASE, the SoundObject / Cap /
  *     MrBlizzard / BabyPenguin / Unagi / HootTheOwl / Lakitu shape. The source
  *     forms
  *         struct C; typedef int (C::*PMF)();
@@ -63,7 +63,7 @@ struct PortOv090Pmf { unsigned int fn; int delta; };
 typedef int (*PortOv090StateFn)(void *);
 
 /* func_ov090_02131e00 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov090_02131e00.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daMenbo_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.

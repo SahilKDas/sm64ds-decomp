@@ -602,7 +602,7 @@ void __cdecl fdr_s08(void *s)
  * stub for that: receiver out of ECX, and it cleans the eight bytes the caller
  * does not.
  *
- * That source changed under it. src/_ZN8dScene_c14BeforeBehaviorEv.cpp now
+ * That source changed under it. src/actors/dScene_c.cpp now
  * declares its own FaderVTable of PLAIN FUNCTION POINTERS with an explicit
  * first parameter -- `void (*SetBackwardTime)(void *, u32, u32)` -- and the
  * file says why in its banner: the ROM's call sites pass an argument the

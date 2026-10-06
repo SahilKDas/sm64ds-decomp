@@ -11,4 +11,4 @@
 # from ov006, which is not mounted, or is an ambiguous overlays(2,4) tag whose
 # real destination is the ov002 body at the same address. The full accounting
 # is port/ov004_ov007_2d_map.txt sections 4 and 6.
-src/func_ov004_020adc4c.c
+src/minigames/d_s_mg_base.cpp

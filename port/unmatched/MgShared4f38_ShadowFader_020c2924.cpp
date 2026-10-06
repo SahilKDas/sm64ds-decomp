@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov006_020c2924.cpp -- the +0x4f38 sub-object's
+/* HOST COPY of src/actors/unit020bfec0.cpp -- the +0x4f38 sub-object's
  * "re-seat the animation and clear the offsets" call, host-copied ONCE for both
  * classes that mount it.
  *
@@ -27,7 +27,7 @@
  *
  * ---- WHAT src DOES AND WHAT THE ROM DOES ---------------------------------
  *
- * src/func_ov006_020c2924.cpp:
+ * src/actors/unit020bfec0.cpp:
  *
  *     void* obj = data_0209f5bc;
  *     int (**vt)(void*) = *(int(***)(void*))obj;
@@ -75,12 +75,12 @@
  *     020c2964  ldr r0,[r4,#0x198]
  *
  * ITS OWN SIBLING ONE FUNCTION UP GETS THIS RIGHT, which is where the fix
- * comes from rather than from invention. src/func_ov006_020c2848.cpp -- called
+ * comes from rather than from invention. src/actors/unit020bfec0.cpp -- called
  * on the line above, on the same object, at the same byte (ROM 0x020c2878) --
  * declares a local `struct VObj` of SEVEN virtuals and calls
  * `((VObj*)data_0209f5bc)->v6()`. That is a real C++ virtual call: MSVC's slot
  * 6 is byte +0x18, and `this` rides ecx. This file is
- * src/func_ov006_020c2924.cpp with the raw table read replaced by exactly that
+ * src/actors/unit020bfec0.cpp with the raw table read replaced by exactly that
  * spelling and NOTHING else changed.
  *
  * THE DISPATCH STAYS VIRTUAL rather than qualified, for
@@ -115,7 +115,7 @@
  * onwards -- are src's, transcribed unchanged, including the read-back through
  * the just-stored word that src spells and the ROM performs.
  *
- * IT DEFINES func_ov006_020c2924, so src/func_ov006_020c2924.cpp is out of
+ * IT DEFINES func_ov006_020c2924, so src/actors/unit020bfec0.cpp is out of
  * port/slice_box.txt (already) AND out of port/slice_cup.txt (this merge).
  * Listing it in either would be an LNK2005 -- and that LNK2005 is exactly how
  * the mg9 merge found the overlap.
@@ -145,7 +145,7 @@ void func_ov006_020c2924(char *c);
 }
 
 /* Seven virtuals so the seventh is MSVC slot 6, which is byte +0x18 -- the
-   byte the ROM loads. Identical in shape to src/func_ov006_020c2848.cpp's own
+   byte the ROM loads. Identical in shape to src/actors/unit020bfec0.cpp's own
    local `struct VObj`, and named differently only so the two do not collide at
    C++ linkage. */
 struct HalFaderVObj {
@@ -165,7 +165,7 @@ struct HalFaderVObj {
    hal/fader_wipes.cpp's __thiscall HalFaderWipe::IsAtEnd -- is one line,
    and reshaping fader_wipes.cpp (lane FACEF's proposal 2) is not needed
    to fix it. The stack balanced either way; only the receiver was wrong.
-   The matched TU src/func_ov006_020c2924.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table calls word 6
+   The matched TU src/actors/unit020bfec0.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table calls word 6
    __fastcall(obj, 0), which puts obj in ecx and pushes nothing.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */

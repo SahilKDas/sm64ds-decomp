@@ -357,10 +357,10 @@ data_ov026_02113f78
 # port/CMakeLists.txt (never an /alternatename -- a -D cannot be defeated by a
 # later mount), and each target is ov026's own symbol at the same address:
 #
-#   src/func_ov026_021122b0.c      __sinit_ov045_02112280 -> func_ov026_02112280
+#   src/actors/daWater_Suikomi_c.cpp      __sinit_ov045_02112280 -> func_ov026_02112280
 #   src/__sinit_ov026_02112d68.c   data_ov036_02113f58    -> data_ov026_02113f58
-#   src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp    data_ov032_02113a9c    -> ov026's own
-#   src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp    func_ov053_021112a4    -> func_ov026_021112a4
+#   src/game/actors/d_a_obj_wl_polelift.cpp    data_ov032_02113a9c    -> ov026's own
+#   src/game/actors/d_a_obj_wl_polelift.cpp    func_ov053_021112a4    -> func_ov026_021112a4
 #
 # THE FIRST WAS A LIVE HAZARD, not a synonym: ___sinit_ov045_02112280 is
 # already DEFINED in walk_window by ov013_syms.c.obj -- a mounted DATA object
@@ -401,6 +401,6 @@ data_ov026_02113f78
 # Linkage moved 8028 -> 8078, which is 49 ov026 TUs plus ONE: ov002's
 # _ZN6Player14EnterWhirlpoolEv (0x020c5cc8, 16 bytes). It was already compiled
 # through port/slice_w1l5.txt and was being /OPT:REF-stripped because nothing
-# in the binary called it. src/func_ov026_02111d4c.cpp -- the whirlpool's own
+# in the binary called it. src/actors/daWater_Tatumaki_c.cpp -- the whirlpool's own
 # state-0 tick, the body that pulls the player in -- is its ONLY caller in the
 # tree, so seating the whirlpool is what makes it reachable.

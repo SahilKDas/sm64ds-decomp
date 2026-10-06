@@ -33,7 +33,7 @@
 // numbering, Virtual18(matrix, scale) in the host _ZTV9ModelAnim (MSVC
 // numbering spends one slot on the destructor). Compiled from src/ it faulted
 // in Model::Virtual10 with a null matrix on the first drawn frame, so the
-// one-line body lives in unmatched/ModelAnim_Renders.cpp (the QuestionBlock
+// one-line body lives in unmatched/ModelAnim_Renders.cpp (the daObjHatenaBlock_c
 // case) and the matched TU stays off the slice.
 //
 // Both destructors are matched extern-C bodies (D1 is a .cpp with an extern

@@ -51,7 +51,7 @@
 //
 // ---- 3. THE src IS ALREADY OPEN-CODED, AND THAT IS THE DANGEROUS PART ----
 //
-// src/func_ov006_020cb030.cpp does NOT use a member-pointer type.  It spells
+// src/actors/dMgTrmpln2Mario_c.cpp does NOT use a member-pointer type.  It spells
 // the pair by hand:
 //
 //     struct Closure { int off; int adj; };
@@ -79,7 +79,7 @@
 //
 // The TU declares two class members inside the class and then RE-DECLARES them
 // at namespace scope.  mwcc accepted it; MSVC does not, and it is right.  So
-// src/func_ov006_020cb030.cpp is out of port/slice_tti.txt and the body below
+// src/actors/dMgTrmpln2Mario_c.cpp is out of port/slice_tti.txt and the body below
 // takes its symbol -- the unmatched/MgBSC_StateDispatch.cpp convention for "the
 // port cannot compile the src".
 //
@@ -122,7 +122,7 @@
 //
 // ---- 5b. THE src CALLS THE WRONG TWIN, AND THE HOST COPY DOES NOT -------
 //
-// src/func_ov006_020cb030.cpp's second-to-last statement is
+// src/actors/dMgTrmpln2Mario_c.cpp's second-to-last statement is
 //
 //     func_ov006_020c9024(o);
 //
@@ -263,7 +263,7 @@ extern "C" void port_mg_mario_counts(unsigned *hits, unsigned *floor,
 
 // ---- the one host copy -----------------------------------------------------
 //
-// src/func_ov006_020cb030.cpp verbatim except for the dispatch site
+// src/actors/dMgTrmpln2Mario_c.cpp verbatim except for the dispatch site
 // (port_mg_mario_call0 rather than the open-coded call through `off`) and the
 // two class-member calls, which are spelled as the ARM symbols the port already
 // links rather than re-declared at namespace scope.  Nothing else moved: the

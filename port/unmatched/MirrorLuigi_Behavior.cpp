@@ -33,7 +33,7 @@
  * __sinit_ov055_021118d4's own two loads, which copy both into the single
  * sixteen-byte cell data_ov055_02111b70. ONE cell, TWO halves, TWO readers, and
  * they are DISJOINT RECORDS: the ENTER word is read by
- * src/func_ov055_021112c4.cpp (seated by PMFB8, already a __fastcall face in
+ * src/actors/daLuigi_c.cpp (seated by PMFB8, already a __fastcall face in
  * hal/actor_classes_ov055.cpp) and the TICK word is read by this row and by
  * nothing else. Nothing compares a stored pair by value, so there is no
  * sentinel and no one-face-per-code-word constraint.

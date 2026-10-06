@@ -178,7 +178,7 @@
 # consumer, which is the PLAN's own remedy. See port/slice_ov074.txt sections
 # 4a and 4b for the two hunks.
 #
-#   0x02123038  ov071 bss vs ov074 bss. src/func_ov071_021209c8.cpp spells its
+#   0x02123038  ov071 bss vs ov074 bss. src/actors/daEykn_c.cpp spells its
 #               texture-sequence SharedFilePtr `data_ov074_02123038` (a dsd
 #               naming race at a shared-window address) and
 #               hal/actor_classes_ov071.cpp aliased that spelling onto

@@ -38,7 +38,7 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 
 #include "dActor_c.h"
 #include "fBase_c.h"
-#include "HootTheOwl.h"
+#include "daOwl_c.h"
 
 extern "C" {
 int _ZN8dActor_c19BeforeInitResourcesEv(void *self);             /* slot 1  */
@@ -232,4 +232,4 @@ extern "C" void hal_fill_hoot_the_owl_vtable(void)
 // Render are NOT faced: both are host copies (port/unmatched/
 // HootTheOwl_StateDispatch.cpp and port/unmatched/ModelAnim_Renders.cpp).
 extern "C" int _ZN10HootTheOwl13InitResourcesEv(void *self)
-{ return ((HootTheOwl *)self)->HootTheOwl::InitResources(); }
+{ return ((daOwl_c *)self)->daOwl_c::InitResources(); }

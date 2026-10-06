@@ -61,11 +61,11 @@ void _ZN6Camera16OnPendingDestroyEv(void *self)
 { ((Camera *)self)->Camera::OnPendingDestroy(); }
 
 /* ---- the vtable -------------------------------------------------------
-   ROM SLOT ORDER, the ArrowSignRight layout (hal/actor_vtables.cpp): the
+   ROM SLOT ORDER, the daObjYajirusi_c layout (hal/actor_vtables.cpp): the
    Camera's own overrides at 0, 3, 6, 9, 12 and 16/17, the ActorBase and
    ActorDerived defaults everywhere else. Filled at runtime rather than
    statically because the slot bodies are __fastcall thunks over qualified
-   calls, exactly like the ArrowSignRight table.
+   calls, exactly like the daObjYajirusi_c table.
 
    The one slot that actually dispatches on host is 9: Camera::InitResources
    ends in `return this->v9()`, a virtual call through the vptr the ctor just
@@ -103,7 +103,7 @@ static void __fastcall cs_aren(void *s, void *, unsigned a)
 { ((fBase_c *)s)->fBase_c::AfterRender(a); }
 static int __fastcall cs_pdes(void *s, void *)
 { _ZN6Camera16OnPendingDestroyEv(s); return 0; }
-/* Slots 13/14 trap, the ArrowSignRight rule: they are the two heap-creating
+/* Slots 13/14 trap, the daObjYajirusi_c rule: they are the two heap-creating
    virtuals, reached only from the actor-processing lifecycle the port does
    not run. Wiring them would drag the solid-heap family in for a path
    nothing calls. */

@@ -199,7 +199,7 @@ closure contains the 0x5c-byte ov006 body at 0x020e17f8. At this lane's
 base that body wore the name func_ov006_020e17f8. On main it
 does not: commit 93a666154 (#1336) gave that name to the 0xb0-byte
 ov002 function at the same shared address, and the ov006 body is
-src/func_ov006_020e17f8.cpp. So the sentence is that a minigame's own
+src/actors/dScMgCurling_c.cpp. So the sentence is that a minigame's own
 spawn closure reaches the OV006 body at 0x020e17f8, which is
 independent evidence that #1336 assigned the two names the right way
 round -- and this lane rediscovered it six days late.

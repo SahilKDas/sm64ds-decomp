@@ -221,14 +221,14 @@ DSSTATE_END
 /* The three bodies src defines as real C++ methods rather than extern-"C" free
    functions. The other three (both destructors and CleanupResources) are
    extern-C in src already. */
-#include "BigMovingIceBlock.h"
+#include "daObjEwmIceBlock_c.h"
 extern "C" {
 int _ZN17BigMovingIceBlock13InitResourcesEv(void *self)
-{ return ((BigMovingIceBlock *)self)->BigMovingIceBlock::InitResources(); }
+{ return ((daObjEwmIceBlock_c *)self)->daObjEwmIceBlock_c::InitResources(); }
 int _ZN17BigMovingIceBlock8BehaviorEv(void *self)
-{ return ((BigMovingIceBlock *)self)->BigMovingIceBlock::Behavior(); }
+{ return ((daObjEwmIceBlock_c *)self)->daObjEwmIceBlock_c::Behavior(); }
 int _ZN17BigMovingIceBlock6RenderEv(void *self)
-{ return ((BigMovingIceBlock *)self)->BigMovingIceBlock::Render(); }
+{ return ((daObjEwmIceBlock_c *)self)->daObjEwmIceBlock_c::Render(); }
 }
 
 static int __fastcall ice_init(void *s, void *)

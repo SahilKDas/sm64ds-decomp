@@ -47,7 +47,7 @@ extern void *data_0209f314;           /* the level AREA table (Stage+0x8bc) */
 
 /* ---- the vtable -----------------------------------------------------------
    ROM SLOT ORDER, the same law as the Camera's (hal/camera_bridges.cpp) and
-   ArrowSignRight's (hal/actor_vtables.cpp): MSVC slot order, host __fastcall
+   daObjYajirusi_c's (hal/actor_vtables.cpp): MSVC slot order, host __fastcall
    thunks, everything the port cannot serve trapped BY NAME rather than left
    pointing at an arm9 address the host cannot execute.
 
@@ -322,7 +322,7 @@ void *_ZN5StageD0Ev(void *thiz);
 }
 
 /* Slots 13 and 14. The same local NON-VIRTUAL declaration hal/scene_boot.cpp
-   makes, and for the same reason: src/_ZN7fBase_c9Virtual34Ejj.cpp and its
+   makes, and for the same reason: src/actors/ActorBase.cpp and its
    sibling declare the method non-virtual in their own struct, so the
    definitions are ?Virtual34@fBase_c@@QAEHII@Z. include/Stage.h does not
    pull in ActorBase.h, so there is nothing here for this to collide with. */
@@ -535,7 +535,7 @@ static void __fastcall st_aclean(void *s, void *, unsigned a)
 { _ZN8dScene_c21AfterCleanupResourcesEj(s, a); }
 /* SLOT 7 IS THE ONE THAT DESTROYS THE STAGE, and during the star-select
    interlude a scene is pending by construction, so it would fire every
-   frame: dScene_c::BeforeBehavior (src/_ZN8dScene_c14BeforeBehaviorEv.cpp
+   frame: dScene_c::BeforeBehavior (src/actors/dScene_c.cpp
    :85-92) calls MarkForDestruction once the installed fader is at its end,
    and slot 3 is the deliberate abort documented below. On the cartridge
    that destruction is CORRECT; on this port it is fatal, because one Stage

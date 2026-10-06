@@ -80,7 +80,7 @@
 // instruction for instruction -- writes the BASE table into the object's first
 // word (0x020eeb20), builds the sub-objects, and only then writes this class's
 // own table (0x020eeb60). Both destructors run the same sequence in reverse:
-// src/_ZN11dScMgJump_cD1Ev.cpp (slot 16) and src/_ZN11dScMgJump_cD0Ev.cpp (slot
+// src/actors/dScMgJump_c.cpp (slot 16) and src/actors/dScMgJump_c.cpp (slot
 // 17) each write _ZTV11dScMgJump_c, destroy the arrays, then write
 // _ZTV14dScMgD3DBase_c (0x0213c62c) before calling the base destructor. So
 // the object genuinely dispatches through the BASE table during construction
@@ -138,7 +138,7 @@
 // one:
 //
 //   THE FLOOR IS THE ONLY BODY THAT STARTS THE STATE MACHINE. Slot 0
-//   (InitResources, src/_ZN11dScMgJump_c13InitResourcesEv.cpp) ends with a dispatch through
+//   (InitResources, src/actors/dScMgJump_c.cpp) ends with a dispatch through
 //   the object's own vtable at offset 0x48 -- slot 18 -- with the argument -1,
 //   and the ROM's slot-18 body tail-calls func_ov006_020ee658, whose only job
 //   is to copy the pair at 0x0213cb54 into self+0x5004. Nothing else in ov006
@@ -237,7 +237,7 @@
 //   Animation::LoadFile -- the TU declares the static at C++ linkage; the
 //   matched body is in the image under its flat Itanium C name.
 //
-//   ModelAnim::SetAnim -- src/func_ov006_020c6e4c.cpp and three siblings
+//   ModelAnim::SetAnim -- src/actors/dMg3DHeyhoObjAdapter_c.cpp and three siblings
 //   declare it returning int where the image's definition returns void, so the
 //   two manglings differ in exactly one character (QAEH vs QAEX). Binding the
 //   int spelling onto the void one is the port's standing treatment for that
@@ -276,14 +276,12 @@
 #pragma comment(linker, "/alternatename:?data_ov006_02141a44@@3PAXA=_data_ov006_02141a44")
 #pragma comment(linker, "/alternatename:?data_ov006_02141a48@@3PAXA=_data_ov006_02141a48")
 #pragma comment(linker, "/alternatename:_Scene_AfterRender=__ZN8dScene_c11AfterRenderEj")
-#pragma comment(linker, "/alternatename:_func_020beb74=_data_ov004_020beb74")
 /* _func_ov006_020e6df0 -- the SAME name-spelling shape as _func_020beb74, in
    the other direction. src/actors/dMgJump3DMario_c.cpp calls the body at 0x020e6df0
    by its address-shaped name, but config/arm9/overlays/ov006/symbols.txt gives
    that address the RECOVERED name Sound_PlayBank1Panned, and
    src/actors/dScMgD3DBase_c.cpp defines it under that name inside extern "C".
    One body, two spellings, and the caller has the one the config retired. */
-#pragma comment(linker, "/alternatename:_func_ov006_020e6df0=_Sound_PlayBank1Panned")
 #pragma comment(linker, "/alternatename:?LoadFile@Animation@@SAPAUBCA_File@@AAUSharedFilePtr@@@Z=__ZN9Animation8LoadFileER13SharedFilePtr")
 /* The int-spelled ModelAnim::SetAnim alias that used to sit here MOVED to the
    ROM-faithful int chain at the mg11 merge (unmatched/MgJump2_Faces.cpp): the
@@ -491,7 +489,7 @@ static int __fastcall bnp_init(void *s, void *)
 
 /* SLOT 3 GENUINELY TAKES NO RECEIVER. The ROM body at 0x020edffc never reads
    r0: it releases the SharedFilePtr in data_ov006_02142184, nulls it and calls
-   func_ov004_020ad90c. src/_ZN11dScMgJump_c16CleanupResourcesEv.cpp declares `int f(void)` and
+   func_ov004_020ad90c. src/actors/dScMgJump_c.cpp declares `int f(void)` and
    that is right, not a dropped receiver. */
 static int __fastcall bnp_clean(void *, void *)
 { BNP(3); return _ZN11dScMgJump_c16CleanupResourcesEv(); }
@@ -556,7 +554,7 @@ static void *__fastcall bnp_d0(void *s, void *)
    inherited. Lane LKY's note makes the forwarding question per-lane; the ROM
    body at 0x020ee8dc opens `cmp r1,#0` at 0x020ee8e4 and takes a completely
    different path when it is nonzero, so this thunk FORWARDS the argument
-   rather than only popping it. src/_ZN11dScMgJump_c13OnTurnIntoEggEi.cpp declares the second
+   rather than only popping it. src/actors/dScMgJump_c.cpp declares the second
    parameter and reads it. */
 static int __fastcall bnp_v19(void *s, void *, int sel)
 { BNP(19); return _ZN11dScMgJump_c13OnTurnIntoEggEi(s, sel); }

@@ -16,18 +16,12 @@
 # classes whose member offsets do not match daObjC1_Trap_c_classInit's, so it is NOT here;
 # slot 16 traps instead (nothing destroys a trap on the interior boot).
 src/game/actors/d_a_obj_c1_trap.cpp
-src/_ZN9LightBeam13InitResourcesEv.cpp
-src/_ZN9LightBeam8BehaviorEv.cpp
-src/_ZN9LightBeam6RenderEv.cpp
-src/_ZN9LightBeam16CleanupResourcesEv.cpp
-src/_ZN9LightBeamD0Ev.cpp
+src/game/actors/d_a_obj_c1_hikari.cpp
 # the two the closure reaches: an ov010 InitResources helper and the secret
 # sound Behavior plays. Everything else they touch is already linked.
-src/func_ov010_02111a54.c
 src/_ZN5Sound20PlaySmallSecretSoundEP8dActor_cPt.cpp
 
 # ---- LIGHT_BEAM: just the factory, it shares TRAP's table -----------------
-src/d_a_obj_c1_hikari.c
 
 # ---- ov010's three static initialisers ------------------------------------
 # SharedFilePtr construction and one five-element Vector3 copy; no state table.

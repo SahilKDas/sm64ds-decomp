@@ -120,7 +120,7 @@
 //
 // Run mg9 shipped this address as a REPORTING case with no symbol invented for
 // it: config symbol, no delink block, no src file in either extension. It is
-// now src/func_ov006_0211bc8c.cpp, a BYTE MATCH on mwccarm 2004/b56 with all
+// now src/actors/dScMgSound_c.cpp, a BYTE MATCH on mwccarm 2004/b56 with all
 // fourteen relocation destinations checked against ov006's relocs.txt, and it
 // has a delink block covering exactly 0x0211bc8c..0x0211bf44. The switch below
 // routes it like the other fifty-five and the counter that used to say "asks
@@ -154,7 +154,7 @@
 // func_ov006_020c2300 on the +0x4f38 sub-object.
 //
 // TWO SLICE LINES STOP BEING FREE. src/actors/dScMgSound_c.cpp and
-// src/func_ov006_020c2300.c were in port/slice_box.txt reachable only from
+// src/actors/unit020bfec0.cpp were in port/slice_box.txt reachable only from
 // 0x0211bd88 and 0x0211bf10, both inside this body, so /OPT:REF dropped them
 // and run mg9 budgeted them as +0 on the headline. They now have a caller.
 //

@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov080_02124088.cpp -- MONTY_MOLE's defeat helper (the
+/* HOST COPY of src/actors/daChoropu_c.cpp -- MONTY_MOLE's defeat helper (the
  * anim flip, the poof dust, and the mole-hole census that pops the 1-Up when
  * the seventh mole of the group dies). The matched .cpp cannot be compiled
  * verbatim on the MSVC host: it declares its own `extern "C" void

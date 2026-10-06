@@ -48,7 +48,7 @@
 // ---- THE STATE THAT HAD NO BODY NOW HAS ONE (run mg7, lane L370) -----------
 //
 // 0x020d7c4c, slot 5 of data_ov006_02141730, is decompiled and BYTE-MATCHED --
-// src/func_ov006_020d7c4c.cpp, 0x230, matching mwccarm 1.2/base, 1.2/sp2 and
+// src/actors/dScMgBomroom_c.cpp, 0x230, matching mwccarm 1.2/base, 1.2/sp2 and
 // 1.2/sp2p3 with strict relocs. The reporting case that stood here (it counted
 // how often the ROM's own state machine ASKED for a body this build did not
 // have) is retired, and the slot calls the real body.
@@ -87,7 +87,7 @@
 //                           extern "C", and the ARM Itanium sequence
 //                           open-coded in plain ints
 //
-// The seventh is lane FLW's third shape (src/func_ov006_020c3d18.cpp is the
+// The seventh is lane FLW's third shape (src/actors/unit020bfec0.cpp is the
 // other known instance). It declares no member-pointer type, so no symbol is
 // unresolvable; it spells no `::*`, so no sweep matches it. Its src is
 // FAITHFUL -- it is the ROM's five instructions transcribed one for one -- and
@@ -202,7 +202,7 @@ void func_ov006_020d5b10(char *c);
 void func_ov006_020d5d08(char *c);
 void func_ov006_020d69b8(char *a, int i);
 
-/* the two arm9 globals src/func_ov006_020d836c.cpp reads, in its spelling.
+/* the two arm9 globals src/actors/dScMgBomroom_c.cpp reads, in its spelling.
    data_020a0e40 is read as a BYTE by the ROM (`ldrb r1,[r1]`) and indexes
    data_020a0de8 by word (`ldrb r0,[r2,r1,lsl #2]`); the host mount defines
    both under these plain C names. */
@@ -237,7 +237,7 @@ static unsigned g_bomroom_state_hits;
 static unsigned g_bomroom_flight_calls;
 /* HOW OFTEN THE OPEN-CODED DISPATCHER RAN, counted separately because it is
    the one shape neither the link nor a source sweep can find. On a build that
-   still compiled src/func_ov006_020d8f98.cpp this count would be zero AND the
+   still compiled src/actors/dScMgBomroom_c.cpp this count would be zero AND the
    run would fault on a DS address; a nonzero count here with a clean run is
    the positive evidence that the seventh host copy is doing its job. */
 static unsigned g_bomroom_opencoded_calls;
@@ -361,8 +361,8 @@ extern "C" unsigned port_mg_bomroom_opencoded_calls(void)
 //   func_ov006_020d5fec  data_ov006_02141660   src/actors/dScMgBomroom_c.cpp
 //   func_ov006_020d65c8  data_ov006_02141680   src/actors/dScMgBomroom_c.cpp
 //   func_ov006_020d6278  data_ov006_021416c0   src/actors/dScMgBomroom_c.cpp
-//   _ZN14dScMgBomroom_c8BehaviorEv  data_ov006_021416e0   src/_ZN14dScMgBomroom_c8BehaviorEv.cpp
-//   func_ov006_020d836c  data_ov006_02141730   src/func_ov006_020d836c.cpp
+//   _ZN14dScMgBomroom_c8BehaviorEv  data_ov006_021416e0   src/actors/dScMgBomroom_c.cpp
+//   func_ov006_020d836c  data_ov006_02141730   src/actors/dScMgBomroom_c.cpp
 //
 // THE TWO THAT STAY, and why the switch above stays with them:
 //
@@ -461,7 +461,7 @@ extern "C" unsigned port_mg_bomroom_opencoded_calls(void)
 //   arity 1 (one pushed argument): 02141660, 02141680, 021416c0, 02141730
 //   arity 0 (nothing pushed):      021416e0
 //
-// ONE /alternatename. src/func_ov006_020d836c.cpp declares its table at
+// ONE /alternatename. src/actors/dScMgBomroom_c.cpp declares its table at
 // namespace scope, so MSVC spells the reference
 // ?data_ov006_02141730@@3PAP8C@@AEXH@ZA -- read off the object with dumpbin
 // /symbols, not guessed -- while the ov006 mount defines the plain C name. The

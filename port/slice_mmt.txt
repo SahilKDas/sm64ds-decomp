@@ -363,7 +363,7 @@
 #   32(x1)" -- slot 34 is not entered at all, so this class witnesses nothing
 #   and the repair is not this lane's to make.
 #
-#   THE SHADOW-SLOT-19 CALLING CONVENTION (lane BOO). src/func_ov004_020b6b40.c
+#   THE SHADOW-SLOT-19 CALLING CONVENTION (lane BOO). src/actors/dMgState_c.cpp
 #   and _020b6c9c.c call vtable slot 19 through a shadow array with a plain
 #   cdecl pointer while mb_v19 is __fastcall and cleans four bytes itself. It
 #   bites only once the FRAMEWORK state machine runs, and it does not run here:
@@ -381,7 +381,7 @@
 #   zero times.
 #
 #   AMENDED, run mg12 lane PANEL: that body is no longer without a source and no
-#   longer trapped. src/func_ov004_020ae858.cpp is the results panel's label
+#   longer trapped. src/minigames/d_s_mg_base.cpp is the results panel's label
 #   renderer, seated off port/slice_mg1.txt, and the trap line is deleted.
 
 # ---- ov006: dScMgMemory_c's own code block, 0x020f3834..0x020f5564 -------
@@ -418,9 +418,9 @@ src/minigames/d_s_mg_memory.cpp
 #   floor twice cannot fire here; the check was run, not assumed.
 # NOT HERE: src/minigames/d_s_mg_single3_d_base.cpp, defined by
 #   port/unmatched/MgFlower_Slot2.cpp as port_mg_flower_after_init.
-# NOT HERE: src/func_ov006_020c0a48.c, src/func_ov006_020c1804.cpp,
-#   src/func_ov006_020c06dc.cpp, src/func_ov006_020c07e8.cpp and
-#   src/func_ov006_020c19d0.cpp -- the shared model sub-object at +0x4f38, all
+# NOT HERE: src/actors/unit020bfec0.cpp, src/actors/unit020bfec0.cpp,
+#   src/actors/unit020bfec0.cpp, src/actors/unit020bfec0.cpp and
+#   src/actors/unit020bfec0.cpp -- the shared model sub-object at +0x4f38, all
 #   five already host-copied by run mg6 lane MEM in port/unmatched/MgMemory2_*.
 #   This class reaches the same sub-object at the same offset through the same
 #   constructor (func_ov006_020c1d80), so nothing here is re-hosted.

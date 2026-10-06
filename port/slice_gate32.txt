@@ -70,8 +70,8 @@ src/actors/daBmb_c.cpp
 
 # ---- the Enemy base's own methods -----------------------------------------
 # ov002's Enemy tier, which every class in this gate runs through. The
-# constructor (src/_ZN12dEnemyBase_cC2Ev.cpp) and the destructor tail
-# (src/_ZN12dEnemyBase_cD2Ev.cpp) came in with gate 16 for the 1-up mushroom; these
+# constructor (src/actors/dEnemyBase_c.cpp) and the destructor tail
+# (src/actors/dEnemyBase_c.cpp) came in with gate 16 for the 1-up mushroom; these
 # five are the per-frame half no earlier class reached.
 #
 # _ZN12dEnemyBase_c14UpdateYoshiEatER10dBgCh_Actr IS NOT HERE AND CANNOT BE: ov002
@@ -79,10 +79,7 @@ src/actors/daBmb_c.cpp
 # this actor inside Yoshi's mouth right now" and hal/actor_vtables.cpp has
 # answered 0 for it since gate 16, which is the ROM's own answer with Mario as
 # the character and no Yoshi in the level.
-src/_ZN12dEnemyBase_c26UpdateKillByInvincibleCharER10dBgCh_ActrR9ModelAnimj.cpp
-src/_ZN12dEnemyBase_c22SpawnMegaCharParticlesER8dActor_cPc.cpp
-src/_ZN12dEnemyBase_c27SpawnParticlesIfHitOtherObjER5dCc_c.cpp
-src/_ZN12dEnemyBase_c9SpawnCoinEv.cpp
+src/actors/dEnemyBase_c.cpp
 # _ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr IS NOT HERE: it dispatches an mwcc
 # pointer-to-member out of data_ov002_0210dbc0 whose class is INCOMPLETE at the
 # typedef, so MSVC would double the stride -- the gate-16 case for the eighth
@@ -91,17 +88,11 @@ src/_ZN12dEnemyBase_c9SpawnCoinEv.cpp
 # All five death bodies the table names are matched, so that file carries no
 # trap. __sinit_ov002_02100938, which copies the statics into the bss table,
 # has been in the build since gate 10.
-src/func_ov002_020ae64c.c
-src/func_ov002_020ae608.c
-src/func_ov002_020ae4cc.cpp
-src/func_ov002_020ae454.cpp
-src/func_ov002_020aea24.c
 # the two the bomb's Behavior closes over: 020ada40 is the knockback the ROM
 # hands an enemy that has just hit something (BobOmb::Behavior spells it
 # `func_020ada40`, with no overlay tag; the reloc says ov002 and the alias is
 # in hal/bob_enemy_bridges.cpp), and Actor::PoofDust is Enemy::SpawnCoin's last
 # line.
-src/_ZN12dEnemyBase_c20KillByInvincibleCharERK10Vector3_16R6Player5Fix12IiE.cpp
 src/_ZN8dActor_c8PoofDustEv.cpp
 src/_ZN8dActor_c10PoofDustAtERK7Vector3.cpp
 # the egg lookup and its helper, which the bomb's death branch runs
@@ -111,9 +102,8 @@ src/func_02010304.cpp
 # --- linkloop round 0 ---
 # The shared tail of death type 1, and the mega-form kill counter the
 # knockback bumps.
-src/func_ov002_020ae5c8.c
 src/actors/Player.cpp
-src/func_ov002_020f0e54.c
+src/actors/daObj1UpLogo_c.cpp
 
 # ---- Actor's own tail, slots 20 through 30 --------------------------------
 # The nine combat hooks plus Virtual50 and the egg pair. All of them are
@@ -144,44 +134,22 @@ src/_ZN8dActor_c19OnHitFromUnderneathERS_.cpp
 # the goomba -- while daRedBombhei_c_classInit installs 0x02130a38, RTTI
 # daRedBombhei_c, the red bomb-hei. Both SpawnInfo records carry their own id
 # in the +4 halfword (200 and 181), which is the registry's own cross-check.
-src/d_a_krb_kuribo.c
-src/_ZN7daKrb_c13InitResourcesEv.cpp
-src/_ZN7daKrb_c8BehaviorEv.cpp
+src/actors/daKrb_c.cpp
 # _ZN7daKrb_c6RenderEv IS NOT HERE: the ModelAnim slot-5 case.
 # port/unmatched/BobEnemy_Renders.cpp.
-src/_ZN7daKrb_c16CleanupResourcesEv.cpp
-src/_ZN7daKrb_c16OnPendingDestroyEv.cpp
-src/_ZN7daKrb_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN7daKrb_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN7daKrb_cD0Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/daKrb_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/daKrb_c.cpp
 # slots 18, 19 and 29, all three the class's own
-src/_ZN7daKrb_c13OnYoshiTryEatEv.cpp
-src/func_ov084_0212b344.cpp
-src/_ZN7daKrb_c16OnAimedAtWithEggEv.cpp
+src/actors/daKrb_c.cpp
 # the goomba's own closure: the walk, the squash, the death and the spawner
-src/func_ov084_021290d4.c
-src/func_ov084_02129168.cpp
-src/func_ov084_02129238.cpp
-src/func_ov084_0212934c.c
-src/func_ov084_02129498.c
-src/func_ov084_021294d0.cpp
-src/func_ov084_021296cc.c
-src/func_ov084_02129864.c
 # func_ov084_021298d0 IS NOT HERE: C++ inside a .c (the gate-9 case). It goes
 # through hostgen, see GATE32_SYMS.
-src/func_ov084_02129a00.c
-src/func_ov084_02129c9c.c
-src/func_ov084_02129ed4.c
-src/func_ov084_0212a580.cpp
 
 # ---- BOB_OMB_BUDDY (actor 181) --------------------------------------------
 # The friendly pink one that opens the cannons. Three states of two halves
 # each, dispatched out of data_ov084_02130dc4 -- see the host copy note below.
-src/d_a_red_bombhei.c
-src/_ZN11BobOmbBuddy13InitResourcesEv.cpp
-src/_ZN11BobOmbBuddy8BehaviorEv.cpp
+src/game/actors/d_a_red_bombhei.cpp
 # _ZN11BobOmbBuddy6RenderEv IS NOT HERE: the ModelAnim slot-5 case again.
-src/_ZN11BobOmbBuddy16CleanupResourcesEv.cpp
 # _ZN11BobOmbBuddyD1Ev IS NOT HERE: it is a real C++ destructor over a shadow
 # class, so MSVC emits ??1BobOmbBuddy@@UAE@XZ and calls three member dtors that
 # exist nowhere. Slot 16 is hosted in hal/actor_classes_bob_enemy.cpp as the D0
@@ -189,26 +157,12 @@ src/_ZN11BobOmbBuddy16CleanupResourcesEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN11BobOmbBuddyD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN11BobOmbBuddyD0Ev.cpp
 # the three states, both halves, all matched -- no hole and no trap
-src/func_ov084_0212c92c.cpp
-src/func_ov084_0212c8b0.cpp
-src/func_ov084_0212c89c.c
-src/func_ov084_0212c508.cpp
-src/func_ov084_0212c4a0.c
-src/func_ov084_0212c1a0.c
 # func_ov084_0212c960 and func_ov084_0212c9a8 ARE NOT HERE: the pair that
 # changes state and runs the current one, and both form an mwcc
 # pointer-to-member over an INCOMPLETE class -- the gate-16 case for the ninth
 # time. Host copies plus the six-static seat in
 # port/unmatched/BobOmbBuddy_States.cpp.
 # the buddy's own closure
-src/func_ov084_0212c9f0.c
-src/func_ov084_0212ca60.c
-src/func_ov084_0212caa8.c
-src/func_ov084_0212cac0.c
-src/func_ov084_0212cae0.c
-src/func_ov084_0212ccb4.cpp
-src/func_ov084_0212cda0.c
-src/func_ov084_0212ce50.cpp
 
 # ---- ov084's own static initialisers --------------------------------------
 # All three, in ROM order.
@@ -217,9 +171,8 @@ src/__sinit_ov084_02130558.c
 src/__sinit_ov084_02130654.c
 
 # ---- what these two reach into that no earlier class did ------------------
-src/_ZN12dEnemyBase_c15IsGoingOffCliffER10dBgCh_Actrisbbi.cpp
 # RETIRED at SLICE1: body now in src/_ZN11dCapEnemy_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN11dCapEnemy_cD2Ev.cpp
+#src/actors/dCapEnemy_c.cpp
 src/game/actors/d_a_obj_cannon_shutter.cpp
 src/_ZN6Player20RegisterEggCoinCountEjbb.cpp
 src/_ZN6Player6BounceE5Fix12IiE.cpp
@@ -234,7 +187,7 @@ src/UnloadSilverStarAndNumber.c
 src/_ZN11dCapEnemy_cC2Ev.cpp
 src/_ZN11dCapEnemy_cD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN11dCapEnemy_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN11dCapEnemy_cD0Ev.cpp
+#src/actors/dCapEnemy_c.cpp
 src/_ZN11dCapEnemy_c6AddCapEj.cpp
 src/_ZN11dCapEnemy_c21DestroyIfCapNotNeededEv.cpp
 src/_ZN11dCapEnemy_c11GetCapStateEv.cpp
@@ -247,10 +200,7 @@ src/func_02005e28.c
 src/func_02005ed8.c
 src/func_ov001_020aa6b0.c
 src/func_ov001_020aa6cc.c
-src/_ZN10dCapIcon_c6UnlinkEv.cpp
-src/func_ov001_020ab228.c
-src/_ZN10dCapIcon_cD1Ev.cpp
-src/_ZN10dCapIcon_cC1Ev.cpp
+src/actors/dCapIcon_c.cpp
 # the material animation the goomba plays over its own model, and the blue
 # coin it can be carrying
 src/_ZN15MaterialChanger7PrepareER8BMD_FileR8BMA_File.cpp
@@ -274,22 +224,12 @@ src/func_020470e8.c
 src/_ZN8dActor_c19UntrackInDeathTableEv.cpp
 src/_ZN8dActor_c13SmallPoofDustEv.cpp
 # func_ov002_020aea30 IS NOT HERE: the pointer-to-member case again.
-src/func_ov002_020ae9f8.c
-src/func_ov002_020ae954.c
-src/func_ov002_020ae890.c
-src/func_ov002_020ae87c.c
-src/func_ov002_020ae844.c
-src/func_ov002_020ae80c.c
-src/func_ov002_020ae73c.c
-src/func_ov002_020aea2c.c
 
 # --- linkloop round 3 ---
 # The cap's own position update, the two shared tails of the enter-death
 # bodies, the death-table clear, the cannon-open pair the buddy reads and
 # writes, and the coin leaves.
 src/_ZN11dCapEnemy_c12UpdateCapPosERK7Vector3RK10Vector3_16.cpp
-src/func_ov002_020ae8b8.c
-src/func_ov002_020ae968.c
 src/DeathTable_ClearBit.c
 src/OpenCannonInCurLevel.c
 src/IsCannonOpenInCurLevel.c
@@ -309,26 +249,17 @@ src/OpenCannon.c
 # needs no host copy -- only the seat, which is in
 # port/unmatched/BobOmbBuddy_States.cpp with the buddy's. Measured: unseated,
 # a spawned goomba jumped straight to 0x0212b2dc in the overlay image.
-src/func_ov084_0212b2dc.c
-src/func_ov084_0212ab48.c
-src/func_ov084_0212aab0.cpp
-src/func_ov084_0212a774.c
-src/func_ov084_0212a6f8.c
-src/func_ov084_0212abd4.c
-src/func_ov084_0212af74.c
 src/_ZN8dActor_c15HugeLandingDustEb.cpp
 src/_ZN8dActor_c11LandingDustEb.cpp
 src/_ZN8dActor_c13LandingDustAtER7Vector3b.cpp
-src/_ZN12dEnemyBase_c24AngleAwayFromWallOrCliffER10dBgCh_ActrRs.cpp
 # func_ov084_02129cf4: SEATED by run link100 wave 15 lane SEAT15B. The r0-passthrough
-# reason is stale -- src/func_ov084_02129cf4.c:16 passes the ClosestPlayer receiver
+# reason is stale -- src/actors/daKrb_c.cpp:16 passes the ClosestPlayer receiver
 # itself now (`(c)`), so the host copy in
 # port/unmatched/Actor_ClosestPlayer_OverlayReaders.cpp is retired.
-src/func_ov084_02129cf4.c
 # One ov074 body: the goomba's knocked-back state asks the GOOMBOSS overlay for
 # a launch vector. ov074 is not mounted -- this is CODE only, and the function
 # reads nothing out of its own overlay's data.
-src/actors/Goomboss.cpp
+src/actors/daKuriKing_c.cpp
 
 # ============================================================================
 # CHAIN_CHOMP (actor 219, ov014) and CHAIN_CHOMP_FENCE (actor 41, ov014)
@@ -412,21 +343,13 @@ src/Matrix4x3_FromRotationXYZExt.c
 # It is a Platform, so its table is THIRTY-TWO slots: slot 31 is
 # Platform::Kill. It is also the ground-pound target -- InitResources sets the
 # hit counter at +0x31e to 3 and slots 21 and 27 take one off it.
-src/d_a_obj_pile.c
-src/_ZN6Fwoosh13InitResourcesEv.cpp
-src/_ZN6Fwoosh8BehaviorEv.cpp
-src/_ZN6Fwoosh6RenderEv.cpp
-src/_ZN6Fwoosh16CleanupResourcesEv.cpp
-src/_ZN6FwooshD1Ev.cpp
+src/actors/daObjPile_c.cpp
+src/game/actors/d_a_hyuhyu.cpp
 # _ZN5StumpD0Ev IS NOT HERE: the deleting destructor, written over the
 # shared header's VT0/VT1/G0 placeholders. Those are single global names in
 # this build, so it would install another TU's vtable and free against another
 # TU's heap. Slot 17 traps instead; nothing on this level destroys a post
 # through the deleting form.
-src/_ZN5Stump15OnGroundPoundedER8dActor_c.cpp
-src/_ZN5Stump15OnHitByMegaCharER6Player.cpp
-src/func_ov091_021334b8.cpp
-src/func_ov091_02133498.c
 src/actors/dBgActor_c.cpp
 # ---- ov091's own static initialisers, all six in ROM order -----------------
 src/__sinit_ov091_02134524.c
@@ -450,15 +373,10 @@ src/__sinit_ov091_02134a30.c
 #
 # NOTHING NEEDS A HOST COPY BUT THE RENDER: his Behavior dispatches no
 # pointer-to-member at all, which makes him the simplest class in this gate.
-src/d_a_r_nk.c
-src/_ZN13KoopaTheQuick13InitResourcesEv.cpp
-src/_ZN13KoopaTheQuick8BehaviorEv.cpp
+src/actors/daRNk_c.cpp
 # _ZN13KoopaTheQuick6RenderEv IS NOT HERE: the ModelAnim slot-5 case.
-src/_ZN13KoopaTheQuick16CleanupResourcesEv.cpp
-src/_ZN13KoopaTheQuickD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN13KoopaTheQuickD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN13KoopaTheQuickD0Ev.cpp
-src/func_ov062_0211aac0.c
 # Model::HideMaterial, which his Render is the port's first caller of.
 src/_ZN5Model12HideMaterialEii.cpp
 # ---- HIS SIX STATES --------------------------------------------------------
@@ -471,16 +389,6 @@ src/_ZN5Model12HideMaterialEii.cpp
 # Measured: unseated, a spawned koopa jumped straight to 0x0211a9c4, which is
 # state 0's own body in the overlay image. The seat is in
 # hal/actor_overlays.cpp with the butterfly's and the rabbit's.
-src/func_ov062_0211a9c4.c
-src/func_ov062_0211a740.cpp
-src/func_ov062_0211a1f4.c
-src/func_ov062_0211a168.c
-src/func_ov062_0211a0f0.c
-src/func_ov062_02119be0.c
-src/func_ov062_02119af0.cpp
-src/func_ov062_021199ac.c
-src/func_ov062_02119954.c
-src/func_ov062_02119800.cpp
 # ...and the five leaves the race reaches that no earlier class did: the
 # player state the koopa forces when he talks, the music layer the race
 # starts, the star the win spawns, and the two Actor searches his states run.
@@ -502,19 +410,14 @@ src/_ZN8dActor_c18ClosestWithActorIDEj.cpp
 # HE IS NOT IN BOB'S DEFAULT OBJECT TABLE either, for the same reason the
 # koopa is not: the level names both in a star group the boot's filter does
 # not load. SM64DS_SPAWN_ACTOR=205 is how to see one.
-src/d_a_r_flag.c
-src/_ZN9KoopaFlag13InitResourcesEv.cpp
-src/_ZN9KoopaFlag8BehaviorEv.cpp
+src/actors/daRFlag_c.cpp
 # _ZN9KoopaFlag6RenderEv IS NOT HERE: the ModelAnim slot-5 case for the sixth
 # time in this gate. port/unmatched/BobEnemy_Renders.cpp.
-src/_ZN9KoopaFlag16CleanupResourcesEv.cpp
 # _ZN9KoopaFlagD1Ev IS NOT HERE: a real C++ destructor over a shadow class
 # with two members, so MSVC emits ??1KoopaFlag@@UAE@XZ and calls two member
 # dtors that exist nowhere. Slot 16 is hosted in
 # hal/actor_classes_bob_enemy.cpp as the D0 body minus its final Deallocate --
 # the Bird's treatment, and the bob-omb buddy's.
-src/_ZN9KoopaFlagD0Ev.cpp
-src/func_ov062_0211afbc.c
 # ---- ov062's own static initialisers ---------------------------------------
 src/__sinit_ov062_0211cf30.c
 src/__sinit_ov062_0211d2d8.c

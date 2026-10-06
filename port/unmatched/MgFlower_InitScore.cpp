@@ -1,7 +1,7 @@
 /* ==========================================================================
  * RETIRED -- THIS FILE IS NOT IN ANY BUILD. Run link100 wave 15, lane SEAT15D,
  * LINK15 BATCH 3. Both deltas this file lists below are now in src/:
- * src/func_ov004_020ad8b8.c:3 declares `extern int func_ov004_020adc3c(int* c);`
+ * src/minigames/d_s_mg_base.cpp:3 declares `extern int func_ov004_020adc3c(int* c);`
  * and :24 passes `c`, and the TU's own header states the defect in the past
  * tense ("THE ARGUMENT IS THE FRAMEWORK OBJECT AND IT USED TO BE DROPPED
  * HERE"). The matched TU is taken through port/slice_l15mg.txt and the SEAT15D
@@ -50,11 +50,11 @@
  * A POINTER, and the ROM delivers it by the same ldr that made the null test.
  * One register does two jobs, which is free on ARM and unspellable in C.
  *
- * WHAT src CANNOT SAY. src/func_ov004_020ad8b8.c declares
+ * WHAT src CANNOT SAY. src/minigames/d_s_mg_base.cpp declares
  *
  *     extern int func_ov004_020adc3c(void);
  *
- * and calls it with no argument, while src/func_ov004_020adc3c.c defines
+ * and calls it with no argument, while src/minigames/d_s_mg_base.cpp defines
  *
  *     int func_ov004_020adc3c(void *c) { return (*(unsigned int *)((char *)c + 8) & 0xff00) >> 8; }
  *
@@ -76,7 +76,7 @@
  * the DATA -- only with the delivery.
  *
  * THE DELTA FROM src, line by line, per the unmatched/MgBase_DeclConflict.cpp
- * precedent. The body below is src/func_ov004_020ad8b8.c verbatim except:
+ * precedent. The body below is src/minigames/d_s_mg_base.cpp verbatim except:
  *
  *   1. the declaration of the callee takes the parameter its DEFINITION takes
  *          src:   extern int func_ov004_020adc3c(void);
@@ -95,13 +95,13 @@
  * the ROM and this file tests those bits against zero. If the global's type is
  * ever corrected on the decomp side, this line follows it and the cast goes.
  *
- * IT DEFINES func_ov004_020ad8b8, so src/func_ov004_020ad8b8.c is OUT of
+ * IT DEFINES func_ov004_020ad8b8, so src/minigames/d_s_mg_base.cpp is OUT of
  * port/slice_flw.txt -- listing both would be an LNK2005. That is the one
  * linked function this ruling costs, and it is why the ruling was the
  * coordinator's to make rather than this lane's.
  */
 
-/* THE BODY LIVES IN src/func_ov004_020ad8b8.c, on port/slice_l15mg.txt. It
+/* THE BODY LIVES IN src/minigames/d_s_mg_base.cpp, on port/slice_l15mg.txt. It
    spells DELTA 1 and DELTA 2 itself now: the callee's declaration takes the
    parameter its definition takes, and the call passes the pointer the ROM has
    live in r0 across the bl. src declares the global `int*` rather than casting

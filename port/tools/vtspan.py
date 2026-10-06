@@ -198,7 +198,7 @@ class Rom:
         """dsd writes `main`, `overlay(2)` and, where it could not choose,
         `overlays(2,7)`. All three have to resolve, or a table with one
         ambiguous slot reads as if it ended there -- which is exactly how
-        TowerStep's Platform::Kill went missing."""
+        daObjBk_Lift_c's Platform::Kill went missing."""
         if module in self.mod:
             return [module]
         m = re.match(r"overlays\(([\d,\s]+)\)", module)

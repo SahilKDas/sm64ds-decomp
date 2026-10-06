@@ -419,8 +419,8 @@
 #                   TAKEN.
 #
 # ---------------------------------------------------------------------------
-# 15. ov102 0x021498e0  src/func_ov102_021498e0.cpp (e65c4f62e 2026-08-10)
-#    port hosting   unmatched/QuestionBlock_BounceDispatch.cpp
+# 15. ov102 0x021498e0  src/actors/daObjHatenaBlock_c.cpp (e65c4f62e 2026-08-10)
+#    port hosting   unmatched/daObjHatenaBlock_c_BounceDispatch.cpp
 #    disposition    NOT CATCH-UP WORK, same shape as row 14. The host copy
 #                   exists because MSVC widens a pointer-to-member over an
 #                   incomplete class to 16 bytes where the ROM's record is 8.

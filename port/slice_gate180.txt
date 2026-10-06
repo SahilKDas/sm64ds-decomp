@@ -9,16 +9,16 @@
 # (021498e0) to an abort stub, because that body dispatches through TWO further
 # pointer-to-member tables of an INCOMPLETE class (data_ov102_0214e870 and
 # data_ov102_0214e8c0) and had not been matched yet. It is matched now
-# (src/func_ov102_021498e0.cpp).
+# (src/actors/daObjHatenaBlock_c.cpp).
 #
 # THE FRAME IS HOST-COPIED, THE CONTENT BODIES ARE NOT. The frame
 # (021498e0) forms `void (C::*)()` over an incomplete C and reads
 # data_ov102_0214e870/0214e8c0 at the ROM's 8-byte {fn,delta} stride; MSVC
 # widens that PMF and reads the tables at the wrong stride, so it gets the
-# Door / Painting host copy in port/unmatched/QuestionBlock_BounceDispatch.cpp
+# Door / Painting host copy in port/unmatched/daObjHatenaBlock_c_BounceDispatch.cpp
 # (which also seats the 36 source statics that feed the two content tables,
 # before __sinit_ov102_0214d908 copies them, and re-points the abort route in
-# QuestionBlock_States.cpp). The CONTENT bodies below dispatch NO
+# daObjHatenaBlock_c_States.cpp). The CONTENT bodies below dispatch NO
 # pointer-to-member -- they are straight Actor::Spawn wrappers -- so they are
 # sliced and linked as matched src, exactly as-is.
 #
@@ -31,19 +31,9 @@
 # All are Actor::Spawn / KillAndTrackInDeathTable wrappers over the block's
 # position; func_ov102_02149684 computes that position and is called by every
 # one of them plus the frame.
-src/func_ov102_02149684.c
-src/func_ov102_02149220.cpp
-src/func_ov102_02149288.cpp
-src/func_ov102_021492d4.c
-src/func_ov102_02149384.cpp
-src/func_ov102_021493dc.cpp
-src/func_ov102_02149428.c
-src/func_ov102_02149478.c
-src/func_ov102_021494cc.c
-src/func_ov102_0214953c.c
+src/actors/daObjHatenaBlock_c.cpp
 
 # ---- transitive closure ----------------------------------------------------
 # func_ov102_021494cc spawns a ring of coins through this helper; every other
 # ov102 callee (func_ov102_0214ad14, func_ov102_0214b384) is already linked in
 # gate 32.
-src/func_ov102_02149100.c

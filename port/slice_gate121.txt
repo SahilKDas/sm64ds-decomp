@@ -28,4 +28,4 @@
 # matched TU from daObjSimpleBg_c_classInit_BK_TOWER (same 0x0214e1d8 store, 800-byte object)
 # -- plus the registry row, which reuses FORTRESS_TOWER's shared vtable fill
 # (fill 0). No new overlay data, no PMF state table, no method face.
-src/d_a_obj_simple_bg_ki_iwa.c
+src/actors/daObjSimpleBg_c.cpp

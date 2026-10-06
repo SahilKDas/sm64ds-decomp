@@ -13,7 +13,7 @@
 #                                            bit 1 of +0x3eb is clear
 #   +0x3eb is byte +0x1b of the registry node WaterfallMist::InitResources
 #   builds at this+0x3d0 through func_ov001_020ab228, which zeroes it
-#   (src/func_ov001_020ab228.c:18) -- correct, a cap starts hidden.
+#   (src/actors/dCapIcon_c.cpp:18) -- correct, a cap starts hidden.
 #   The ONLY writer of bit 1 in the tree is func_ov001_020aa420 (:100, :125
 #   set; :73 clears), its only caller is src/func_ov001_020aaf40.c:50, and its
 #   only caller is Stage::Render (src/_ZN5Stage6RenderEv.cpp:125), which the
@@ -40,7 +40,7 @@
 # cap: wing, metal, vanish) and unk_400 = (p >> 12) & 0xf, clamped to 0..2 for
 # mType 4. It then registers the node with
 # func_ov001_020ab228(this+0x3d0, this, mModelIndex, unk_400, 0)
-# (src/_ZN15daObjMarioCap_c13InitResourcesEv.cpp:193), so the node's list index
+# (src/actors/daObjMarioCap_c.cpp:193), so the node's list index
 # is the cap TYPE and its node+0x19 priority is unk_400.
 #
 # Each arena therefore gives each of the three cap types exactly two nodes, one

@@ -12,7 +12,7 @@
 #endif
 
 /* THE ROM'S OWN "WHICH MINIGAME IS RUNNING". dScMgBase_c's base constructor
-   (src/_ZN11dScMgBase_cC2Ev.cpp) ends with `data_ov004_020beb68 = self`, and ov004
+   (src/minigames/d_s_mg_base.cpp) ends with `data_ov004_020beb68 = self`, and ov004
    reads the live scene back out of it everywhere -- the score getters
    func_ov004_020adbc0 and func_ov004_020adc1c, the minigame index
    func_ov004_020adc3c, hal/scene_mg.cpp's probe. It is the word immediately

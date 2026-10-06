@@ -5,7 +5,7 @@
 //
 // ---- WHAT IT WAS ----------------------------------------------------------
 //
-// src/func_ov004_020b6b40.c and src/func_ov004_020b6c9c.c are byte-identical
+// src/actors/dMgState_c.cpp and src/actors/dMgState_c.cpp are byte-identical
 // apart from their symbol names, and each contains this:
 //
 //     int (*fn)(void *, int) = (int (*)(void *, int)) (*(void ***)g)[0x13];
@@ -127,13 +127,13 @@ typedef int (__fastcall *MgSlot19)(void *thiz, void *edx, int arg);
    spelled __fastcall so mb_v19's one stack parameter is cleaned once
    instead of twice -- is one line in each of the two byte-identical
    sources, and hostgen can make it there.
-   The matched TU src/func_ov004_020b6b40.c and src/func_ov004_020b6c9c.c is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table, two rows carrying the same
+   The matched TU src/actors/dMgState_c.cpp and src/actors/dMgState_c.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table, two rows carrying the same
    patch text because the two src TUs are byte-identical apart from
    their names.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */
 
-/* src/func_ov004_020b6b40.c and src/func_ov004_020b6c9c.c, verbatim apart from
+/* src/actors/dMgState_c.cpp and src/actors/dMgState_c.cpp, verbatim apart from
    the call above. The ROM has two copies of this body -- 0x020b6b40 and
    0x020b6c9c disassemble instruction for instruction the same and the two src
    TUs are byte-identical apart from their symbol names -- so they are written
@@ -141,19 +141,19 @@ typedef int (__fastcall *MgSlot19)(void *thiz, void *edx, int arg);
 /* the shared shadow_tick body RETIRED (run link100, lane SEAT6, batch B6).
    Written once here because the ROM has the body twice; both instances
    come from their own matched sources now.
-   The matched TU src/func_ov004_020b6b40.c and src/func_ov004_020b6c9c.c is seated in its place: see the note above.
+   The matched TU src/actors/dMgState_c.cpp and src/actors/dMgState_c.cpp is seated in its place: see the note above.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */
 
 // PORT_HOST_ABI: vtable slot 19 shadow-array call respelled __fastcall so MSVC does not double-clean the one stack parameter the host thunk already cleans
 /* func_ov004_020b6b40 RETIRED (run link100, lane SEAT6, batch B6).
    Instantiation of the shared body above.
-   The matched TU src/func_ov004_020b6b40.c is seated in its place: see the note above.
+   The matched TU src/actors/dMgState_c.cpp is seated in its place: see the note above.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */
 // PORT_HOST_ABI: vtable slot 19 shadow-array call respelled __fastcall so MSVC does not double-clean the one stack parameter the host thunk already cleans
 /* func_ov004_020b6c9c RETIRED (run link100, lane SEAT6, batch B6).
    Instantiation of the shared body above.
-   The matched TU src/func_ov004_020b6c9c.c is seated in its place: see the note above.
+   The matched TU src/actors/dMgState_c.cpp is seated in its place: see the note above.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */

@@ -73,13 +73,13 @@
 //     020ee2a4  ldreq  r1, [r3]             ; direct: the code word
 //     020ee2a8  blx    r1
 //
-// which is src/_ZN11dScMgJump_c8BehaviorEv.cpp's `(c->*c->m)()` to the instruction.
+// which is src/actors/dScMgJump_c.cpp's `(c->*c->m)()` to the instruction.
 // The rulebook corollary applies: a member-pointer TYPE in the src puts the
 // body on the host-copy side, so the seat wires the copy below rather than the
 // src TU, and port/slice_bnp.txt does not list that TU.
 //
 // A `::*` / `->*` SWEEP OVER ALL 41 TUs OF THIS CLASS AND ITS SHARED BASE
-// RETURNS EXACTLY ONE FILE, src/_ZN11dScMgJump_c8BehaviorEv.cpp. The open-coded third
+// RETURNS EXACTLY ONE FILE, src/actors/dScMgJump_c.cpp. The open-coded third
 // shape lane LKY's encoding detector exists for is absent here: decoding every
 // word of 0x020edec0..0x020eebe8 (this class's code block) and
 // 0x020e6c28..0x020e740c (dScMgD3DBase_c's) for `add Rd,Rn,Rm,asr #1`
@@ -88,7 +88,7 @@
 //
 // ---- 2. THE STORED PAIR KEEPS THE ROM'S OWN WORDS -------------------------
 //
-// The state installers -- src/func_ov006_020ee658.c and the five like it --
+// The state installers -- src/actors/dScMgJump_c.cpp and the five like it --
 // copy the pair out of mounted .data as two plain ints, so what lands in
 // self+0x5004 is the DS code address the ROM wrote. This file decodes that
 // address; it does not rewrite the mounted pairs. Writing host addresses over
@@ -335,14 +335,14 @@ extern "C" void port_mg_jump_counts(unsigned *calls, unsigned *hits,
 
 // ---- the one host copy -----------------------------------------------------
 
-/* src/_ZN11dScMgJump_c8BehaviorEv.cpp -- VTABLE SLOT 6, the Behavior. Its `struct C`
+/* src/actors/dScMgJump_c.cpp -- VTABLE SLOT 6, the Behavior. Its `struct C`
    carried nothing but the padding and the member-pointer typedef, so replacing
    the dispatch removes the struct entirely and no layout moves: every access
    in the copy is a raw char* offset at the same displacement the ROM uses. The
    ROM returns a literal 1 (mov r0,#1 at 0x020ee2ac, single exit), so the copy
    does too. */
 /* HOST COPY RETIRED, run link100 lane PMFB7 gate 3.
-   src/_ZN11dScMgJump_c8BehaviorEv.cpp dispatches its own field now, compiled with /Zp4
+   src/actors/dScMgJump_c.cpp dispatches its own field now, compiled with /Zp4
    so the member lands at the ROM's own 0x5004. The seven records the class's
    own writers copy from hold six zero-argument __fastcall faces, one per code
    word. */

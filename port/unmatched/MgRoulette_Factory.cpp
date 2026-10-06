@@ -48,7 +48,7 @@
 // set it up is absent because it is not needed. The src is a faithful
 // transcription of that, and C has no way to say it.
 //
-// ON THE HOST IT IS A WILD WRITE, NOT A WILD READ. src/_ZN11dScMgBase_cC2Ev.cpp
+// ON THE HOST IT IS A WILD WRITE, NOT A WILD READ. src/minigames/d_s_mg_base.cpp
 // dereferences on its FIRST statement -- `_ZN7fBase_cC2Ev(self)` -- and
 // follows it immediately with three vtable stores through the same pointer, so
 // a __cdecl call with nothing pushed makes the callee take whatever is at
@@ -87,7 +87,7 @@
 //
 // WHAT CHANGED, exactly, and nothing else moved: `_ZN11dScMgBase_cC2Ev();`
 // became `_ZN11dScMgBase_cC2Ev(p);`. The declaration is spelled the way
-// src/_ZN11dScMgBase_cC2Ev.cpp DEFINES it, `void *(char *)`, rather than the way
+// src/minigames/d_s_mg_base.cpp DEFINES it, `void *(char *)`, rather than the way
 // the displaced TU declared it, so port/tools/aritycheck.py sees a declaration
 // that agrees with the definition instead of one more zero-argument row.
 //

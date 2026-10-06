@@ -30,9 +30,9 @@ __ZTV12WorkElevator slot 31 ?ov65_kill@@YIHPAX0@Z
 __ZTV13BigBrickBlock slot 31 ?bbb_kill@@YIHPAX0@Z
 __ZTV13FortressTower slot 31 ?bw_kill@@YIHPAX0@Z
 __ZTV13PoleBillboard slot 31 ?wf_kill@@YIHPAX0@Z
-__ZTV13QuestionBlock slot 31 ?ac_kill@@YIHPAX0@Z
+__ZTV18daObjHatenaBlock_c slot 31 ?ac_kill@@YIHPAX0@Z
 __ZTV13UpDownLiftBbh slot 31 ?udl_kill@@YIHPAX0@Z
-__ZTV14ArrowSignRight slot 31 ?as_kill@@YIHPAX0@Z
+__ZTV15daObjYajirusi_c slot 31 ?as_kill@@YIHPAX0@Z
 __ZTV16daObjBC_Switch_c slot 31 ?ac_kill@@YIHPAX0@Z
 __ZTV19daObjBk_Dossunbar_c slot 31 ?mb_kill@@YIHPAX0@Z
 __ZTV14MovingBarSmall slot 31 ?ts_kill@@YIHPAX0@Z
@@ -62,7 +62,7 @@ __ZTV5Bully slot 35 ?bly_v35@@YIHPAX0@Z
 __ZTV5Bully slot 36 ?bly_v36@@YIHPAX0@Z
 __ZTV5Crate slot 31 ?crate_kill@@YIHPAX0@Z
 __ZTV6Coffin slot 31 ?ov63_kill@@YIHPAX0@Z
-__ZTV6ShipUp slot 31 ?shu_kill@@YIHPAX0@Z
+__ZTV14daObjKi_Fune_c slot 31 ?shu_kill@@YIHPAX0@Z
 __ZTV6Thwomp slot 31 ?thw_kill@@YIHPAX0@Z
 __ZTV8BigBully slot 31 ?bbly_v31@@YIHPAX0@Z
 __ZTV8BigBully slot 32 ?bbly_v32@@YIHPAX0@Z

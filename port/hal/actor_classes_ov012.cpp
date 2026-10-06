@@ -10,7 +10,7 @@
 // overrides it).
 //
 // D1/D0 for BOTH classes are host thunks (store own table, then overwrite
-// with the shared _ZTV10dBgActor_c teardown placeholder, the ShipUp/
+// with the shared _ZTV10dBgActor_c teardown placeholder, the daObjKi_Fune_c/
 // RockPillar/SkiLift shape) -- dropped from slice_gate199.txt, byte-locked
 // matched-src proof only.
 #include "port_d16.h"
@@ -324,12 +324,12 @@ extern "C" void hal_fill_basement_water_vtable(void)
 // a real C++ method per its own file (a .cpp), faced the same way. Render
 // is NOT faced here: it is a host copy (the ModelAnim slot-5 collision,
 // port/unmatched/ModelAnim_Renders.cpp), declared extern "C" above.
-#include "BasementWater.h"
+#include "daObjC0Water_c.h"
 extern "C" {
 int _ZN13BasementWater13InitResourcesEv(void *self)
-{ return ((BasementWater *)self)->BasementWater::InitResources(); }
+{ return ((daObjC0Water_c *)self)->daObjC0Water_c::InitResources(); }
 int _ZN13BasementWater16CleanupResourcesEv(void *self)
-{ return ((BasementWater *)self)->BasementWater::CleanupResources(); }
+{ return ((daObjC0Water_c *)self)->daObjC0Water_c::CleanupResources(); }
 int _ZN13BasementWater8BehaviorEv(void *self)
-{ return ((BasementWater *)self)->BasementWater::Behavior(); }
+{ return ((daObjC0Water_c *)self)->daObjC0Water_c::Behavior(); }
 }

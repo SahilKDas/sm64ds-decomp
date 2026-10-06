@@ -26,7 +26,7 @@
  *      (hal/method_faces.cpp and hal/player_bridges.cpp), both sides are cdecl,
  *      and data-free free functions alias exactly.
  *
- *   3. A METHOD FACE (1). src/func_ov019_0211127c.cpp declares its own local
+ *   3. A METHOD FACE (1). src/game/actors/d_a_pg_rcer.cpp declares its own local
  *      `struct PathPtr { void GetNode(Vector3 &, unsigned int) const; }` and
  *      calls it as a member, so MSVC emits ?GetNode@PathPtr@@QBEXAAUVector3@@I@Z
  *      -- note the X: this shadow returns VOID, where the one
@@ -113,7 +113,7 @@ extern "C" void *TextureSequence_LoadFile(void *ptr)
 
 // ---- 3. the method face ------------------------------------------------------
 //
-// The shadow is spelled EXACTLY as src/func_ov019_0211127c.cpp spells it, or
+// The shadow is spelled EXACTLY as src/game/actors/d_a_pg_rcer.cpp spells it, or
 // the decoration does not match and the gap stays open: `Vector3` is a struct,
 // the index is a plain `unsigned int`, the method is `const`, and it returns
 // VOID.

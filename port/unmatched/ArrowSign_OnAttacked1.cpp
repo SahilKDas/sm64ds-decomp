@@ -1,4 +1,4 @@
-/* HOST COPY of src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp -- ArrowSignRight's slot-22
+/* HOST COPY of src/actors/daObjYajirusi_c.cpp -- daObjYajirusi_c's slot-22
  * (OnAttacked1) body.
  *
  * WHY THIS FILE EXISTS. This function's job, when it is attacked and the
@@ -11,7 +11,7 @@
  * which MSVC compiles __cdecl: c is PUSHED, the vtable word is loaded into a
  * register (not `this` in ecx), `call [reg+0x7c]` runs, and the CALLER cleans
  * the one pushed word (a `pop`). Slot 31 is seated in this port as __thiscall
- * with NO stack argument (as_kill / _ZN14ArrowSignRight4KillEv, ret 0): the receiver
+ * with NO stack argument (as_kill / _ZN15daObjYajirusi_c4KillEv, ret 0): the receiver
  * arrives in ecx and nothing is pushed. One vtable word cannot satisfy both,
  * and seating slot 22 on the raw src is a false-fix one call deep. Until this
  * inner site is thiscall, slot 22 stays on its balanced trap (bw_trap22).
@@ -22,8 +22,8 @@
  * pops it itself, and as_kill's `ret 0` leaves it there to pop. What breaks is
  * the RECEIVER. MSVC loads the vtable pointer into ecx to reach the slot, so
  * ecx holds the VTABLE, not the object, when the call lands; as_kill is
- * __fastcall and reads `this` out of ecx, so ArrowSignRight_Kill would run
- * against _ZTV14ArrowSignRight and read the sign's fields out of vtable words.
+ * __fastcall and reads `this` out of ecx, so daObjYajirusi_c_Kill would run
+ * against _ZTV15daObjYajirusi_c and read the sign's fields out of vtable words.
  * A wrong-receiver call, not a leaked word.
  *
  * This is the same divergence, and the same fix, that slot 28 has in
@@ -38,12 +38,12 @@
  *
  * WHAT IT IS IN THE GAME. A directional arrow sign in Bob-omb Battlefield. On
  * OnAttacked1 it reads the attacker's kind word (+0xc == 0xce) and, if it
- * matches, kills itself through its own slot 31 (ArrowSignRight_Kill: a
+ * matches, kills itself through its own slot 31 (daObjYajirusi_c_Kill: a
  * poof-dust + Sound::PlayBank3 + MarkForDestruction).
  *
  * PROOF (run linkw, lane l1). Both spellings compiled standalone with the port's
  * own cl, /O2 /FAsc; the whole body is short enough to quote entire.
- * src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp:
+ * src/actors/daObjYajirusi_c.cpp:
  *
  *     ; c->vt->f[0x7c/4](c);
  *       8b 44 24 04  mov  eax, DWORD PTR _c$[esp-4]
@@ -73,7 +73,7 @@
    emits is `call dword ptr [reg+0x7c]` with the receiver in ecx and nothing
    pushed -- byte for byte what slot 31's thiscall veneer (as_kill, ret 0)
    expects. Declared and never defined: only the call is wanted, and the object
-   is always a real ArrowSignRight carrying a real vtable. */
+   is always a real daObjYajirusi_c carrying a real vtable. */
 struct KillSelf {
     virtual void v0();  virtual void v1();  virtual void v2();  virtual void v3();
     virtual void v4();  virtual void v5();  virtual void v6();  virtual void v7();
@@ -87,11 +87,11 @@ struct KillSelf {
 };
 
 /* PORT_HOST_ABI: cdecl-vs-thiscall vtable dispatch -- the raw src's inner slot-31 call leaves the VTABLE POINTER in ecx and pushes `this` (`push eax / mov ecx,[eax] / call [ecx+0x7c] / pop ecx`), while the seated slot-31 veneer as_kill is __fastcall and reads `this` from ecx (hal/actor_classes_bob_world.cpp:1139,1190). Wrong receiver, not a lost word; listings in the block above. */
-/* _ZN14ArrowSignRight11OnAttacked1ER8dActor_c RETIRED (run link100, lane SEAT6, batch B6).
+/* _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c RETIRED (run link100, lane SEAT6, batch B6).
    Lane FACEF called the fix decomp-side ('only the matched TU's own
    spelling can put `this` in ecx'). The generated TU's spelling does
    exactly that, and src/ does not move.
-   The matched TU src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table calls word 31
+   The matched TU src/actors/daObjYajirusi_c.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table calls word 31
    __fastcall(c, 0), which is where as_kill reads its `this` from.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */

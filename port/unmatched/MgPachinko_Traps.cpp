@@ -27,12 +27,12 @@
 //               thunk in hal/scene_mg.cpp. THIS IS THE CLASS'S nosrc BODY, the
 //               one port/mg_fanout_costs.txt section 3's nosrc column counts
 //               for id 0x170, and standing this trap is what that column costs.
-//   0x020fc8c0  size 0xf0,  called by src/_ZN15dScMgPachinko_c6RenderEv.cpp (slot 9)
-//   0x020fcb4c  size 0x240, called by src/func_ov006_020fd17c.c and _020fd894.c
-//   0x020fdaf0  size 0x250, called by src/func_ov006_020fd088.c, _020fd17c.c
+//   0x020fc8c0  size 0xf0,  called by src/actors/dScMgPachinko_c.cpp (slot 9)
+//   0x020fcb4c  size 0x240, called by src/actors/dScMgPachinko_c.cpp and _020fd894.c
+//   0x020fdaf0  size 0x250, called by src/actors/dScMgPachinko_c.cpp, _020fd17c.c
 //               and _020fd894.c
-//   0x020fdd40  size 0x468, called by src/_ZN15dScMgPachinko_c8BehaviorEv.cpp (slot 6)
-//   0x020fb230  size 0x22c, called by src/func_ov006_020fb45c.c, AND state 2 of
+//   0x020fdd40  size 0x468, called by src/actors/dScMgPachinko_c.cpp (slot 6)
+//   0x020fb230  size 0x22c, called by src/actors/dScMgPachinko_c.cpp, AND state 2 of
 //               data_ov006_0214266c
 //
 //   NOT HERE, because nothing names them: 0x020fd2d8 (state 2 of

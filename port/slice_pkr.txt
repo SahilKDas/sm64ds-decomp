@@ -189,7 +189,7 @@
 # in this slice re-copies it.
 #
 # NOTHING HERE REWRITES THE STORED PAIR EITHER, and this class supplies a second
-# witness for why that rule exists.  src/func_ov006_020c0f0c.c, which state 1
+# witness for why that rule exists.  src/actors/unit020bfec0.cpp, which state 1
 # calls every frame, compares the object's stored pair BY VALUE against the idle
 # sentinels data_ov006_0213acb0 and _0213aca8.  A host address never equals a DS
 # address, so a seat that wrote host words over the pair would leave that test
@@ -329,21 +329,19 @@ src/minigames/d_s_mg_card.cpp
 # The ov004 delta: func_ov004_020b5d74 arms the framework's end-of-round timer
 # and is called from src/minigames/d_s_mg_card.cpp (vtable slot 19).  No wired slice
 # reached it before this lane.
-src/func_ov004_020b5d74.c
+src/actors/unit020b4aa4.cpp
 # and its own callee, wave two: func_ov004_020b5768 is the routine 020b5d74
 # installs into the framework's per-frame hook word data_ov004_020bfa20. The
 # link named it, which is the ordinary one-wave shape run mg9 lane LKY budgets
 # for; port/tools/closure.py cannot see it because it reports what THIS slice
 # leaves unresolved rather than walking the callee graph.
-src/func_ov004_020b5768.cpp
 # and ITS callee, wave three and the last: func_ov004_020b4cc4 re-seeds one
 # 0x24-byte record of the framework's data_ov004_020bfa34 array. The ov004
 # arm_call closure from these three seeds is exactly these three -- walked
 # over config/arm9/overlays/ov004/relocs.txt rather than discovered one
 # LNK2019 at a time, after the second wave made the shape obvious.
-src/func_ov004_020b4cc4.c
 # The shared +0x4f38 sub-object delta: func_ov006_020c0f0c is the idle-sentinel
 # comparator state 1 asks every frame.  It spells the stored pair as TWO INTS,
 # which is the safe side of section 4's rulebook corollary, so it is an ordinary
 # slice line rather than a host copy.
-src/func_ov006_020c0f0c.c
+src/actors/unit020bfec0.cpp

@@ -39,7 +39,7 @@
 # as ModelAnim::Render(0) and the host _ZTV9ModelAnim (MSVC numbering, one
 # destructor slot) as Virtual18(matrix, scale). Compiled from src/ it faulted
 # c0000005 in Model::Virtual10 with a null matrix on the switch's first drawn
-# frame (the QuestionBlock/Butterfly/Fish case, slice_gate23.txt). The one-line
+# frame (the daObjHatenaBlock_c/Butterfly/Fish case, slice_gate23.txt). The one-line
 # host copy is appended to port/unmatched/ModelAnim_Renders.cpp.
 #
 # ---- this slice's new symbols ----------------------------------------------

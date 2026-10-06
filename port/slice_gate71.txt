@@ -10,30 +10,14 @@
 # table; its Behavior is a straight switch on mState, no pointer-to-member. Only
 # its Render is a host copy (the ModelAnim slot-5 case,
 # port/unmatched/PiranhaPlant_States.cpp).
-src/d_a_f_pkn_pakun2.c
-src/_ZN19FirePiranhaPlantBig13InitResourcesEv.cpp
-src/_ZN19FirePiranhaPlantBig8BehaviorEv.cpp
+src/actors/daFPkn_c.cpp
 # _ZN19FirePiranhaPlantBig6RenderEv IS NOT HERE: the ModelAnim slot-5 case.
 # port/unmatched/PiranhaPlant_States.cpp.
-src/_ZN19FirePiranhaPlantBig16CleanupResourcesEv.cpp
-src/_ZN19FirePiranhaPlantBigD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN19FirePiranhaPlantBigD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN19FirePiranhaPlantBigD0Ev.cpp
 # slots 18 (OnYoshiTryEat), 19 (OnTurnIntoEgg) and 29 (OnAimedAtWithEgg)
-src/_ZN19FirePiranhaPlantBig13OnYoshiTryEatEv.cpp
-src/_ZN19FirePiranhaPlantBig13OnTurnIntoEggER6Player.cpp
-src/_ZN19FirePiranhaPlantBig16OnAimedAtWithEggEv.cpp
 # the fire piranha's own closure: the four states its switch dispatches, the
 # fireball spit and the shared helpers
-src/func_ov084_0212e4e0.c
-src/func_ov084_0212e010.cpp
-src/func_ov084_0212ddbc.c
-src/func_ov084_0212dc30.c
-src/func_ov084_0212d86c.c
-src/func_ov084_0212d564.cpp
-src/func_ov084_0212d560.c
-src/func_ov084_0212d42c.c
-src/func_ov084_0212d2dc.c
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main consolidated ov084's
 # PiranhaPlant bodies into this one TU, and the TU carries func_ov084_0212f204, whose
 # zero-argument _ZN8dActor_c13ClosestPlayerEv() call closestplayer_guard refuses (thiscall

@@ -415,7 +415,7 @@ void _ZN7daKrb_c16OnPendingDestroyEv(void);
 int *_ZN7daKrb_cD1Ev(int *self);
 int *_ZN7daKrb_cD0Ev(int *self);
 int _ZN7daKrb_c13OnYoshiTryEatEv(void *self);                /* slot 18, its own */
-void func_ov084_0212b344(void *self, void *player); /* slot 19, its own */
+void _ZN7daKrb_c13OnTurnIntoEggER6Player(void *self, void *player); /* slot 19, its own */
 int _ZN7daKrb_c16OnAimedAtWithEggEv(void *self);                /* slot 29, its own */
 void *_ZTV6Goomba[31];
 }
@@ -442,7 +442,7 @@ static int __fastcall gmb_d0(void *s, void *)
 static int __fastcall gmb_yoshi(void *s, void *)
 { return _ZN7daKrb_c13OnYoshiTryEatEv(s); }
 static int __fastcall gmb_egg(void *s, void *, void *p)
-{ func_ov084_0212b344(s, p); return 0; }
+{ _ZN7daKrb_c13OnTurnIntoEggER6Player(s, p); return 0; }
 static int __fastcall gmb_aimed(void *s, void *)
 { return _ZN7daKrb_c16OnAimedAtWithEggEv(s); }
 
@@ -542,16 +542,16 @@ extern "C" void hal_fill_bob_omb_buddy_vtable(void)
 
 /* ---- ov084's method faces ------------------------------------------------- */
 #include "daKrb_c.h"
-#include "BobOmbBuddy.h"
+#include "daRedBombhei_c.h"
 extern "C" {
 int _ZN7daKrb_c8BehaviorEv(void *self)
 { return ((daKrb_c *)self)->daKrb_c::Behavior(); }
 int _ZN7daKrb_c16CleanupResourcesEv(void *self)
 { return ((daKrb_c *)self)->daKrb_c::CleanupResources(); }
 int _ZN11BobOmbBuddy13InitResourcesEv(void *self)
-{ return ((BobOmbBuddy *)self)->BobOmbBuddy::InitResources(); }
+{ return ((daRedBombhei_c *)self)->daRedBombhei_c::InitResources(); }
 int _ZN11BobOmbBuddy8BehaviorEv(void *self)
-{ return ((BobOmbBuddy *)self)->BobOmbBuddy::Behavior(); }
+{ return ((daRedBombhei_c *)self)->daRedBombhei_c::Behavior(); }
 }
 
 // ============================================================================
@@ -703,10 +703,9 @@ void *_ZTV11daObjPile_c[32];
 DSSTATE_END
 }
 /* daObjPile_c_classInit spells the table by the address config left unnamed. */
-#pragma comment(linker, "/alternatename:_data_ov091_021352bc=__ZTV11daObjPile_c")
 
 /* CONFIG DID NOT LEAVE 0x021352bc UNNAMED: symbols.txt:157 calls it _ZTV5Stump,
-   and src/d_a_obj_pile.c:13 stamps exactly that name. Until now _ZTV5Stump was
+   and src/actors/daObjPile_c.cpp:13 stamps exactly that name. Until now _ZTV5Stump was
    the label on a DIFFERENT array -- hal/actor_classes_ov091.cpp's 0x021353ac,
    Fwoosh's table -- so every stump spawned holding Fwoosh's methods while this
    array, filled with the stump's own, was installed on nothing at all. The
@@ -995,7 +994,7 @@ extern "C" void hal_fill_koopa_flag_vtable(void)
 /* ---- the last four classes' method faces ---------------------------------- */
 #include "daWanwan_c.h"
 #include "daObjWanwanShutter_c.h"
-#include "KoopaTheQuick.h"
+#include "daRNk_c.h"
 extern "C" {
 int _ZN10daWanwan_c13InitResourcesEv(void *self)
 { return ((daWanwan_c *)self)->daWanwan_c::InitResources(); }
@@ -1008,18 +1007,18 @@ int _ZN20daObjWanwanShutter_c8BehaviorEv(void *self)
 int _ZN20daObjWanwanShutter_c16CleanupResourcesEv(void *self)
 { return ((daObjWanwanShutter_c *)self)->daObjWanwanShutter_c::CleanupResources(); }
 int _ZN13KoopaTheQuick13InitResourcesEv(void *self)
-{ return ((KoopaTheQuick *)self)->KoopaTheQuick::InitResources(); }
+{ return ((daRNk_c *)self)->daRNk_c::InitResources(); }
 int _ZN13KoopaTheQuick8BehaviorEv(void *self)
-{ return ((KoopaTheQuick *)self)->KoopaTheQuick::Behavior(); }
+{ return ((daRNk_c *)self)->daRNk_c::Behavior(); }
 int _ZN13KoopaTheQuick16CleanupResourcesEv(void *self)
-{ return ((KoopaTheQuick *)self)->KoopaTheQuick::CleanupResources(); }
+{ return ((daRNk_c *)self)->daRNk_c::CleanupResources(); }
 }
-#include "KoopaFlag.h"
+#include "daRFlag_c.h"
 extern "C" {
 int _ZN9KoopaFlag13InitResourcesEv(void *self)
-{ return ((KoopaFlag *)self)->KoopaFlag::InitResources(); }
+{ return ((daRFlag_c *)self)->daRFlag_c::InitResources(); }
 int _ZN9KoopaFlag8BehaviorEv(void *self)
-{ return ((KoopaFlag *)self)->KoopaFlag::Behavior(); }
+{ return ((daRFlag_c *)self)->daRFlag_c::Behavior(); }
 }
 #include "daBombking_c.h"
 extern "C" {

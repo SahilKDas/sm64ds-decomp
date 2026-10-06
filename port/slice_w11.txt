@@ -68,7 +68,7 @@
 #
 #   0x0214e1d8 _ZTV13FortressTower           <- 298 (hal_fill_warp_pipe_vtable)
 #                                                59, 340, 341
-#   0x0214e47c _ZTV13QuestionBlock           <- 20 (hal_fill_question_block_vtable)
+#   0x0214e47c _ZTV18daObjHatenaBlock_c           <- 20 (hal_fill_question_block_vtable)
 #                                                22, 23, 24, 25
 #   0x02135080 _ZTV17SlidingPlatformWf       <- 55/138/154/155
 #                                                (hal_fill_sliding_platform_wf_vtable)
@@ -154,22 +154,15 @@
 # widened sweep prints) is hosted and DELIBERATELY unregistered for a measured
 # frame-0 register-skew blocker. It is not in this slice and must not be added
 # to it.
-src/d_a_obj_simple_bg_ki_hasira_dai.c
-src/d_a_obj_simple_bg_mc_dodai.c
-src/d_a_obj_simple_bg_mc_hazad.c
-src/d_a_obj_hatena_block_vs_item_block.c
-src/d_a_obj_hatena_block_cap_block_m.c
-src/d_a_obj_hatena_block_cap_block_w.c
-src/d_a_obj_hatena_block_cap_block_l.c
-src/d_a_obj_simple_lift_km2_rifut01.c
-src/d_a_obj_simple_lift_km2_rifut02.c
-src/d_a_obj_simple_lift_rc_rift01.c
-src/d_a_obj_rotate_updown_lift_hs_updown_lift.c
-src/d_a_krb_kuribo_s.c
-src/d_a_nknk_nokonoko_s.c
+src/actors/daObjSimpleBg_c.cpp
+src/actors/daObjHatenaBlock_c.cpp
+src/actors/daObjSimpleLift_c.cpp
+src/actors/daObjRotateUpdownLift_c.cpp
+src/actors/daKrb_c.cpp
+src/game/actors/d_a_nknk.cpp
 src/d_a_obj_seesaw_km2_yokoseesaw.c
 src/d_a_obj_seesaw_seesaw.c
 src/d_a_obj_seesaw_rc_seesaw.c
 src/d_a_udlift_rc_rift02.c
 src/d_a_star_silver_star.c
-src/d_a_obj_block_item_tag_blk_slvstar_tag.c
+src/actors/daObjBlockItemTag_c.cpp

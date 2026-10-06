@@ -21,14 +21,14 @@
 // the one that carries the physics; see port/curling_round2.txt.
 //
 // ITS CALLER IS MATCHED AND SETTLES THE ARGUMENTS AND THE CADENCE.
-// src/func_ov006_020e2868.c is dScMgCurling_c's per-shell physics tick: it
+// src/actors/dScMgCurling_c.cpp is dScMgCurling_c's per-shell physics tick: it
 // advances shell `idx` along its heading, bounces it off the four rink walls,
 // applies the ice friction, and THEN calls func_ov006_020e20bc(c, idx) --
 // every frame, for every shell it ticks, immediately before
 // func_ov006_020e269c. So `idx` is the shell that just moved.
 //
 // A SECOND CALLER EXISTS, IT IS A VENEER, AND SEATING THIS BODY BROKE IT.
-// src/func_ov006_020e285c.c is a twelve-byte ARM tail-call forwarder
+// src/actors/dScMgCurling_c.cpp is a twelve-byte ARM tail-call forwarder
 // (relocs.txt:3425, from:0x020e2864 kind:load to:0x020e20bc) and its src
 // declares itself AND its callee `(void)`. On the DS that is correct: r0 and
 // r1 already hold self and the index across the bx, and the veneer never
@@ -79,8 +79,8 @@
 // ---- THE SHELL RECORD ----------------------------------------------------
 //
 // Five shells, stride 0x2c, based at this+0x4660. Cross-checked field for
-// field against the two matched siblings src/func_ov006_020e2868.c and
-// src/func_ov006_020e2c08.c; the table is repeated in the sibling
+// field against the two matched siblings src/actors/dScMgCurling_c.cpp and
+// src/actors/dScMgCurling_c.cpp; the table is repeated in the sibling
 // transcription's header rather than referenced, because a reader of either
 // file needs it. This function is the one that establishes +0x4668 and
 // +0x4686 as a SPEED and a HEADING, because it is where they are combined
@@ -140,7 +140,7 @@
 //    two jobs rather than quietly splitting it in two.
 //
 // 3. THERE ARE ONLY THREE WALL CLAMPS, NOT FOUR. Axis A is clamped at both
-//    ends; axis B only at the low end. src/func_ov006_020e2868.c, matched, has
+//    ends; axis B only at the low end. src/actors/dScMgCurling_c.cpp, matched, has
 //    all four (0xb4000 as well). Not repaired here.
 //
 // 4. THE DISTANCE TEST AND THE ANGLE DISAGREE ABOUT DIRECTION, AND USE
@@ -238,7 +238,7 @@ inline Rot rot_at(int angle)
 }
 
 /* A shell's velocity, taken apart into its two position axes exactly the way
-   src/func_ov006_020e2868.c puts it back together: axis A moves by
+   src/actors/dScMgCurling_c.cpp puts it back together: axis A moves by
    tbl[2k+1] * speed and axis B by tbl[2k] * speed. */
 struct Vel { int a, b; };
 
@@ -368,7 +368,7 @@ void collide_020e20bc_body(char *c, int idx)
 
         /* 0x020e2624..0x020e264c -- both shells are moving now, and the
            struck one's "fast" flag is recomputed on the same 0x3800 threshold
-           src/func_ov006_020e2c08.c uses at launch. */
+           src/actors/dScMgCurling_c.cpp uses at launch. */
         *state(c, idx) = 1;
         *state(c, j) = 1;
         *fastFlag(c, j) = (unsigned char)(*speed(c, j) >= FAST_SPEED ? 1 : 0);
@@ -412,7 +412,7 @@ extern "C" void port_mg_curling_collide_020e20bc(char *c, int idx)
     collide_020e20bc_body(c, idx);
 }
 
-/* src/func_ov006_020e285c.c IS NOT HOSTED, and the reason is worth writing
+/* src/actors/dScMgCurling_c.cpp IS NOT HOSTED, and the reason is worth writing
  * down because the first attempt at this lane DID host it and the gate refused
  * the result.
  *

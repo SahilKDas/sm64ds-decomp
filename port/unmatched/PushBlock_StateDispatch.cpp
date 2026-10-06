@@ -1,5 +1,5 @@
-/* HOST COPIES of src/func_ov002_020b9704.cpp (the state-cell installer) and
- * src/func_ov002_020b9750.cpp (the per-frame tick dispatcher) --
+/* HOST COPIES of src/actors/daObjPowerUpItem_c.cpp (the state-cell installer) and
+ * src/actors/daObjPowerUpItem_c.cpp (the per-frame tick dispatcher) --
  * PUSH_BLOCK's (306, the "PowerFlower" id-decoy -- see the registry row for
  * the derivation) own 3-state machine. The Unagi/MrBlizzard/BabyPenguin/
  * HootTheOwl shape: a REAL C++ pointer-to-member dispatched through a
@@ -103,7 +103,7 @@ void port_pushblock_states_seat(void)
 }
 
 /* func_ov002_020b9704 and func_ov002_020b9750 RETIRED (run link100, lane
-   PMFB1). src/func_ov002_020b9704.cpp and src/func_ov002_020b9750.cpp carry
+   PMFB1). src/actors/daObjPowerUpItem_c.cpp and src/actors/daObjPowerUpItem_c.cpp carry
    both on port/slice_pmfc.txt. The header's note that "MSVC's PMF
    representation for an INCOMPLETE class does not reproduce the ROM's own
    {function,delta} dispatch" is dead: /vmg /vmm target-wide (block R8) makes

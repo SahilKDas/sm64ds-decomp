@@ -150,7 +150,7 @@ public:
 
 /* Scene::SetSceneToSpawn is the same shape one class over. Stage::Behavior's
    level-change arm spells the static member ?SetSceneToSpawn@dScene_c@@SAXII@Z,
-   and src/_ZN8dScene_c15SetSceneToSpawnEjj.cpp -- already in the image on
+   and src/actors/dScene_c.cpp -- already in the image on
    port/slice_gate10.txt -- is flat C. Declared here rather than taken from a
    header for the same reason class Stage is: this file must not pull in a
    second declaration of either class. */

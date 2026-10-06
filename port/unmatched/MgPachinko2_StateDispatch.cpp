@@ -61,7 +61,7 @@
 // the switch below, so this file no longer reports a single address. The three
 // matched ones carry delink blocks; 0x02102fe8 ships with the honest banner
 // and its per-instruction diff pasted in the source, which is what the tree
-// already does for src/func_ov006_02103ac0.c in this same class.
+// already does for src/actors/dScMgPachinko2_c.cpp in this same class.
 //
 // WHAT DID NOT CHANGE: no symbol is invented for anything here. The four
 // definitions are decompilations of the ROM's own bodies under their real
@@ -219,7 +219,7 @@ extern MgPmf data_ov006_02142734[];
 
 /* the one ordinary callee a host copy below keeps, from its own src. Run mg7
    lane L369 decompiled it (0x24c, NONMATCHING at 2004/b56 with the diff pasted
-   in src/func_ov006_0210076c.c), so unmatched/MgPachinko2_Traps.cpp -- which
+   in src/actors/dScMgPachinko2_c.cpp), so unmatched/MgPachinko2_Traps.cpp -- which
    existed for this one symbol and nothing else -- is DELETED. A trap standing
    beside a real definition is a duplicate symbol, not a safety net. */
 void func_ov006_0210076c(void *c, int i);
@@ -390,7 +390,7 @@ extern "C" void port_mg_pachinko2_state_counts(unsigned *hits, unsigned *missing
 // and one pushed argument on all three (edi, edi, esi -- the loop counter).
 //
 // TWO /alternatename DIRECTIVES, read off the objects with dumpbin /symbols.
-// src/func_ov006_0210246c.cpp declares its table inside extern "C" and needs
+// src/actors/dScMgPachinko2_c.cpp declares its table inside extern "C" and needs
 // none.
 //
 // THE PER-SLOT CENSUS MOVES INTO THE FACES. g_lkt_cc, g_lkt_f4 and g_lkt_34 are

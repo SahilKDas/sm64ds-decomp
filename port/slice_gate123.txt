@@ -13,4 +13,4 @@
 # The SpawnInfo mount is added to ov002_syms.txt and the registry row reuses the
 # shared fill (fill 0, the ONE_UP_MUSHROOM_BLOCK_TAG shape). No new overlay data,
 # no method face.
-src/d_a_obj_block_item_tag_blk_gnshell_tag.c
+src/actors/daObjBlockItemTag_c.cpp

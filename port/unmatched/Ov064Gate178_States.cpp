@@ -82,7 +82,7 @@ void _ZN10dBgActor_c19UpdateClsnPosAndRotEv(void *self);
    compiles and dispatches data_ov064_0211c750 itself. TWO THINGS HAD TO BE
    TRUE AND BOTH WERE MEASURED: the file is a .c whose own text spells
    `typedef void (C::*PMF)();`, which is not C, so it carries LANGUAGE CXX in
-   block R10e -- lane PMFB2's treatment for src/func_ov002_020aea30.cpp -- and
+   block R10e -- lane PMFB2's treatment for src/actors/dEnemyBase_c.cpp -- and
    its table comes in decorated as ?data_ov064_0211c750@@3PAUEntry@@A, which
    port/hal/fwd_forwarders.cpp aliases onto the mounted C name. Its src defines
    the FLAT C symbol, so unlike gate 1's nine rows it needs no forwarder; the
@@ -93,7 +93,7 @@ void _ZN10dBgActor_c19UpdateClsnPosAndRotEv(void *self);
    src: `c->pp = p; if (*p == 0) return 1; return (c->**p)()` -- store the table
    base at +0x300, call record[0] (the ENTER state). The record is 8 bytes. */
 /* func_ov064_021187ec IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov064_021187ec.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daBbl_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two

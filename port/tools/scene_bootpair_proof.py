@@ -9,7 +9,7 @@ NOT NAMED scene_menu_proof.py, and the difference is the finding rather than a
 preference: the lane brief called id 360 "the main-menu scene, on the default
 route". It is not. src/GetSceneOverlayID.c gives it no overlay, its own D2 is
 named MultiBootScene::~MultiBootScene in src/_ZN7dScMB_cD1Ev.cpp, and
-src/_ZN8dScene_c18PrepareToSpawnBootEv.cpp parks either 0 or 0x168 as the FIRST
+src/actors/dScene_c.cpp parks either 0 or 0x168 as the FIRST
 scene of the process. The pair is a boot fork; the file is named for what it
 proves.
 

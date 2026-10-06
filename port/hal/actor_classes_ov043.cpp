@@ -115,7 +115,6 @@ DSSTATE_END
    host array -- the daChoropu_c / ami_bou precedent. The LHS is undefined
    everywhere (0x021122b8 is excluded from the mount by name), so the alias
    cannot be defeated. */
-#pragma comment(linker, "/alternatename:_data_ov043_021122b8=__ZTV19daObjKm1_Ukishima_c")
 
 /* The G0/G1 landing pads. src/game/actors/d_a_obj_km1_ukishima.cpp releases ov043's own two
    bss SharedFilePtrs through the shared role-name placeholders G0 and G1, which

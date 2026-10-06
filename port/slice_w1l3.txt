@@ -218,7 +218,7 @@ src/engine/fader/_ZN15FaderBrightness7IsAtEndEv.cpp
 # THE REFERENCE EDGE IS ALREADY THERE, which is why this is one line and no
 # seat. /OPT:REF keeps a matched TU only if something names it, and nine TUs in
 # walk_window.map already call this symbol by its C spelling: SignPost::Behavior
-# and ArrowSignRight::Behavior plus func_ov015_021114f0, func_ov015_021123c8,
+# and daObjYajirusi_c::Behavior plus func_ov015_021114f0, func_ov015_021123c8,
 # func_ov079_02124188, func_ov091_02131160, func_ov091_02133098,
 # func_ov098_021396a4 and func_ov102_02149ea4. Those calls are what kept the
 # empty stub in the map through /OPT:REF; they now reach the ROM's body.

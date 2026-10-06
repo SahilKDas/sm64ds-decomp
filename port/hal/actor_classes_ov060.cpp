@@ -43,7 +43,7 @@
 //     touches the state tables. It is hostable without a single new seam.
 //
 // ---- THE CLEANUP THUNK (the one body held out of the slice) ---------------
-// src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp spells its two
+// src/actors/daKpa2Bg_c.cpp spells its two
 // SharedFilePtrs G0/G1, and hal/cxx_aliases.cpp binds those single global
 // names to SignPost's LIVE ov002 pointers -- the identical PoleLift trap
 // hal/actor_classes_ov045.cpp documents. Linking it would Release SignPost's
@@ -234,8 +234,8 @@ DSSTATE_END
    Eyerok's state table instead of their own bss. The bindings are now
    per-source -D renames in port/CMakeLists.txt, on the two TUs that actually
    spell them:
-     src/func_ov060_02111c68.c   data_ov066_0211ac20, data_ov066_0211ac68
-     src/func_ov060_02112350.c   data_ov066_0211acd0
+     src/actors/daKpa_c.cpp   data_ov066_0211ac20, data_ov066_0211ac68
+     src/actors/daKpa_c.cpp   data_ov066_0211acd0
    the w5b_review.md R2 recipe. The ov060 storage below is unchanged; only the
    spelling bridge moved. */
 
@@ -777,18 +777,18 @@ int _ZN10daKpa2Bg_c6RenderEv(void *self)
 // 0x02118ad4, and BowserSkyPlatform's own three at 0x021182b0 / 0x02118254 /
 // 0x0211822c. src/_ZN9SpikeBomb*.cpp define SpikeBomb's methods against
 // include/SpikeBomb.h, so each face is bound to its own class.
-#include "BowserSkyPlatform.h"
-#include "BowserTail.h"
-#include "SpikeBomb.h"
+#include "daKpa3Bg_c.h"
+#include "daKpaTail_c.h"
+#include "daKirai_c.h"
 extern "C" {
 int _ZN9SpikeBomb13InitResourcesEv(void *self)
-{ return ((SpikeBomb *)self)->SpikeBomb::InitResources(); }
+{ return ((daKirai_c *)self)->daKirai_c::InitResources(); }
 int _ZN9SpikeBomb8BehaviorEv(void *self)
-{ return ((SpikeBomb *)self)->SpikeBomb::Behavior(); }
+{ return ((daKirai_c *)self)->daKirai_c::Behavior(); }
 int _ZN9SpikeBomb6RenderEv(void *self)
-{ return ((SpikeBomb *)self)->SpikeBomb::Render(); }
+{ return ((daKirai_c *)self)->daKirai_c::Render(); }
 int _ZN10BowserTail13InitResourcesEv(void *self)
-{ return ((BowserTail *)self)->BowserTail::InitResources(); }
+{ return ((daKpaTail_c *)self)->daKpaTail_c::InitResources(); }
 int _ZN10BowserTail8BehaviorEv(void *self)
-{ return ((BowserTail *)self)->BowserTail::Behavior(); }
+{ return ((daKpaTail_c *)self)->daKpaTail_c::Behavior(); }
 }

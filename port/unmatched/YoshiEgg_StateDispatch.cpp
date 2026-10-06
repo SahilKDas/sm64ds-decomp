@@ -25,7 +25,7 @@
  * The old header said mwcc's eight-byte {code, adjustment} pair "has no MSVC
  * equivalent". That was written before the port built with /vmg /vmm. MEASURED
  * on 2026-09-07 with the port's own flags out of build.ninja,
- * src/func_ov002_020ed684.cpp:
+ * src/actors/daYegg_c.cpp:
  *
  *     mov  eax, DWORD PTR _c$[ebp]
  *     mov  edx, DWORD PTR [eax+1008]                       ; the state, +0x3f0

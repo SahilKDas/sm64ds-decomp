@@ -1,4 +1,4 @@
-/* HOST MIRROR of the matched src/func_ov080_02124e60.c (the crate's state-2
+/* HOST MIRROR of the matched src/actors/daBttBk_c.cpp (the crate's state-2
  * tick) with the same one-call fix as CrazedCrate_InitResources.cpp: the
  * recovered source drops the state setter's second argument (the
  * r1-passthrough seam). The ROM's own call site (0x02124e94: `mov r1, #0;

@@ -12,9 +12,7 @@
 # HOST COPY, port/unmatched/Flamethrower_Behavior.c, transcribed per
 # instruction from the ROM listing; when the decomp lands a byte match, that TU
 # replaces the host copy on this line and the file is deleted.
-src/d_a_obj_flamethrower.cpp
-src/_ZN12Flamethrower13InitResourcesEv.cpp
-src/_ZN12FlamethrowerD1Ev.cpp
+src/actors/daObjFlamethrower_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN12FlamethrowerD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN12FlamethrowerD0Ev.cpp
 

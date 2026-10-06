@@ -11,7 +11,7 @@
 # THE WHOLE CAST IS MATCHED AND ALL SEVEN OF ITS TUs ARE HERE, plus one
 # helper, so the slice is EIGHT lines. The seven are the factory and the six
 # slots the class owns (0, 3, 6, 9, 16, 17). The eighth is
-# src/func_ov080_02124418.c, ov080 0x02124418 (0x40 bytes), which is not a
+# src/actors/daChoropu_c.cpp, ov080 0x02124418 (0x40 bytes), which is not a
 # vtable slot at all: Behavior calls it once a frame at 0x02124760 to rebuild
 # the rock's rotation matrix at +0x12c from its yaw at +0x8e and to write the
 # three pos>>3 words at +0x150. It is matched, its one callee
@@ -45,7 +45,7 @@
 # adjudicate it, so the member's TYPE is taken from how the class CONSTRUCTS
 # it. Three independent witnesses, all in matched src, all agreeing:
 #
-#   src/d_a_choro_rock.c            _ZN5ModelC1Ev(p + 0x110)
+#   src/actors/daChoropu_c.cpp            _ZN5ModelC1Ev(p + 0x110)
 #   src/..._13InitResourcesEv.cpp        Model::LoadFile -> ModelBase::SetFile
 #                                        on this + 0x110
 #   src/_ZN13MontyMoleRockD1Ev.cpp         _ZN5ModelD1Ev(t + 0x110)
@@ -106,12 +106,6 @@
 # (ov080 0x02128008, mounted at the real 0x1c stride) +0 word =
 # daChoro_Rock_c_classInit 0x02124998, +4 halfword = 0x0137 = 311, and
 # daChoro_Rock_c_classInit's own vtable-store reloc names 0x0212802c.
-src/d_a_choro_rock.c
-src/_ZN13MontyMoleRock13InitResourcesEv.cpp
-src/_ZN13MontyMoleRock16CleanupResourcesEv.cpp
-src/_ZN13MontyMoleRock6RenderEv.cpp
-src/_ZN13MontyMoleRock8BehaviorEv.cpp
-src/_ZN13MontyMoleRockD1Ev.cpp
+src/actors/daChoropu_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN13MontyMoleRockD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN13MontyMoleRockD0Ev.cpp
-src/func_ov080_02124418.c

@@ -1092,7 +1092,7 @@ THE GAME BELIEVED IT. dScMgPachinko_c slot 0's state byte at +0x4f0d went
                 frames 195      st = 4
                 frames 272..    st = 0    respawned
 
-src/func_ov006_020fe394.cpp is one branch on `data_020a0de8[k * 4] != 0`, and its
+src/actors/dScMgPachinko_c.cpp is one branch on `data_020a0de8[k * 4] != 0`, and its
 else side writes 2 into +0x4f0d and snaps or launches the ball. So the player
 pulling back did not pause the pull when their hand left the window. They took
 the shot. The ball's world y in the same trace walks 40, -207, -279 over the

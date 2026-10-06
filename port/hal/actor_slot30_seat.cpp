@@ -4,7 +4,7 @@
  * in-flight state (state 1, main func_ov002_020ecf94) calls
  * func_ov002_020ecd18 EVERY FRAME, and that function -- guarded only by
  * `o != 0` -- does a genuine virtual `v30()` on the actor the egg is aimed at
- * (src/func_ov002_020ecd18.cpp:96). So this slot fires on every frame of every
+ * (src/actors/daYegg_c.cpp:96). So this slot fires on every frame of every
  * egg's flight, not only on impact.
  *
  * WHAT THE ROM PUTS THERE, READ OUT OF THE ROM. Every Actor-width vtable the

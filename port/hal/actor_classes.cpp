@@ -408,7 +408,7 @@ extern "C" {
 int *_ZN14daObjMcWater_cD1Ev(int *self);
 int *_ZN14daObjMcWater_cD0Ev(int *self);  /* slot 17, DTOR-PAIRS seat (ov009 0x02111abc) */
 int *_ZN18daObjMc_Metalnet_cD1Ev(int *self);
-int *_ZN13QuestionBlockD1Ev(int *self);
+int *_ZN18daObjHatenaBlock_cD1Ev(int *self);
 }
 static int __fastcall cw_d1(void *s, void *)
 { return (int)(size_t)_ZN14daObjMcWater_cD1Ev((int *)s); }
@@ -420,7 +420,7 @@ static int __fastcall cw_d0(void *s, void *)
 static int __fastcall mn_d1(void *s, void *)
 { return (int)(size_t)_ZN18daObjMc_Metalnet_cD1Ev((int *)s); }
 static int __fastcall qb_d1(void *s, void *)
-{ return (int)(size_t)_ZN13QuestionBlockD1Ev((int *)s); }
+{ return (int)(size_t)_ZN18daObjHatenaBlock_cD1Ev((int *)s); }
 
 /* Fill the ten shared slots plus the three traps; the caller writes its own
    six. Keeps each class's fill down to the lines that are actually its own. */
@@ -720,41 +720,39 @@ extern "C" void hal_fill_enemy_base_vtable(void)
 //
 // Four of the six own slots are real MSVC methods against include/
 // BigBrickBlock.h; InitResources and the two destructors are C-form TUs.
-#include "BigBrickBlock.h"
+#include "daObjBlockL_c.h"
 extern "C" {
-int _ZN13BigBrickBlock13InitResourcesEv(void *self);
-int *_ZN13BigBrickBlockD1Ev(int *self);
-int *_ZN13BigBrickBlockD0Ev(int *self);
-void *_ZTV13BigBrickBlock[32];
+int _ZN13daObjBlockL_c13InitResourcesEv(void *self);
+int *_ZN13daObjBlockL_cD1Ev(int *self);
+int *_ZN13daObjBlockL_cD0Ev(int *self);
+void *_ZTV13daObjBlockL_c[32];
 }
-/* The destructors spell the class's own table by its RTTI name. */
-#pragma comment(linker, "/alternatename:__ZTV13daObjBlockL_c=__ZTV13BigBrickBlock")
 
 static int __fastcall bbb_init(void *s, void *)
-{ return _ZN13BigBrickBlock13InitResourcesEv(s); }
+{ return _ZN13daObjBlockL_c13InitResourcesEv(s); }
 static int __fastcall bbb_clean(void *s, void *)
-{ return ((BigBrickBlock *)s)->BigBrickBlock::CleanupResources(); }
+{ return ((daObjBlockL_c *)s)->daObjBlockL_c::CleanupResources(); }
 static int __fastcall bbb_behavior(void *s, void *)
-{ return ((BigBrickBlock *)s)->BigBrickBlock::Behavior(); }
+{ return ((daObjBlockL_c *)s)->daObjBlockL_c::Behavior(); }
 extern "C" void port_actor_render_probe(const char *cls, void *model);
 static int __fastcall bbb_render(void *s, void *)
 {
     port_actor_render_probe("BLACK_BRICK_BLOCK", (char *)s + 0xd4);
-    return ((BigBrickBlock *)s)->BigBrickBlock::Render();
+    return ((daObjBlockL_c *)s)->daObjBlockL_c::Render();
 }
 static int __fastcall bbb_d1(void *s, void *)
-{ return (int)(size_t)_ZN13BigBrickBlockD1Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjBlockL_cD1Ev((int *)s); }
 static int __fastcall bbb_d0(void *s, void *)
-{ return (int)(size_t)_ZN13BigBrickBlockD0Ev((int *)s); }
+{ return (int)(size_t)_ZN13daObjBlockL_cD0Ev((int *)s); }
 
 /* Slot 21, OnGroundPounded(Actor &other). The declared third parameter is the
    pounder: the caller pushes it and a __fastcall thunk only pops what it
    declares, so two parameters would leave it on the stack. The body reads it
    (its `a->f8` is the pounder's +8) and dispatches slot 31 as a C++ virtual,
    which is why 31 is seated below rather than left trapped. */
-extern "C" void _ZN13BigBrickBlock15OnGroundPoundedER8dActor_c(void *self, void *other);
+extern "C" void _ZN13daObjBlockL_c15OnGroundPoundedER8dActor_c(void *self, void *other);
 static int __fastcall bbb_pounded(void *s, void *, void *other)
-{ _ZN13BigBrickBlock15OnGroundPoundedER8dActor_c(s, other); return 0; }
+{ _ZN13daObjBlockL_c15OnGroundPoundedER8dActor_c(s, other); return 0; }
 /* Slot 23, OnAttacked2(Actor &attacker): a bro's PUNCH (St_PunchKick steps 0/1
    -> func_ov002_020d8a50 which==0/1 -> func_ov002_020ef070 dispatches slot 23).
    The matched body (host copy unmatched/BigBrickBlock_OnAttacked2.cpp) reads the
@@ -766,22 +764,22 @@ static int __fastcall bbb_pounded(void *s, void *, void *other)
    host copy converts to a thiscall virtual, so it lands on bbb_kill. Forward the
    receiver and the attacker; the seated shape is __fastcall three-parameter,
    matching the thiscall dispatcher (Actor_OnAttacked2Dispatch.cpp). */
-extern "C" void _ZN13BigBrickBlock11OnAttacked2ER8dActor_c(void *self, void *attacker);
+extern "C" void _ZN13daObjBlockL_c11OnAttacked2ER8dActor_c(void *self, void *attacker);
 static int __fastcall bbb_atk2(void *s, void *, void *o)
-{ _ZN13BigBrickBlock11OnAttacked2ER8dActor_c(s, o); return 0; }
+{ _ZN13daObjBlockL_c11OnAttacked2ER8dActor_c(s, o); return 0; }
 /* Slot 24, OnKicked(Actor &attacker): a bro's KICK (St_PunchKick step 2 and
    SweepKick -> func_ov002_020d8a50 which==2/3 -> func_ov002_020eeeb8 dispatches
    slot 24). The matched body _ZN13BigBrickBlock8OnKickedER8dActor_c reaches Kill through a C++
    VIRTUAL (already thiscall), so its src links directly (slice_gate16.txt) and
    lands on bbb_kill unchanged. Same trap, same freeze as the punch above; both
    dispatchers were already converted to thiscall, so seating both is safe now. */
-extern "C" void _ZN13BigBrickBlock8OnKickedER8dActor_c(void *self, void *attacker);
+extern "C" void _ZN13daObjBlockL_c8OnKickedER8dActor_c(void *self, void *attacker);
 static int __fastcall bbb_kicked(void *s, void *, void *o)
-{ _ZN13BigBrickBlock8OnKickedER8dActor_c(s, o); return 0; }
+{ _ZN13daObjBlockL_c8OnKickedER8dActor_c(s, o); return 0; }
 /* Slot 31, Kill(). No arguments, so nothing to pop. */
-extern "C" void _ZN13BigBrickBlock4KillEv(char *self);
+extern "C" void _ZN13daObjBlockL_c4KillEv(char *self);
 static int __fastcall bbb_kill(void *s, void *)
-{ _ZN13BigBrickBlock4KillEv((char *)s); return 0; }
+{ _ZN13daObjBlockL_c4KillEv((char *)s); return 0; }
 /* Slot 27, OnHitByMegaChar(Player &): IncMegaKillCount on the player, then this
    class's own slot 31. GATE 227. port/ov002_frontier.txt read this body and
    slot 24's together and ruled both "convention-clean, held out only by the
@@ -792,13 +790,13 @@ static int __fastcall bbb_kill(void *s, void *)
    relocates to 0x020b36b4 in config/arm9/overlays/ov002/relocs.txt, and
    symbols.txt gives that address its own kind:function(arm,size=0x28) entry.
    Three-parameter, like every other seat on slots 21..28 in this file. */
-extern "C" void _ZN13BigBrickBlock15OnHitByMegaCharER6Player(void *self, void *player);
+extern "C" void _ZN13daObjBlockL_c15OnHitByMegaCharER6Player(void *self, void *player);
 static int __fastcall bbb_mega(void *s, void *, void *p)
-{ _ZN13BigBrickBlock15OnHitByMegaCharER6Player(s, p); return 0; }
+{ _ZN13daObjBlockL_c15OnHitByMegaCharER6Player(s, p); return 0; }
 
 extern "C" void hal_fill_black_brick_block_vtable(void)
 {
-    void **vt = _ZTV13BigBrickBlock;
+    void **vt = _ZTV13daObjBlockL_c;
     hal_fill_platform_vtable();
     ac_fill_shared(vt);
     vt[0] = (void *)bbb_init;
@@ -871,34 +869,31 @@ extern "C" void hal_fill_black_brick_block_vtable(void)
 // InitResources/CleanupResources declare data_ov002_0210d9a8 as a C++ `extern
 // char`, which MSVC mangles to ?data_ov002_0210d9a8@@3DA; the mounted symbol is
 // the C-linkage _data_ov002_0210d9a8. Alias it, byte-faithful.
-#include "StarMarker.h"
+#include "daStarBase_c.h"
 extern "C" {
-int *_ZN10StarMarkerD0Ev(int *self);                    /* .c, C linkage */
-int *_ZN10StarMarkerD1Ev(int *self);                    /* host copy, extern C */
-void *_ZTV10StarMarker[31];
+int *_ZN12daStarBase_cD0Ev(int *self);
+void *_ZTV12daStarBase_c[31];
 }
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9a8@@3DA=_data_ov002_0210d9a8")
-/* the destructors spell the class's own table by its RTTI name */
-#pragma comment(linker, "/alternatename:__ZTV12daStarBase_c=__ZTV10StarMarker")
 static int __fastcall sm_init(void *s, void *)
-{ return ((StarMarker *)s)->StarMarker::InitResources(); }
+{ return ((daStarBase_c *)s)->daStarBase_c::InitResources(); }
 static int __fastcall sm_clean(void *s, void *)
-{ return ((StarMarker *)s)->StarMarker::CleanupResources(); }
+{ return ((daStarBase_c *)s)->daStarBase_c::CleanupResources(); }
 static int __fastcall sm_behavior(void *s, void *)
-{ return ((StarMarker *)s)->StarMarker::Behavior(); }
+{ return ((daStarBase_c *)s)->daStarBase_c::Behavior(); }
 static int __fastcall sm_render(void *s, void *)
 {
     port_actor_render_probe("STAR_MARKER", (char *)s + 0x114);
-    return ((StarMarker *)s)->StarMarker::Render();
+    return ((daStarBase_c *)s)->daStarBase_c::Render();
 }
 static int __fastcall sm_pdes(void *s, void *)
-{ ((StarMarker *)s)->StarMarker::OnPendingDestroy(); return 0; }
+{ ((daStarBase_c *)s)->daStarBase_c::OnPendingDestroy(); return 0; }
 /* slot 16: the matched src D1 through hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP). */
 static int __fastcall sm_d0(void *s, void *)
-{ return (int)(size_t)_ZN10StarMarkerD0Ev((int *)s); }
+{ return (int)(size_t)_ZN12daStarBase_cD0Ev((int *)s); }
 extern "C" void hal_fill_star_marker_vtable(void)
 {
-    void **vt = _ZTV10StarMarker;
+    void **vt = _ZTV12daStarBase_c;
     ac_fill_shared(vt);
     vt[0] = (void *)sm_init;
     vt[3] = (void *)sm_clean;
@@ -981,12 +976,12 @@ extern "C" void hal_fill_blue_coin_switch_vtable(void)
 // guard is in hal/actor_vtables.cpp at that function, not here: the sign
 // still turns to face the player and still blocks him, it just does not open
 // a box that has nothing to draw with.
-#include "SignPost.h"
+#include "daObjTatefuda_c.h"
 extern "C" {
-int _ZN8SignPost8BehaviorEv(char *self);
-int *_ZN8SignPostD1Ev(int *self);
-int *_ZN8SignPostD0Ev(int *self);
-void *_ZTV8SignPost[32];
+int _ZN15daObjTatefuda_c8BehaviorEv(char *self);
+int *_ZN15daObjTatefuda_cD1Ev(int *self);
+int *_ZN15daObjTatefuda_cD0Ev(int *self);
+void *_ZTV15daObjTatefuda_c[32];
 }
 /* PORT_HOST_ABI: two names of ONE ROM table, read off the ROM rather than
    off a comment (lane ALIASCHK). ov002 0x02109af8 carries its own RTTI
@@ -997,14 +992,12 @@ void *_ZTV8SignPost[32];
    daObjTatefuda_c_classInit, _ZN8SignPostD0Ev, _ZN8SignPostD1Ev. Read out of
    extracted/overlays/overlay_0002.bin; the LHS is not a config symbol
    anywhere, so the alias cannot be defeated by a later slice. */
-#pragma comment(linker, "/alternatename:__ZTV15daObjTatefuda_c=__ZTV8SignPost")
-
 static int __fastcall sp_init(void *s, void *)
-{ return ((SignPost *)s)->SignPost::InitResources(); }
+{ return ((daObjTatefuda_c *)s)->daObjTatefuda_c::InitResources(); }
 static int __fastcall sp_clean(void *s, void *)
-{ return ((SignPost *)s)->SignPost::CleanupResources(); }
+{ return ((daObjTatefuda_c *)s)->daObjTatefuda_c::CleanupResources(); }
 static int __fastcall sp_behavior(void *s, void *)
-{ return _ZN8SignPost8BehaviorEv((char *)s); }
+{ return _ZN15daObjTatefuda_c8BehaviorEv((char *)s); }
 /* SM64DS_ACTOR_PROBE=1: one line per class the first time its Render runs,
    with what the Model has to draw with -- the BMD the file pointer resolved
    to and the model matrix's own translation row, which Platform writes in
@@ -1037,12 +1030,12 @@ extern "C" void port_actor_render_probe(const char *cls, void *model)
 static int __fastcall sp_render(void *s, void *)
 {
     port_actor_render_probe("SIGN_POST", (char *)s + 0xd4);
-    return ((SignPost *)s)->SignPost::Render();
+    return ((daObjTatefuda_c *)s)->daObjTatefuda_c::Render();
 }
 static int __fastcall sp_d1(void *s, void *)
-{ return (int)(size_t)_ZN8SignPostD1Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjTatefuda_cD1Ev((int *)s); }
 static int __fastcall sp_d0(void *s, void *)
-{ return (int)(size_t)_ZN8SignPostD0Ev((int *)s); }
+{ return (int)(size_t)_ZN15daObjTatefuda_cD0Ev((int *)s); }
 
 extern "C" void port_sign_post_states_seat(void);   /* port/unmatched */
 
@@ -1072,23 +1065,23 @@ extern "C" void port_sign_post_states_seat(void);   /* port/unmatched */
    function pointer instead, a cdecl call that would leave ECX garbage; that is
    why the block's 22 still traps below and the sign's does not. */
 extern "C" {
-void _ZN8SignPost15OnGroundPoundedER8dActor_c(char *self, void *attacker);  /* 21 OnGroundPounded */
-void _ZN8SignPost11OnAttacked1ER8dActor_c(void *self, void *attacker);  /* 22 OnAttacked1     */
-void _ZN8SignPost15OnHitByMegaCharER6Player(char *self, void *player);    /* 27 OnHitByMegaChar */
-int  _ZN8SignPost4KillEv(char *self);                  /* 31 Kill            */
+void _ZN15daObjTatefuda_c15OnGroundPoundedER8dActor_c(char *self, void *attacker);
+void _ZN15daObjTatefuda_c11OnAttacked1ER8dActor_c(void *self, void *attacker);
+void _ZN15daObjTatefuda_c15OnHitByMegaCharER6Player(char *self, void *player);
+int  _ZN15daObjTatefuda_c4KillEv(char *self);
 }
 static int __fastcall sp_pounded(void *s, void *, void *o)
-{ _ZN8SignPost15OnGroundPoundedER8dActor_c((char *)s, o); return 0; }
+{ _ZN15daObjTatefuda_c15OnGroundPoundedER8dActor_c((char *)s, o); return 0; }
 static int __fastcall sp_atk1(void *s, void *, void *o)
-{ _ZN8SignPost11OnAttacked1ER8dActor_c(s, o); return 0; }
+{ _ZN15daObjTatefuda_c11OnAttacked1ER8dActor_c(s, o); return 0; }
 static int __fastcall sp_mega(void *s, void *, void *p)
-{ _ZN8SignPost15OnHitByMegaCharER6Player((char *)s, p); return 0; }
+{ _ZN15daObjTatefuda_c15OnHitByMegaCharER6Player((char *)s, p); return 0; }
 static int __fastcall sp_kill(void *s, void *)
-{ return _ZN8SignPost4KillEv((char *)s); }
+{ return _ZN15daObjTatefuda_c4KillEv((char *)s); }
 
 extern "C" void hal_fill_sign_post_vtable(void)
 {
-    void **vt = _ZTV8SignPost;
+    void **vt = _ZTV15daObjTatefuda_c;
     /* the sinit copied the ROM's own five {Init, Main} pairs into
        data_ov002_0210e084, which means DS code addresses; seat the host
        bodies over them (the ovdata contract, see the file header there) */
@@ -1328,30 +1321,28 @@ extern "C" void hal_fill_moving_cylinder_vtables(void)
 
 // ---- BIRD (actor 343, ov009) x2 --------------------------------------------
 extern "C" {
-int _ZN4Bird13InitResourcesEv(void *self);
-int _ZN4Bird8BehaviorEv(void *self);            /* host copy: hal/ov009_boot */
-int _ZN4Bird6RenderEv(void *self);
-int _ZN4Bird16CleanupResourcesEv(void);
-void _ZN4Bird16OnPendingDestroyEv(void);
-int *_ZN4BirdD0Ev(int *self);                  /* slot 17, DTOR-PAIRS seat (ov009 0x021111d8) */
-void *_ZTV4Bird[31];
+int _ZN9daSBird_c13InitResourcesEv(void *self);
+int _ZN9daSBird_c8BehaviorEv(void *self);            /* host copy: hal/ov009_boot */
+int _ZN9daSBird_c6RenderEv(void *self);
+int _ZN9daSBird_c16CleanupResourcesEv(void);
+void _ZN9daSBird_c16OnPendingDestroyEv(void);
+int *_ZN9daSBird_cD0Ev(int *self);                  /* slot 17, DTOR-PAIRS seat (ov009 0x021111d8) */
+void *_ZTV9daSBird_c[31];
 }
-/* The Bird's own D0 spells its table by the RTTI name. */
-#pragma comment(linker, "/alternatename:__ZTV9daSBird_c=__ZTV4Bird")
 
 static int __fastcall bird_init(void *s, void *)
-{ return _ZN4Bird13InitResourcesEv(s); }
+{ return _ZN9daSBird_c13InitResourcesEv(s); }
 static int __fastcall bird_clean(void *, void *)
-{ return _ZN4Bird16CleanupResourcesEv(); }
+{ return _ZN9daSBird_c16CleanupResourcesEv(); }
 static int __fastcall bird_behavior(void *s, void *)
-{ return _ZN4Bird8BehaviorEv(s); }
+{ return _ZN9daSBird_c8BehaviorEv(s); }
 static int __fastcall bird_render(void *s, void *)
 { port_actor_render_probe("BIRD", (char *)s + 0xd4);
-  return _ZN4Bird6RenderEv(s); }
+  return _ZN9daSBird_c6RenderEv(s); }
 static int __fastcall bird_pdes(void *, void *)
-{ _ZN4Bird16OnPendingDestroyEv(); return 0; }
+{ _ZN9daSBird_c16OnPendingDestroyEv(); return 0; }
 static int __fastcall bird_d0(void *s, void *)
-{ return (int)(size_t)_ZN4BirdD0Ev((int *)s); }
+{ return (int)(size_t)_ZN9daSBird_cD0Ev((int *)s); }
 /* SLOT 16 IS LIVE: a woken bird's state 0 spawns its flock, state 3 climbs,
    and past y 3000 func_ov009_02111234 marks every member -- the turn walk
    died right here while this slot was a trap. The body is
@@ -1361,7 +1352,7 @@ static int __fastcall bird_d0(void *s, void *)
 
 extern "C" void hal_fill_bird_vtable(void)
 {
-    void **vt = _ZTV4Bird;
+    void **vt = _ZTV9daSBird_c;
     ac_fill_shared(vt);
     vt[0] = (void *)bird_init;
     vt[3] = (void *)bird_clean;
@@ -1651,7 +1642,7 @@ extern "C" void hal_fill_rabbit_vtable(void)
 extern "C" {
 int _ZN9RabbitKey13InitResourcesEv(void *self);   /* face: method_faces */
 int _ZN9RabbitKey8BehaviorEv(void *self);          /* face: method_faces */
-int _ZN9RabbitKey6RenderEv(void *self);            /* host copy: Ov085_Renders */
+int _ZN15daObj_Mip_Key_c6RenderEv(void *self);            /* host copy: Ov085_Renders */
 int _ZN9RabbitKey16CleanupResourcesEv(void);
 void _ZN9RabbitKey16OnPendingDestroyEv(void);
 int *_ZN9RabbitKeyD1Ev(int *self);
@@ -1677,7 +1668,7 @@ static int __fastcall rk_behavior(void *s, void *)
 { return _ZN9RabbitKey8BehaviorEv(s); }
 static int __fastcall rk_render(void *s, void *)
 { port_actor_render_probe("RABBIT_KEY", (char *)s + 0x110);
-  return _ZN9RabbitKey6RenderEv(s); }
+  return _ZN15daObj_Mip_Key_c6RenderEv(s); }
 static int __fastcall rk_pdes(void *, void *)
 { _ZN9RabbitKey16OnPendingDestroyEv(); return 0; }
 static int __fastcall rk_d1(void *s, void *)
@@ -2227,7 +2218,7 @@ extern "C" void hal_fill_unchained_chomp_vtable(void)
 // CRASH12). It said config had swapped the two doors' names and that config's
 // `_ZTV4Door` was really the star door's table, so this array was hosted under
 // the name _ZTV8daDoor_c and the name _ZTV4Door was given to gate 40's array
-// instead. src/d_a_door.c stores _ZTV4Door into every plain door, so every
+// instead. src/actors/daDoor_c.cpp stores _ZTV4Door into every plain door, so every
 // plain door in the castle grounds came up wearing the STAR door's methods and
 // died the first time one was drawn. The cartridge settles it, three ways:
 //
@@ -2372,7 +2363,7 @@ void *_ZTV12daStarGate_c[31];   /* ov100 0x021483cc, RTTI 12daStarGate_c */
    typeinfo at 0x02148158 names 8daDoor_c. Proving a name for one table is not
    proving two tables are one; the alias has to be an address match, and this
    one never was. The array is now declared under its own name, so
-   src/d_a_door.c's store of _ZTV4Door reaches gate 22's table instead of this
+   src/actors/daDoor_c.cpp's store of _ZTV4Door reaches gate 22's table instead of this
    one. */
 
 static int __fastcall sd_init(void *s, void *)
@@ -2640,7 +2631,7 @@ extern "C" void hal_fill_peach_painting_vtable(void)
 // GATE 23: ov102's QUESTION_BLOCK
 // ============================================================================
 //
-// _ZTV13QuestionBlock / _ZTV18daObjHatenaBlock_c, ov102 0x0214e47c -- hatena
+// _ZTV18daObjHatenaBlock_c / _ZTV18daObjHatenaBlock_c, ov102 0x0214e47c -- hatena
 // is the question mark, which is the ROM's own RTTI agreeing with config's
 // name for once. One instance, at (0,3498,-3500): the block on the castle
 // roof, over the tower the cannon shoots you to.
@@ -2655,12 +2646,12 @@ extern "C" void hal_fill_peach_painting_vtable(void)
 // Slot 12 is ActorBase's own OnPendingDestroy, which is what the ROM's table
 // holds -- the class does not override it.
 extern "C" {
-int _ZN13QuestionBlock13InitResourcesEv(char *self);
-int _ZN13QuestionBlock8BehaviorEv(void *self);          /* face: method_faces */
-int _ZN13QuestionBlock6RenderEv(void *self);            /* face: method_faces */
-int _ZN13QuestionBlock16CleanupResourcesEv(void *self); /* face: method_faces */
-int *_ZN13QuestionBlockD0Ev(int *self);        /* slot 17, DTOR-PAIRS seat (ov102 0x02149010) */
-void *_ZTV13QuestionBlock[32];
+int _ZN18daObjHatenaBlock_c13InitResourcesEv(char *self);
+int _ZN18daObjHatenaBlock_c8BehaviorEv(void *self);          /* face: method_faces */
+int _ZN18daObjHatenaBlock_c6RenderEv(void *self);            /* face: method_faces */
+int _ZN18daObjHatenaBlock_c16CleanupResourcesEv(void *self); /* face: method_faces */
+int *_ZN18daObjHatenaBlock_cD0Ev(int *self);        /* slot 17, DTOR-PAIRS seat (ov102 0x02149010) */
+void *_ZTV18daObjHatenaBlock_c[32];
 }
 /* PORT_HOST_ABI: two names of ONE ROM table, read off the ROM rather than
    off a comment (lane ALIASCHK). ov102 0x0214e47c carries its own RTTI
@@ -2671,21 +2662,21 @@ void *_ZTV13QuestionBlock[32];
    daObjHatenaBlock_c_classInit_CAP_BLOCK_L, daObjHatenaBlock_c_classInit_CAP_BLOCK_M, daObjHatenaBlock_c_classInit_CAP_BLOCK_W. Read out
    of extracted/overlays/overlay_0102.bin; the LHS is not a config symbol
    anywhere, so the alias cannot be defeated by a later slice. */
-#pragma comment(linker, "/alternatename:__ZTV18daObjHatenaBlock_c=__ZTV13QuestionBlock")
+#pragma comment(linker, "/alternatename:__ZTV18daObjHatenaBlock_c=__ZTV18daObjHatenaBlock_c")
 
 static int __fastcall qb_init(void *s, void *)
-{ return _ZN13QuestionBlock13InitResourcesEv((char *)s); }
+{ return _ZN18daObjHatenaBlock_c13InitResourcesEv((char *)s); }
 static int __fastcall qb_clean(void *s, void *)
-{ return _ZN13QuestionBlock16CleanupResourcesEv(s); }
+{ return _ZN18daObjHatenaBlock_c16CleanupResourcesEv(s); }
 static int __fastcall qb_behavior(void *s, void *)
-{ return _ZN13QuestionBlock8BehaviorEv(s); }
+{ return _ZN18daObjHatenaBlock_c8BehaviorEv(s); }
 /* THE PROBE HAS TO PICK THE MEMBER THE ROM'S OWN Render PICKS, and it used to
    name +0x320 for all six classes that share this vtable. That is the
-   ModelAnim, and src/_ZN13QuestionBlock6RenderEv.cpp:23-30 only draws it when
+   ModelAnim, and src/actors/daObjHatenaBlock_c.cpp:23-30 only draws it when
    `mActorId == 0x14` -- the plain QUESTION_BLOCK. Every other id (21
    EXCLAMATION_BLOCK, 22 EXCLAMATION_BLOCK_VS, 23/24/25 the three CAP_BLOCKs)
    draws mModel at +0xd4, and InitResources never touches +0x320 for them
-   (src/_ZN13QuestionBlock13InitResourcesEv.cpp:26-46: only case 0 does).
+   (src/actors/daObjHatenaBlock_c.cpp:26-46: only case 0 does).
 
    So the probe was reading a member the class legitimately leaves zeroed and
    reporting `file 00000000 transforms 00000000` on a block that was drawing
@@ -2696,7 +2687,7 @@ static int __fastcall qb_render(void *s, void *)
 { port_actor_render_probe("QUESTION_BLOCK",
                           (char *)s + (*(unsigned short *)((char *)s + 0xc) ==
                                        0x14 ? 0x320 : 0xd4));
-  return _ZN13QuestionBlock6RenderEv(s); }
+  return _ZN18daObjHatenaBlock_c6RenderEv(s); }
 
 /* GATE 203: the block's own five HIT slots, ov102, all matched src and now
    sliced (port/slice_gate203.txt). Every one of them is `(self, other)` on the
@@ -2708,29 +2699,29 @@ static int __fastcall qb_render(void *s, void *)
    a live stack smash. The emitted `C2 04 00` is checked against the LINKED
    binary, not inferred from these signatures. */
 extern "C" {
-void _ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c(void *self, void *other);  /* 28 OnHitFromUnderneath */
-void _ZN13QuestionBlock15OnHitByMegaCharER6Player(void *self, void *player); /* 27 OnHitByMegaChar     */
-void _ZN13QuestionBlock8OnKickedER8dActor_c(void *self, void *other);  /* 24 OnKicked            */
-void _ZN13QuestionBlock11OnAttacked1ER8dActor_c(void *self, void *other);  /* 22 OnAttacked1         */
-void _ZN13QuestionBlock15OnGroundPoundedER8dActor_c(void *self, void *other);  /* 21 OnGroundPounded     */
+void _ZN18daObjHatenaBlock_c19OnHitFromUnderneathER8dActor_c(void *self, void *other);  /* 28 OnHitFromUnderneath */
+void _ZN18daObjHatenaBlock_c15OnHitByMegaCharER6Player(void *self, void *player); /* 27 OnHitByMegaChar     */
+void _ZN18daObjHatenaBlock_c8OnKickedER8dActor_c(void *self, void *other);  /* 24 OnKicked            */
+void _ZN18daObjHatenaBlock_c11OnAttacked1ER8dActor_c(void *self, void *other);  /* 22 OnAttacked1         */
+void _ZN18daObjHatenaBlock_c15OnGroundPoundedER8dActor_c(void *self, void *other);  /* 21 OnGroundPounded     */
 }
 static int __fastcall qb_under(void *s, void *, void *o)
-{ _ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c(s, o); return 0; }
+{ _ZN18daObjHatenaBlock_c19OnHitFromUnderneathER8dActor_c(s, o); return 0; }
 static int __fastcall qb_mega(void *s, void *, void *p)
-{ _ZN13QuestionBlock15OnHitByMegaCharER6Player(s, p); return 0; }
+{ _ZN18daObjHatenaBlock_c15OnHitByMegaCharER6Player(s, p); return 0; }
 static int __fastcall qb_kicked(void *s, void *, void *o)
-{ _ZN13QuestionBlock8OnKickedER8dActor_c(s, o); return 0; }
+{ _ZN18daObjHatenaBlock_c8OnKickedER8dActor_c(s, o); return 0; }
 static int __fastcall qb_atk1(void *s, void *, void *o)
-{ _ZN13QuestionBlock11OnAttacked1ER8dActor_c(s, o); return 0; }
+{ _ZN18daObjHatenaBlock_c11OnAttacked1ER8dActor_c(s, o); return 0; }
 static int __fastcall qb_pounded(void *s, void *, void *o)
-{ _ZN13QuestionBlock15OnGroundPoundedER8dActor_c(s, o); return 0; }
+{ _ZN18daObjHatenaBlock_c15OnGroundPoundedER8dActor_c(s, o); return 0; }
 
 static int __fastcall qb_d0(void *s, void *)
-{ return (int)(size_t)_ZN13QuestionBlockD0Ev((int *)s); }
+{ return (int)(size_t)_ZN18daObjHatenaBlock_cD0Ev((int *)s); }
 
 extern "C" void hal_fill_question_block_vtable(void)
 {
-    void **vt = _ZTV13QuestionBlock;
+    void **vt = _ZTV18daObjHatenaBlock_c;
     ac_fill_shared(vt);
     vt[0] = (void *)qb_init;
     vt[3] = (void *)qb_clean;
@@ -2786,7 +2777,7 @@ extern "C" void hal_fill_question_block_vtable(void)
        emit `ret 4`). qb_kicked is the same three-parameter __fastcall veneer
        that emits `ret 4`, so it balances the now-thiscall caller.
 
-       The body (_ZN13QuestionBlock8OnKickedER8dActor_c) was already sliced with its four siblings
+       The body (_ZN18daObjHatenaBlock_c8OnKickedER8dActor_c) was already sliced with its four siblings
        in slice_gate203.txt, and its whole closure is in the link: it consults
        func_ov102_02149078 (the refusal test, whose zero-argument ClosestPlayer
        read is already host copied in Actor_ClosestPlayer_OverlayReaders.cpp)

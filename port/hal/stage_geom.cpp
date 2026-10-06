@@ -24,7 +24,7 @@
    BOTH of the level's ground files reach that seam. Read off the matched TUs,
    not off a description of them:
 
-     src/_ZN5Stage18LoadClsnAndObjectsER11LVL_OverlayjR7dBgW_Kc.cpp
+     src/stage/LevelObjects.cpp
          if (ovl->kclFileId != 0) { f = LoadFile(ovl->kclFileId); ... }
          LoadFile is SharedFilePtr, so the KCL is filtered.
 

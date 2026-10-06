@@ -67,79 +67,13 @@
 # Animation::Advance, Memory::Deallocate and G0.
 #
 # ---- CHUCKYA (190): lifecycle, factory, helpers, twenty state bodies -------
-src/d_a_holhei.c
-src/_ZN7Chuckya13InitResourcesEv.cpp
-src/_ZN7Chuckya16CleanupResourcesEv.cpp
-src/_ZN7Chuckya6RenderEv.cpp
-src/_ZN7Chuckya16OnPendingDestroyEv.cpp
-src/_ZN7ChuckyaD1Ev.cpp
+src/game/actors/d_a_holhei.cpp
 # RETIRED at SLICE1: body now in src/_ZN7ChuckyaD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN7ChuckyaD0Ev.cpp
-src/_ZN7Chuckya16OnAimedAtWithEggEv.cpp
-src/func_ov062_02115f84.c
-src/func_ov062_02116010.c
-src/func_ov062_021161a8.c
-src/func_ov062_02116238.c
-src/func_ov062_02116274.c
-src/func_ov062_021162b8.cpp
-src/func_ov062_0211632c.cpp
-src/func_ov062_02116368.c
-src/func_ov062_021163b0.c
-src/func_ov062_02116498.c
-src/func_ov062_021164e8.cpp
-src/func_ov062_021165e0.c
-src/func_ov062_021165e8.c
-src/func_ov062_02116784.c
-src/func_ov062_021167c0.cpp
-src/func_ov062_02116850.c
-src/func_ov062_02116894.cpp
-src/func_ov062_02116980.c
-src/func_ov062_02116a08.c
-src/func_ov062_02116b80.cpp
-src/func_ov062_02116bf8.c
-src/func_ov062_02116c78.cpp
-src/func_ov062_02116d28.cpp
-src/func_ov062_02116dbc.cpp
-src/func_ov062_02116e80.c
-src/func_ov062_02116edc.cpp
 # ---- KOOPA (203): lifecycle, factory, overrides, behavior helpers ----------
-src/d_a_nknk_nokonoko.c
-src/_ZN5Koopa13InitResourcesEv.cpp
-src/_ZN5Koopa16CleanupResourcesEv.cpp
-src/_ZN5Koopa8BehaviorEv.cpp
-src/_ZN5Koopa16OnPendingDestroyEv.cpp
-src/_ZN5KoopaD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN5KoopaD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN5KoopaD0Ev.cpp
-src/_ZN5Koopa13OnYoshiTryEatEv.cpp
-src/_ZN5Koopa13OnTurnIntoEggER6Player.cpp
-src/_ZN5Koopa16OnAimedAtWithEggEv.cpp
-src/func_ov062_02117570.cpp
-src/func_ov062_021175c0.c
-src/func_ov062_02117994.c
-src/func_ov062_021179e4.cpp
-src/func_ov062_02117a3c.cpp
-src/func_ov062_02117acc.c
-src/func_ov062_02117b48.c
-src/func_ov062_02117b60.c
-src/func_ov062_02117b9c.c
-src/func_ov062_02117bf4.cpp
-src/func_ov062_02117c98.c
-src/func_ov062_02118004.cpp
-src/func_ov062_02118058.c
-src/func_ov062_021180d4.c
-src/func_ov062_0211811c.c
-src/func_ov062_021181a0.c
-src/func_ov062_02118258.c
-src/func_ov062_02118334.c
-src/func_ov062_021183e0.c
-src/func_ov062_02118588.c
-src/func_ov062_02118718.c
-src/func_ov062_02118a00.cpp
-src/func_ov062_02118a50.c
-src/func_ov062_02118b4c.c
-src/func_ov062_02118cdc.c
-src/func_ov062_02118de8.cpp
+src/game/actors/d_a_nknk.cpp
+# RETIRED at SLICE1: body now in src/game/actors/d_a_nknk.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/game/actors/d_a_nknk.cpp
 # ---- the one arm9 TU: Model::ShowMaterial ----------------------------------
 # Koopa_Render.cpp (the host copy) calls the qualified Model::ShowMaterial /
 # Model::HideMaterial; HideMaterial's TU is already sliced, ShowMaterial's was

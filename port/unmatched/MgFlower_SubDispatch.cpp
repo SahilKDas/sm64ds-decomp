@@ -20,7 +20,7 @@
  *
  * and it concludes "the fan-out sweeps for `::*` in its own slice before it
  * believes an LNK1120". THIS LANE DID THAT SWEEP, IT CAME BACK CLEAN, AND THE
- * WALL WAS STILL THERE. src/func_ov006_020c3d18.cpp contains no `::*`, no
+ * WALL WAS STILL THERE. src/actors/unit020bfec0.cpp contains no `::*`, no
  * member-pointer type and no PMF global; it OPEN-CODES the Itanium sequence in
  * plain ints:
  *
@@ -96,13 +96,13 @@
  * port_*_states_seat shape: write HOST addresses over the pairs before
  * anything copies them. IT WOULD BREAK A PREDICATE HERE, and that is worth
  * recording because the fan-out will meet the same choice.
- * src/func_ov006_020c3b80.c compares the object's live pair against
+ * src/actors/unit020bfec0.cpp compares the object's live pair against
  * data_ov006_0213aee0 WORD FOR WORD:
  *
  *     int *g = data_ov006_0213aee0;
  *     if (c[0] == g[0] && (c[1] == g[1] || c[0] == 0)) ...
  *
- * -- an "is this object in the idle state" test, and src/_ZN13dScMgFlower_c8BehaviorEv.cpp
+ * -- an "is this object in the idle state" test, and src/actors/dScMgFlower_c.cpp
  * (the class's Behavior) calls it twice. Rewriting the stored words would make
  * that comparison ask whether a host address equals a DS address, which is
  * false forever, and the minigame would silently never see its own idle state.
@@ -125,7 +125,7 @@
  * two other lanes' files, so this file carries its own switch AND its own
  * adjustment ruling, spelled identically, and reports its own counts.
  *
- * IT DEFINES func_ov006_020c3d18, so src/func_ov006_020c3d18.cpp is OUT of
+ * IT DEFINES func_ov006_020c3d18, so src/actors/unit020bfec0.cpp is OUT of
  * port/slice_flw.txt. That is the second linked function this seat trades for
  * a working dispatch, and it is the same trade MG2 made five times.
  */
@@ -196,7 +196,7 @@ static void sub_call(void *p, unsigned code, int adj)
     sub_unhandled("UNHANDLED", code, adj);
 }
 
-/* src/func_ov006_020c3d18.cpp, verbatim except that the indirect call through
+/* src/actors/unit020bfec0.cpp, verbatim except that the indirect call through
    the member pointer becomes sub_call. The pair read, the `v >> 1` this
    adjustment, the virtual-bit test, the Animation::Advance at +0xd68 and the
    0x16-iteration 0x98-stride sweep with its +0x48 guard are all src's. */

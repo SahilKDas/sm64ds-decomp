@@ -1,5 +1,5 @@
-/* HOST COPIES of src/func_ov002_020efa54.cpp (the state installer) and
- * src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp (the per-frame tick dispatcher) --
+/* HOST COPIES of src/actors/dPathLiftActor_c.cpp (the state installer) and
+ * src/actors/dPathLiftActor_c.cpp (the per-frame tick dispatcher) --
  * the PathLift base branch's own 3-state machine, shared by PATH_LIFT (31,
  * ov100) and, when its overlay mounts, FLYING_CARPET (130, ov036).
  * The PushBlock/Unagi/MrBlizzard/BabyPenguin/HootTheOwl shape: a REAL C++
@@ -69,7 +69,7 @@ void _ZN16dPathLiftActor_c12BaseBehaviorEv(void *c);
 }
 
 /* ---- THE THREE TICK FACES (run link100, lane PMFB2) ---------------------
-   src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp is a real pointer-to-member dispatch
+   src/actors/dPathLiftActor_c.cpp is a real pointer-to-member dispatch
    and MSVC emits it as
 
        mov ecx, _data_ov002_0210af2c[eax*4+12]     the adjust word
@@ -84,7 +84,7 @@ void _ZN16dPathLiftActor_c12BaseBehaviorEv(void *c);
    address into the tick code word.
 
    ONLY THE TICK HALVES. The ENTER halves at record+0 are dispatched by
-   src/func_ov002_020efa54.cpp, which lane PMFB1 seated as a FREE row because
+   src/actors/dPathLiftActor_c.cpp, which lane PMFB1 seated as a FREE row because
    MSVC compiles it as a TAIL JUMP: the callee inherits the forwarder's own
    cdecl frame, so a plain cdecl body is still correct there. Nothing about
    that row changes and this lane does not touch the three words it reads. */
@@ -133,14 +133,14 @@ void port_pathlift_states_seat(void)
    lane PMFB2). It open-coded the two-case mwcc decode -- delta>>1 adjusts
    `this`, delta&1 selects the virtual path, and in the virtual path word0 is a
    byte offset into the adjusted object's vtable -- for a host copy that no
-   longer exists. src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp does that decode itself,
+   longer exists. src/actors/dPathLiftActor_c.cpp does that decode itself,
    because /vmg /vmm (block R8) makes MSVC's pointer-to-member exactly the
    ROM's pair, and its unconditional call is the ROM's own unconditional blx.
    Lane PMFB1's closing note said this helper was still needed; that was true
    of the tree it left, and this is the change that makes it not. */
 
 /* func_ov002_020efa54 RETIRED (run link100, lane PMFB1).
-   src/func_ov002_020efa54.cpp carries it on port/slice_pmfc.txt. Both halves
+   src/actors/dPathLiftActor_c.cpp carries it on port/slice_pmfc.txt. Both halves
    of this file's original reading were half right: /vmg /vmm target-wide
    (block R8) already made the pointer-to-member the ROM's eight-byte
    {fn, delta} pair, so the "16-byte incomplete-class PMF" is dead -- but the
@@ -151,7 +151,7 @@ void port_pathlift_states_seat(void)
 
    _ZN16dPathLiftActor_c12BaseBehaviorEv RETIRED TOO (run link100, lane PMFB2). It is on
    port/slice_pmfb2.txt and compiles from
-   src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp, which defines the Itanium C name
+   src/actors/dPathLiftActor_c.cpp, which defines the Itanium C name
    itself -- so it needs no face for its own symbol, and the
    PathLift::BaseBehavior forwarder below is unchanged and is still the only
    bridge src/game/actors/daObjPathLift_c.cpp's mangle needs.

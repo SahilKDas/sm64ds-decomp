@@ -1,6 +1,6 @@
 /* THE KLEPTO SEAT'S PathPtr MEMBER-CALL CLOSURE (actor 239, ov062).
  *
- * src/func_ov062_0211c2f4.cpp is a MATCHED handler (Klepto's e15c carried tick)
+ * src/actors/daJango_c.cpp is a MATCHED handler (Klepto's e15c carried tick)
  * that declares its own local
  *
  *     struct PathPtr { int a; int b; PathPtr(); void FromID(u32 id);

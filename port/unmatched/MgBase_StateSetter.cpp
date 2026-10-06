@@ -1,5 +1,5 @@
 // PORT_HOST_ABI. The mwcc POINTER-TO-MEMBER WALL, the framework's STATE SETTER:
-// src/_ZN10dMgState_c8SetStateEi.cpp, host-copied against an address switch. Run mg5,
+// src/actors/dMgState_c.cpp, host-copied against an address switch. Run mg5,
 // lane BASESET.
 //
 // This is the TU port/mg_fanout_costs.txt section 4 calls "worth more than any
@@ -138,7 +138,7 @@
 // ---- 5. THE OBJECT, AND THE HALF OF THE SEAT THE COST FILE DOES NOT NAME ---
 //
 // The setter's `self` is the framework's MESSAGE object, at scene + 0xcc. Its
-// only caller is src/func_ov004_020b0a54.cpp:
+// only caller is src/minigames/d_s_mg_base.cpp:
 //
 //     _ZN10dMgState_c8SetStateEi((char *)data_ov004_020beb68 + 0xcc, c);
 //
@@ -216,7 +216,7 @@
 //
 // which preserves every register, so r0 arrives at 0x020b743c untouched. Its
 // target writes through that pointer on its first instruction pair
-// (`mov r2,#0xa; str r2,[r0,#0x1c]`). src/func_ov004_020b7460.c spells the
+// (`mov r2,#0xa; str r2,[r0,#0x1c]`). src/actors/dMgState_c.cpp spells the
 // veneer as
 //
 //     extern void func_ov004_020b743c(void);
@@ -228,14 +228,14 @@
 // not a wrong value.
 //
 // IT IS REACHED THREE WAYS AND ALL THREE ARE OPENED BY THIS SEAT. Slot 12 of the
-// table above is one. The other two are src/func_ov004_020b6ddc.c:39 and
-// src/func_ov004_020b6f88.c:24, which are tick bodies of states 17 and 16, so
+// table above is one. The other two are src/actors/dMgState_c.cpp:39 and
+// src/actors/dMgState_c.cpp:24, which are tick bodies of states 17 and 16, so
 // they only ever run once +0x18 is written. BOTH CALLERS ALREADY PASS THE
 // POINTER: each declares `extern void func_ov004_020b7460(void *c);` locally.
 // Only the definition drops it, which is why nothing in the tree diagnoses it
 // and why the byte gate is right to be silent (the ROM bytes and the src agree).
 //
-// So src/func_ov004_020b7460.c is EXCLUDED from port/slice_mg1.txt and the
+// So src/actors/dMgState_c.cpp is EXCLUDED from port/slice_mg1.txt and the
 // veneer is defined here instead, with the parameter its two callers already
 // pass. That is the whole change: one parameter added, forwarded to the address
 // the ROM's own literal names. Nothing else about the body differs, because
@@ -290,7 +290,7 @@
 // address that MOVED WITH THE BUILD. It is a stack imbalance in the port's own
 // vtable thunks and nothing to do with the sixteen bodies:
 //
-//   src/func_ov004_020b29a0.cpp is `void func_ov004_020b29a0(Base *c, void *arg)
+//   src/minigames/d_s_mg_base.cpp is `void func_ov004_020b29a0(Base *c, void *arg)
 //   { c->v18(arg); }` and the ROM agrees word for word at 0x020b29a0
 //   (`ldr r2,[r0]; ldr r2,[r2,#0x48]; blx r2`). MSVC compiles that as a
 //   __thiscall call WITH ONE PUSHED ARGUMENT, so the CALLEE owes four bytes:
@@ -505,7 +505,7 @@ void port_mg_framework_tables_seat(void);
 
 // ---- section 6's veneer, with the pointer its callers already pass ---------
 
-/* HOST COPY of src/func_ov004_020b7460.c, which is off port/slice_mg1.txt for
+/* HOST COPY of src/actors/dMgState_c.cpp, which is off port/slice_mg1.txt for
    this file. The ROM is `ldr ip,[pc]; bx ip; .word 0x020b743c`, a tail jump that
    preserves r0. One parameter added, forwarded. */
 /* PORT_HOST_ABI: ARM r0 ride-through; src spells the tail-jump veneer (void) and drops the object pointer its callers pass in r0 */
@@ -581,7 +581,7 @@ static void setter_bad_index(int idx)
 
 // ---- the host copy ---------------------------------------------------------
 //
-// src/_ZN10dMgState_c8SetStateEi.cpp, statement for statement, with the twenty-entry
+// src/actors/dMgState_c.cpp, statement for statement, with the twenty-entry
 // PMF table re-typed and the one dispatch replaced. Everything else, including
 // the read-back of self->index and the null-CODE guard, is the src's and the
 // ROM's.
@@ -811,7 +811,7 @@ typedef void (*SeatFn)(void *);
 
    ONE OF THE FIFTY-SIX IS NOT AN INSTALL, and it is the one that would have
    broken quietly. data_ov004_020bc254 is never copied into an object at all:
-   src/func_ov004_020b40c0.c COMPARES the object's own pair against it
+   src/actors/unit020b2c84.cpp COMPARES the object's own pair against it
    (`o[0] == d[0] && (o[1] == d[1] || o[0] == 0)`), which is an identity test on
    the code word. Seating the field without seating the sentinel would make that
    test answer false forever, silently, with no crash and no report. It holds

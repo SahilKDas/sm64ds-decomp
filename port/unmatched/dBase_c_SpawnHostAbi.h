@@ -29,7 +29,7 @@
  * pointer where an animation id belongs.
  *
  * WHY IT CAME BACK. port/CMakeLists.txt's gate-14 filter excludes
- * src/_ZN7dBase_c5SpawnEjP7fBase_cii.cpp so the four-argument host copy owns
+ * src/actors/ActorDerived.cpp so the four-argument host copy owns
  * the symbol. Commit 5116945a1, "Promote ActorDerived as one genuine C++ TU",
  * DELETED that one-function file and folded the function into
  * src/actors/ActorDerived.cpp. The filter now matches nothing, and because

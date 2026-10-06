@@ -3,7 +3,7 @@ calling convention.
 
 WHY THIS EXISTS. Slot 16 is the one actor vtable slot MSVC dispatches itself,
 and its contract is not the vtable law's. The only dispatcher in the image is
-matched source -- src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp spells
+matched source -- src/actors/ActorBase.cpp spells
 this->~fBase_c() -- and MSVC compiles a virtual destructor call through its
 single destructor slot as __thiscall with ONE CALLEE-POPPED stack argument, the
 delete flag. A plain two-argument __fastcall face ends in a bare `ret`, pops

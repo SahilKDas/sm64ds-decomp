@@ -52,7 +52,7 @@
  *
  * (3) ONE BODY PROPAGATED FROM origin/main BY ADDRESS, and this is the item
  *     the banked recon, this lane and the coordinator's first two rulings all
- *     got wrong in the same direction. src/func_ov091_021339fc.c IN THIS TREE
+ *     got wrong in the same direction. src/game/actors/d_a_hyuhyu.cpp IN THIS TREE
  *     is NONMATCHING-bannered with an ARM asm hatch MSVC cannot parse, so it
  *     cannot ride from src/. The first instinct was to transcribe the draft;
  *     the correct move was to check the address against main, where the body
@@ -173,7 +173,7 @@ extern unsigned int data_ov091_021354e0[];   /* three records, 157/144 */
 /* ==========================================================================
  * (1b) func_ov091_02134044 -- FWOOSH's state ENTER setter.
  *
- * src/func_ov091_02134044.cpp is four lines:
+ * src/game/actors/d_a_hyuhyu.cpp is four lines:
  *   struct C; typedef int (C::*PMF)();
  *   struct C { char pad[0x364]; PMF *pp; };
  *   func_ov091_02134044(C *c, PMF *p) { c->pp = p; PMF *q = c->pp;
@@ -185,7 +185,7 @@ extern unsigned int data_ov091_021354e0[];   /* three records, 157/144 */
  * ========================================================================== */
 
 /* func_ov091_02134044 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov091_02134044.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/game/actors/d_a_hyuhyu.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.
@@ -224,14 +224,14 @@ extern unsigned int data_ov091_021354e0[];   /* three records, 157/144 */
  * THIS BODY IS PROPAGATED FROM origin/main BY ADDRESS. It is not a
  * transcription and not this tree's draft.
  *
- * WHAT THIS TREE HAS AT 0x021339fc IS STALE. src/func_ov091_021339fc.c here is
+ * WHAT THIS TREE HAS AT 0x021339fc IS STALE. src/game/actors/d_a_hyuhyu.cpp here is
  * NONMATCHING-bannered ("hand-written asm, not a C decompilation ... Reverts to
  * a draft until someone reproduces the bytes from real C") and carries an ARM
  * `asm { ldr curHat0,[a,#8]; mov newHat,#1 }` hatch that MSVC's x86 inline
  * assembler will not parse -- eight errors, C2065 through C2181 -- so it cannot
  * ride from src/ at all. THE BANNER IS STALE AGAINST MAIN: checked by address,
  * origin/main's delinks.txt carries `.text start:0x021339fc end:0x02133c6c` for
- * src/func_ov091_021339fc.c and its blob (31897fa47d0d96862ba8ea690ed7060a3b80c507,
+ * src/game/actors/d_a_hyuhyu.cpp and its blob (31897fa47d0d96862ba8ea690ed7060a3b80c507,
  * against this tree's bf322550ca9c83bfcd394344c3ce31e6a784cc77) has NO banner and
  * NO hatch. Someone cracked the wall by restructuring: main hoists
  *     u8 capFlag = *(u8 *)(a + 0x6ff);
@@ -283,7 +283,7 @@ extern unsigned int data_ov091_021354e0[];   /* three records, 157/144 */
  * function of a different size.
  * ==========================================================================*/
 /* RETIRED (run link100 wave 14, lane SHADOWS3). The body that stood here is
- * gone and src/func_ov091_021339fc.c is on port/slice_shadows3.txt in its
+ * gone and src/game/actors/d_a_hyuhyu.cpp is on port/slice_shadows3.txt in its
  * place. The whole refusal above was one measurement -- "WHAT THIS TREE HAS AT
  * 0x021339fc IS STALE", a NONMATCHING banner and an ARM asm hatch MSVC cannot
  * parse -- and that measurement no longer holds: the src blob on this tree is

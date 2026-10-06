@@ -26,4 +26,4 @@
 # array names onto the mount's plain C ones, and the host thunk lp_clean
 # retires. Release order model-then-collision matches the ROM body and
 # __sinit_ov022_02112f78's construction order.
-src/_ZN9LavaPlank16CleanupResourcesEv.cpp
+src/actors/daObjFl_UkiKi_c.cpp

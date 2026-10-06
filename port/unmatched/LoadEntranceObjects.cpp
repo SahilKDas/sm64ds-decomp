@@ -1,4 +1,4 @@
-/* HOST COPY of src/_Z19LoadEntranceObjectsRN11LVL_Overlay11ObjSubTableEij.cpp
+/* HOST COPY of src/stage/LevelObjects.cpp
  * -- one more ARM argument ride-through. DORMANT on every level the port
  * mounts today; it is here so it stays that way.
  *
@@ -96,7 +96,7 @@ void StartEntranceFaderWipe(int index);
  * BATCH 4 as tract A with the T4 note "RIDE-THROUGH CLAIM STALE: every callee
  * the src declares now takes a parameter". THAT IS WRONG FOR THIS ROW, and it
  * is wrong on the one callee the banner is about. Read today, the matched TU
- * src/_Z19LoadEntranceObjectsRN11LVL_Overlay11ObjSubTableEij.cpp still says
+ * src/stage/LevelObjects.cpp still says
  *
  *     :34    void StartEntranceFaderWipe(void);
  *     :100   StartEntranceFaderWipe();

@@ -101,12 +101,12 @@
  * main at 7b2f913fe (2026-08-04) and each TU landed after the check that said
  * it did not exist.
  *
- *   func_ov060_021140c0 (BOWSER state 9)        src/func_ov060_021140c0.c.
+ *   func_ov060_021140c0 (BOWSER state 9)        src/actors/daKpa_c.cpp.
  *     Matched in 83691debd (2026-09-13), which is AFTER the "main has no TU of
  *     this name either (checked against origin/main at bc93fa767)" line this
  *     header used to carry.  Carried by port/slice_l15stale.txt (run link100
  *     wave 15, lane SEAT15A).  HOST COPY 7 is retired below.
- *   func_ov060_02116d78 (BOWSER FIRE state 5)   src/func_ov060_02116d78.c.
+ *   func_ov060_02116d78 (BOWSER FIRE state 5)   src/actors/daKpaFire_c.cpp.
  *     Byte-matched decomp, carried by port/slice_w9harvest.txt.  The host
  *     copy that used to sit below HOST COPY 7 is gone.
  *
@@ -195,7 +195,7 @@ void func_ov060_021167c8(char *c);
 void func_ov060_02116b18(char *c);
 void func_ov060_02116c68(char *c);
 /* run linkw wave 9, lane w9-harvest: 0x02116d78 joined this list. It used to
-   be HOST COPY 8 in this same file; src/func_ov060_02116d78.c has been a
+   be HOST COPY 8 in this same file; src/actors/daKpaFire_c.cpp has been a
    byte-match on main since PR #1150 (817be2263, 2026-08-07) and the host copy
    outlived it only because this branch cannot see main's src/. */
 void func_ov060_02116d78(char *c);
@@ -270,7 +270,7 @@ void func_ov060_02117624(char *c);
  * machine: tools/mwccarm/2004/b56/mwccarm.exe does not exist in either the
  * repo or the worktree (tools/permuter/mwccarm_compile.sh names that path),
  * and tangos match reports "no compiler at 2004/b56" on a KNOWN-matched
- * control (src/func_ov060_02113fcc.c).  So neither body claims a compiler
+ * control (src/actors/daKpa_c.cpp).  So neither body claims a compiler
  * diff.  What each body DOES claim, and what the reviewer can re-run:
  *
  *   1. TOTAL ACCOUNTING.  Every one of the 125 + 127 words is classified as
@@ -299,13 +299,13 @@ void func_ov060_02117624(char *c);
  *   4. THE TRANSCRIPTION IDIOMS are the ones the MATCHED siblings in this
  *      same pack already use, so the shapes are not invented here:
  *        ((u32)RandomIntInternal(&data_0209e650) >> 0x10) % 10
- *            -- src/func_ov060_021150d0.cpp, src/func_ov060_021151d4.c
+ *            -- src/actors/daKpa_c.cpp, src/actors/daKpa_c.cpp
  *        data_02082214[(*(u16 *)p >> 4) * 2] / [... * 2 + 1]
- *            -- src/func_ov060_021128c0.cpp, src/func_0203cc28.c
+ *            -- src/actors/daKpa_c.cpp, src/func_0203cc28.c
  *            (table re-read from arm9_dec.bin: entry[2i]=sin, [2i+1]=cos,
  *             scale 0x1000, 4096 entries -- checked at i=0/512/1024)
  *        *(u16 *)((c + 0x300) + 0xfc)  for the +0x3fc / +0x374 counters
- *            -- src/func_ov060_02113d8c.cpp, src/func_ov060_021128c0.cpp
+ *            -- src/actors/daKpa_c.cpp, src/actors/daKpa_c.cpp
  *
  * What this standard does NOT establish is that mwccarm would emit these
  * exact 116 / 121 instructions from this exact C.  It establishes that the
@@ -317,7 +317,7 @@ void func_ov060_02117624(char *c);
 extern "C" {
 /* what HOST COPY 7 below calls, beyond the block above. Several of these were
    HOST COPY 8's callees too and are now referenced only by
-   src/func_ov060_02116d78.c, which declares them for itself -- the
+   src/actors/daKpaFire_c.cpp, which declares them for itself -- the
    declarations stay because they document the ov060/arm9 call surface this
    file's seat depends on. */
 int _ZN6Player9GetHealthEv(void *self);        /* ov002 0x020bf548, thiscall
@@ -422,7 +422,7 @@ void ov60_ran(const char *what, const void *who)
  * because no matched TU of this name exists", and this file's header said the
  * hole was "Still genuinely unmatched: main has no TU of this name either
  * (checked against origin/main at bc93fa767)".  Both were true when written.
- * src/func_ov060_021140c0.c landed later, in 83691debd ("Match
+ * src/actors/daKpa_c.cpp landed later, in 83691debd ("Match
  * func_ov060_021140c0 (ov060, 0x021140c0, 500 bytes)", 2026-09-13): plain
  * matched C, ten externs, no NONMATCHING banner, no asm hatch, no
  * ROM-address literal.  It is on port/slice_l15stale.txt now, which carries
@@ -439,7 +439,7 @@ extern "C" void func_ov060_021140c0(char *c);
 
 /* ============ HOST COPY 1: func_ov060_02112434 ============================
  * BOWSER's per-frame target/flag pass, called from Bowser::Behavior.  Line for
- * line with src/func_ov060_02112434.cpp; only the dispatch is respelled.
+ * line with src/actors/daKpa_c.cpp; only the dispatch is respelled.
  * PORT_HOST_ABI: mwcc pointer-to-member stride/receiver, the Crate case. */
 extern "C" void func_ov060_02112434(unsigned char *thiz)
 {
@@ -743,7 +743,7 @@ const Seat g_ov060_states[] = {
     {data_ov060_0211a77c, 0x021167ec, (void *)ov60_afb4_s3, "afb4[3]"},
     {data_ov060_0211a764, 0x021168c4, (void *)ov60_afb4_s4, "afb4[4]"},
     /* not a HOLE any more -- w9-harvest seated main's byte-matched
-       src/func_ov060_02116d78.c here in place of w7a's host copy. */
+       src/actors/daKpaFire_c.cpp here in place of w7a's host copy. */
     {data_ov060_0211a774, 0x02116d78, (void *)ov60_afb4_s5, "afb4[5]"},
     {data_ov060_0211a744, 0x02116f90, (void *)ov60_afb4_s6, "afb4[6]"},
     {data_ov060_0211a784, 0x02116f90, (void *)ov60_afb4_s7, "afb4[7]"},

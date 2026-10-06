@@ -233,7 +233,7 @@
 #     src/_ZN12MetalNetLift8BehaviorEv.cpp is a .c FILE CONTAINING C++ member-pointer
 #     syntax: `typedef void (C::*PMF)();` is not C and cl will not read it as C
 #     at all. LANGUAGE CXX beside the gate row is the tree's standing treatment
-#     (lane PMFB2, src/func_ov002_020aea30.cpp). Its table comes in decorated,
+#     (lane PMFB2, src/actors/dEnemyBase_c.cpp). Its table comes in decorated,
 #     ?data_ov064_0211c750@@3PAUEntry@@A, read off the object with dumpbin.
 #
 #   _ZN11daTrsTrap_c8BehaviorEv  ov063 0211ce74  data_ov063_0211ef38  4 cells
@@ -284,8 +284,8 @@
 #     THE UNIVERSE IS BOUNDED NOW, with MGWRITER's own gate-2 method. The
 #     class's own code block is 020cd744..020d1008: it contains all fourteen
 #     code words the seventeen pairs hold, both dispatch sites, and both record
-#     walkers (src/func_ov006_020cedf0.c over data_ov006_0214082c at stride
-#     0x1d0, src/func_ov006_020d0ac0.c over data_ov006_02140990 at stride
+#     walkers (src/actors/unit020cd744.cpp over data_ov006_0214082c at stride
+#     0x1d0, src/actors/unit020cd744.cpp over data_ov006_02140990 at stride
 #     0x32c). Every `load` relocation in ov006 whose destination lands in that
 #     block, kept when the word reads the target and the FOLLOWING word is
 #     zero, gives exactly SEVENTEEN pairs -- and all seventeen are the known run
@@ -307,9 +307,9 @@
 #     ONE FACE PER CODE WORD, NOT PER PAIR -- the reverse of the rule lane
 #     PMFB5 wrote for tables, and the reason is measured. THREE of the
 #     seventeen are BY-VALUE COMPARISON SENTINELS:
-#       src/func_ov006_020ce674.c compares the object's stored pair against
+#       src/actors/unit020cd744.cpp compares the object's stored pair against
 #         data_ov006_0213b324 and data_ov006_0213b334, word 0 and word 1;
-#       src/func_ov006_020ce108.cpp compares it against data_ov006_0213b33c.
+#       src/actors/unit020cd744.cpp compares it against data_ov006_0213b33c.
 #     Each sentinel holds the SAME code word as a written pair -- b324 and b344
 #     both hold 020cdf3c, and b334, b33c and b32c all hold 020cd744 -- so a face
 #     per pair would make those comparisons permanently false while the dispatch
@@ -332,18 +332,17 @@
 # ===========================================================================
 port/hal/fwd_forwarders.cpp
 src/game/actors/d_a_obj_bk_dossunbar.cpp
-src/_ZN10BowserFire8BehaviorEv.cpp
-src/_ZN9JetStream8BehaviorEv.cpp
-src/_ZN6Dorrie8BehaviorEv.cpp
-src/_ZN5Whomp8BehaviorEv.cpp
-src/_ZN9MontyMole8BehaviorEv.cpp
-src/_ZN22RotatingUpDownPlatform8BehaviorEv.cpp
-src/_ZN6Cannon8BehaviorEv.cpp
-src/_ZN4Fish8BehaviorEv.cpp
+src/actors/daKpaFire_c.cpp
+src/actors/daWater_Hakidasi_c.cpp
+src/actors/daDossy_c.cpp
+src/game/actors/d_a_btn.cpp
+src/actors/daChoropu_c.cpp
+src/game/actors/d_a_linelift2.cpp
+src/game/actors/d_a_cnn.cpp
+src/game/actors/d_a_fish.cpp
 # ---- gate 2 ----
-src/_ZN12MetalNetLift8BehaviorEv.cpp
-src/game/actors/daTrsTrap_c/_ZN11daTrsTrap_c8BehaviorEv.cpp
-src/func_ov006_0212a2e0.cpp
+src/actors/daObjFl_Amilift_c.cpp
+src/game/actors/daTrsTrap_c/d_a_trs_trap.cpp
+src/actors/dScMgSnowball_c.cpp
 # ---- gate 3: the trampoline pair ----
-src/func_ov006_020cf758.cpp
-src/func_ov006_020cea2c.cpp
+src/actors/unit020cd744.cpp

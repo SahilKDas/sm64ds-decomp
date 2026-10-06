@@ -30,12 +30,9 @@
 # BowserTail would also hand its init a null child spawn -- the ov091 rule.
 
 # ---- the arena class (166), five linkable bodies + Spawn -------------------
-src/_ZN10daKpa2Bg_c13InitResourcesEv.cpp
-src/_ZN10daKpa2Bg_c8BehaviorEv.cpp
-src/_ZN10daKpa2Bg_c6RenderEv.cpp
-src/_ZN10daKpa2Bg_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN10daKpa2Bg_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN10daKpa2Bg_cD0Ev.cpp
+src/actors/daKpa2Bg_c.cpp
+# RETIRED at SLICE1: body now in src/actors/daKpa2Bg_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/daKpa2Bg_c.cpp
 src/d_a_kpa2_bg.c
 
 # ---- ov060's six static initialisers ---------------------------------------
@@ -48,7 +45,7 @@ src/__sinit_ov060_0211a428.c
 
 # ---- the probe's five class-b TUs ------------------------------------------
 src/AddSpikeBomb.c
-src/Bowser_IsAnimAtLastFrame.cpp
+src/actors/daKpa_c.cpp
 src/ClearSpikeBomb.c
 src/CopyTexPalFromLevelModel.c
 src/func_02038408.c
@@ -65,125 +62,29 @@ src/func_02038824.cpp
 port/hal/actor_classes_ov060.cpp
 
 # ---- the 106 func_ov060_* TUs (probe p9) -----------------------------------
-src/func_ov060_02111a28.cpp
-src/func_ov060_02111c68.c
-src/func_ov060_02111cc0.cpp
 # func_ov060_02111f08 (the boss-camera state machine) is a zero-argument
 # Actor::ClosestPlayer reader (the receiver-dropping r0 seam); hosted as a
 # receiver-passing copy in port/unmatched/Actor_ClosestPlayer_OverlayReaders
 # .cpp per the closestplayer guard's remedy; the byte-locked src stays out.
-src/func_ov060_02112350.c
-src/func_ov060_021123a0.c
-src/func_ov060_021123c8.c
-src/func_ov060_021123dc.c
-# src/func_ov060_02112434.cpp -- HELD OUT by lane w6-A: BOWSER's flag pass dispatches its state
+# src/actors/daKpa_c.cpp -- HELD OUT by lane w6-A: BOWSER's flag pass dispatches its state
 #   table through an MSVC pointer-to-member whose stride is not the ROM's 8
 #   (measured 16 -- re-measured at the wave-6 close; the lane banked 4).
 #   Host copy in port/unmatched/Ov060_StateDispatch.cpp.
-# src/func_ov060_02112434.cpp
-src/func_ov060_021125f0.c
-src/func_ov060_02112724.c
-src/func_ov060_021128c0.cpp
-src/func_ov060_02112ba8.cpp
-src/func_ov060_02112bfc.c
-src/func_ov060_02112d48.c
-src/func_ov060_02112ddc.cpp
-src/func_ov060_02112ee0.cpp
-src/func_ov060_021130c0.c
-src/func_ov060_02113260.c
-src/func_ov060_021132a4.c
-src/func_ov060_02113404.c
-src/func_ov060_021134ac.c
-src/func_ov060_02113564.c
-src/func_ov060_021135fc.c
-src/func_ov060_02113710.c
-src/func_ov060_02113740.c
-src/func_ov060_02113a94.c
-src/func_ov060_02113b5c.cpp
-src/func_ov060_02113d20.cpp
-src/func_ov060_02113d8c.cpp
-src/func_ov060_02113fcc.c
-src/func_ov060_02113ff4.c
-src/func_ov060_021142b4.c
-src/func_ov060_02114300.c
-src/func_ov060_021143b8.c
-src/func_ov060_021145a8.c
-src/func_ov060_021145d4.c
-src/func_ov060_0211469c.cpp
-src/func_ov060_021146d0.c
-src/func_ov060_02114858.c
-src/func_ov060_02114b60.c
-src/func_ov060_02114d08.c
-src/func_ov060_02114e9c.cpp
-src/func_ov060_02114f88.c
-src/func_ov060_02114ff8.c
-src/func_ov060_02115018.c
-src/func_ov060_02115060.c
-src/func_ov060_021150c4.c
-src/func_ov060_021150d0.cpp
-src/func_ov060_021151d4.c
-src/func_ov060_02115314.c
-src/func_ov060_021153f8.c
-src/func_ov060_021154e8.c
-src/func_ov060_02115518.c
-src/func_ov060_021156ec.c
-src/func_ov060_02115718.c
-src/func_ov060_02115744.c
-src/func_ov060_0211577c.c
-src/func_ov060_02115a84.cpp
-src/func_ov060_02115b0c.c
-# src/func_ov060_02115b84.cpp -- HELD OUT by lane w6-A: BOWSER TAIL's frame pass dispatches its state
+# src/actors/daKpa_c.cpp
+# src/actors/daKpa_c.cpp -- HELD OUT by lane w6-A: BOWSER TAIL's frame pass dispatches its state
 #   table through an MSVC pointer-to-member whose stride is not the ROM's 8
 #   (measured 16 -- re-measured at the wave-6 close; the lane banked 4).
 #   Host copy in port/unmatched/Ov060_StateDispatch.cpp.
-# src/func_ov060_02115b84.cpp
-src/func_ov060_02115c1c.c
-src/func_ov060_02115d50.c
-src/func_ov060_02115d68.cpp
-src/func_ov060_02116518.c
-src/func_ov060_02116740.cpp
-src/func_ov060_021167c8.c
-src/func_ov060_021167ec.c
-src/func_ov060_021168c4.cpp
-src/func_ov060_021169b0.c
-src/func_ov060_021169f8.c
-src/func_ov060_02116b18.c
-src/func_ov060_02116b68.c
-src/func_ov060_02116c68.c
-src/func_ov060_02116f74.c
-src/func_ov060_02116f90.c
-src/func_ov060_0211712c.c
-src/func_ov060_021171e8.c
-src/func_ov060_0211722c.c
-src/func_ov060_021172c8.c
-src/func_ov060_021172e0.cpp
-src/func_ov060_0211747c.c
-src/func_ov060_02117624.cpp
-src/func_ov060_02117a3c.c
-src/func_ov060_02117a64.c
-src/func_ov060_02117ae0.c
-src/_ZN9SpikeBombD1Ev.cpp
+# src/actors/daKpa_c.cpp
+src/actors/daKpaFire_c.cpp
+src/actors/daKirai_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN9SpikeBombD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9SpikeBombD0Ev.cpp
-src/func_ov060_02117db8.c
-src/func_ov060_021180e0.cpp
-src/func_ov060_021181b4.c
-src/_ZN9SpikeBomb16CleanupResourcesEv.cpp
-src/_ZN9SpikeBomb6RenderEv.cpp
+src/actors/daKpa3Bg_c.cpp
 # src/_ZN9SpikeBomb8BehaviorEv.cpp -- HELD OUT by lane w6-A: SKY PLATFORM's Behavior dispatches its state
 #   table through an MSVC pointer-to-member whose stride is not the ROM's 8
 #   (measured 16 -- re-measured at the wave-6 close; the lane banked 4).
 #   Host copy in port/unmatched/Ov060_StateDispatch.cpp.
 # src/_ZN9SpikeBomb8BehaviorEv.cpp
-src/_ZN9SpikeBomb13InitResourcesEv.cpp
 src/func_ov060_021183cc.c
 src/func_ov060_021183f4.c
-src/func_ov060_021184bc.c
-src/func_ov060_02118544.c
-src/func_ov060_021185c4.c
-src/func_ov060_02118690.c
-src/func_ov060_021186d8.c
-src/func_ov060_02118728.c
-src/func_ov060_02118834.c
-src/func_ov060_021188e8.c
-src/func_ov060_02118970.c

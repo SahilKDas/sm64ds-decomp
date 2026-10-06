@@ -45,7 +45,7 @@
 #   This is the case that started the lane. port/unmatched/Ov060_StateDispatch
 #   .cpp shipped it as "VERIFIED HOST COPY 8" with a banner that read, in the
 #   body's own words, "host copy only because no matched TU of this name
-#   exists". src/func_ov060_02116d78.c has been a verified byte-match on main
+#   exists". src/actors/daKpaFire_c.cpp has been a verified byte-match on main
 #   since PR #1150 (817be2263, 2026-08-07) -- FOUR DAYS before the host copy
 #   landed in PR #1505. The banner was not careless; it was true of every tree
 #   its author could see. That is the whole lane in one row.
@@ -82,7 +82,7 @@
 # ${SLICE_W5E_SOURCES}/${SLICE_W6A_SOURCES} in all three targets that carry
 # the ov060 pack, so the compile and link surface is the same as the in-place
 # edit would have produced.
-src/func_ov060_02116d78.c
+src/actors/daKpaFire_c.cpp
 #
 # func_ov062_02117724 -- KOOPA state-3 shell-dust Particle helper, ov062
 # 0x02117724, 0x270 bytes.
@@ -91,17 +91,17 @@ src/func_ov060_02116d78.c
 #   reading "It is UNMATCHED -- no C in src/", and a second banner calling the
 #   byte-match "a TRUE FLOOR at 5 divergences" citing nearmiss/db.jsonl
 #   (fanout-glm-5.2) and 5800 permuter iterations. Neither reading survives:
-#   src/func_ov062_02117724.c landed on main in PR #1474 (8ec808874,
+#   src/game/actors/d_a_nknk.cpp landed on main in PR #1474 (8ec808874,
 #   2026-08-13) as a verified byte-match. The floor was cracked; this branch
 #   just could not see it.
 #
 #   REACH. Three matched src callers already in port/slice_gate182.txt bl into
-#   it: src/func_ov062_02118718.c, src/func_ov062_02118b4c.c,
-#   src/func_ov062_02118cdc.c. Not an /OPT:REF orphan.
+#   it: src/game/actors/d_a_nknk.cpp, src/game/actors/d_a_nknk.cpp,
+#   src/game/actors/d_a_nknk.cpp. Not an /OPT:REF orphan.
 #   EXTERNS. func_0201267c, Particle::System::New, Particle::SetSelfDestructFlag,
 #   Particle::System::FromUniqueID, data_02082214 -- every one already resolved
 #   in this build, because the host copy called the same five.
-src/func_ov062_02117724.c
+src/game/actors/d_a_nknk.cpp
 #
 # func_ov071_02120d30 -- MR. I state 2 MAIN (the defeat sequence), ov071
 # 0x02120d30, 0x3dc bytes.
@@ -112,7 +112,7 @@ src/func_ov062_02117724.c
 #   is exactly {func_ov071_02120d30, func_ov071_021211e0} -- two names, no
 #   others." The measurement was right and the tree was stale: re-run against
 #   origin/main the difference is {func_ov071_021211e0}, one name.
-#   src/func_ov071_02120d30.c landed on main in PR #1474 (8ec808874,
+#   src/actors/daEykn_c.cpp landed on main in PR #1474 (8ec808874,
 #   2026-08-13). func_ov071_021211e0 stays hosted -- main has no TU for it
 #   either.
 #
@@ -135,4 +135,4 @@ src/func_ov062_02117724.c
 #   CURRENT spellings for everything it calls. The link catches it every time
 #   -- this one cost one failed build and one alias -- but a harvest lane
 #   should expect it, not be surprised by it.
-src/func_ov071_02120d30.c
+src/actors/daEykn_c.cpp

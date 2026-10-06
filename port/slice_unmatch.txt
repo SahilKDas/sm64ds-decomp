@@ -50,7 +50,7 @@ src/game/actors/d_a_obj_c0_switch.cpp
 #    thunk calling the C symbol directly -- no face needed. ROM:
 #    from:0x0211bc8c (_ZTV12MetalNetLift + 4*9) -> 0x02117cfc,
 #    kind:function(arm,size=0x28).
-src/_ZN12MetalNetLift6RenderEv.cpp
+src/actors/daObjFl_Amilift_c.cpp
 
 # 4. src/game/actors/d_a_star_gate.cpp  (daDoor_c::CleanupResources)
 #    RETIRES port/unmatched/Door_CleanupResources.cpp (whole file).
@@ -83,7 +83,7 @@ src/game/actors/d_a_star_gate.cpp
 #       TextureSequence::Prepare register ride-through (the SHORT-1 argsweep
 #       row): the matched source calls a three-register method with two declared
 #       arguments and relies on r0-r2 riding through, which cdecl cannot do.
-#   _ZN14ArrowSignRight11OnAttacked1ER8dActor_c  unmatched/ArrowSign_OnAttacked1.cpp -- REAL. The
+#   _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c  unmatched/ArrowSign_OnAttacked1.cpp -- REAL. The
 #       matched source's inner slot-31 dispatch leaves the VTABLE in ecx and
 #       pushes `this`, while the seated slot-31 veneer as_kill is __fastcall and
 #       reads `this` from ecx. Wrong receiver, listings quoted in the file.

@@ -129,12 +129,12 @@ DSSTATE_END
    The BabyPenguin/IceSheet/OneUpLogo/HootTheOwl/ShipWater recipe.
    InitResources needs NO face -- src/_ZN6ToxBox13InitResourcesEv.cpp is a .c
    file and already defines the flat name. */
-#include "ToxBox.h"
+#include "daOnms_c.h"
 extern "C" {
 int _ZN6ToxBox16CleanupResourcesEv(void *self)
-{ return ((ToxBox *)self)->ToxBox::CleanupResources(); }
+{ return ((daOnms_c *)self)->daOnms_c::CleanupResources(); }
 int _ZN6ToxBox6RenderEv(void *self)
-{ return ((ToxBox *)self)->ToxBox::Render(); }
+{ return ((daOnms_c *)self)->daOnms_c::Render(); }
 }
 
 // ============================================================================
@@ -147,15 +147,15 @@ extern "C" {
    typed void-returning to match it and the one int-returning body is reached
    through it on plain cdecl, where an ignored eax is the same discard. See
    port/unmatched/ToxBox_HostSites.cpp for the full note. */
-void func_ov092_02130fcc(char *);
-int func_ov092_02131010(unsigned char *);
-void func_ov092_021311b0(void *);
+void _ZN8daOnms_c9StateSinkEv(char *);
+int _ZN8daOnms_c11StateBounceEv(unsigned char *);
+void _ZN8daOnms_c12StateKnockedEv(void *);
 void func_ov092_02131578(char *);
-void func_ov092_021315ac(char *);
-void func_ov092_02131620(void *);
-void func_ov092_02131650(void *);
-void func_ov092_02131680(void *);
-void func_ov092_021316b0(void *);
+void _ZN8daOnms_c9StateLandEv(char *);
+void _ZN8daOnms_c13StateRollPosXEv(void *);
+void _ZN8daOnms_c13StateRollNegXEv(void *);
+void _ZN8daOnms_c13StateRollNegZEv(void *);
+void _ZN8daOnms_c13StateRollPosZEv(void *);
 
 /* the runtime table itself (bss, filled by the sinit); the mount is the whole
    88-byte span to the end of ov092's .bss, so cells 9 and 10 are real storage
@@ -228,15 +228,15 @@ static void ov092_unhosted_cell(unsigned idx)
 
 /* the STATE index each face serves, which is the sinit's permutation and not
    the source records' address order */
-OV092_FACEC(0, func_ov092_021315ac)
+OV092_FACEC(0, _ZN8daOnms_c9StateLandEv)
 OV092_FACEC(1, func_ov092_02131578)
-OV092_FACE (2, func_ov092_021316b0)
-OV092_FACE (3, func_ov092_02131680)
-OV092_FACE (4, func_ov092_02131650)
-OV092_FACE (5, func_ov092_02131620)
-OV092_FACE (6, func_ov092_021311b0)
-OV092_FACEU(7, func_ov092_02131010)
-OV092_FACEC(8, func_ov092_02130fcc)
+OV092_FACE (2, _ZN8daOnms_c13StateRollPosZEv)
+OV092_FACE (3, _ZN8daOnms_c13StateRollNegZEv)
+OV092_FACE (4, _ZN8daOnms_c13StateRollNegXEv)
+OV092_FACE (5, _ZN8daOnms_c13StateRollPosXEv)
+OV092_FACE (6, _ZN8daOnms_c12StateKnockedEv)
+OV092_FACEU(7, _ZN8daOnms_c11StateBounceEv)
+OV092_FACEC(8, _ZN8daOnms_c9StateSinkEv)
 OV092_ABORT(9)
 OV092_ABORT(10)
 

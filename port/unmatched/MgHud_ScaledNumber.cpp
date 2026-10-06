@@ -32,7 +32,7 @@
 //     func_ov004_020b2220(0x80, 0x28, *(u16*)(this + 0x5172), 1, -1, 0x800, 0);
 // The label sprite above the number always drew; only the number was missing.
 // Five more matched TUs call it with the same shape (curling's countdown at
-// src/func_ov006_020e1554.c, and 020ecee4 / 02109834 / 0211e29c / 02127d10),
+// src/actors/dScMgCurling_c.cpp, and 020ecee4 / 02109834 / 0211e29c / 02127d10),
 // so the arity and the argument order are settled six times over and not by
 // this file.
 //
@@ -49,8 +49,8 @@
 // EXTENT AND DELINK STATUS. config/arm9/overlays/ov004/symbols.txt:109
 //     func_ov004_020b2220 kind:function(arm,size=0x224) addr:0x020b2220
 // and config/arm9/overlays/ov004/delinks.txt COVERS NO PART OF IT: the blocks
-// run  src/func_ov004_020b1ea4.c  .text 0x020b1ea4..0x020b2220  and then jump
-// straight to  src/func_ov004_020b2444.c  .text 0x020b2444..0x020b2574. A
+// run  src/minigames/d_s_mg_base.cpp  .text 0x020b1ea4..0x020b2220  and then jump
+// straight to  src/minigames/d_s_mg_base.cpp  .text 0x020b2444..0x020b2574. A
 // name-shaped check would call this decompiled because symbols.txt names it;
 // the delink join is what says otherwise. THIS FILE IS NOT A DECOMPILATION
 // AND DOES NOT CLAIM TO BE ONE -- it carries a port_ name, the rule
@@ -66,12 +66,12 @@
 // already use: data_02082214 is the arm9 sin/cos table (src/
 // Matrix4x3_FromRotationY.c and eleven others read it as `s16[]` with [i*2]
 // sin and [i*2+1] cos), and data_ov006_02137cd8 is the digit glyph table that
-// src/func_ov004_020b1ea4.c and src/func_ov004_020b2444.c index the same way.
+// src/minigames/d_s_mg_base.cpp and src/minigames/d_s_mg_base.cpp index the same way.
 // No new symbol is introduced here.
 //
 // EVERY CALLEE IS ALREADY IN THE BUILD, which is what makes this seat
 // self-contained. The only function it calls is func_ov004_020b1c68, and that
-// one is matched (src/func_ov004_020b1c68.c, a complete delink block at
+// one is matched (src/minigames/d_s_mg_base.cpp, a complete delink block at
 // 0x020b1c68..0x020b1cf0) and already on port/slice_mg1.txt:283, as are the
 // three drawers it forwards to (RenderOamBothScreens, func_ov004_020af868 at
 // slice_mg1.txt:256 and func_ov004_020afc18 at :258). Nothing new was pulled
@@ -103,7 +103,7 @@
 //     B   = (data_02082214[idx*2    ] * scale + 0x800) >> 12      (sin)
 //     [sp+0x08] = A   [sp+0x0c] = B   [sp+0x10] = -B   [sp+0x14] = A
 // which is { _00, _01, _10, _11 } = { cos, sin, -sin, cos } -- the exact
-// struct and the exact rounding idiom src/func_ov004_020b369c.c already uses
+// struct and the exact rounding idiom src/actors/unit020b2c84.cpp already uses
 // for the same callee, so the shape is settled by a matched TU and not by this
 // file. The 64-bit intermediate is not cosmetic: the ROM does `smull` and
 // carries the high word into the shift (`adds lo,#0x800 / adc hi,#0 /
@@ -159,7 +159,7 @@ typedef unsigned short u16;
 typedef long long      s64;
 
 /* The 2x2 OAM affine matrix, spelled exactly as the matched callers of the
-   same callee spell it (src/func_ov004_020b369c.c, src/func_ov004_020b38ac.c). */
+   same callee spell it (src/actors/unit020b2c84.cpp, src/actors/unit020b2c84.cpp). */
 struct MgHudMtx { int _00, _01, _10, _11; };
 
 extern "C" {

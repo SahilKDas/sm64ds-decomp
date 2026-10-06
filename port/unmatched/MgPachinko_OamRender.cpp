@@ -1,7 +1,7 @@
 // ===========================================================================
 // RETIRED -- THIS FILE IS NOT IN ANY BUILD. Run link100 wave 15, lane SEAT15D,
 // LINK15 BATCH 3. The one token this file existed to change is now the token
-// src/ carries: src/func_ov006_020fa7b8.cpp:6 reads
+// src/ carries: src/actors/dScMgPachinko_c.cpp:6 reads
 // `extern void* data_ov006_0213ac24;`. The matched TU is taken through
 // port/slice_l15mg.txt and the SEAT15D block in port/CMakeLists.txt, and this
 // file's source-list entry there is commented out. The body is deleted so the
@@ -11,7 +11,7 @@
 // The rest of the file, from here down, is the note as it was written.
 // ===========================================================================
 //
-// PORT_HOST_ABI. src/func_ov006_020fa7b8.cpp, verbatim except for ONE TOKEN.
+// PORT_HOST_ABI. src/actors/dScMgPachinko_c.cpp, verbatim except for ONE TOKEN.
 // dScMgPachinko_c, actor id 0x170, scene 368. Run mg5, lane PCH.
 //
 // ---- THE DEFECT, AND IT IS A DEFINITION WHERE A DECLARATION WAS MEANT -----
@@ -63,6 +63,6 @@
 // vtable slot 9 (_ZN15dScMgPachinko_c6RenderEv, dScMgPachinko_c::Render), so a boot that
 // renders reaches it.
 
-/* THE BODY LIVES IN src/func_ov006_020fa7b8.cpp, on port/slice_l15mg.txt.
+/* THE BODY LIVES IN src/actors/dScMgPachinko_c.cpp, on port/slice_l15mg.txt.
    Every character of it already matched this copy except line 6's `extern`,
    which src/ now carries. */

@@ -99,13 +99,13 @@
 # width_ev column: the census sampled a shape, and the shape is per row. Every
 # arity in this slice is read off that row's own listing.
 #
-# ONE /alternatename, in the seat file. src/func_ov006_020d836c.cpp declares its
+# ONE /alternatename, in the seat file. src/actors/dScMgBomroom_c.cpp declares its
 # table at namespace scope, so MSVC spells the reference
 # ?data_ov006_02141730@@3PAP8C@@AEXH@ZA -- read off the object with
 # dumpbin /symbols -- while the ov006 mount defines the plain C name. The other
 # four TUs declare their tables inside their own extern "C" blocks.
 #
-# TWO GUESS MARKERS, BOTH ALREADY ADJUDICATED. src/_ZN14dScMgBomroom_c8BehaviorEv.cpp
+# TWO GUESS MARKERS, BOTH ALREADY ADJUDICATED. src/actors/dScMgBomroom_c.cpp
 # carries "recovered from vtable slot identity"; port/tools/
 # inferred_stub_adjudicated.txt:604 rules it REAL_DECOMP against the ROM (0x94,
 # 35 instructions plus a two-word pool, both pool words and both call targets
@@ -127,8 +127,6 @@
 # linkage, same one-pointer signature, same int return -- and neither file is
 # this lane's to edit, so the prose is left alone and named here.
 src/actors/dScMgBomroom_c.cpp
-src/_ZN14dScMgBomroom_c8BehaviorEv.cpp
-src/func_ov006_020d836c.cpp
 #
 # ---- BATCH 1 CONTINUED: dScMgLuigi_c, THREE TABLES --------------------------
 #
@@ -223,20 +221,18 @@ src/actors/dScMgLuigi_c.cpp
 # inside that same dispatch. Without this the census would read -1 forever with
 # nothing wrong, which is the witness trap PMFB3 recorded.
 #
-# ONE GUESS MARKER, ADJUDICATED. src/_ZN13dScMgTeresa_c8BehaviorEv.cpp carries "recovered
+# ONE GUESS MARKER, ADJUDICATED. src/actors/dScMgTeresa_c.cpp carries "recovered
 # from vtable slot identity"; port/tools/inferred_stub_adjudicated.txt:2316 rules
 # it REAL_DECOMP against the ROM.
 #
 # STALE COMMENT DISCLOSED, NOT EDITED. hal/scene_mg_booseek.cpp:66 says "vtable
-# slot 6 is NOT wired to src/_ZN13dScMgTeresa_c8BehaviorEv.cpp ... it would stride an
+# slot 6 is NOT wired to src/actors/dScMgTeresa_c.cpp ... it would stride an
 # eight-byte table by four", and its face points at the host copy. The stride
 # half of that is superseded by measurement: this port compiles with /vmg /vmm,
 # under which an incomplete class's pointer to member is the general eight-byte
 # representation, and the TU's own listing reads [eax*8] against the ROM's
 # lsl #3. The file is not this lane's to edit, so the prose is left and named.
-src/_ZN13dScMgTeresa_c8BehaviorEv.cpp
 src/actors/dScMgTeresa_c.cpp
-src/func_ov006_0211f6fc.cpp
 #
 # ---- BATCH 2 CONTINUED: dScMgCoin_c, THREE TABLES OF FIVE -------------------
 #
@@ -262,7 +258,7 @@ src/func_ov006_0211f6fc.cpp
 #
 # THREE /alternatename DIRECTIVES: ?data_ov006_021417b0@@3PAUEntry@@A,
 # ?data_ov006_02141810@@3PAUEntry@@A and ?data_ov006_02141840@@3PAP8Obj@@AEXH@ZA.
-# The `Obj` in the third is the shadow class name src/func_ov006_020de26c.cpp
+# The `Obj` in the third is the shadow class name src/actors/dScMgCoin_c.cpp
 # gives its receiver; it is part of the decoration and was read off the object,
 # not guessed.
 #
@@ -276,14 +272,14 @@ src/func_ov006_0211f6fc.cpp
 # and the switch no longer sees that address, so the count is taken in slot 0's
 # face.
 #
-# ONE GUESS MARKER, ADJUDICATED: src/_ZN11dScMgCoin_c8BehaviorEv.cpp, ruled REAL_DECOMP
+# ONE GUESS MARKER, ADJUDICATED: src/actors/dScMgCoin_c.cpp, ruled REAL_DECOMP
 # at port/tools/inferred_stub_adjudicated.txt:487.
 #
 # STALE COMMENT DISCLOSED, NOT EDITED: hal/scene_mg.cpp:3002-3006 still calls
 # _ZN11dScMgCoin_c8BehaviorEv "the HOST COPY". The declaration beside it is correct.
 #
 # A FOURTH DIRECTIVE THE LINK FOUND AND THIS LANE DID NOT PREDICT.
-# src/func_ov006_020de26c.cpp reaches ov004's data_ov004_020beb68 under the name
+# src/actors/dScMgCoin_c.cpp reaches ov004's data_ov004_020beb68 under the name
 # `func_020beb68` -- the spelling defect MgCoin_StateDispatch.cpp's header
 # records -- declared at NAMESPACE scope as `char *`, so the reference mangles
 # ?func_020beb68@@3PADA. The host copy declared the same global inside extern "C"
@@ -296,9 +292,7 @@ src/func_ov006_0211f6fc.cpp
 # storage, in this lane's own seat file, read off the object with dumpbin. The
 # failed link deleted walk_window.exe and truncated the map, which is the shape
 # the house law warns about; the gate was re-built from clean after the fix.
-src/_ZN11dScMgCoin_c8BehaviorEv.cpp
-src/func_ov006_020dd2cc.cpp
-src/func_ov006_020de26c.cpp
+src/actors/dScMgCoin_c.cpp
 #
 # ---- BATCH 2 CONTINUED: dScMg3DEsp_c, THREE TABLES OF SEVEN -----------------
 #
@@ -345,14 +339,12 @@ src/func_ov006_020de26c.cpp
 # to say WHICH of the seven tables ran. The faces take the counts instead, one
 # per dispatch through their own table.
 #
-# ONE GUESS MARKER, ADJUDICATED: src/_ZN12dScMg3DEsp_c8BehaviorEv.cpp, ruled REAL_DECOMP
+# ONE GUESS MARKER, ADJUDICATED: src/actors/dMg3DEspAnimSet_c.cpp, ruled REAL_DECOMP
 # at port/tools/inferred_stub_adjudicated.txt:1111.
 #
 # STALE COMMENT DISCLOSED, NOT EDITED: hal/scene_mg_psycheout.cpp:203-208 still
 # calls _ZN12dScMg3DEsp_c8BehaviorEv "the HOST COPY".
-src/_ZN12dScMg3DEsp_c8BehaviorEv.cpp
-src/func_ov006_020e9374.cpp
-src/func_ov006_020e8d08.cpp
+src/actors/dMg3DEspAnimSet_c.cpp
 #
 # ---- BATCH 3: dScMgPachinko2_c, ALL THREE TABLES (the class closes) ---------
 #
@@ -381,15 +373,13 @@ src/func_ov006_020e8d08.cpp
 # three (edi, edi, esi -- the loop counter), receiver in ecx, callee cleanup.
 #
 # TWO /alternatename DIRECTIVES, read off the objects with dumpbin /symbols;
-# src/func_ov006_0210246c.cpp declares its table inside extern "C".
+# src/actors/dScMgPachinko2_c.cpp declares its table inside extern "C".
 #
 # THE PER-SLOT CENSUS MOVES INTO THE FACES. g_lkt_cc, g_lkt_f4 and g_lkt_34 are
 # twenty-eight per-slot counts fed from inside the switch and printed by
 # hal/scene_mg_slot3.cpp to say which state of which table ran. Each face takes
 # its own count, one per dispatch of its own cell.
-src/func_ov006_020fff84.cpp
-src/func_ov006_02102e8c.cpp
-src/func_ov006_0210246c.cpp
+src/actors/dScMgPachinko2_c.cpp
 #
 # ---- BATCH 3 CONTINUED: dScMgMemory_c, TWO TABLES --------------------------
 #
@@ -471,8 +461,7 @@ src/actors/dScMgMemory2_c.cpp
 # port_mg_pachinko_call1. Nothing on that path moves.
 #
 # ONE /alternatename (?data_ov006_0214266c@@3PAP8C@@AEXH@ZA).
-src/func_ov006_020fad34.cpp
-src/func_ov006_020fb60c.cpp
+src/actors/dScMgPachinko_c.cpp
 #
 # ---- NOT TAKEN IN BATCH 3, WITH THE MEASUREMENT THAT STOPS IT --------------
 #

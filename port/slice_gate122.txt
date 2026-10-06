@@ -12,4 +12,4 @@
 # this gate's ONLY new symbol is the factory daObjBlockL_c_classInit_SW_BLOCK_L.
 # The SpawnInfo mount is added to ov002_syms.txt and the registry row reuses the
 # shared fill (fill 0). No new overlay data, no method face.
-src/d_a_obj_block_l_sw_block_l.c
+src/actors/daObjBlockL_c.cpp

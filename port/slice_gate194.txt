@@ -9,21 +9,14 @@
 # the slice: both store the class's own table directly (_ZTV10HootTheOwl /
 # _ZTV7daOwl_c, a one-speller D0, the MotherPenguin/daBgSnwmn_c shape), no
 # shared-placeholder overwrite.
-src/d_a_owl.c
-src/_ZN10HootTheOwlD1Ev.cpp
+src/actors/daOwl_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN10HootTheOwlD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN10HootTheOwlD0Ev.cpp
-src/_ZN10HootTheOwl16CleanupResourcesEv.cpp
-src/_ZN10HootTheOwl16OnPendingDestroyEv.cpp
-src/_ZN10HootTheOwl13InitResourcesEv.cpp
-src/func_ov094_021361d8.c
-src/func_ov094_021362e0.c
-src/func_ov094_021357a4.c
 #
 # NOT in this slice (host copies cover their slots/calls instead):
 # src/_ZN10HootTheOwl8BehaviorEv.cpp (the PMF-on-incomplete-class dispatch,
 # ALSO carries the "_ZN9daSanbo_c13OnYoshiTryEatEv" cross-overlay alias typo -- moot
-# once host-copied, see ov094_syms.txt), src/func_ov094_02136188.cpp (the
+# once host-copied, see ov094_syms.txt), src/actors/daOwl_c.cpp (the
 # SAME PMF disease, the state-cell installer), src/_ZN10HootTheOwl6RenderEv.cpp
 # (the ModelAnim slot-5 shadow-vtable collision, the Whomp/Bully/BabyPenguin
 # case). All three stay byte-locked in src/ as the matched proof; none are
@@ -45,19 +38,9 @@ src/func_ov094_021357a4.c
 # ALREADY a proven-working shape elsewhere in this port (src/func_ov078_
 # 02125950.cpp, the King Bob-omb family, takes the identical local-struct
 # shape and links via the existing cxx_aliases.cpp GetTalkState bridge).
-src/func_ov094_02135c28.c
 # func_ov094_02136024: SEATED by run link100 wave 15 lane SEAT15B (LINK15 BATCH 1).
 # The matched src passes the ClosestPlayer receiver itself (src:17, `(c)`), so the
 # host copy in port/unmatched/Actor_ClosestPlayer_OverlayReaders.cpp is retired.
-src/func_ov094_02136024.cpp
-src/func_ov094_02135bd4.cpp
-src/func_ov094_02135e64.cpp
-src/func_ov094_02136150.c
-src/func_ov094_021358b4.cpp
-src/func_ov094_0213598c.cpp
-src/func_ov094_02135fe0.c
-src/func_ov094_02135ee0.cpp
-src/func_ov094_021359d8.cpp
 #
 # THE SEAT: __sinit_ov094_021367e8 copies TEN 8-byte SOURCE records
 # (data_ov094_021369c0..02136a08, each a {fn,delta} pair, delta always 0 per

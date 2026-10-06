@@ -117,7 +117,7 @@
 //
 // The ov085/ov100 shape -- write host addresses over the source pairs before
 // anything reads them -- is WRONG for this class, and it is wrong for the exact
-// reason section 4 gives for src/func_ov006_020c3b80.c. This class's slot 9
+// reason section 4 gives for src/actors/unit020bfec0.cpp. This class's slot 9
 // Render (src/actors/dScMgHanachan_c.cpp) reads the scene object's stored pair AS TWO
 // INTS and compares it BY VALUE against five of the .data pairs, five times, to
 // decide what to draw:
@@ -351,7 +351,7 @@ extern "C" int _ZN15dScMgHanachan_c8BehaviorEv(char *c)
 }
 #endif  /* HOSTGEN2: _ZN15dScMgHanachan_c8BehaviorEv retired to src */
 
-/* src/func_ov006_020eb018.cpp. Its `struct C` is `char pad[0x10]; PMF pmf;`,
+/* src/actors/dScMgHanachan_c.cpp. Its `struct C` is `char pad[0x10]; PMF pmf;`,
    so the member pointer is the LAST member and nothing in this TU reads past
    it -- every other access is a raw char* offset. The copy still spells the
    pair as two words, because the DISPATCH is wrong at four bytes whatever the
@@ -396,7 +396,7 @@ extern "C" void func_ov006_020eb018(char *c)
 }
 #endif  /* HOSTGEN2: func_ov006_020eb018 retired to src */
 
-/* src/func_ov006_020eb0c8.cpp. Same `char pad10[0x10]; Pmf cb;` shape and the
+/* src/actors/dScMgHanachan_c.cpp. Same `char pad10[0x10]; Pmf cb;` shape and the
    same reasoning; the dispatch sits in the else arm and stays there.
    PORT_HOST_ABI: mwcc pointer-to-member wall, the field-embedded {code,adj}
    pair decoded through port_mg_wiggler_call0. Host-copied. */
@@ -452,7 +452,7 @@ extern "C" void func_ov006_020eb0c8(char *self)
 }
 #endif  /* HOSTGEN2: func_ov006_020eb0c8 retired to src */
 
-/* src/func_ov006_020eb31c.cpp. THIS ONE ALSO COPIES THE PAIR, and the copy is
+/* src/actors/dScMgHanachan_c.cpp. THIS ONE ALSO COPIES THE PAIR, and the copy is
    why func_ov006_020eb610 below has anything to dispatch: it moves the two
    words from +0x10 down to +0x00, which is the sub-object's SECOND member-
    pointer field. The src already spells that copy as two ints

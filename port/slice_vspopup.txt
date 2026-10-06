@@ -34,11 +34,6 @@
 # has no vptr store at all (its whole relocation span is the three dtor calls),
 # so the host chain is the complete body. The file stays in src/ as the matched
 # proof; it is not part of the port build.
-src/d_a_obj_number.c
-src/_ZN6Number13InitResourcesEv.cpp
-src/_ZN6Number16CleanupResourcesEv.cpp
-src/_ZN6Number8BehaviorEv.cpp
-src/_ZN6Number6RenderEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN6NumberD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN6NumberD0Ev.cpp
 #
@@ -48,26 +43,20 @@ src/_ZN6Number6RenderEv.cpp
 # _ZN11WingFeather* bodies and RTTI 11daFeather_c, and daFeather_c_classInit
 # installs it by name.
 #
-# D1 (src/game/actors/WingFeather/_ZN11WingFeatherD1Ev.cpp) is NOT here either, the same shape with
+# D1 (src/game/actors/daFeather_c/daFeather_c.cpp) is NOT here either, the same shape with
 # four members instead of two. This one's ROM body DOES store its own table
 # into the vptr first; writing _ZTV11WingFeather back over a WingFeather's own
 # vptr has no effect (nothing derives from the class), so the host thunk spells
 # only the four member destructors and Actor::D2, in the ROM's own order.
-src/game/actors/WingFeather/d_a_feather.c
-src/game/actors/WingFeather/_ZN11WingFeather13InitResourcesEv.cpp
-src/game/actors/WingFeather/_ZN11WingFeather16CleanupResourcesEv.cpp
-src/game/actors/WingFeather/_ZN11WingFeather8BehaviorEv.cpp
-src/game/actors/WingFeather/_ZN11WingFeather6RenderEv.cpp
-# RETIRED at SLICE1: body now in src/game/actors/WingFeather/_ZN11WingFeatherD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/game/actors/WingFeather/_ZN11WingFeatherD0Ev.cpp
+# RETIRED at SLICE1: body now in src/game/actors/daFeather_c/daFeather_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/game/actors/daFeather_c/daFeather_c.cpp
 # The shared matrix/shadow helper both WingFeather::InitResources and
 # WingFeather::Behavior call on their last line. A plain extern "C" body, no
 # face needed.
-src/game/actors/WingFeather/func_ov002_020b2c44.cpp
 #
 # NOT here, because they are already in the build: the CALLER,
 # src/_ZN8dActor_c11SpawnNumberERK7Vector3jbtPS_.cpp, and the little parent-link
-# setter it finishes with, src/func_ov002_020f0918.c -- both in slice_gate10.
+# setter it finishes with, src/game/actors/d_a_obj_number.cpp -- both in slice_gate10.
 # That is the whole reason this seat is a registry row rather than a subsystem:
 # everything that ASKS for the popup has been live all along, and the class it
 # asked for was the only thing missing.

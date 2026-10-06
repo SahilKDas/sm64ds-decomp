@@ -211,7 +211,7 @@
 #
 # The ov085/ov100 shape -- write host addresses over the .data pairs before
 # anything reads them -- is WRONG here, for the reason section 4 gives for
-# src/func_ov006_020c3b80.c. Slot 9 Render (src/actors/dScMgHanachan_c.cpp) reads the
+# src/actors/unit020bfec0.cpp. Slot 9 Render (src/actors/dScMgHanachan_c.cpp) reads the
 # scene object's stored pair AS TWO INTS and compares it BY VALUE against five
 # of the .data pairs, five times, to decide what to draw. A host address never
 # equals a DS address, so a seat that rewrote the pair would leave all five
@@ -252,7 +252,7 @@
 #                                 default -> this. Its only call site is
 #                                 0x020eceb0, `mov r0,r6 / mov r1,r5 / bl`, so
 #                                 it takes a receiver AND one argument.
-#                                 -> src/func_ov006_020ec4dc.c, MATCHED at
+#                                 -> src/actors/dScMgHanachan_c.cpp, MATCHED at
 #                                 mwccarm 2004/b56 with strict relocs, and it
 #                                 has a delink block. It is the fifteen-wiggler
 #                                 grid the ladder reaches at clear count 8.
@@ -371,19 +371,9 @@ src/func_0203d5dc.c
 
 # ---- ov006: the class's own closure, minus the five host copies ------------
 src/minigames/d_s_mg_hanachan.cpp
-src/_ZN15dScMgHanachan_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN15dScMgHanachan_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN15dScMgHanachan_cD0Ev.cpp
-src/func_ov006_020ea324.c
-src/func_ov006_020ea350.c
-src/func_ov006_020ea3d0.c
-src/func_ov006_020ea5f0.c
-src/func_ov006_020ea658.c
-src/func_ov006_020ea670.c
-src/func_ov006_020ea71c.c
-src/func_ov006_020ea81c.c
-src/func_ov006_020ea8e0.c
-src/func_ov006_020ea914.c
+src/actors/dScMgHanachan_c.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgHanachan_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgHanachan_c.cpp
 # UN-QUARANTINED, run link100 lane HOSTGEN2. The TU is a whole-TU hostgen
 # substitution now (port/CMakeLists.txt's PORT_HOSTGEN_TU list), and the five
 # bodies unmatched/MgWiggler_StateDispatch.cpp host-copied out of it are
@@ -415,6 +405,6 @@ port/unmatched/dScMgHanachan_c.cpp
 # HOST-COPIED (WIG): src/actors/dScMgHanachan_c.cpp -- FIELD pmf at sub-object +0x00, OPEN-CODED IN INTS; neither the link nor a member-pointer source sweep can see it
 # HELD, run link100 lane HOSTGEN2: main's consolidated TU above defines
 # func_ov006_020ec4dc as well, and taking both is a duplicate symbol.
-#src/func_ov006_020ec4dc.c
+#src/actors/dScMgHanachan_c.cpp
 # HOST-COPIED (WIG): src/actors/dScMgHanachan_c.cpp -- FIELD pmf at scene +0x4660, member-pointer typed; VTABLE SLOT 6, Behavior
 # ALREADY WIRED (slice_ccn.txt): src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp -- listed for closure completeness only; CMake dedupes identical absolute paths, so it adds no line to the build and no linkage

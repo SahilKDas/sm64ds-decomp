@@ -16,7 +16,7 @@
  *     from.
  *
  * ov098 0x0213ade8 (state 1, the lid opening) is MATCHED SRC now:
- * src/func_ov098_0213ade8.c went byte-perfect at 2004/b56 (PR #1227,
+ * src/game/actors/d_a_cnn.cpp went byte-perfect at 2004/b56 (PR #1227,
  * linkcheck VERIFIED) and the gate-19 slice compiles it. This file no
  * longer carries any state body -- only the PMF-dispatch frame and the
  * seat, which remain PORT_HOST_ABI for the incomplete-class PMF reason

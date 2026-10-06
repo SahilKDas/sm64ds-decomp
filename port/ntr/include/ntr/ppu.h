@@ -728,7 +728,7 @@ int ppu_seam_snow_owns(uint16_t a2);
 // GaplessMinigames on there is no band -- G is zero in the game as well as in
 // the layout -- and the hole does not go away, it shrinks to the seam itself.
 //
-// The ROM's OAM router (src/func_ov004_020aff38.cpp) picks ONE engine by a
+// The ROM's OAM router (src/minigames/d_s_mg_base.cpp) picks ONE engine by a
 // band test on world y and returns. At G = 0 its two tests are y in [-256, -1]
 // for the top engine and y in [-64, 191] for the bottom, so a sprite is
 // submitted to exactly one of them and each engine's own raster then clips it

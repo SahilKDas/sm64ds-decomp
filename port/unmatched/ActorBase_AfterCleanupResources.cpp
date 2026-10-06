@@ -16,7 +16,7 @@
  * Nothing below this banner is compiled.
  * ==========================================================================
  *
- * HOST COPY of src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp -- the actor
+ * HOST COPY of src/actors/ActorBase.cpp -- the actor
  * teardown, with its three engine globals pointed at the engine.
  *
  * The matched source spells them as file-scope DEFINITIONS:

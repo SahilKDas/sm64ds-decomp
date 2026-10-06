@@ -30,7 +30,7 @@
 //     020e7c58  blx r1                 NO r1 argument -> ARITY 0
 //
 // then Animation::Advance(this+0x5c), _ZN17dMg3DEspAnimSet_c8BehaviorEv(this+0x84), and a
-// Particle::System::New guarded on this+0x208.  src/_ZN15dMg3DEspModel_c8BehaviorEv.cpp
+// Particle::System::New guarded on this+0x208.  src/actors/dMg3DEspAnimSet_c.cpp
 // reproduces every line of that and spells the dispatch
 //
 //     (((C*)c)->**(PMF*)(c + 0x210))();
@@ -143,7 +143,7 @@ static unsigned g_esp_field_calls, g_esp_field_routed;
  * (_ZN15dMg3DEspModel_c6RenderEv's) and 0x0213c774 (the installed state) all hold the
  * SAME code word 0x020e7fac. Seat all three with the same face and each
  * predicate compares one host address against itself: it answers what it
- * answered before, on every path. src/_ZN15dMg3DEspModel_c6RenderEv.cpp is in the link
+ * answered before, on every path. src/actors/dMg3DEspAnimSet_c.cpp is in the link
  * (port/slice_fold2.txt) and reads data_ov006_0213c744 by value, so this is not
  * hypothetical.
  *
@@ -264,13 +264,13 @@ extern "C" void port_mg_esp3d_field_counts(unsigned *calls, unsigned *routed)
     if (routed) *routed = g_esp_field_routed;
 }
 
-/* src/_ZN15dMg3DEspModel_c8BehaviorEv.cpp verbatim except that the member-pointer type is
+/* src/actors/dMg3DEspAnimSet_c.cpp verbatim except that the member-pointer type is
    gone and the dispatch site is a routed call.  The two early returns, the
    Animation::Advance, the _ZN17dMg3DEspAnimSet_c8BehaviorEv and the guarded
    Particle::System::New below it are src's, unchanged, and every one is
    confirmed against the disassembly in section 1. */
 /* HOST COPY RETIRED, run link100 lane PMFB7 gate 3.
-   src/_ZN15dMg3DEspModel_c8BehaviorEv.cpp dispatches its own field now: with /vmg /vmm
+   src/actors/dMg3DEspAnimSet_c.cpp dispatches its own field now: with /vmg /vmm
    (block R8) MSVC's pointer to member IS the ROM's eight-byte {code, adjust}
    pair, so the widening the banner above was written for does not happen, and
    the six records hold four faces -- one per code word, which is what keeps the

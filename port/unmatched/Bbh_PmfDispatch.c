@@ -37,7 +37,7 @@ typedef void (*BbhPmfFn)(char *self);
 
 
 /* HOST COPY RETIRED, run link100 lane FWD gate 2.
-   src/game/actors/daTrsTrap_c/_ZN11daTrsTrap_c8BehaviorEv.cpp dispatches
+   src/game/actors/daTrsTrap_c/d_a_trs_trap.cpp dispatches
    data_ov063_0211ef38 now. The banner's reading -- "MSVC's 16-byte form" --
    expired when block R8's /vmg /vmm landed: MSVC's pointer to member on this
    target IS the ROM's eight-byte {fn, delta} pair, and the matched TU emits
@@ -48,8 +48,8 @@ typedef void (*BbhPmfFn)(char *self);
    bridges it. bbh_pmf_call went with this body: it had no other caller. */
 
 /* func_ov063_0211ddac and func_ov063_0211ddf4 RETIRED (run link100, lane
-   PMFB1). src/unnamed/ov063/func_ov063_0211ddac.cpp and
-   src/unnamed/ov063/func_ov063_0211ddf4.cpp carry both on
+   PMFB1). src/game/actors/daPiano_c/d_a_piano.cpp and
+   src/game/actors/daPiano_c/d_a_piano.cpp carry both on
    port/slice_pmfc.txt. The piano table is the one record in this file that
    MSVC already sized right without help: its Entry is two PMFs, sixteen
    bytes, and the ROM strides it with `add r3, r2, r1, lsl #4` -- sixteen. The
@@ -88,7 +88,7 @@ typedef void (*BbhPmfFn)(char *self);
    `this + delta` cannot be anything but `this + 0`.
 
    The wave 18 reading, kept because it is what both rows rest on: run linkw
-   wave 18 compiles src/func_ov080_021250c8.cpp with /vmg /vmm, which gives
+   wave 18 compiles src/actors/daBttBk_c.cpp with /vmg /vmm, which gives
    MSVC the 8-byte
    {fn, delta} representation the ROM's record already is, so `c->pp + 1`
    strides eight onto the tick pair's own function word. All twelve of ov080's
@@ -120,7 +120,7 @@ typedef void (*BbhPmfFn)(char *self);
  */
 
 /* func_ov071_021223c8 and func_ov071_02122414 RETIRED (run link100, lane
-   PMFB1). src/func_ov071_021223c8.cpp and src/func_ov071_02122414.cpp carry
+   PMFB1). src/actors/daObjCasket_c.cpp and src/actors/daObjCasket_c.cpp carry
    both on port/slice_pmfc.txt. The header above blamed "MSVC's 16-byte PMF"
    and that reading is dead: with /vmg /vmm target-wide (block R8) the
    pointer-to-member IS the ROM's eight-byte {function, delta} pair. What was

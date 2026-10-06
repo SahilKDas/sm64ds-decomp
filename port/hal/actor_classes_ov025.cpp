@@ -171,21 +171,21 @@ DSSTATE_END
 
 /* The six bodies src defines as real C++ methods rather than extern-"C" free
    functions, three per class. */
-#include "PyramidStep.h"
-#include "PyramidLift.h"
+#include "daObjDpBrock_c.h"
+#include "daDpLift_c.h"
 extern "C" {
 int _ZN11PyramidStep13InitResourcesEv(void *self)
-{ return ((PyramidStep *)self)->PyramidStep::InitResources(); }
+{ return ((daObjDpBrock_c *)self)->daObjDpBrock_c::InitResources(); }
 int _ZN11PyramidStep8BehaviorEv(void *self)
-{ return ((PyramidStep *)self)->PyramidStep::Behavior(); }
+{ return ((daObjDpBrock_c *)self)->daObjDpBrock_c::Behavior(); }
 int _ZN11PyramidStep6RenderEv(void *self)
-{ return ((PyramidStep *)self)->PyramidStep::Render(); }
+{ return ((daObjDpBrock_c *)self)->daObjDpBrock_c::Render(); }
 int _ZN11PyramidLift13InitResourcesEv(void *self)
-{ return ((PyramidLift *)self)->PyramidLift::InitResources(); }
+{ return ((daDpLift_c *)self)->daDpLift_c::InitResources(); }
 int _ZN11PyramidLift8BehaviorEv(void *self)
-{ return ((PyramidLift *)self)->PyramidLift::Behavior(); }
+{ return ((daDpLift_c *)self)->daDpLift_c::Behavior(); }
 int _ZN11PyramidLift6RenderEv(void *self)
-{ return ((PyramidLift *)self)->PyramidLift::Render(); }
+{ return ((daDpLift_c *)self)->daDpLift_c::Render(); }
 }
 
 // ---- the trap --------------------------------------------------------------
@@ -343,7 +343,7 @@ static int __fastcall ps_init(void *s, void *)
      _ZN4dBgW7DisableEv(this + 0x124);
      SharedFilePtr::Release(0x02113ab8);  SharedFilePtr::Release(0x02113ab0); */
 static int __fastcall ps_clean(void *s, void *)
-{ return ((PyramidStep *)s)->PyramidStep::CleanupResources(); }
+{ return ((daObjDpBrock_c *)s)->daObjDpBrock_c::CleanupResources(); }
 static int __fastcall ps_behavior(void *s, void *)
 { return _ZN11PyramidStep8BehaviorEv(s); }
 static int __fastcall ps_render(void *s, void *)

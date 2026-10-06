@@ -18,27 +18,24 @@
 # and the ActorBase/Actor base lifecycle virtuals its base vtable dispatches
 # (InitResources/Behavior/Render/Cleanup default to ActorBase; the two Virtual
 # hooks; Actor's own D1/D0). All matched src, pulled in for the base vtable fill.
-src/StarCamera_Spawn.cpp
+src/actors/StarCamera_Spawn.cpp
 src/_ZN8dActor_cC1Ev.cpp
-src/_ZN7fBase_c13InitResourcesEv.cpp
-src/_ZN7fBase_c16CleanupResourcesEv.cpp
-src/_ZN7fBase_c8BehaviorEv.cpp
-src/_ZN7fBase_c6RenderEv.cpp
+src/actors/ActorBase.cpp
 src/_ZN8dActor_cD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN8dActor_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8dActor_cD0Ev.cpp
 src/d_a_star_star.c
-src/_ZN9PowerStar13InitResourcesEv.cpp
-src/_ZN9PowerStar16CleanupResourcesEv.cpp
+src/_ZN8daStar_c13InitResourcesEv.cpp
+src/_ZN8daStar_c16CleanupResourcesEv.cpp
 # _ZN9PowerStar6RenderEv IS NOT HERE: it dispatches ModelAnim slot 5 through a
 # local six-virtual ROM-order shadow (sub.m5(&arg80)), which lands on the host
 # _ZTV9ModelAnim's Virtual18 (MSVC folds the two dtor slots into one) instead
 # of Render -- a two-arg method called with one arg, measured as a c0000005 at
 # actor+0x38 on the first drawn frame. Host copy in
-# port/unmatched/ModelAnim_Renders.cpp, the Whomp/Fish/QuestionBlock case.
+# port/unmatched/ModelAnim_Renders.cpp, the Whomp/Fish/daObjHatenaBlock_c case.
 # RETIRED at SLICE1: body now in src/_ZN9PowerStarD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9PowerStarD0Ev.cpp
-src/_ZN9PowerStarD1Ev.cpp
+src/_ZN8daStar_cD1Ev.cpp
 # the fourteen state bodies the host-copy Behavior dispatches
 src/func_ov002_020e96a0.c
 src/func_ov002_020e9804.cpp
@@ -55,8 +52,8 @@ src/func_ov002_020ea824.c
 src/func_ov002_020ea90c.cpp
 src/func_ov002_020ea9d0.c
 # the two class-override tail slots (OnYoshiTryEat / egg)
-src/_ZN9PowerStar13OnYoshiTryEatEv.cpp
-src/_ZN9PowerStar13OnTurnIntoEggER6Player.cpp
+src/_ZN8daStar_c13OnYoshiTryEatEv.cpp
+src/_ZN8daStar_c13OnTurnIntoEggER6Player.cpp
 # the PowerStar per-frame helpers the host-copy Behavior calls
 src/func_ov002_020e700c.c
 src/func_ov002_020e763c.c

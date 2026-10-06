@@ -71,7 +71,7 @@ TWO SUBSETS DO GATE. THE FIRST IS THE ONE THAT KEPT RECURRING.
     THE PLAIN-NAME SHAPE (--gate-plainfunc): the same dropped-argument class
     for the address-named C symbols, func_XXXXXXXX and func_ovNNN_XXXXXXXX.
     The receiver ratchet is scoped to _ZN member names, and that scoping let
-    a shipped defect through: src/func_ov006_020d8cc4.cpp declared
+    a shipped defect through: src/actors/dScMgBomroom_c.cpp declared
 
         extern "C" int func_ov006_020d836c(void);
 

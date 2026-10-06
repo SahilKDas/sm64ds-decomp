@@ -100,8 +100,8 @@
 // and __sinit_ov022_021130bc builds that pair in bss 0x02114690 by copying the
 // two .data pairs at 0x02114424 ({func_ov022_021126ac, 0}) and 0x0211442c
 // ({func_ov022_02112710, 0}). Two TUs dispatch through it:
-//   src/_ZN21daObj_volcanoCannon_c11ChangeStateEPNS_5StateE.cpp        sets the pointer and calls record 0
-//   src/_ZN21daObj_volcanoCannon_c8BehaviorEv.cpp  calls the record at +8
+//   src/game/actors/d_a_obj_fl_maruta.cpp        sets the pointer and calls record 0
+//   src/game/actors/d_a_obj_fl_maruta.cpp  calls the record at +8
 // Both are compiled with /vmg /vmm (port/CMakeLists.txt), which is the wave-18
 // ruling: that pair of flags gives MSVC the ROM's own 8-byte {fn, delta}
 // representation, so `pp + 1` strides eight onto the second record's function
@@ -117,7 +117,7 @@
 //
 // ---- ONE TU HELD OUT, AND IT IS NOT A REFUSAL OF THE BODY ----------------
 //
-// src/_ZN21daObj_volcanoCannon_cD1Ev.cpp (243's slot 16) is a real MSVC-synthesised
+// src/game/actors/d_a_obj_fl_maruta.cpp (243's slot 16) is a real MSVC-synthesised
 // destructor over a shadow class with no vtable store of its own; MSVC mangles
 // it ??1RollingLogLll@@UAE@XZ and never as the Itanium name the slot needs.
 // That is the MotherPenguin / OneUpLogo / BabyPenguin shape gate 191, gate 193
@@ -615,7 +615,7 @@ static int __fastcall vf_behavior(void *s, void *)
 { return ((RollingLogLll *)s)->RollingLogLll::Behavior(); }
 static int __fastcall vf_render(void *s, void *)
 { return ((fBase_c *)s)->fBase_c::Render(); }
-/* slot 16: src/_ZN21daObj_volcanoCannon_cD1Ev.cpp is held out (MSVC mangles it
+/* slot 16: src/game/actors/d_a_obj_fl_maruta.cpp is held out (MSVC mangles it
    ??1RollingLogLll@@UAE@XZ). The ROM body at 0x021125e0 restores the vptr,
    runs MovingCylinderClsn::D1 at +0xd4 and then Actor::D2 -- HIGH ADDRESS
    FIRST, one member, no Deallocate (that is D0's). */

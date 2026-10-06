@@ -30,10 +30,10 @@
 // states: A PAIR WHOSE CONSUMER SPELLS IT AS TWO INTS IS SAFE AS AN ALIAS; A
 // PAIR WHOSE CONSUMER NAMES A MEMBER-POINTER TYPE NEEDS A HOST COPY.
 //
-//   ?data_ov006_0213ac48@@3UP2@@A   src/func_ov006_020c1764.cpp declares
+//   ?data_ov006_0213ac48@@3UP2@@A   src/actors/unit020bfec0.cpp declares
 //   ?data_ov006_0213ac50@@3UP2@@A   `struct P2 { int w[2]; };` and
-//   ?data_ov006_0213ac88@@3UP2@@A   src/func_ov006_020c0264.cpp and
-//                                   src/func_ov006_020c1420.cpp the same, and
+//   ?data_ov006_0213ac88@@3UP2@@A   src/actors/unit020bfec0.cpp and
+//                                   src/actors/unit020bfec0.cpp the same, and
 //                                   copies each with `*(P2 *)c = ...`. ALL
 //                                   THREE ARE REAL mwcc PAIRS -- {0x020c14bc,
 //                                   0}, {0x020c11c0, 0} and {0x020c0364, 0} in
@@ -49,25 +49,25 @@
 //                                   0x0213ac48 ARRIVED IN WAVE 3 and is the
 //                                   correction to that file's pair-run range,
 //                                   which had been written 0x0213ac50 up.
-//   ?data_ov004_020beb68@@3PAUG@@A  src/func_ov004_020b6234.cpp declares
+//   ?data_ov004_020beb68@@3PAUG@@A  src/actors/unit020b4aa4.cpp declares
 //                                   `struct G { int v; };` and reads `g->v`.
 //                                   A pointer to a one-int struct; the global
 //                                   is dScMgBase_c's own "current minigame
 //                                   scene" pointer, which
-//                                   src/_ZN11dScMgBase_cC2Ev.cpp writes.
+//                                   src/minigames/d_s_mg_base.cpp writes.
 //   ?func_020beb68@@3PAUV@@A        THE SAME GLOBAL under a name that exists in
 //                                   no config, and at C++ linkage on top of it.
-//                                   src/func_ov006_020c14bc.cpp declares
+//                                   src/actors/unit020bfec0.cpp declares
 //                                   `extern V* func_020beb68;` where V is a
 //                                   22-virtual dummy class -- a POINTER, not a
 //                                   pair. Same defect class as
-//                                   src/_ZN14dScMgCurling_c13InitResourcesEv.cpp's bare
+//                                   src/actors/dScMgCurling_c.cpp's bare
 //                                   `func_020adc74`, which
 //                                   port/mg_fanout_costs.txt section 6 records
 //                                   and hal/scene_mg_faces.cpp already aliases,
 //                                   and the same one MgCoin_Faces.cpp carries
 //                                   as the plain-C spelling.
-//   ?data_020a0ebc@@3UVector3@@A    src/func_ov006_020c092c.cpp reads .x/.y/.z
+//   ?data_020a0ebc@@3UVector3@@A    src/actors/unit020bfec0.cpp reads .x/.y/.z
 //   ?data_020a0edc@@3UVector3_16@@A off both and copies them into the object at
 //                                   +0xc8 and +0xe8. Three ints and three
 //                                   shorts of plain arm9 data; no pointer of
@@ -104,7 +104,7 @@
 //                                   through port/slice_w5d.txt and defines
 //                                   ?RenderAll@ShadowModel@@SAXXZ, because
 //                                   include/ShadowModel.h makes it a STATIC
-//                                   MEMBER. src/func_ov006_020c1804.cpp
+//                                   MEMBER. src/actors/unit020bfec0.cpp
 //                                   declares it as a NAMESPACE function, so the
 //                                   two mangles differ by S versus Y and
 //                                   nothing else: same __cdecl, same void(void).

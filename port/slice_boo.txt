@@ -157,9 +157,9 @@
 # consumer names a member-pointer type needs a host copy, whether it is called
 # or only copied. All four name one, so all four are copied:
 #
-#   src/_ZN13dScMgTeresa_c8BehaviorEv.cpp   Entry { PMF pmf; }   02142eb0  arity 0
+#   src/actors/dScMgTeresa_c.cpp   Entry { PMF pmf; }   02142eb0  arity 0
 #   src/actors/dScMgTeresa_c.cpp   bare PMF             02142e88  arity 1
-#   src/func_ov006_0211f6fc.cpp   bare PMF             02142ed8  arity 1
+#   src/actors/dScMgTeresa_c.cpp   bare PMF             02142ed8  arity 1
 #   src/actors/dScMgTeresa_c.cpp   bare PMF             02142f18  arity 1
 #
 # THE FIRST IS THE DANGEROUS ONE AND IT IS VTABLE SLOT 6. Its table is declared
@@ -193,7 +193,7 @@
 # a NONMATCHING banner.
 #
 #   func_ov006_0211e72c  0xac   THE RENDER FLOOR, RETIRED. It is the sixth call
-#       vtable slot 9 makes (src/_ZN13dScMgTeresa_c6RenderEv.cpp, after func_ov004_
+#       vtable slot 9 makes (src/actors/dScMgTeresa_c.cpp, after func_ov004_
 #       020b1e34 and four ov006 bodies). Delink blocks run .text
 #       0x0211e658..0x0211e72c and resume at 0x0211e7d8, so the gap is exactly
 #       this function. mg9 read it as walking records off self+0x4000 with a
@@ -202,7 +202,7 @@
 #       sixteen 0x24-stride records, one _ZN3OAM6RenderEbP7OamAttriiii5Fix12
 #       IiES3_ii per live record, drawing the Boos. The 0x1000 pair is the
 #       unity scale and the -1 is the palette argument. See
-#       src/func_ov006_0211e72c.c. This is section 13 CORRECTION 3's shape one
+#       src/actors/dScMgTeresa_c.cpp. This is section 13 CORRECTION 3's shape one
 #       class over: the floor was in a vtable body's own callees, not in the
 #       state tables, and the check that finds it is a delinks join over every
 #       callee of every override.
@@ -213,19 +213,19 @@
 #       animation frame, func_ov006_0211f454 and _0211f34c to move and bounce,
 #       the facing byte off the sign of data_02082214's sine entry, and the
 #       fade that clears both the tick gate at +0x4677 and the render gate at
-#       +0x467a. Its sibling src/func_ov006_0211ee34.c is slot 6 of the same
+#       +0x467a. Its sibling src/actors/dScMgTeresa_c.cpp is slot 6 of the same
 #       table and reads the same record fields, which is the cross-check that
 #       the layout is right and not merely self-consistent.
 #   func_ov004_020ae5c4  0x294  ov004, and the family's rather than this
 #       class's. STILL A FLOOR and not this lane's to retire. Reached from
-#       src/func_ov006_0211f9fc.c, which declares it with SEVEN arguments; the
+#       src/actors/dScMgTeresa_c.cpp, which declares it with SEVEN arguments; the
 #       ROM agrees -- r0..r3 plus three stack words at 0x38, 0x3c and 0x40
 #       after push{9}+sub#0x14. Its trap stays in hal/scene_mg_faces.cpp beside
 #       func_ov004_020ae858 because that is where this family's ov004 traps
 #       live, NOT in this lane's own hal file.
 #
 #       AMENDED, run mg12 lane PANEL: there is no trap beside it any more.
-#       func_ov004_020ae858 is seated (src/func_ov004_020ae858.cpp) and its trap
+#       func_ov004_020ae858 is seated (src/minigames/d_s_mg_base.cpp) and its trap
 #       is deleted, and func_ov004_020ae5c4 was itself seated earlier by run mg10
 #       lane F371. hal/scene_mg_faces.cpp now holds no ov004 trap at all.
 #
@@ -266,7 +266,7 @@
 #
 # ---- ONE TU IS HOST-COPIED FOR A COMPILE DEFECT, NOT FOR THE WALL ---------
 #
-# src/_ZN13dScMgTeresa_c13InitResourcesEv.cpp is vtable slot 0 (InitResources) and MSVC refuses
+# src/actors/dScMgTeresa_c.cpp is vtable slot 0 (InitResources) and MSVC refuses
 # it with C2036 "'void *': unknown size" at its line 69, `f2 += 0;` on a
 # `void *f2`. That is a no-op the ROM does not contain (the two instructions
 # either side of it are the LoadFile(0x102) return and func_ov004_020af2f8),
@@ -289,7 +289,7 @@
 #
 #   __ZTV13dScMgTeresa_c            the vtable's Itanium spelling; an ordinary
 #                                   /alternatename row onto _data_ov006_0213fa0c
-#   ?GetBG0CharPtr@G2S@@SAPADXZ     src/_ZN13dScMgTeresa_c13OnYoshiTryEatEi.cpp declares it as
+#   ?GetBG0CharPtr@G2S@@SAPADXZ     src/actors/dScMgTeresa_c.cpp declares it as
 #                                   a static member; both sides are __cdecl
 #                                   with no arguments, so a plain alias onto
 #                                   __ZN3G2S13GetBG0CharPtrEv is correct and no
@@ -306,7 +306,7 @@
 # carries every one: _ZN3OAM6RenderEbP7OamAttriiii5Fix12IiES3_ii,
 # _ZN5Sound12PlayBank2_2DEj, _ZN3G2x13SetBlendAlphaEPVttttj and data_02082214
 # are arm9 and three of the four are already reached by
-# src/func_ov006_0211ee34.c in this same slice, and data_ov006_0213a964 is a
+# src/actors/dScMgTeresa_c.cpp in this same slice, and data_ov006_0213a964 is a
 # plain ov006 mount symbol. So this lane's link wave is EMPTY, and that is a
 # measurement (the map before and after names the same externals minus the one
 # row) rather than an expectation.
@@ -418,35 +418,5 @@
 #     guessed vtable body seated
 #   post-link -- gxband_guard layout OK, tailjump_guard forms OK
 #
-src/d_s_mg_teresa.c
+src/d_s_mg_teresa.cpp
 src/actors/dScMgTeresa_c.cpp
-src/func_ov006_0211e72c.c
-src/func_ov006_0211e7d8.c
-src/func_ov006_0211e8a8.c
-src/func_ov006_0211ea70.c
-src/func_ov006_0211eb90.c
-src/func_ov006_0211ebdc.c
-src/func_ov006_0211ee34.c
-src/func_ov006_0211f040.cpp
-src/func_ov006_0211f0d0.c
-src/func_ov006_0211f1a4.c
-src/func_ov006_0211f224.c
-src/func_ov006_0211f34c.c
-src/func_ov006_0211f454.c
-src/func_ov006_0211f51c.c
-src/func_ov006_0211f554.c
-src/func_ov006_0211f5d4.c
-src/func_ov006_0211f664.c
-src/func_ov006_0211f77c.c
-src/func_ov006_0211f9fc.c
-src/func_ov006_0211fb1c.c
-src/func_ov006_0211fbf8.c
-src/func_ov006_0211fd44.c
-src/func_ov006_0211fe78.c
-src/func_ov006_02120008.c
-src/func_ov006_021200a8.c
-src/func_ov006_021200cc.c
-src/_ZN13dScMgTeresa_c9Virtual88Eiiii.cpp
-src/_ZN13dScMgTeresa_c9Virtual50Ev.cpp
-src/_ZN13dScMgTeresa_c13OnYoshiTryEatEi.cpp
-src/_ZN13dScMgTeresa_c6RenderEv.cpp

@@ -145,18 +145,14 @@ src/_ZN9dScDSMT_c16CleanupResourcesEv.cpp
 # slot 6  Behavior
 src/_ZN9dScDSMT_c8BehaviorEv.cpp
 # slot 9  Render
-src/_ZN9dScDSMT_c6RenderEv.cpp
+src/actors/dScDSMT_c.cpp
 # slot 12 OnPendingDestroy (bx lr, a real empty body)
-src/_ZN9dScDSMT_c16OnPendingDestroyEv.cpp
 # slot 16 D2
-src/_ZN9dScDSMT_cD1Ev.cpp
 # slot 17 D0
-# RETIRED at SLICE1: body now in src/_ZN9dScDSMT_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN9dScDSMT_cD0Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/dScDSMT_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScDSMT_c.cpp
 # graphCallback_c slot 0 (0x021032b0)
-src/_ZN9dScDSMT_c15graphCallback_c14GraphCallback0Ev.cpp
 # graphCallback_c slot 2 (0x021032b0)
-src/_ZN9dScDSMT_c15graphCallback_c14GraphCallback2Ev.cpp
 
 # ---- the rest of ov007's closure -------------------------------------------
 src/RequestScreenFade.c
@@ -721,10 +717,6 @@ src/func_ov007_020cba78.c
 src/func_ov007_020cbb04.cpp
 src/func_ov007_020cbbb0.c
 src/func_ov007_020cbf8c.c
-src/func_ov007_020cc0cc.c
-src/func_ov007_020cc0e4.c
-src/func_ov007_020cc118.c
-src/func_ov007_020cc168.c
 src/func_ov007_020cc600.c
 src/func_ov007_020cca68.c
 src/func_ov007_020cca74.c

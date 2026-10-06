@@ -13,7 +13,7 @@
 // D1/D0: Spindrift and MrBlizzard's own D1/D0 store their own table
 // directly (no shared-placeholder overwrite) and STAY IN THE SLICE, faced
 // below. IceBlock's D1/D0 store their own table then overwrite with the
-// shared _ZTV10dBgActor_c placeholder (the ShipUp/RockPillar/SkiLift shape)
+// shared _ZTV10dBgActor_c placeholder (the daObjKi_Fune_c/RockPillar/SkiLift shape)
 // -- HOST THUNKS, out of the slice.
 //
 // MR_BLIZZARD'S PMF SEAT: a real ten-cell (5 states x enter/tick) function-
@@ -29,7 +29,7 @@
 // Behavior tick) reaches ROM address 0x020ada40 on one path.
 //
 // RUN LINK60 lane A2 CORRECTED WHERE THAT CALL LANDS. It used to land on the
-// ov004 occupant of that address, because src/func_ov081_02123910.cpp takes
+// ov004 occupant of that address, because src/actors/daHuwa_c.cpp takes
 // the name from include/decl_Enemy.h:24 and that spelling is the ov004 body's.
 // The ROM's reloc at 0x02123988 reads module:overlays(2,4) -- dsd cannot tell
 // the two occupants apart -- and co-residency settles it: ov004 loads only
@@ -282,6 +282,7 @@ extern "C" {
 int _ZN10MrBlizzard13InitResourcesEv(void *self);     /* slot 0, faced */
 int _ZN10MrBlizzard16CleanupResourcesEv(void);        /* slot 3, .c body takes void */
 int _ZN10MrBlizzard8BehaviorEv(void *self);           /* slot 6, faced */
+int port_mr_blizzard_behavior(void *self);
 int _ZN10MrBlizzard6RenderEv(void *self);             /* slot 9, faced */
 void _ZN10MrBlizzard16OnPendingDestroyEv(void);       /* slot 12, own -- NOT shared, .c
                                                            body takes void, empty */
@@ -361,7 +362,7 @@ int func_ov081_02124f20(void *self);   /* cell 9 (ea4) tick */
    Spindrift's slot 31 and the reloc for the sinit's source cell
    data_ov081_021288f8 (which __sinit_ov081_02128154 copies into cell 0's
    tick half) both resolve to 0x02124e64. func_ov081_02124e64's own body
-   (src/func_ov081_02124e64.c) confirms it: it calls
+   (src/actors/daSnowman_c.cpp) confirms it: it calls
    func_ov081_02125488(c, data_ov081_02128e34) -- MrBlizzard's own state-
    transition helper -- so the function genuinely IS a state handler, not
    merely misattributed by dsd's auto-namer. One real body, two roles,
@@ -461,7 +462,7 @@ extern "C" void hal_fill_mr_blizzard_vtable(void)
 // ============================================================================
 // ICE_BLOCK (18), a Platform, 32 slots (own Kill). D1/D0 host thunks: the
 // matched src stores its own table then OVERWRITES with the shared
-// _ZTV10dBgActor_c placeholder (the ShipUp/RockPillar/SkiLift shape).
+// _ZTV10dBgActor_c placeholder (the daObjKi_Fune_c/RockPillar/SkiLift shape).
 // ============================================================================
 extern "C" {
 int _ZN8IceBlock13InitResourcesEv(void *self);        /* slot 0, faced */
@@ -921,18 +922,18 @@ extern "C" void hal_fill_moneybag_vtable(void)
 // ---- method faces ------------------------------------------------------
 // The C-named references the thunks above take onto the real MSVC methods
 // against include/, the IceSheet/gate-190 treatment.
-#include "Spindrift.h"
-#include "MrBlizzard.h"
-#include "IceBlock.h"
-#include "Snowball.h"
+#include "daHuwa_c.h"
+#include "daSnowman_c.h"
+#include "daObjIceBlock_c.h"
+#include "daSnowball_c.h"
 #include "daGmch_c.h"
 extern "C" {
 int _ZN8Snowball13InitResourcesEv(void *self)
-{ return ((Snowball *)self)->Snowball::InitResources(); }
+{ return ((daSnowball_c *)self)->daSnowball_c::InitResources(); }
 int _ZN8Snowball8BehaviorEv(void *self)
-{ return ((Snowball *)self)->Snowball::Behavior(); }
+{ return ((daSnowball_c *)self)->daSnowball_c::Behavior(); }
 int _ZN8Snowball6RenderEv(void *self)
-{ return ((Snowball *)self)->Snowball::Render(); }
+{ return ((daSnowball_c *)self)->daSnowball_c::Render(); }
 int _ZN8daGmch_c13InitResourcesEv(void *self)
 { return ((daGmch_c *)self)->daGmch_c::InitResources(); }
 int _ZN8daGmch_c8BehaviorEv(void *self)
@@ -943,25 +944,25 @@ int _ZN8daGmch_c8BehaviorEv(void *self)
    port/unmatched/ModelAnim_Renders.cpp spells it as qualified
    ModelAnim::Render. */
 int _ZN9Spindrift13InitResourcesEv(void *self)
-{ return ((Spindrift *)self)->Spindrift::InitResources(); }
+{ return ((daHuwa_c *)self)->daHuwa_c::InitResources(); }
 int _ZN9Spindrift8BehaviorEv(void *self)
-{ return ((Spindrift *)self)->Spindrift::Behavior(); }
+{ return ((daHuwa_c *)self)->daHuwa_c::Behavior(); }
 /* _ZN9Spindrift6RenderEv is NOT faced here -- the ModelAnim slot-5 collision.
    The matched Spindrift::Render dispatches ROM slot 5 through a six-virtual
    shadow off mModelAnim (+0x110); host copy in
    port/unmatched/ModelAnim_Renders.cpp spells it as qualified ModelAnim::Render. */
 int _ZN10MrBlizzard13InitResourcesEv(void *self)
-{ return ((MrBlizzard *)self)->MrBlizzard::InitResources(); }
+{ return ((daSnowman_c *)self)->daSnowman_c::InitResources(); }
 int _ZN10MrBlizzard8BehaviorEv(void *self)
-{ return ((MrBlizzard *)self)->MrBlizzard::Behavior(); }
+{ return port_mr_blizzard_behavior(self); }
 int _ZN10MrBlizzard6RenderEv(void *self)
-{ return ((MrBlizzard *)self)->MrBlizzard::Render(); }
+{ return ((daSnowman_c *)self)->daSnowman_c::Render(); }
 int _ZN8IceBlock13InitResourcesEv(void *self)
-{ return ((IceBlock *)self)->IceBlock::InitResources(); }
+{ return ((daObjIceBlock_c *)self)->daObjIceBlock_c::InitResources(); }
 int _ZN8IceBlock16CleanupResourcesEv(void *self)
-{ return ((IceBlock *)self)->IceBlock::CleanupResources(); }
+{ return ((daObjIceBlock_c *)self)->daObjIceBlock_c::CleanupResources(); }
 int _ZN8IceBlock8BehaviorEv(void *self)
-{ return ((IceBlock *)self)->IceBlock::Behavior(); }
+{ return ((daObjIceBlock_c *)self)->daObjIceBlock_c::Behavior(); }
 int _ZN8IceBlock6RenderEv(void *self)
-{ return ((IceBlock *)self)->IceBlock::Render(); }
+{ return ((daObjIceBlock_c *)self)->daObjIceBlock_c::Render(); }
 }

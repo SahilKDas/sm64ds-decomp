@@ -247,7 +247,7 @@
 //   include/decl_Scene.h declares `extern int _ZN8dScene_c14BeforeBehaviorEv();`
 //     with EMPTY PARENS inside extern "C", so src/minigames/d_s_mg_base.cpp's
 //     call at line 52 passes no `this`. The real definition
-//     (src/_ZN8dScene_c14BeforeBehaviorEv.cpp:47) takes `char* self` and
+//     (src/actors/dScene_c.cpp:47) takes `char* self` and
 //     dereferences it immediately. On ARM this is a ride-through and correct
 //     -- r0 already holds self -- and on the host the callee reads the stack.
 //     Two lines BELOW it, the same header spells the sibling correctly,
@@ -432,7 +432,7 @@ void  _ZN11dScMgBase_c9Virtual80Ev(void);
 void  _ZN11dScMgBase_c9Virtual84Ev(void *c);
 /* SLOT 34 IS THE BOARD'S BRUSH AND TAKES FIVE PARAMETERS. Run mg10, lane F371.
    This line used to read `void _ZN11dScMgBase_c9Virtual88Eiiii(void *c);` while
-   src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp defines
+   src/minigames/d_s_mg_base.cpp defines
        void _ZN11dScMgBase_c9Virtual88Eiiii(char* obj, int cx, int cy, int val, int n)
    -- an n-by-n block of `val` written at (cx,cy) through MultiCopy_Int. See
    mb_v34 below for what the one-parameter spelling cost and why nothing could
@@ -440,7 +440,7 @@ void  _ZN11dScMgBase_c9Virtual84Ev(void *c);
 void  _ZN11dScMgBase_c9Virtual88Eiiii(void *c, int cx, int cy, int val, int n);
 /* SLOT 35 IS A PREDICATE ON `this` AND WAS DECLARED AS NEITHER. Run mg6, lane
    PPP. This line used to read `void _ZN11dScMgBase_c9Virtual8CEv(void);` while
-   src/_ZN11dScMgBase_c9Virtual8CEv.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0)
+   src/minigames/d_s_mg_base.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0)
    { return (r0[2] & 0xff) != 0; }`. See mb_v35 below for what that cost. */
 int   _ZN11dScMgBase_c9Virtual8CEv(int *c);
 
@@ -648,7 +648,7 @@ static int  __fastcall mb_v33(void *s, void *)     { MG_SLOT(33); _ZN11dScMgBase
  *     str r7,[sp] / ldr Rd,[r0] / ldr r3,[sp,#0x3c] / ldr Rd,[Rd,#0x88]
  *     / mov r1,sb / mov r2,r8 / blx Rd
  * so r1 and r2 are the walked coordinates, r3 is the caller's `val` and the
- * pushed word is its `n`. src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp declares the same five. */
+ * pushed word is its `n`. src/minigames/d_s_mg_base.cpp declares the same five. */
 static int  __fastcall mb_v34(void *s, void *, int cx, int cy, int val, int n)
 { MG_SLOT(34); _ZN11dScMgBase_c9Virtual88Eiiii(s, cx, cy, val, n); return 0; }
 /* SLOT 35 DROPPED `this` AND THREW THE ANSWER AWAY. Run mg6, lane PPP.
@@ -1192,7 +1192,7 @@ extern "C" void port_scene_mg_prepare(int id)
  *    the count come out 10 and 12 was not seeing entropy: those are round 1
  *    and round 4 of that one fixed sequence, reached by a run that got further
  *    in. +0x5fd8 is ALSO decremented once per petal plucked
- *    (src/_ZN13dScMgFlower_c8BehaviorEv.cpp), so a run with hands on it reports a smaller
+ *    (src/actors/dScMgFlower_c.cpp), so a run with hands on it reports a smaller
  *    number for a third reason. All three are positions in a frozen sequence.
  *
  * 4. WHAT THIS DOES. The faithful equivalent of the journey the launcher
@@ -1616,7 +1616,7 @@ extern "C" void *port_mg_curling_spawn(void)
    functions of this array, so "the shells collided" is a statement about these
    twenty numbers and nothing else. Reading them off a frame capture is
    guesswork; reading them here is not. The field offsets are the ones the
-   matched physics TUs use (src/func_ov006_020e2868.c, src/func_ov006_020e2c08.c)
+   matched physics TUs use (src/actors/dScMgCurling_c.cpp, src/actors/dScMgCurling_c.cpp)
    and the two transcriptions in port/unmatched/ tabulate. */
 static void port_mg_curling_shell_census(void)
 {
@@ -1627,7 +1627,7 @@ static void port_mg_curling_shell_census(void)
        fire is a statement about these and not about the shells. +0x4eb0 and
        +0x4eb4 are the cursor, +0x4ee4 the aim sub-state, +0x4ee6 the next
        shell to place and +0x4ee7 the place-one-now flag; every one of them is
-       read or written by src/func_ov006_020e2c08.c or src/func_ov006_020e2dbc.c
+       read or written by src/actors/dScMgCurling_c.cpp or src/actors/dScMgCurling_c.cpp
        in the matched tree. */
     std::printf("[scene] curling cursor: A %d B %d  substate %u  nextShell %u "
                 "placePending %u\n",
@@ -2108,7 +2108,7 @@ static unsigned g_pch_hits[36];
  * ones dScMgPachinko_c's own render loop reads a moment later -- slot i at
  * scene + 0x4ed8 + i * 0x38, X then Y, both Fix12, with the visible flag at
  * +0x4f0e of the same slot. The engine column applies the ROM's OWN band test,
- * transcribed from src/func_ov004_020aff38.cpp rather than restated:
+ * transcribed from src/minigames/d_s_mg_base.cpp rather than restated:
  *
  *     world y in [-0x100 - G, -G)   the TOP engine, at y + 0xc0 + G
  *     else world y in [-0x40, 0xc0) the BOTTOM engine, at y
@@ -2153,9 +2153,9 @@ static void pch_ball_dump(void *self, unsigned frame)
            reaches world -1 and this branch cannot be taken. */
         const int culled = (engine == ENG_BOTTOM && top_row + 16 <= 0);
         /* THE SLOT'S STATE BYTE, because where a ball is only means something
-           next to what it is doing. src/func_ov006_020fe2e4.c writes 1 here on
+           next to what it is doing. src/actors/dScMgPachinko_c.cpp writes 1 here on
            the stylus press edge (grabbed, and the ball now tracks the stylus at
-           a captured offset) and src/func_ov006_020fe394.cpp writes 2 on the
+           a captured offset) and src/actors/dScMgPachinko_c.cpp writes 2 on the
            release (shot). A trace of positions alone cannot tell a ball that is
            being pulled from one that has just been fired at the same place,
            which is the distinction a drag that leaves the window turns on. */
@@ -2284,7 +2284,7 @@ static void *__fastcall pch_d2(void *s, void *)
 static void *__fastcall pch_d0(void *s, void *)
 { PCH_SLOT(17); return port_mg_pachinko_d0(s); }
 /* slot 18 takes a SECOND argument in this class where curling's takes none:
-   src/_ZN15dScMgPachinko_c13OnYoshiTryEatEi.cpp is (char *c, int n) and the ROM reads r1 (cmp r1,#9
+   src/actors/dScMgPachinko_c.cpp is (char *c, int n) and the ROM reads r1 (cmp r1,#9
    at 0x020fed6c). The __fastcall face lands `this` in ecx and the ROM's r1 in
    the first stack slot, which is where the third parameter of this thunk sits. */
 static int  __fastcall pch_reset(void *s, void *, int n)
@@ -2301,8 +2301,8 @@ static const MgFace kPachinkoFaces[] = {
  *
  * WHAT IT MEASURES. dScMgPachinko_c's scoring is two functions:
  *
- *     src/func_ov006_020fb7e0.c   the per-item tick that decides an award
- *     src/func_ov006_020fbb2c.c   the award itself, which adds the points to
+ *     src/actors/dScMgPachinko_c.cpp   the per-item tick that decides an award
+ *     src/actors/dScMgPachinko_c.cpp   the award itself, which adds the points to
  *                                 the score through func_ov004_020adb1c
  *
  * and the ROM hands the POINTS from the first to the second in r2, produced by
@@ -2323,8 +2323,8 @@ static const MgFace kPachinkoFaces[] = {
  * split independently:
  *
  *     {"sym":"func_ov006_020fbb2c","def_n":3,
- *      "def_file":"src/func_ov006_020fbb2c.c","decl_n":2,
- *      "decl_file":"src/func_ov006_020fb7e0.c","kind":"DROPS"}
+ *      "def_file":"src/actors/dScMgPachinko_c.cpp","decl_n":2,
+ *      "decl_file":"src/actors/dScMgPachinko_c.cpp","kind":"DROPS"}
  *
  * HOW IT MEASURES IT WITHOUT PLAYING. The award path needs a stylus drag and a
  * live round, which no headless or scripted-stylus run reaches. So the check
@@ -2509,9 +2509,9 @@ extern "C" void port_scene_mg_pachinko_report(void)
 // self+0x4684 on its first statement without a null check. The pre-flight
 // below says so before the spawn.
 //
-// SLOT 18 IS A HOST COPY AND NOT THE MATCHED TU. src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp
+// SLOT 18 IS A HOST COPY AND NOT THE MATCHED TU. src/actors/dScMgSmartball_c.cpp
 // declares func_ov006_02115b0c with no parameters and calls it with none,
-// while src/func_ov006_02115b0c.c:113 defines it taking the object; ARM rides
+// while src/actors/dScMgSmartball_c.cpp:113 defines it taking the object; ARM rides
 // r0 through and the host does not. port/unmatched/MgSmartball_Slot18.cpp is
 // the src body with the argument placed and the src TU is off the slice.
 //
@@ -2570,7 +2570,7 @@ static void __fastcall smb_aclean(void *s, void *, unsigned f)
 
    WHY THE CONDITION EXISTS. Slot 0 InitResources (_ZN16dScMgSmartball_c13InitResourcesEv) has no
    decompiled body -- no delink block covers 0x02118b70 -- so it is a trap and
-   nothing builds the class's sub-objects. src/_ZN16dScMgSmartball_c8BehaviorEv.cpp's case 0
+   nothing builds the class's sub-objects. src/actors/dScMgSmartball_c.cpp's case 0
    opens with
 
        o = *(char**)(c + 0x4684);
@@ -2724,7 +2724,7 @@ static const MgFace kSmartballFaces[] = {
 // Every other thunk in this file is __fastcall (receiver in ECX) because every
 // caller of a SCENE vtable in this binary is a host dispatcher that puts it
 // there. The sub-object tables are the opposite case: their dominant caller is
-// src/_ZN16dScMgSmartball_c8BehaviorEv.cpp, this class's own Behavior, which spells
+// src/actors/dScMgSmartball_c.cpp, this class's own Behavior, which spells
 // `typedef void (*VFunc)(void*)` and makes twelve `(**(VFunc**)o)(o)` calls --
 // a cdecl call with the receiver PUSHED. A vtable cannot serve both shapes, so
 // these thunks take the receiver on the stack, and the one C++ caller
@@ -2736,7 +2736,7 @@ static const MgFace kSmartballFaces[] = {
 //
 //   dokan RestoreInitial (0x02110bb4) is a 0xc-byte TAIL-CALL VENEER --
 //     `ldr ip,[pc]; bx ip; .word 0x02114738` -- so it is the base class's own
-//     RestoreInitial reached under a second address. src/_ZN20cMgSmartball_dokan_c14RestoreInitialEv.cpp
+//     RestoreInitial reached under a second address. src/actors/dScMgSmartball_c.cpp
 //     spells both sides `void(void)`, which rides r0 through on ARM and drops
 //     the receiver on the host. The thunk dispatches straight to the veneer's
 //     TARGET with the receiver, which is exactly what port_scene_fill_rom does
@@ -2751,8 +2751,8 @@ static const MgFace kSmartballFaces[] = {
 //
 // Not missing -- misnamed, which reads the same from a symbol search and is
 // not the same thing at all. config/arm9/overlays/ov006/delinks.txt in this
-// tree files 0x02111144 as src/_ZN24cMgSmartball_propeller_c12SaveSnapshotEv.cpp and 0x02110154 as
-// src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp. Both are real, matched ov006 bodies at those
+// tree files 0x02111144 as src/actors/dScMgSmartball_c.cpp and 0x02110154 as
+// src/actors/dScMgSmartball_c.cpp. Both are real, matched ov006 bodies at those
 // addresses; the decomp's main has since renamed them
 // _ZN24cMgSmartball_propeller_c12SaveSnapshotEv and
 // _ZN19cMgSmartball_slot_c14RestoreInitialEv. The rename is a byte-gated-tree
@@ -2828,7 +2828,7 @@ static void smb_dok_s1(void *s)   SMB_OBJ(_ZN20cMgSmartball_dokan_c6UpdateEv(s))
    enabler E2 of out/LINK15/BATCHES.md). This thunk used to call the veneer's
    TARGET, _ZN21cMgSmartball_object_c14RestoreInitialEv, and skip the veneer.
    That was right on behaviour and it left the ROM's own 0xc-byte body dead:
-   src/_ZN20cMgSmartball_dokan_c14RestoreInitialEv.cpp is on
+   src/actors/dScMgSmartball_c.cpp is on
    port/slice_smb.txt and compiles, but nothing in the image referenced
    ?RestoreInitial@cMgSmartball_dokan_c@@UAEXXZ, so /OPT:REF discarded it.
 
@@ -3022,7 +3022,7 @@ extern "C" void port_scene_fill_smartball(void)
                     "_ZN16dScMgSmartball_c13InitResourcesEv, NONMATCHING) and the "
                     "aux ball-table seeder func_ov006_02114800. Run mg5 lane "
                     "SMBSEAT closed the last two floors: slot 9 Render is "
-                    "src/_ZN16dScMgSmartball_c6RenderEv.cpp, main's matched "
+                    "src/actors/dScMgSmartball_c.cpp, main's matched "
                     "__thiscall member, reached through a cdecl forwarder in "
                     "port/unmatched/MgSmartball_Faces.cpp because an alias cannot "
                     "cross the calling convention; and the sub-object family is "
@@ -3050,7 +3050,7 @@ extern "C" void port_scene_fill_smartball(void)
    through. At the instruction level 0x02119824 is the same shape -- `movs
    r4,r0` after the allocator returns, and r0 is never rewritten before
    `bl 0x20b2adc` -- so the object rides through here too. What differs is the
-   only thing the host sees: src/minigames/d_s_mg_smartball.cpp spells the call
+   only thing the host sees: src/actors/dScMgSmartball_c.cpp spells the call
    `_ZN11dScMgBase_cC2Ev(o)` and 0x169's src/actors/dScMgCup_c.cpp spells it
    `_ZN11dScMgBase_cC2Ev()`. port/tools/aritycheck.py finds the same split
    independently: it lists _ZN11dScMgBase_cC2Ev as DROPS from
@@ -3283,12 +3283,12 @@ extern "C" void port_scene_mg_coin_hits(void)
     /* THE FLOORS, REPORTED WHETHER OR NOT THEY FIRED. The render floor is the
        only one left and it is a decomp gap; it is silent unless rendering is
        on, so a zero here has to say WHICH zero it is. The state floor is
-       CLOSED -- src/func_ov006_020dd0e0.c is the matched body and lane WIRE
+       CLOSED -- src/actors/dScMgCoin_c.cpp is the matched body and lane WIRE
        wired the slot to it -- and the count that used to say how often the
        class wanted a state it could not reach now says how often it RAN it. */
     std::printf("[scene] dScMgCoin_c floors: render callee 0x020dbe9c entered "
                 "%u time(s); state floor 0x020dd0e0 CLOSED by "
-                "src/func_ov006_020dd0e0.c, which ran %u time(s) (bodiless "
+                "src/actors/dScMgCoin_c.cpp, which ran %u time(s) (bodiless "
                 "wants remaining: %u)\n",
                 port_mg_coin_trap_hits(), port_mg_coin_touch_calls(),
                 port_mg_coin_floor_hits());
@@ -3315,7 +3315,7 @@ extern "C" void port_scene_mg_coin_hits(void)
 //   RTTI       0x0213db58  "16dScMgPachinko2_c", 0x64 bytes before the table,
 //              which is the same RTTI-then-vtable adjacency the sibling has at
 //              0x0213d960 / 0x0213d9cc
-//   class      dScMgPachinko2_c, and src/d_s_mg_pachinko2.c's own
+//   class      dScMgPachinko2_c, and src/actors/dScMgPachinko2_c.cpp's own
 //              `p[0] = (int)_ZTV16dScMgPachinko2_c;` agrees with the ROM's
 //              string. That name is bound to the address by the one
 //              /alternatename row in unmatched/MgPachinko2_Faces.cpp
@@ -3412,7 +3412,7 @@ void  _ZN16dScMgPachinko2_c13OnYoshiTryEatEi(void *self, int n); /* slot 18 stat
 /* the factory. IT NEEDS NO DISPLACEMENT RULING, and that was checked rather
    than assumed: port/mg_fanout_costs.txt section 12 found 0x169's factory
    calling the base constructor with NO argument where ARM rides r0 through,
-   and granted a host copy for it. src/d_s_mg_pachinko2.c does NOT have
+   and granted a host copy for it. src/actors/dScMgPachinko2_c.cpp does NOT have
    that defect -- it reads `_ZN11dScMgBase_cC2Ev(p);`, with the argument -- so
    the matched TU is sliced and called directly. Confirmed against the ROM at
    0x02104258 (0x34 bytes): arm_call to 0x020b2adc at 0x0210426c with r0
@@ -3447,7 +3447,7 @@ static void *__fastcall lkt_d2(void *s, void *)
 static void *__fastcall lkt_d0(void *s, void *)
 { LKT_SLOT(17); return port_mg_pachinko2_d0(s); }
 /* slot 18 takes a SECOND argument in this class, exactly as the sibling's
-   does: src/_ZN16dScMgPachinko2_c13OnYoshiTryEatEi.cpp is (char *c, int n) and the ROM reads r1
+   does: src/actors/dScMgPachinko2_c.cpp is (char *c, int n) and the ROM reads r1
    (cmp r1,#0x10 at 0x02103cd0). The __fastcall face lands `this` in ecx and
    the ROM's r1 in the first stack slot, which is where the third parameter of
    this thunk sits. Declaring it without the parameter is the four-byte stack
@@ -3686,7 +3686,7 @@ extern "C" void port_scene_mg_pachinko2_hits(void)
 //     { MG_SLOT(35); _ZN11dScMgBase_c9Virtual8CEv(); return 0; }
 //
 // against a declaration of `void _ZN11dScMgBase_c9Virtual8CEv(void);` -- while
-// src/_ZN11dScMgBase_c9Virtual8CEv.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0)
+// src/minigames/d_s_mg_base.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0)
 // { return (r0[2] & 0xff) != 0; }`. So the thunk dropped `this` (the callee
 // read whatever was on the stack) AND discarded the answer, returning a
 // constant 0. On ARM both halves ride through and are correct; on the host

@@ -34,11 +34,11 @@
 
 
 #include "types.h"
-#include "BigMovingIceBlock.h"
+#include "daObjEwmIceBlock_c.h"
 #include "BowserPuzzlePiece.h"
 #include "Coffin.h"
 #include "Dorrie.h"
-#include "KoopaFlag.h"
+#include "daRFlag_c.h"
 #include "LightBeam.h"
 #include "PathLift.h"
 #include "PeachPainting.h"
@@ -593,11 +593,11 @@ extern "C" void _ZN16daObjWaterfall_cD0Ev(void *self)
 
 /* ROM 0x021111e4 _ZN17BigMovingIceBlockD0Ev -- batch 2, the inline ~BigMovingIceBlock() plus _ZN6Memory10DeallocateEPvP4Heap */
 extern "C" void _ZN17BigMovingIceBlockD0Ev(void *self)
-{ ((BigMovingIceBlock *)self)->BigMovingIceBlock::~BigMovingIceBlock(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
+{ ((daObjEwmIceBlock_c *)self)->daObjEwmIceBlock_c::~daObjEwmIceBlock_c(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
 
 /* ROM 0x021111a0 _ZN17BigMovingIceBlockD1Ev -- batch 2, the inline ~BigMovingIceBlock() */
 extern "C" void _ZN17BigMovingIceBlockD1Ev(void *self)
-{ ((BigMovingIceBlock *)self)->BigMovingIceBlock::~BigMovingIceBlock(); }
+{ ((daObjEwmIceBlock_c *)self)->daObjEwmIceBlock_c::~daObjEwmIceBlock_c(); }
 
 /* ROM 0x02118b94 _ZN17BowserPuzzlePieceD0Ev -- batch 2, the inline ~BowserPuzzlePiece() plus _ZN6Memory10DeallocateEPvP4Heap */
 extern "C" void _ZN17BowserPuzzlePieceD0Ev(void *self)
@@ -877,7 +877,7 @@ extern "C" void _ZN8daTree_cD1Ev(void *self)
 
 /* ROM 0x0211af70 _ZN9KoopaFlagD0Ev -- batch 3, the inline ~KoopaFlag() plus _ZN6Memory10DeallocateEPvP4Heap */
 extern "C" void _ZN9KoopaFlagD0Ev(void *self)
-{ ((KoopaFlag *)self)->KoopaFlag::~KoopaFlag(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
+{ ((daRFlag_c *)self)->daRFlag_c::~daRFlag_c(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
 
 /* ROM 0x02111a08 _ZN9LightBeamD0Ev -- batch 3, the inline ~LightBeam() plus _ZN6Memory10DeallocateEPvP4Heap */
 extern "C" void _ZN9LightBeamD0Ev(void *self)

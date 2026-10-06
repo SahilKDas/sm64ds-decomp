@@ -104,14 +104,14 @@ src/func_02008abc.c
 src/func_02008b08.c
 src/func_02009138.c
 src/func_020091f8.c
-# RETIRED at SLICE1: body now in src/_ZN7fBase_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN7fBase_cD2Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/ActorBase.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/ActorBase.cpp
 # Lane DTOR-PAIRS-C: the three root tables' own D1/D0 pairs, seated into
 # words 16/17 of the host arrays by hal/dtor_seats_base.cpp (ROM relocs named
 # there). Nothing dispatches them; the seat is the ROM's word and the edge.
-src/_ZN7fBase_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN7fBase_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN7fBase_cD0Ev.cpp
+src/actors/ActorBase.cpp
+# RETIRED at SLICE1: body now in src/actors/ActorBase.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/ActorBase.cpp
 src/actors/ActorDerived.cpp
 src/_ZN4ViewD1Ev.cpp
 src/_ZN4ViewD0Ev.cpp

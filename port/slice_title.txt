@@ -35,11 +35,11 @@
 #   2. The placeholder trio (_ZTV10dScTitle_c / _ZTV8dScene_c / _ZTV7dBase_c,
 #      ROM words 0x020b1650 / 0x02092680 / 0x0208e4b8) is a MWCC-SIDE spelling
 #      and there is nothing for this host build to rename. Measured, not
-#      assumed: src/_ZN10dScTitle_cD1Ev.cpp's body is empty -- the vptr stores
+#      assumed: src/actors/dScTitle_c.cpp's body is empty -- the vptr stores
 #      come out of the compiler, not out of source text -- so unlike
 #      src/actors/dScGameOver_c.cpp, which spells VT0/VT1/VT2/G0 and needs
 #      port/CMakeLists.txt's per-TU renames, this TU spells none of the six
-#      names. `grep -n "VT0\|VT1\|VT2\|_ZTV" src/_ZN10dScTitle_cD1Ev.cpp` is
+#      names. `grep -n "VT0\|VT1\|VT2\|_ZTV" src/actors/dScTitle_c.cpp` is
 #      empty. A COMPILE_DEFINITIONS row here would be dead the way the one
 #      lane CDEFS deleted from the mpg2 block was dead.
 #
@@ -47,29 +47,22 @@
 # the factory: fBase_c::operator new(0x54), the fBase_c ctor, the three vptr
 # writes the ROM makes in order and the two +0x13 flag bits. It already spells
 # data_ov003_020b1650 and _ZTV8dScene_c by name, so it needs no rename.
-src/d_s_title.cpp
+src/actors/dScTitle_c.cpp
 # slot 3  CleanupResources -- 0x020ada80, one Sound::UnsetPlayerVoiceGroup call
-src/_ZN10dScTitle_c16CleanupResourcesEv.cpp
 # slot 9  Render -- 0x020ad7a4, OAM::EnableSubOAM plus one OAM word
-src/_ZN10dScTitle_c6RenderEv.cpp
 # slot 12 OnPendingDestroy -- 0x020ad7a0, 4 bytes, bx lr
-src/_ZN10dScTitle_c16OnPendingDestroyEv.cpp
 # slot 16 D2 -- 0x020ad660
-src/_ZN10dScTitle_cD1Ev.cpp
 # slot 17 D0 -- 0x020ad69c. NOT LISTED, and that is the same call
-# port/slice_scene1.txt made for src/_ZN12dScStarSel_cD0Ev.cpp: MSVC folds the
+# port/slice_scene1.txt made for src/actors/dScStarSel_c.cpp: MSVC folds the
 # ROM's destructor variants into ONE symbol, so only one of a class's two
 # per-function destructor TUs can be compiled. Listing both is LNK2005.
-#src/_ZN10dScTitle_cD0Ev.cpp
+#src/actors/dScTitle_c.cpp
 # slot 0  InitResources -- 0x020ada9c
-src/_ZN10dScTitle_c13InitResourcesEv.cpp
 # slot 6  Behavior -- 0x020ad814, the level/entrance picker state machine
-src/_ZN10dScTitle_c8BehaviorEv.cpp
 #
 # ---- the class's own closure ----------------------------------------------
 # 0x020ad6ec is named by InitResources and by Behavior and by nothing else in
 # this build, so it is a real gain rather than a re-count.
-src/func_ov003_020ad6ec.c
 #
 # THREE RIDERS ARE NOT LISTED HERE ON PURPOSE. src/func_ov003_020adc74.cpp,
 # src/func_ov003_020adcbc.cpp and src/_ZN2G212GetBG0ScrPtrEv.cpp are ALREADY

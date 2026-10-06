@@ -453,7 +453,7 @@ hal/scene_mg.cpp's header and the amended caveat in hal/scene_boot.cpp.
 ---------------------------------------------------
 
 A minigame's Behavior does this, and every one of the thirty does some version
-of it (src/_ZN14dScMgCurling_c8BehaviorEv.cpp, dScMgCurling_c slot 6, verbatim):
+of it (src/actors/dScMgCurling_c.cpp, dScMgCurling_c slot 6, verbatim):
 
     int j = c->idx;
     (c->*data_ov006_02141950[j].pmf[0])();
@@ -487,7 +487,7 @@ SEQUENCING. It was assumed above that the pointer-to-member problem was each
 minigame's own state machine. It is not: the FRAMEWORK has one too, and the
 framework's is the one a boot hits first.
 
-src/_ZN10dMgState_c8SetStateEi.cpp is dScMgBase_c's STATE SETTER -- sixty-three lines
+src/actors/dMgState_c.cpp is dScMgBase_c's STATE SETTER -- sixty-three lines
 that build a static table of twenty member pointers out of twenty ov004
 globals, assign one into the object and dispatch it. It produced TWENTY-ONE of
 the first link's ninety-five unresolved externals, all from that single TU, and
@@ -664,7 +664,7 @@ so treat twelve as a floor rather than a census.)
 
   It declares no member-pointer type and no PMF global. The pair is read out of
   the object as two ordinary ints, so there is no symbol for a link to fail on
-  AND no `::*` for a source sweep to match. src/func_ov006_020c3d18.cpp sits
+  AND no `::*` for a source sweep to match. src/actors/unit020bfec0.cpp sits
   inside extern "C" and does its own decoding:
 
       int v = *(int*)(c+4);         /* the adjustment word */
@@ -695,7 +695,7 @@ so treat twelve as a floor rather than a census.)
   ROUTE IT AT THE DISPATCH SITE, NOT BY REWRITING THE STORED PAIR. The ov085 /
   ov100 shape named further up -- write host addresses over the .data pair
   before anything reads it -- is wrong for this one, and the reason is a second
-  reader. src/func_ov006_020c3b80.c compares the stored pair against its idle
+  reader. src/actors/unit020bfec0.cpp compares the stored pair against its idle
   sentinel data_ov006_0213aee0:
 
       if (r2 == g[0]) { if (c[1] == g[1] || r2 == 0) ip = 0; }
@@ -722,7 +722,7 @@ claim, and the run is the detector: eip on a DS address is the tell.
 
 The four are also the worse defect on their own terms. MSVC's four-byte member
 pointer inside the object moves every field after it, so they read the WRONG
-FIELD before any dispatch happens -- src/func_ov004_020b31b4.cpp reads `state`
+FIELD before any dispatch happens -- src/actors/unit020b2c84.cpp reads `state`
 at 0x1c where the ROM reads [r0,#0x20] -- where the two table cases are a wrong
 stride within a correctly laid out object. All four layouts were re-derived
 from the ROM disassembly rather than from the src structs.
@@ -824,7 +824,7 @@ recorded here because each bites a specific fan-out lane at a specific moment.
      `extern int _ZN8dScene_c14BeforeBehaviorEv();` with EMPTY PARENS inside
      extern "C", so src/minigames/d_s_mg_base.cpp's call at line 52 passes no
      object pointer, while the real definition
-     (src/_ZN8dScene_c14BeforeBehaviorEv.cpp:47) takes `char* self` and
+     (src/actors/dScene_c.cpp:47) takes `char* self` and
      dereferences it immediately. On ARM this is a ride-through and correct --
      r0 already holds self. On the host the callee reads the stack. The line
      ABOVE it in the same header spells the sibling correctly,
@@ -863,7 +863,7 @@ recorded here because each bites a specific fan-out lane at a specific moment.
   dispatch exists, and a host copy nobody can call is a count rather than a
   port. They are named here so the next lane meets them as known work.
 
-  A FOURTH, SMALLER: src/_ZN14dScMgCurling_c13InitResourcesEv.cpp spells ov004's
+  A FOURTH, SMALLER: src/actors/dScMgCurling_c.cpp spells ov004's
   func_ov004_020adc74 as bare `func_020adc74`, a name that exists in no config.
   The reloc says module overlays(3,4) and ov004 is the co-resident answer. A
   name-spelling face, the ordinary kind.
@@ -1040,7 +1040,7 @@ LINKAGE, measured on the tip:
   documents give the two that matter: port/ov006_player_map.txt section 4
   states ov006 linked=0 and explains that the single ov006 name in the map was
   an /alternatename onto an ov002 body, and port/slice_mg1.txt records
-  src/func_ov004_020adc4c.c as "the one ov004 body the port could already
+  src/minigames/d_s_mg_base.cpp as "the one ov004 body the port could already
   reach". So ov006 0 -> 75 and ov004 1 -> 97 are believed but not measured on
   both ends. The +217 headline IS measured on both ends.
 
@@ -1121,7 +1121,7 @@ TWO PORT DEFECTS ON THE PATH WERE FIXED RATHER THAN SKIPPED, and both were
 found by running rather than by reading:
 
   a. A FABRICATED INITIALIZER, INVISIBLE TO THE BYTE GATE.
-     src/func_ov004_020b2cb8.c opens with Entry entries[29] = {{1,100},
+     src/actors/unit020b2c84.cpp opens with Entry entries[29] = {{1,100},
      {2,101}, ... {29,128}}, a ramp; it then overwrites twenty-eight of the
      twenty-nine and never touches entry 1, so the loop at the bottom
      dereferenced 101 and the first boot faulted accessing 0x00000065. THE ROM
@@ -1436,7 +1436,7 @@ finding about the seat rather than about the ruling:
 
       IT DOES NOT MERELY READ A GARBAGE `this`, IT WRITES THROUGH IT, which
       lane MAR1's verification established and this lane's filing had
-      understated. src/_ZN11dScMgBase_cC2Ev.cpp dereferences on its FIRST
+      understated. src/minigames/d_s_mg_base.cpp dereferences on its FIRST
       statement -- `_ZN7fBase_cC2Ev(self)` -- and follows it immediately with
       `*(void **)self = &data_0208e4b8;` and two more vtable stores. So the
       failure is a wild write to an uninitialised value, not a bad read: no
@@ -1509,7 +1509,7 @@ one and is already trapped". A source sweep for a member-pointer dispatch over
 this class's whole 869-file closure finds FOURTEEN: those six, seven ov004 TUs
 MG1/MG2/BASESET already host-copied, and
 
-    src/func_ov004_020b52fc.cpp
+    src/actors/unit020b4aa4.cpp
 
 which is six lines, is in NO wired slice and in no lane's host-copy set, and is
 reached TWENTY TIMES PER FRAME on this class's live path:
@@ -1585,15 +1585,15 @@ THREE HOST COPIES ARE NOT WALL WORK, AND THAT IS THE COST MODEL'S BLIND SPOT.
 None of the three was predictable from the vtable axis, the marker column or
 the state tables, and each was found by a different instrument:
 
-  src/func_ov006_020c0a48.c passes three SharedFilePtr file ids by the names
+  src/actors/unit020bfec0.cpp passes three SharedFilePtr file ids by the names
     g0, g1 and g2, which exist in no config. THE LINK found it, as three
     unresolved externals. The ROM loads 0x205, 0x206 and 0x207 out of its own
     literal pool at 0x020c0a9c.
-  src/func_ov006_020c1804.cpp draws the model sub-object through a local shadow
+  src/actors/unit020bfec0.cpp draws the model sub-object through a local shadow
     class at TWO sites and stores two light vectors straight at 0x040004c8. A
     RUN found it, as the Y3D chain one class over: Virtual18 got a null matrix
     and Model::Virtual10 read address zero.
-  src/func_ov006_020c06dc.cpp does the same at a DIFFERENT slot, and that one
+  src/actors/unit020bfec0.cpp does the same at a DIFFERENT slot, and that one
     also unbalances the stack. The ROM's byte +0xc is UpdateVerts and MSVC's
     fourth word is Virtual10, which is __thiscall with one stack parameter and
     so returns with `ret 4`, eating four bytes the caller never pushed. Every
@@ -1602,7 +1602,7 @@ the state tables, and each was found by a different instrument:
     IT: the nearest symbol was two frames up.
 
   THE SHADOW-CLASS TEST, because a sweep that flags every one of them is wrong
-  in the expensive direction. src/func_ov006_020c14bc.cpp is in the same slice,
+  in the expensive direction. src/actors/unit020bfec0.cpp is in the same slice,
   models the live dScMgBase_c object with a 22-virtual shadow and calls v21(),
   and is CORRECT: that object's vptr is the MOUNTED ROM TABLE, which the fill
   writes by ROM word and therefore leaves in ROM word order. A shadow class
@@ -1699,7 +1699,7 @@ recorded here so nobody re-finds it as a site.
 
   TWO CORRECTIONS FROM run mg7 lane L380, both from reading the body rather
   than its call sites. THREE of the four are in a body the port compiles now,
-  not two: src/func_ov006_02106168.cpp is MATCHED. AND THE PAIR OF TABLES NAMED
+  not two: src/actors/dScMgPanel_c.cpp is MATCHED. AND THE PAIR OF TABLES NAMED
   IN THE 0x021061ec ROW IS WRONG. data_ov006_0213dd4c and _0213dd58 are loaded
   UNCONDITIONALLY, both indexed by [this+0x4cbc]-4, and they hold the panel x
   and y positions the body shifts left twelve into +0x4cc4+i*4 and +0x4d54+i*4.
@@ -1757,7 +1757,7 @@ hal/scene_mg.cpp's mb_v35 read
     { MG_SLOT(35); _ZN11dScMgBase_c9Virtual8CEv(); return 0; }
 
 against a declaration of `void _ZN11dScMgBase_c9Virtual8CEv(void);`, while
-src/_ZN11dScMgBase_c9Virtual8CEv.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0) { return
+src/minigames/d_s_mg_base.cpp defines `int _ZN11dScMgBase_c9Virtual8CEv(int *r0) { return
 (r0[2] & 0xff) != 0; }`. Both halves are wrong on the host: the callee read the
 stack in place of `this`, and the thunk returned a constant 0 instead of the
 answer. It is the family lane BASESET's slot-18/19 repair and lane FDR2's
@@ -1814,7 +1814,7 @@ enough to need it.
 
     IT GOT BOTH, run mg7 lane L380, AND SO DID THE OTHER FLOOR:
 
-      func_ov006_02106168  src/func_ov006_02106168.cpp  MATCHED, delink block
+      func_ov006_02106168  src/actors/dScMgPanel_c.cpp  MATCHED, delink block
                            .text start:0x02106168 end:0x021063a0
       func_ov006_02106ca4  src/func_ov006_02106ca4.c    MATCHED, delink block
                            .text start:0x02106ca4 end:0x02106eb8
@@ -2166,24 +2166,24 @@ marked NONMATCHING carry the banner their lane wrote.
     REMAINS  nothing. This class's floor count is ZERO.
 
   scene 369, dScMgPachinko2_c, lane L369
-    CLOSED   func_ov006_020ff8c8  src/func_ov006_020ff8c8.c    MATCHED
-    CLOSED   func_ov006_020ffb54  src/func_ov006_020ffb54.c    MATCHED
-    CLOSED   func_ov006_02102274  src/func_ov006_02102274.c    MATCHED
-    CLOSED   func_ov006_02102fe8  src/func_ov006_02102fe8.cpp    NONMATCHING
-    CLOSED   func_ov006_0210076c  src/func_ov006_0210076c.c    NONMATCHING
+    CLOSED   func_ov006_020ff8c8  src/actors/dScMgPachinko2_c.cpp    MATCHED
+    CLOSED   func_ov006_020ffb54  src/actors/dScMgPachinko2_c.cpp    MATCHED
+    CLOSED   func_ov006_02102274  src/actors/dScMgPachinko2_c.cpp    MATCHED
+    CLOSED   func_ov006_02102fe8  src/actors/dScMgPachinko2_c.cpp    NONMATCHING
+    CLOSED   func_ov006_0210076c  src/actors/dScMgPachinko2_c.cpp    NONMATCHING
              The per-entry follow-up the fifteen-state dispatcher calls after
              every dispatch it makes. unmatched/MgPachinko2_Traps.cpp existed
              for this one symbol and is DELETED rather than emptied: a trap
              standing beside a real definition is a duplicate symbol, not a
              safety net.
-    ALSO     func_ov004_020b1710  src/func_ov004_020b1710.c    MATCHED
+    ALSO     func_ov004_020b1710  src/minigames/d_s_mg_base.cpp    MATCHED
              ov004, and the trap line in hal/scene_mg_faces.cpp goes with it.
     REMAINS  nothing bodiless among this class's 28 states. The scene line
              prints `missing` as proof now rather than as a warning.
 
   scene 370, dScMgBomroom_c, lane L370
-    CLOSED   func_ov006_020d7c4c  src/func_ov006_020d7c4c.cpp    MATCHED
-    CLOSED   func_ov006_020d8408  src/func_ov006_020d8408.c    NONMATCHING
+    CLOSED   func_ov006_020d7c4c  src/actors/dScMgBomroom_c.cpp    MATCHED
+    CLOSED   func_ov006_020d8408  src/actors/dScMgBomroom_c.cpp    NONMATCHING
              unmatched/MgBomroom_Traps.cpp held the trap for the second and is
              DELETED. The largest pointer-to-member bill any seated class has
              run up now stands with seven host copies and no trap.
@@ -2212,7 +2212,7 @@ marked NONMATCHING carry the banner their lane wrote.
              check that says this lane did not reach across into it.
 
   scene 380, dScMgPanel_c (0x17c), lane L380
-    CLOSED   func_ov006_02106168  src/func_ov006_02106168.cpp  MATCHED
+    CLOSED   func_ov006_02106168  src/actors/dScMgPanel_c.cpp  MATCHED
              The layout picker slot 0 and slot 18 both call directly, and the
              sole writer of the two panel arrays at +0x4f1e and +0x4f42.
     CLOSED   func_ov006_02106ca4  src/func_ov006_02106ca4.c    MATCHED
@@ -2309,7 +2309,7 @@ WHERE +0xb4 COMES FROM, AND IT IS BOTH MECHANISMS AT ONCE.
 THE PORT DIVERGENCE, AND IT IS NOT THE CARD COUNT.
 hal/scene_boot.cpp's port_scene_boot called Scene::SetSceneToSpawn(id, 0) for
 every scene. On the DS a minigame is only ever launched by
-src/func_ov005_020c0378.cpp, whose last act is
+src/actors/dScMiniGm_c.cpp, whose last act is
 
     Scene::StartSceneFade(*(u16*)(data_ov005_020c24d8 + m),
                           *(int *)(data_ov005_020c24dc + m), 0);
@@ -2404,7 +2404,7 @@ WHAT THIS SECTION DOES NOT KNOW.
     no run in this section has watched slot 35 act on a 1. (Run mg8 reviewer,
     adversarial finding.)
   - WHAT +0x465e's NEW VALUE CHANGES ON SCREEN. It is a name-text id read by
-    src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp; the five scenes booted clean with it and no
+    src/minigames/d_s_mg_base.cpp; the five scenes booted clean with it and no
     lane has compared the banner to a DS.
 
 
@@ -2591,7 +2591,7 @@ AND THE THIRD FLOOR EXPLAINS A LIVE HOST-ABI DEFECT NOBODY CAN HIT.
 func_ov004_020ae5c4 is the FAMILY'S ONLY SLOT-34 DISPATCHER: a scan of both
 overlay images for `ldr Rd,[Rn,#0x88]` with Rn neither pc nor sp returns ten
 offset matches and EIGHT are inside it, each with one word pushed before the
-blx, so slot 34 takes FIVE arguments and src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp (the base's
+blx, so slot 34 takes FIVE arguments and src/minigames/d_s_mg_base.cpp (the base's
 own slot-34 body) declares five to match. hal/scene_mg.cpp's shared mb_v34 is
 declared (void *, void *) and calls that five-parameter body with ONE argument.
 
@@ -2702,7 +2702,7 @@ WHAT IT COST, against section 14's one-wave shape:
                                                   32 built objects finds none)
 
 THE ONE HOST COPY IS NOT WALL WORK AND IS WORTH THE NEXT LANE'S ATTENTION.
-src/func_ov006_020d3ba0.cpp is //cpp-marked and needs C++ for real -- a
+src/actors/dScMgAmida_c.cpp is //cpp-marked and needs C++ for real -- a
 37-virtual dummy struct it dispatches slot 36 through, and a namespace -- and
 its extern "C" block writes a bare `int data_0209d4b8;`. mwccarm takes that as
 a TENTATIVE DEFINITION and merges it; C++ has none, so MSVC makes it a strong
@@ -2743,7 +2743,7 @@ LINKAGE, measured on both ends on this tree:
   at. FOUR were already in the base map -- __sinit_ov006_0212fc7c and its three
   static-array helpers 020d0fe4 / 020d1008 / 020d100c, because the mount
   already runs all thirty-five overlay constructors. The FIFTH,
-  src/func_ov006_020d25fc.c, is compiled and then DROPPED by the linker as
+  src/actors/dScMgAmida_c.cpp, is compiled and then DROPPED by the linker as
   unreferenced: every one of its 42 call sites is inside func_ov006_020d27dc,
   which is a trap. Section 4 warns that "a trap-shaped floor HIDES its callees
   from static closure"; this is the same fact from the other end, a trap making
@@ -2884,8 +2884,8 @@ and 0x14 subtraction.
 
 SECTION 19 LEFT THREE FLOORS. TWO ARE CLOSED AND THE THIRD IS MEASURED.
 
-  func_ov004_020ae5c4  0x294  CLOSED  src/func_ov004_020ae5c4.cpp  NONMATCHING
-  func_ov006_020d36a4  0x4fc  CLOSED  src/func_ov006_020d36a4.cpp  NONMATCHING
+  func_ov004_020ae5c4  0x294  CLOSED  src/minigames/d_s_mg_base.cpp  NONMATCHING
+  func_ov006_020d36a4  0x4fc  CLOSED  src/actors/dScMgAmida_c.cpp  NONMATCHING
   func_ov006_020d27dc  0xe48  STANDS  and section 19's 792 asks are still 792
 
 ---- 1. WHAT THE ov004 FLOOR IS, AND IT ANSWERS SECTION 19's OPEN QUESTION ----
@@ -2894,13 +2894,13 @@ func_ov004_020ae5c4 IS BRESENHAM'S LINE ALGORITHM. It walks from (x0,y0) to
 (x1,y1) -- x-major or y-major on |dx| >= |dy|, error accumulator seeded at half
 the major axis, the minor axis stepped on overflow -- and at every lattice point
 it visits it dispatches VTABLE SLOT 34. Slot 34 is the BRUSH: the base's own
-body, src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp, writes an n-by-n block of val through
+body, src/minigames/d_s_mg_base.cpp, writes an n-by-n block of val through
 MultiCopy_Int. So the pair is "draw a line of thickness n in colour val", and
 the seven parameters are (obj, x0, y0, x1, y1, val, n).
 
 THE AMIDAKUJI BOARD IS DRAWN WITH IT, and the two halves were derived
 independently and then agreed, which is what makes this a finding rather than a
-reading. src/func_ov006_020d3ba0.cpp calls it with (0x20, -0xb4) -> (0x20,
+reading. src/actors/dScMgAmida_c.cpp calls it with (0x20, -0xb4) -> (0x20,
 +0x4700) and the same for 0x60, 0xa0 and 0xe0 -- FOUR VERTICAL RAILS -- and
 with (x, y) -> (x + 0x40, y) for the horizontal RUNGS. Separately,
 func_ov006_020d36a4's tail writes each walker's start X as LANE[i] * 64 + 32,
@@ -2916,7 +2916,7 @@ live question; this is the code the stylus would be driving.
 SECTION 19 FOUND A LIVE HOST-ABI DEFECT AND DELIBERATELY DID NOT FIX IT, on the
 rule that a repair with no dispatch to witness it is wiring without evidence.
 hal/scene_mg.cpp's shared mb_v34 was declared (void *, void *) and called the
-five-parameter src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp with ONE argument. It could not be
+five-parameter src/minigames/d_s_mg_base.cpp with ONE argument. It could not be
 convicted because the tree's ONLY slot-34 dispatcher is func_ov004_020ae5c4 --
 eight ldr Rd,[Rn,#0x88] sites, every one inside it, each storing one word at
 [sp] before the blx -- and that body was TRAPPED. Slot 34 was unreachable on
@@ -2932,7 +2932,7 @@ SITES rather than off the callee:
     / mov r1,sb / mov r2,r8 / blx Rd
 
 r1 and r2 are the walked coordinates, r3 is the caller's val, the pushed word is
-its n, and src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp declares the same five.
+its n, and src/minigames/d_s_mg_base.cpp declares the same five.
 
 AND THE ARITY RATCHET AGREED WITHOUT BEING ASKED, which is the cheapest
 confirmation in the run. port/tools/aritycheck.py --gate-plainfunc came back
@@ -2973,11 +2973,11 @@ plus two per lane across four lanes, which is the ROM's three sites 0x020d36c0,
 ---- 4. TWO TRAPS FOUND ON THE WAY, AND ONE OF THEM IS SECTION 19's ---------
 
 THE TENTATIVE-DEFINITION TRAP FIRED, AND IT IS THE ONE SECTION 19 RECORDS.
-src/func_ov006_020d36a4.cpp is //cpp-marked, and a bare "int data_0209d4b8;" in
+src/actors/dScMgAmida_c.cpp is //cpp-marked, and a bare "int data_0209d4b8;" in
 its extern "C" block is a TENTATIVE DEFINITION to mwccarm and a STRONG one to
 MSVC, so the link came back LNK2005 against the arm9 RNG seed
 hal/scene_mg_faces.cpp owns inside DSSTATE. Section 19 hit this on
-src/func_ov006_020d3ba0.cpp and paid a host copy for it. THIS ONE DID NOT NEED
+src/actors/dScMgAmida_c.cpp and paid a host copy for it. THIS ONE DID NOT NEED
 ONE, and the distinction is worth carrying: that TU's spelling DEFINES the seed
 (both TUs only ever take its address), this one merely DECLARES it, so
 "extern int" is both the honest spelling and the working one. Reach for the
@@ -3018,7 +3018,7 @@ entered 173 times at 300 frames and 792 at 1200. It is THE WALKER TICK and the
 next lane should not start from scratch:
 
   - It calls func_ov006_020d25fc FORTY-TWO times, and every one of that body's
-    call sites in the whole overlay is inside this one. src/func_ov006_020d25fc.c
+    call sites in the whole overlay is inside this one. src/actors/dScMgAmida_c.cpp
     reads the walker's (col,row) at +0x4660/+0x4664, offsets it by one of EIGHT
     directions on a 0..7 selector, and probes. So this floor is an eight-
     neighbour LINE FOLLOWER: it looks around each walker for the drawn line and
@@ -3324,7 +3324,7 @@ CONFIRMATION of where the two words went.
   THE SAME ARTEFACT IS IN SECTION 21's ROW AND IT IS FLAGGED HERE RATHER THAN
   EDITED THERE, since a lane does not rewrite another lane's record. Section 21
   prints `7101 / 11285 -> 7103 / 11285`, but that lane landed TWO new src files
-  (src/func_ov004_020ae5c4.cpp in 5c173cb62 and src/func_ov006_020d36a4.cpp in
+  (src/minigames/d_s_mg_base.cpp in 5c173cb62 and src/actors/dScMgAmida_c.cpp in
   a8f292cd0), so its universe grew by two and its BASE denominator was 11283 --
   which is exactly the figure section 20 records as its own tip. Sections 19 and
   20 are unaffected: their +217, +53 and +24 came from adding SLICE LINES for TUs
@@ -3346,7 +3346,7 @@ CONFIRMATION of where the two words went.
                it in the whole overlay, at 0x020d2da0 in here -- so /OPT:REF had
                dropped it. It forwards to func_0204f9c4, already in that slice
                through func_02012dd0, so it pulled in nothing new.
-    ov006 +2   src/func_ov006_020d27dc.c itself, AND src/func_ov006_020d25fc.c,
+    ov006 +2   src/func_ov006_020d27dc.c itself, AND src/actors/dScMgAmida_c.cpp,
                which was already a slice line and was being DROPPED. Section 21
                predicted this in words: "every one of its 42 call sites is inside
                func_ov006_020d27dc, which is a trap". It was checked rather than

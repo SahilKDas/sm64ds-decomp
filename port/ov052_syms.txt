@@ -102,7 +102,7 @@ data_ov052_021124d4 _ZTI13daObjEmmLog_c _ZTS13daObjEmmLog_c
 data_ov052_021124f8 g_profile_EMM_LOG
 # id 175's file table {model SFP 0x021126a8, clsn SFP 0x021126b0,
 # CLPS ov064 0x0211ba0c}, its typeinfo, its name string, its SpawnInfo.
-data_ov052_021125a0 _ZTI14daObjEmmYuka_c data_ov052_021125b8
+data_ov052_021125a0 _ZTI14daObjEmmYuka_c _ZTS14daObjEmmYuka_c
 g_profile_EMM_YUKA
 
 # ---- .bss 0x02112680..0x021126e0 ------------------------------------------

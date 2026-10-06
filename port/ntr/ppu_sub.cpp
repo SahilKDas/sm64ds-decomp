@@ -3307,7 +3307,7 @@ int head_trace_on(void)
  *
  * See the note over ppu_band_continuity in ntr/ppu.h for what this is. In one
  * paragraph: with GaplessMinigames on the game's own G is zero, so the ROM's
- * OAM router (src/func_ov004_020aff38.cpp) submits a sprite to EXACTLY ONE
+ * OAM router (src/minigames/d_s_mg_base.cpp) submits a sprite to EXACTLY ONE
  * engine -- world y in [-256, -1] to the top, [-64, 191] to the bottom, first
  * match returns -- and that engine's raster then clips it at its own screen
  * edge. A 16x16 sprite whose box crosses world row 0 loses the rows hanging

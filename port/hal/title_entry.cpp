@@ -180,7 +180,7 @@ static int g_taken;        /* did a run end by entering the adventure */
  *     title -> menu -> file select -> a slot is picked -> CUTSCENE -> adventure
  *
  * That is the ROM's own order and it is readable in two independent places.
- * src/_ZN5Stage18LoadClsnAndObjectsER11LVL_OverlayjR7dBgW_Kc.cpp:76-98
+ * src/stage/LevelObjects.cpp:76-98
  * computes the opening's gate from game mode 0, flags2 bit 7 clear and
  * ContinueKuppaScriptIfNecessary()==0 and then calls StartIntroCutscene() --
  * and Stage::LoadClsnAndObjects runs during the LEVEL boot, which on this path

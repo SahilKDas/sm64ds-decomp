@@ -11,7 +11,7 @@ a different table 0x244 bytes away whose own RTTI reads "8daDoor_c". The two
 classes differ in size (0x148 against 0x118) and in what they keep at +0xd4 (a
 ModelAnim against a CommonModel), and their tables differ in exactly the seven
 slots a subclass overrides. Because the other twenty-four slots are identical,
-the alias looked harmless for weeks. It was not: src/d_a_door.c stores
+the alias looked harmless for weeks. It was not: src/actors/daDoor_c.cpp stores
 _ZTV4Door into every plain door, hal_fill_star_door_vtable had written the star
 door's faces into that array, and the castle grounds died the first time a door
 was drawn.

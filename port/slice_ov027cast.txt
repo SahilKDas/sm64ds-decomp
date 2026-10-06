@@ -53,41 +53,19 @@
 # _ZN7daOts_c16CleanupResourcesEv.cpp.obj via port/slice_gate177.txt, so the fill
 # calls it through include/Bully.h as the method it is rather than adding a TU.
 src/game/actors/d_a_i_donketu.cpp
-src/d_a_obj_sl_ice_block_sl_iceblock.c
-src/d_a_obj_sl_ice_block_sl_iceblock_shot.c
-src/d_a_snm_bth.c
-src/_ZN10SlidingIce13InitResourcesEv.cpp
-src/_ZN10SlidingIce16CleanupResourcesEv.cpp
-src/_ZN10SlidingIce6RenderEv.cpp
-src/_ZN10SlidingIce8BehaviorEv.cpp
+src/actors/daObjSlIceBlock_c.cpp
+src/actors/daSnmBth_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN10SlidingIceD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN10SlidingIceD0Ev.cpp
-src/_ZN10SlidingIceD1Ev.cpp
-src/_ZN13SnowmanBreath13InitResourcesEv.cpp
-src/_ZN13SnowmanBreath16CleanupResourcesEv.cpp
-src/_ZN13SnowmanBreath16OnPendingDestroyEv.cpp
-src/_ZN13SnowmanBreath6RenderEv.cpp
-src/_ZN13SnowmanBreath8BehaviorEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN13SnowmanBreathD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN13SnowmanBreathD0Ev.cpp
-src/_ZN13SnowmanBreathD1Ev.cpp
 src/__sinit_ov027_02112cb0.c
 src/__sinit_ov027_02112d1c.c
 src/__sinit_ov027_02112df8.cpp
 src/__sinit_ov027_02112f70.c
-src/_ZN10SlidingIce15OnHitByMegaCharER6Player.cpp
 src/actors/daPgDfdr_c.cpp
 # RE-KEYED at the main->port sync (lane SYNC7, the wave-9 fold merge): main folded
 # this body into src/actors/daPgDfdr_c.cpp (ov027 delinks, .text 0x0211207c..0x021120c4, one
 # absorbed range), which port/slice_ov027cast.txt's own daPgDfdr_c.cpp row, port/slice_fold2.txt:249 and port/slice_unmatch2.txt:42 already compiles, so the symbols this row seated
 # now come from there and the per-function file is gone from main's tree.
-#src/d_a_pg_dfdr.c
-src/_ZN21SnowmanBreathParticleD1Ev.cpp
-src/_ZN21SnowmanBreathParticle9HitPlayerEv.cpp
-src/_ZN21SnowmanBreathParticle12CheckSnowmanEv.cpp
-src/_ZN21SnowmanBreathParticle14UpdatePositionEv.cpp
-src/_ZN21SnowmanBreathParticle6RenderEv.cpp
-src/_ZN21SnowmanBreathParticle8BehaviorEv.cpp
-src/_ZN21SnowmanBreathParticle8TrySpawnER6Player.cpp
-src/_ZN21SnowmanBreathParticleC1Ev.cpp
-src/_ZN13SnowmanBreath15IsPlayerInRangeEv.cpp
+#src/actors/daPgDfdr_c.cpp

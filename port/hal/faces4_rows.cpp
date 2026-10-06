@@ -135,7 +135,7 @@ int RaycastLine::DetectClsn() { return _ZN9dBgCh_Lin10DetectClsnEv(this); }
 // Itanium string and calls it as a method, so MSVC emits a __thiscall
 // reference to a member of Model called _ZN5Model12SetPolygonIDEi. The body is
 // the flat _ZN5Model12SetPolygonIDEi, arm9 0x02016abc, in this link, and it
-// takes the receiver first: src/func_ov006_020c092c.cpp:18 spells it
+// takes the receiver first: src/actors/unit020bfec0.cpp:18 spells it
 // `void _ZN5Model12SetPolygonIDEi(Model *, int)` and three more src TUs agree.
 // The tidy version is for that TU to declare the flat name extern "C" the way
 // its siblings do; until then this is the bridge.

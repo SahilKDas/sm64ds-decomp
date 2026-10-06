@@ -17,5 +17,5 @@
 # Never add a symbol here by hand to unblock a build.
 #
 # One symbol per line, sorted.
-func_ov084_0212b344
+_ZN7daKrb_c13OnTurnIntoEggER6Player
 _ZN4Door13InitResourcesEv

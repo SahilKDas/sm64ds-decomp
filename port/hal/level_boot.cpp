@@ -183,7 +183,7 @@ extern const unsigned port_ov017_ds_base, port_ov017_ds_end;
    8-viewpoint proximity sweep (240f each, the whole x[-12000..12000]/z[same]
    footprint) and 300f/900f idle soaks all exit clean with no crash.txt and no
    exit.txt. None of L7's teardown/render/sign-drain culprits (CAP-arg,
-   FIRE_PIRANHA ov084, BLUE_COIN_SWITCH G0, the TowerStep/MovingBarSmall sign
+   FIRE_PIRANHA ov084, BLUE_COIN_SWITCH G0, the daObjBk_Lift_c/MovingBarSmall sign
    drain, the HealingHeart slot-5) fire here: those actors are ov015's, and JRB
    spawns none of them.
 
@@ -195,7 +195,7 @@ extern const unsigned port_ov017_ds_base, port_ov017_ds_end;
      ov016-resident (6 classes, need a per-symbol ov016 mount running its five
      __sinit_ov016_* to construct the SharedFilePtrs, since the whole-mount
      leaves own_sinits 0):
-       - ShipDown (56), ShipUp (57): the sunken ship's rise/sink platforms.
+       - ShipDown (56), daObjKi_Fune_c (57): the sunken ship's rise/sink platforms.
        - RockPillar (58, x6): the rising rock pillars.
        - FloatOnWaterPlatformJrb (60): a MovingMeshCollider. Its InitResources
          installs MeshColliderBase::UpdatePosWithTransform as the BeforeClsn
@@ -355,7 +355,7 @@ extern const unsigned port_ov013_ds_base, port_ov013_ds_end;
    riding port_actor_overlays_sinits the way ov015's does (gate 59). RED_FLAME
    (316, ov002) was ALSO hosted, at gate 175 (14h after this block was first
    written) -- it reuses BLUE_FLAME's filled vtable, the
-   ExclamationBlock/QuestionBlock shape.
+   ExclamationBlock/daObjHatenaBlock_c shape.
 
    GATE 191 hosts SKI_LIFT (63, x1) and MOTHER_PENGUIN (257, x1), the two
    remaining ov018-resident classes. Both blockers above are resolved: main's
@@ -2396,7 +2396,7 @@ DSSTATE_END
 // The callers say the same thing. FIFTY-FIVE TUs under src/ call the free
 // function -- a further six only DECLARE a member LoadFile inside a shadow
 // class and are not callers at all -- and FORTY-SIX of the fifty-five also
-// call Deallocate. src/func_ov006_020e3250.c frees on the line after the
+// call Deallocate. src/actors/dScMgCurling_c.cpp frees on the line after the
 // copy: it hands the block to func_020563d4, which uploads 0x800 bytes of it
 // to the BG2 screen base, and Deallocates on the very next line. That is
 // exactly why a re-request of its handle finds a block the ROM has already
@@ -3129,7 +3129,7 @@ void *port_stage_a_boot(void *mc, int spawn)
    decide this; scattering the condition is what this block exists to prevent.
 
    THE ROM'S OWN RULE, from matched source
-   (src/_ZN5Stage18LoadClsnAndObjectsER11LVL_OverlayjR7dBgW_Kc.cpp:76-98):
+   (src/stage/LevelObjects.cpp:76-98):
 
        intro = (data_0209f2d8 == 0)                 // game mode 0 = single file
             && ((data_0209caa0[2] & 0x80) == 0)     // flags2 bit 7: not seen yet
@@ -3155,7 +3155,7 @@ void *port_stage_a_boot(void *mc, int spawn)
    when the opening ends.
 
    WHO SETS IT WHEN THE OPENING ENDS: the ROM does, and it is hosted.
-   src/func_ov085_0212d5dc.cpp:49-51 -- LakituBro's last opening state, after
+   src/game/actors/d_a_c_jugem.cpp:49-51 -- LakituBro's last opening state, after
    the camera flight settles -- hands control back and does
    `data_0209caa0[2] |= 0x80;`. The port writes nothing there.
 
@@ -3208,7 +3208,7 @@ static int g_intro_armed;
         frame 400 and stops -- no Lakitu flight, no arrival, and no closing
         LoadLevelNoReturn.
 
-     4. src/func_ov085_0212d5dc.cpp -- LakituBro's last opening state, the one
+     4. src/game/actors/d_a_c_jugem.cpp -- LakituBro's last opening state, the one
         that hands control back and sets the intro-seen bit -- calls
         func_ov002_020c3e8c() with no argument, relying on the receiver riding
         ARM r0. The tree already knows: the pair is frozen in
@@ -3231,7 +3231,7 @@ static int g_intro_armed;
      137526  [intro] flags2 bit 7 0 -> 1
 
    That last line is the whole proof. Nothing in the port writes that bit --
-   src/func_ov085_0212d5dc.cpp:51 does, and it is LakituBro's LAST opening
+   src/game/actors/d_a_c_jugem.cpp:51 does, and it is LakituBro's LAST opening
    state, the one that hands control back after the camera flight settles. The
    bit going 0 -> 1 means the opening played to its own end through the ROM's
    own script, reloaded through its own cmd-0x0b pending word, and gave the
@@ -3372,7 +3372,7 @@ extern "C" int port_intro_wants_play(void)
 
          flags2 bit 7   data_0209caa0[2] & 0x80 -- "the opening has been seen".
                         Clear on the boot that plays it; SET afterwards, and set
-                        by src/func_ov085_0212d5dc.cpp:51 (LakituBro's last
+                        by src/game/actors/d_a_c_jugem.cpp:51 (LakituBro's last
                         opening state), never by the port.
          pending        data_0209fc4c -- what ProcessKuppaScript's cmd 0x0b
                         stored alongside the closing LoadLevelNoReturn. Non-zero
@@ -3799,7 +3799,7 @@ extern "C" void *port_stage_boot_body(void *mc, int spawn)
        ALONE: LoadClsnAndObjects below then takes its own intro branch, declines to
        spawn the HUD exactly as the ROM does, and calls StartIntroCutscene. The
        bit gets set by the ROM's own hand at the end of the flight
-       (src/func_ov085_0212d5dc.cpp:51), and the HUD comes up on the next boot.
+       (src/game/actors/d_a_c_jugem.cpp:51), and the HUD comes up on the next boot.
        LakituBro::InitResources reads the same bit to choose his intro state
        chain, and it runs inside this object pass, so it has to still be clear
        here rather than restored afterwards. */
@@ -4388,7 +4388,7 @@ extern "C" void hal_fill_player_vtable(void)
    first frame at the gate swept a segment from the world origin. */
 /* THE INTRO-SEEN BIT, EDGE-TRIGGERED. The completion bar for the opening asks
    that flags2 bit 7 ends SET and that the port never sets it -- the write is
-   src/func_ov085_0212d5dc.cpp:51, LakituBro's last opening state, right after
+   src/game/actors/d_a_c_jugem.cpp:51, LakituBro's last opening state, right after
    it hands control back to the player. A boot-time read cannot show that: on
    the reload boot the bit is still clear (measured), because the flight's
    ending state runs during the level that follows. So this reports the EDGE,
@@ -5120,7 +5120,7 @@ extern unsigned char data_ov002_0210da48[], data_ov002_0210d9b8[],
    the count is uneven: FOUR of the twelve are released anywhere at all --
    0210da40, 0210d9a0, 0210d9c0 and 0210d9a8 -- by fourteen classes
    (BowserPuzzlePiece, Coin, Dorrie, InvisibleSecret, Klepto, MantaRay, Player,
-   QuestionBlock, RollingLogTtm, SnowmanBreath, StarMarker, Stump, Toad,
+   daObjHatenaBlock_c, RollingLogTtm, SnowmanBreath, StarMarker, Stump, Toad,
    TreasureChest) plus one free function, _ZN9daSCoin_c16CleanupResourcesEv; every site but
    that last is a CleanupResources body. The other EIGHT are released nowhere,
    so once the seat has run they stay loaded for the life of the process. It is
@@ -6232,7 +6232,7 @@ extern "C" void port_level_reset_host(void)
        AND THE ROM REALLY DOES DEPEND ON THIS ZEROING, which is worth stating
        carefully because the obvious stronger claim is false. Slots ARE cleared
        on the way out in general: UntrackStar does SetStarMarker(slot, 0, 2),
-       and PowerStar, Coin and QuestionBlock all call it from their cleanups.
+       and PowerStar, Coin and daObjHatenaBlock_c all call it from their cleanups.
        What has no such path is the actor that faults here -- Whomp::
        InitResources calls dActor_c::TrackStar to file itself in, and no Whomp
        file anywhere calls UntrackStar. Its slot is only ever emptied by the

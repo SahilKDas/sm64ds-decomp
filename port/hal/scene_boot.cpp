@@ -191,7 +191,7 @@
 // 3. THE OAM SPRITE TEMPLATES, SPELLED AS FUNCTIONS. Four TUs of the star
 //    select's closure name SEVENTEEN distinct ov001 sprite-template tables as
 //    `extern void *func_020abXXXX[]` -- thirteen of them in
-//    dScStarSel_c::Render (src/_ZN12dScStarSel_c6RenderEv.cpp) alone. No func_020ab*
+//    dScStarSel_c::Render (src/actors/dScStarSel_c.cpp) alone. No func_020ab*
 //    symbol exists in any config: the addresses are ov001 DATA, and the
 //    "func_" prefix is a decomp-side guess at what lives there. Each alias
 //    below binds the guess to the address's real name, read out of
@@ -235,7 +235,7 @@
 // arm9 data symbols already in the build, and 0x021032e8 is the class's own
 // table inside the ov007 mount. TWO of the six names need a face:
 //
-//   _ZTV9dScDSMT_c   UNIQUE to src/_ZN9dScDSMT_cD1Ev.cpp -- no other TU in the
+//   _ZTV9dScDSMT_c   UNIQUE to src/actors/dScDSMT_c.cpp -- no other TU in the
 //                    tree spells it -- so aliasing it to the ROM's own address
 //                    is exact and cannot collide.
 //   _ZTV8dScene_c    spelled by four TUs (ov003 x2, ov005, ov007), all of them
@@ -257,7 +257,7 @@
 
 // ---- run mg15 lane MENU: the dScMiniGm_c PLACEHOLDER SPELLING -------------
 //
-// src/_ZN11dScMiniGm_cD1Ev.cpp (the class's D2, vtable slot 16) spells its three
+// src/actors/dScMiniGm_c.cpp (the class's D2, vtable slot 16) spells its three
 // vptr restores with the per-TU placeholder names the ov003 write-up named as
 // blocker 2, the same shape the ov007 pair above has. All three are resolved
 // to the address the ROM actually stores, read out of that body's OWN literal
@@ -274,7 +274,7 @@
 // new claim. _ZTV7dBase_c resolves to hal/sub_actors.cpp's trap-filled array,
 // the known divergence that block records.
 //
-// _ZTV11dScMiniGm_c is UNIQUE to src/_ZN11dScMiniGm_cD1Ev.cpp -- nothing else in
+// _ZTV11dScMiniGm_c is UNIQUE to src/actors/dScMiniGm_c.cpp -- nothing else in
 // the tree spells it -- so aliasing it to the ROM's own address inside the
 // ov005 mount is exact and cannot collide. 0x020c2490 is the same address the
 // factory dScMiniGm_c_classInit stores into the object's +0 word (its own pool,
@@ -457,7 +457,7 @@ extern void *_ZTV8dScene_c[];                       /* 0x02092680 */
    scene 8 and run link100 wave 14 lane SEAT14D seats scene 2, and each class's
    factory names its own table by the ROM's own spelling
    (dScGameOver_c_classInit and both its dtor bodies; dScTitle_c_classInit's
-   third vptr store, src/d_s_title.cpp). They are host arrays for
+   third vptr store, src/actors/dScTitle_c.cpp). They are host arrays for
    dScStarSel_c's reason, and they are inside the .dsstate bracket for
    dScStarSel_c's reason -- a hosted DS data symbol the save state has to
    capture, which is what port/tools/dsstate_guard.py enforces. ALL THREE OF
@@ -656,7 +656,7 @@ extern void *data_0209f5bc;          /* the installed fader; hal/fader_wipes.cpp
 DSSTATE_BEGIN
 extern "C" {
 /* Scene::SpawnIfNecessary's "a scene has already spawned" latch. The matched
-   src/_ZN8dScene_c21AfterCleanupResourcesEj.cpp DEFINES this byte (a namespace-
+   src/actors/dScene_c.cpp DEFINES this byte (a namespace-
    scope `unsigned char data_02092660;` inside extern "C", which in C++ is a
    definition, not a tentative one), and a definition inside src/ cannot be
    bracketed into .dsstate without editing the byte-verified tree. So that TU
@@ -1634,7 +1634,7 @@ static int l2_ea6c_dispatch(void *s, unsigned rom_byte)
    were the two that clean eight, on the reading that __fastcall(self, edx, a, b)
    is the host spelling of __thiscall(self, a, b). That reading of section 9c was
    made when the one dispatch site was a host transcription. The site in the link
-   TODAY is the matched src/_ZN8dScene_c14BeforeBehaviorEv.cpp, and that TU
+   TODAY is the matched src/actors/dScene_c.cpp, and that TU
    reaches the installed fader through a FILE-LOCAL `struct FaderVTable` of PLAIN
    FUNCTION POINTERS, not through a class with virtuals; its own header comment
    says so, and says why (the ROM's dScene_c was built against a two-argument
@@ -1894,7 +1894,7 @@ static void __cdecl l2_eb2c_s08(void *s)
    caller that exists, for the reason l2_ea6c's block states in capitals: a
    shape claim nobody re-measured after the TU behind it changed.
 
-   src/_ZN8dScene_c14BeforeBehaviorEv.cpp reaches these two slots through a
+   src/actors/dScene_c.cpp reaches these two slots through a
    FaderVTable of PLAIN FUNCTION POINTERS with an explicit first parameter --
    `void (*SetBackwardTime)(void *, u32, u32)` -- and its banner says why it
    cannot go through the real class and keep matching. MSVC compiles that as
@@ -3117,10 +3117,10 @@ extern "C" void _ZN8SaveData18SetDefaultValuesMgEP16MinigameSaveData(void *blk)
 /* The matched ActorBase methods for slots 13 and 14, and the reason this is a
    LOCAL declaration rather than include/ActorBase.h.
    MSVC encodes virtualness in the mangled name, and the TUs do not agree on
-   it: src/_ZN7fBase_c9Virtual34Ejj.cpp and its Virtual38 sibling declare
+   it: src/actors/ActorBase.cpp and its Virtual38 sibling declare
    their method NON-virtual in a local struct (so the definitions are
    ?Virtual34@fBase_c@@QAEHII@Z, which is what hal/lk4_solidheap_seat.cpp
-   already links against), while src/_ZN7fBase_c13OnHeapCreatedEv.cpp
+   already links against), while src/actors/ActorBase.cpp
    includes ActorBase.h and defines the VIRTUAL ?OnHeapCreated@fBase_c@@UAE_NXZ
    that hal/actor_vtables.cpp already links against. Only
    the two Virtual3x are the ones this file needs, so this file declares them
@@ -3294,7 +3294,7 @@ static void sc_gate_report(const char *which, void *s, int r)
 }
 /* ---- THE SCENE'S OWN END, LATCHED OFF THE ROM'S OWN FLAG -------------------
  *
- * dScene_c::BeforeBehavior (src/_ZN8dScene_c14BeforeBehaviorEv.cpp:85-92) is
+ * dScene_c::BeforeBehavior (src/actors/dScene_c.cpp:85-92) is
  * what ends a scene on the cartridge. Once a next scene is pending it runs the
  * installed fader forward for 0x1e frames and then calls MarkForDestruction:
  *
@@ -3711,7 +3711,7 @@ static void scene_fill_gameover(void)
 //
 //   2. the placeholder trio is a MWCC-SIDE spelling with nothing for this host
 //      build to rename, and that is measured rather than assumed:
-//      src/_ZN10dScTitle_cD1Ev.cpp's body is EMPTY -- the three vptr stores
+//      src/actors/dScTitle_c.cpp's body is EMPTY -- the three vptr stores
 //      come out of the compiler, not out of source text -- so unlike
 //      src/actors/dScGameOver_c.cpp, which spells VT0/VT1/VT2/G0 and needs the
 //      per-TU renames in port/CMakeLists.txt's mpg2 block, this TU spells none
@@ -4246,7 +4246,7 @@ struct PortSceneClass {
    two placeholder spellings are renamed per TU onto the ROM's own literal-pool
    words in port/CMakeLists.txt. dScTitle_c is what is left, and its six bodies
    are ruled too, so what remains for it is the placeholder trio in
-   src/_ZN10dScTitle_cD1Ev.cpp and a row here. Adding it is a row plus a block in
+   src/actors/dScTitle_c.cpp and a row here. Adding it is a row plus a block in
    a slice.
    ov007's dScDSMT_c hit BOTH of those blockers and cleared them rather than
    being excused from them: its six marker-carrying bodies are ruled against
@@ -4788,7 +4788,7 @@ void port_scene_fill_vs(void);
    Scene subclasses with the same eighteen-slot shape dScStarSel_c,
    dScMiniGm_c and dScEntry_c have.
    THESE ARE THE ROM'S TWO BOOT SCENES AND THEY ARE A FORK, NOT A SEQUENCE:
-   src/_ZN8dScene_c18PrepareToSpawnBootEv.cpp parks id 0 when func_0203d9b4()
+   src/actors/dScene_c.cpp parks id 0 when func_0203d9b4()
    answers non-zero and 0x168 otherwise, so a cartridge boot gets dScBoot_c and
    a DS Download Play boot gets dScMB_c. Neither is reached from the title;
    dScBoot_c's Behavior is what asks FOR the title.
@@ -7563,7 +7563,7 @@ extern "C" void port_scene_tick(int frame, int tick_game)
          * port_actor_tick below is the actor phases, so this is that seam.
          *
          * IT ADDS NO POLICY, and that is deliberate. Every guard is the ROM's
-         * own, inside src/_ZN8dScene_c16SpawnIfNecessaryEv.cpp:
+         * own, inside src/actors/dScene_c.cpp:
          *     if (data_02092660 != 0 || (h = data_02092664) == 0x187) return 0;
          * -- so it declines when the already-spawned latch is set or when
          * nothing is pending, and on success IT clears the pending id back to

@@ -39,19 +39,19 @@
  * is what smashes the stack on the first dispatch and it stays invisible until
  * the slot is entered (memory note sm64ds-port-fastcall-face-arity.md).
  *
- *   slot 0   s32  dScTitle_c::InitResources()      src/_ZN10dScTitle_c13InitResourcesEv.cpp
- *   slot 3   s32  dScTitle_c::CleanupResources()   src/_ZN10dScTitle_c16CleanupResourcesEv.cpp
- *   slot 6   s32  dScTitle_c::Behavior()           src/_ZN10dScTitle_c8BehaviorEv.cpp
- *   slot 9   s32  dScTitle_c::Render()             src/_ZN10dScTitle_c6RenderEv.cpp
- *   slot 12  void dScTitle_c::OnPendingDestroy()   src/_ZN10dScTitle_c16OnPendingDestroyEv.cpp
- *   slot 16  D2                                    src/_ZN10dScTitle_cD1Ev.cpp
+ *   slot 0   s32  dScTitle_c::InitResources()      src/actors/dScTitle_c.cpp
+ *   slot 3   s32  dScTitle_c::CleanupResources()   src/actors/dScTitle_c.cpp
+ *   slot 6   s32  dScTitle_c::Behavior()           src/actors/dScTitle_c.cpp
+ *   slot 9   s32  dScTitle_c::Render()             src/actors/dScTitle_c.cpp
+ *   slot 12  void dScTitle_c::OnPendingDestroy()   src/actors/dScTitle_c.cpp
+ *   slot 16  D2                                    src/actors/dScTitle_c.cpp
  *   slot 17  D0                                    the D2 body plus the one
  *            deallocation the cartridge's D0 makes
  *
  * SLOT 17 HAS NO TU OF ITS OWN AND THAT IS NOT A GAP. MSVC folds the ROM's
  * destructor variants into one symbol, so only one of a class's two
  * per-function destructor TUs can be compiled -- port/slice_scene1.txt made
- * the same call for src/_ZN12dScStarSel_cD0Ev.cpp. The D0 face is spelled the
+ * the same call for src/actors/dScStarSel_c.cpp. The D0 face is spelled the
  * way hal/dtor_forwarders_gen.cpp spells every other class's: the destructor
  * plus Memory::Deallocate(this, GAME_HEAP_PTR), which is what 0x020ad69c does
  * (include/dScTitle_c.h's VTABLE ORDER note reads it off the body).
@@ -71,11 +71,11 @@
  * hal/scene_vs_menu.cpp (run rel0215 lane prop15): a word only one class reads
  * belongs beside that class. Every reader in the whole tree is a dScTitle_c TU --
  *
- *   data_0209b2f4  src/_ZN10dScTitle_c8BehaviorEv.cpp (the row cursor: += 1,
- *                  += 0x35, % 0x36), src/_ZN10dScTitle_c6RenderEv.cpp,
- *                  src/func_ov003_020ad6ec.c
- *   data_0209b2f8  src/_ZN10dScTitle_c6RenderEv.cpp (the scroll top),
- *                  src/func_ov003_020ad6ec.c
+ *   data_0209b2f4  src/actors/dScTitle_c.cpp (the row cursor: += 1,
+ *                  += 0x35, % 0x36), src/actors/dScTitle_c.cpp,
+ *                  src/actors/dScTitle_c.cpp
+ *   data_0209b2f8  src/actors/dScTitle_c.cpp (the scroll top),
+ *                  src/actors/dScTitle_c.cpp
  *
  * -- so nothing else in the build can want them, and a later reader that does
  * will find them by name the way it finds auto_bss's.
@@ -102,7 +102,7 @@ DSSTATE_END
  * fix in src/ (reported in out/SEAT14D/bugs.md item 1).
  *
  * src/_ZN2G212GetBG0ScrPtrEv.cpp defines `void *G2::GetBG0ScrPtr(void)`.
- * src/_ZN10dScTitle_c13InitResourcesEv.cpp:29 declares the same function
+ * src/actors/dScTitle_c.cpp:29 declares the same function
  * `unsigned short *G2::GetBG0ScrPtr()`. Under mwccarm both spell
  * _ZN2G212GetBG0ScrPtrEv, because the Itanium mangling does not carry the
  * return type, so the cartridge build never saw it. MSVC's does:
@@ -122,13 +122,13 @@ DSSTATE_END
  * (port/slice_scene1.txt:89 says this TU is /OPT:REF-dropped. It is NOT, and
  * has not been since some later gate gave it a caller; that line is stale.)
  *
- * The honest fix is one word in src/_ZN10dScTitle_c13InitResourcesEv.cpp's
+ * The honest fix is one word in src/actors/dScTitle_c.cpp's
  * declaration, and W14_COMMON forbids this lane from touching src/. */
 #pragma comment(linker, "/alternatename:?GetBG0ScrPtr@G2@@YAPAGXZ=?GetBG0ScrPtr@G2@@YAPAXXZ")
 
 /* THREE C-NAMED GLOBALS DECLARED AT C++ LINKAGE, shape 1 of the block at the
  * top of hal/scene_boot.cpp ("THE LINKAGE FACES ov003's OWN SOURCES NEED").
- * src/_ZN10dScTitle_c8BehaviorEv.cpp declares eight of its globals outside an
+ * src/actors/dScTitle_c.cpp declares eight of its globals outside an
  * extern "C" block, so MSVC mangles the references while the definitions are
  * the port's ordinary C-named hosted globals. FIVE of the eight already
  * resolve, because scene_boot.cpp's block carries the same spelling for

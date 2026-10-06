@@ -86,7 +86,7 @@
 #
 # ---- 4. THE THREE //cpp-MARKED .c FILES ----------------------------------
 #
-# src/func_ov005_020c0140.cpp, _020c0378.c and _020c0878.c open with the //cpp
+# src/actors/dScMiniGm_c.cpp, _020c0378.c and _020c0878.c open with the //cpp
 # marker and a top-level `extern "C" {` block, which is invalid C. They get
 # LANGUAGE CXX in port/CMakeLists.txt beside this slice, the treatment gates
 # 176/177/194 already established. The three genuine .cpp TUs (020bff4c,
@@ -106,33 +106,9 @@
 # from the scan, and the independent review caught it. The five match.py
 # re-verifications in port/tools/inferred_stub_adjudicated.txt are the primary
 # evidence either way and they were always five.)
-src/_ZN11dScMiniGm_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN11dScMiniGm_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN11dScMiniGm_cD0Ev.cpp
-src/func_ov005_020bff4c.cpp
-src/func_ov005_020bffc8.c
-src/func_ov005_020bfff4.c
-src/func_ov005_020c0010.c
-src/func_ov005_020c0030.c
-src/func_ov005_020c007c.c
-src/func_ov005_020c00b4.c
-src/func_ov005_020c00e4.c
-src/func_ov005_020c0140.cpp
-src/func_ov005_020c0250.cpp
-src/func_ov005_020c0378.cpp
-src/func_ov005_020c06cc.c
-src/func_ov005_020c0878.cpp
-src/_ZN11dScMiniGm_c16OnPendingDestroyEv.cpp
-src/_ZN11dScMiniGm_c6RenderEv.cpp
-src/func_ov005_020c0f38.c
-src/func_ov005_020c1030.cpp
-src/func_ov005_020c1130.c
-src/_ZN11dScMiniGm_c8BehaviorEv.cpp
-src/_ZN11dScMiniGm_c16CleanupResourcesEv.cpp
-src/func_ov005_020c1688.c
-src/func_ov005_020c16e4.c
-src/_ZN11dScMiniGm_c13InitResourcesEv.cpp
-src/d_s_mini_gm.c
+src/actors/dScMiniGm_c.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMiniGm_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMiniGm_c.cpp
 src/ExitMinigameMenu.c
 src/func_02013598.c
 src/func_020135d0.c

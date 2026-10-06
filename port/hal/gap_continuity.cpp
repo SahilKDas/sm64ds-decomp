@@ -50,7 +50,7 @@ namespace {
  *                            band test on world y and RETURNS, and their sprite
  *                            is 16x16. This is the one with the hole.
  *
- * THE HOLE, from func_ov004_020aff38 (src/func_ov004_020aff38.cpp) and
+ * THE HOLE, from func_ov004_020aff38 (src/minigames/d_s_mg_base.cpp) and
  * OAM::Render's cull, with G = 32 and py = the ball's world y in DS pixels:
  *
  *     py in [-288, -33]   the top engine, at y = py + 0xc0 + G
@@ -61,7 +61,7 @@ namespace {
  * and OAM::Render's `if (y + h < 0) return;` throws it away for every py <= -9.
  * TWENTY-FOUR WORLD ROWS of the crossing in which the ROM draws no ball at all.
  *
- * THE SPRITE, from src/func_ov006_020fe1d0.c and the OamAttr it passes. The
+ * THE SPRITE, from src/actors/dScMgPachinko_c.cpp and the OamAttr it passes. The
  * render loop walks all 48 slots, skips any whose +0x4f0e (visible) is zero,
  * and calls func_ov004_020aff38(data_ov006_02137614, X>>12, Y>>12, -1, -1,
  * 0x1000, 0). The attr block behind that pointer is data_ov006_02137618 =

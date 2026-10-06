@@ -356,18 +356,18 @@ extern "C" void hal_fill_power_star_vtable(void)
 // InitResources/CleanupResources/Render are real MSVC methods against
 // include/PowerStar.h; D1/D0 and the two func_ov002_* overrides are already
 // C-named free functions in their own TUs.
-#include "PowerStar.h"
+#include "daStar_c.h"
 extern "C" {
 int _ZN9PowerStar13InitResourcesEv(void *self)
-{ return ((PowerStar *)self)->PowerStar::InitResources(); }
+{ return ((daStar_c *)self)->daStar_c::InitResources(); }
 int _ZN9PowerStar16CleanupResourcesEv(void *self)
-{ return ((PowerStar *)self)->PowerStar::CleanupResources(); }
+{ return ((daStar_c *)self)->daStar_c::CleanupResources(); }
 /* PowerStar::Render is NOT faced here: it dispatches ModelAnim slot 5 through a
    local six-virtual shadow (sub.m5(&arg80), the ROM Render), which the host
    _ZTV9ModelAnim array numbers as Virtual18 (MSVC folds the two dtor slots into
    one). src/_ZN9PowerStar6RenderEv.cpp is dropped from slice_gate89.txt and
    _ZN9PowerStar6RenderEv is the host copy in port/unmatched/ModelAnim_Renders.cpp,
-   the Whomp/Butterfly/Fish/QuestionBlock case. Measured as a c0000005 EXECUTION
+   the Whomp/Butterfly/Fish/daObjHatenaBlock_c case. Measured as a c0000005 EXECUTION
    fault at actor+0x38 on the first drawn frame of a spawned star. */
 }
 
@@ -375,7 +375,7 @@ int _ZN9PowerStar16CleanupResourcesEv(void *self)
 // GATE 90: STAR_CAMERA (actor 177), the BASE Actor vtable _ZTV5Actor
 // ============================================================================
 //
-// StarCamera_Spawn (src/StarCamera_Spawn.cpp) is `new(0xd4) Actor` then
+// StarCamera_Spawn (src/actors/StarCamera_Spawn.cpp) is `new(0xd4) Actor` then
 // _ZN8dActor_cC1Ev -- it installs NO vtable of its own, so a spawned STAR_CAMERA
 // dispatches every virtual through the base Actor vtable, _ZTV5Actor at arm9
 // 0x0208e3a4 (aliased data_0208e3a4, 31 slots). The port kept that symbol as

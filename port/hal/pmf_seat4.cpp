@@ -1067,7 +1067,7 @@ extern "C" void port_pmf_seat4_snowball(void)
 // DEFINES ANY OF THEM (checked against walk_window.map), so none can be
 // silently defeated the way port/tools/alternatename_guard.py exists to catch.
 // ?func_020beb68@@3PAXA is the third spelling of ov004's data_ov004_020beb68 --
-// src/func_ov006_020de440.cpp declares it `extern void *` at namespace scope,
+// src/actors/dScMgCoin_c.cpp declares it `extern void *` at namespace scope,
 // where MgCoin_Faces.cpp has the plain C name and MgCoin_StateDispatch.cpp the
 // `char *` decoration; all three point at the same storage.
 #pragma comment(linker, "/alternatename:?data_ov006_021418c0@@3PAP8C@@AEXH@ZA=_data_ov006_021418c0")
@@ -1079,4 +1079,3 @@ extern "C" void port_pmf_seat4_snowball(void)
 #pragma comment(linker, "/alternatename:?data_ov006_02143020@@3PAUEntry@@A=_data_ov006_02143020")
 #pragma comment(linker, "/alternatename:?data_ov006_02143070@@3PAUEntry@@A=_data_ov006_02143070")
 #pragma comment(linker, "/alternatename:?data_ov006_02141840@@3PAP8C@@AEXH@ZA=_data_ov006_02141840")
-#pragma comment(linker, "/alternatename:?func_020beb68@@3PAXA=_data_ov004_020beb68")

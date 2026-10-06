@@ -18,7 +18,7 @@
  *     The class ends at 0x31e; sizeof rounds to 0x320, and derived classes do
  *     use that tail padding (daObjRc_Guruguru_c::mAngVelY).
  *
- * CRASH8 found this the hard way: QuestionBlock's ModelAnim was CONSTRUCTED by
+ * CRASH8 found this the hard way: daObjHatenaBlock_c's ModelAnim was CONSTRUCTED by
  * the ROM's own C factory at +0x320 and USED by the C++ translation units at
  * +0x324, so word 0 of the used address was still the zero the allocator left
  * and the first question block the level loader spawned faulted on a null

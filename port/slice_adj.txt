@@ -51,17 +51,17 @@
 # blocker: a HOST DEFINITION of the same symbol exists under a PORT_HOST_ABI tag at
 # hal/actor_classes_ov002_w17.cpp:109 (ROM Itanium slot 5 is ModelAnim::Render, MSVC
 # slot 5 is ModelAnim::Virtual18). Adding this TU double-defines the symbol.
-#src/_ZN13daObjWakame_c6RenderEv.cpp
+#src/game/actors/d_a_obj_wakame.cpp
 #
 # ---- ov003 (dScTitle_c) ---------------------------------------------------
 # blocker: the class's table data_ov003_020b1650 is ABSENT from the port -- two src
 # TUs declare it extern, nothing defines or mounts it. These six would not link.
 #src/_ZN10dScTitle_cD0Ev.c
 #src/_ZN10dScTitle_c16OnPendingDestroyEv.c
-#src/_ZN10dScTitle_c6RenderEv.cpp
-#src/_ZN10dScTitle_c8BehaviorEv.cpp
+#src/actors/dScTitle_c.cpp
+#src/actors/dScTitle_c.cpp
 #src/_ZN10dScTitle_c16CleanupResourcesEv.c
-#src/_ZN10dScTitle_c13InitResourcesEv.cpp
+#src/actors/dScTitle_c.cpp
 #
 # ---- ov006 ----------------------------------------------------------------
 # blocker: zero-argument veneers; the seat thunk passes the receiver INTO the veneer
@@ -75,7 +75,7 @@
 #src/_ZN16dScMgPachinko2_cD0Ev.c
 # already on slice_mga361.txt:222; slot 2 is deliberately paid by
 # port/unmatched/MgFlower_Slot2.cpp because the ROM's r1 rides through.
-#src/_ZN19dScMgSingle3DBase_c18AfterInitResourcesEj.cpp
+#src/minigames/d_s_mg_single3_d_base.cpp
 #
 # ---- ov015 -- THE CLOSEST FOUR TO A SEAT IN THE WHOLE 23 ------------------
 # Both TUs are already on slice_gate59.txt (:57 and :79), both compile every build,

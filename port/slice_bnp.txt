@@ -166,7 +166,7 @@
 # and the correction is the more useful half.
 #
 # A `::*` / `->*` sweep over the 41 TUs of THIS CLASS's code block and the
-# base's returns exactly ONE file, src/_ZN11dScMgJump_c8BehaviorEv.cpp -- vtable slot 6,
+# base's returns exactly ONE file, src/actors/dScMgJump_c.cpp -- vtable slot 6,
 # `(c->*c->m)()` over self+0x5004. That statement is still true and it is not
 # the answer to the question a seat has to ask, because A SEAT LINKS THE
 # CLOSURE, NOT THE CLASS.
@@ -249,7 +249,7 @@
 # start in 0x020c4000..0x020c9000).
 #
 # THE ARM IS NEVER TAKEN IN ANY RUN THIS LANE MADE, and the gate is MEASURED
-# rather than reasoned. src/func_ov006_020ee508.c reaches 020ee3bc only when
+# rather than reasoned. src/actors/dScMgJump_c.cpp reaches 020ee3bc only when
 # data_ov006_02140428 is NONZERO and data_ov006_02140304 is ZERO, and a probe in
 # the seat's Render thunk reads them on the first frame of a started scene-372
 # boot as
@@ -375,7 +375,7 @@
 # construction.
 #
 # unmatched/MgBounceAndPounce_StateDispatch.cpp -- THIS LANE'S OWN. Replaces
-# src/_ZN11dScMgJump_c8BehaviorEv.cpp, which is OUT of the list below: vtable slot 6,
+# src/actors/dScMgJump_c.cpp, which is OUT of the list below: vtable slot 6,
 # `(c->*c->m)()` over self+0x5004. Taking both is a duplicate symbol; taking the
 # src one puts the mwcc member-pointer stride back.
 #
@@ -413,7 +413,7 @@
 # dedupe.
 #
 # unmatched/MgD3DBase_ModelAnimRender.cpp -- SHARED. Replaces
-# src/func_ov006_020c4c54.cpp and src/actors/dMgJump3DMario_c.cpp, both OUT of the
+# src/actors/dMg3DHeyhoObjAdapter_c.cpp and src/actors/dMgJump3DMario_c.cpp, both OUT of the
 # list below. Both spell their per-frame ModelAnim sub-object as a local
 # SIX-virtual struct and call the sixth method -- the ROM's numbering -- where
 # the host _ZTV9ModelAnim is MSVC-numbered and its slot 5 is Virtual18 rather
@@ -423,7 +423,7 @@
 # 600 and 1200 frames, 3 of 3; with it all three exit 0.
 #
 # unmatched/MgD3DBase_ObjStateDispatch.cpp -- SHARED. Replaces
-# src/func_ov006_020c4cd8.cpp and src/actors/dMgJump3DMario_c.cpp, both OUT of the
+# src/actors/dMg3DHeyhoObjAdapter_c.cpp and src/actors/dMgJump3DMario_c.cpp, both OUT of the
 # list below. Section 6 is how they were found and what they cost; that file's
 # header carries the twenty-five-state enumeration and the relocation-set method
 # that produced it.
@@ -446,14 +446,14 @@
 #   the extra argument is a harmless cdecl push the caller cleans.
 #
 #   func_ov004_020b1e34 is called with four arguments by
-#   src/_ZN11dScMgJump_c6RenderEv.cpp and defined with one. The ROM body is
+#   src/actors/dScMgJump_c.cpp and defined with one. The ROM body is
 #   `ldr ip,[pc,#4]; ldr r1,[r0,#0xb4]; bx ip` onto func_ov004_020b0e84, whose
 #   prologue reads r0 and r1 and immediately overwrites r2, so the caller's
 #   0xe0/0x14/1 are dead on the ROM as well. Ten sites in ov006 call this
 #   veneer, including a body of an already-seated class, so it is exercised and
 #   unchanged by this seat.
 #
-#   _ZN13SharedFilePtr7ReleaseEv declared `()` by src/func_ov006_020c6f3c.c is
+#   _ZN13SharedFilePtr7ReleaseEv declared `()` by src/actors/dMg3DHeyhoObjAdapter_c.cpp is
 #   a K&R-style declaration in a .c file, and the call DOES pass its argument.
 #
 #   The func_ov006_020c6f3c / _020c6f70 / _020c8a04 / _020c893c rows are
@@ -505,95 +505,18 @@ src/d_s_mg_jump.cpp
 src/func_02053ea0.c
 src/func_02053eb0.c
 src/func_02054748.c
-src/func_ov006_020bfec0.cpp
-src/func_ov006_020bfff8.cpp
-src/_ZN22dMg3DHeyhoObjAdapter_cC2Ev.cpp
-src/func_ov006_020c4060.c
-src/func_ov006_020c40e8.c
-src/func_ov006_020c425c.c
-src/func_ov006_020c42bc.c
-src/func_ov006_020c44b4.c
-src/func_ov006_020c4684.c
-src/func_ov006_020c4710.c
-src/func_ov006_020c47d4.c
-src/func_ov006_020c49d8.c
-src/func_ov006_020c4c00.c
-src/func_ov006_020c4d1c.c
-src/func_ov006_020c4d20.c
-src/func_ov006_020c4d3c.c
-src/func_ov006_020c4e8c.c
-src/func_ov006_020c4f68.c
-src/func_ov006_020c4fa4.cpp
-src/func_ov006_020c5370.c
-src/func_ov006_020c53f8.c
-src/func_ov006_020c54f4.c
-src/func_ov006_020c5530.c
-src/func_ov006_020c561c.c
-src/func_ov006_020c5658.c
-src/func_ov006_020c57d4.c
-src/func_ov006_020c5928.c
-src/func_ov006_020c5aa4.c
-src/func_ov006_020c5bf8.c
-src/func_ov006_020c5cf4.c
-src/func_ov006_020c5d28.c
-src/func_ov006_020c5ec8.c
-src/func_ov006_020c6088.c
-src/func_ov006_020c6188.c
-src/func_ov006_020c61c4.c
-src/func_ov006_020c6248.c
-src/func_ov006_020c627c.c
-src/func_ov006_020c6348.c
-src/func_ov006_020c6378.c
-src/func_ov006_020c63dc.c
-src/func_ov006_020c6400.c
-src/func_ov006_020c64e4.c
-src/func_ov006_020c66bc.c
-src/func_ov006_020c6a9c.c
-src/func_ov006_020c6e4c.cpp
-src/func_ov006_020c6f3c.c
-src/func_ov006_020c6f70.c
-src/func_ov006_020c70d0.c
-src/func_ov006_020c712c.c
-src/func_ov006_020c719c.c
-src/func_ov006_020c72b4.c
-src/func_ov006_020c72c8.c
-src/func_ov006_020c72dc.c
-src/func_ov006_020c7300.c
-src/func_ov006_020c7388.c
-src/func_ov006_020c7418.c
-src/func_ov006_020c7490.c
-src/func_ov006_020c7574.c
+src/actors/unit020bfec0.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_bnp host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/dMgJump3DMario_c.cpp
-src/func_ov006_020c8a30.c
-src/func_ov006_020c8a64.c
-src/func_ov006_020c8a9c.c
-src/func_ov006_020c8af4.c
-src/func_ov006_020c8ba8.cpp
-src/func_ov006_020c8c6c.c
-src/func_ov006_020c8c78.c
-src/_ZN11dScMgJump_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN11dScMgJump_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN11dScMgJump_cD0Ev.cpp
-src/_ZN11dScMgJump_c16CleanupResourcesEv.cpp
-src/_ZN11dScMgJump_c6RenderEv.cpp
-src/func_ov006_020ee2c0.c
-src/func_ov006_020ee2c4.c
-src/func_ov006_020ee3bc.c
-src/func_ov006_020ee3ec.c
-src/func_ov006_020ee44c.c
-src/func_ov006_020ee4e0.c
-src/func_ov006_020ee508.c
-src/func_ov006_020ee598.c
-src/func_ov006_020ee5b8.c
-src/func_ov006_020ee658.c
-src/_ZN11dScMgJump_c13InitResourcesEv.cpp
-src/_ZN11dScMgJump_c13OnTurnIntoEggEi.cpp
-src/func_ov006_020ee994.c
+src/actors/unit020c8a30.cpp
+src/actors/dScMgJump_c.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgJump_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgJump_c.cpp
+src/_ZN11dScMgJump_c13OnYoshiTryEatEi.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): this row is the raw
 # consolidated TU. slice_bnt.txt's BNT_HOSTGEN_SRCS substitutes a hostgen'd copy of
 # the WHOLE TU so its light-vector and matrix writes reach the geometry engine instead of

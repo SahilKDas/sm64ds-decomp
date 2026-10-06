@@ -79,19 +79,9 @@
 # func_ov081_021261d4 (the installer) IS the genuine index-0 case -- its
 # `struct C` is defined in the TU, MSVC emits the 4-byte form, and the obj was
 # read to confirm it rather than argued from the shape.
-src/_ZN8SnowballD1Ev.cpp
+src/actors/daSnowball_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN8SnowballD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8SnowballD0Ev.cpp
-src/func_ov081_02125fb8.c
-src/func_ov081_021260fc.cpp
-src/func_ov081_021261d4.cpp
-src/func_ov081_02126224.c
-src/_ZN8Snowball16CleanupResourcesEv.cpp
-src/_ZN8Snowball16OnPendingDestroyEv.cpp
-src/_ZN8Snowball6RenderEv.cpp
-src/_ZN8Snowball8BehaviorEv.cpp
-src/_ZN8Snowball13InitResourcesEv.cpp
-src/d_a_snowball.c
 # Snowball's own sinit: it copies the class's TWO {function, delta} source
 # records (data_ov081_02128a6c -> 0x021261b8, data_ov081_02128a74 ->
 # 0x021260fc, both read out of ov081's relocs.txt) into the mutable cell
@@ -100,7 +90,7 @@ src/d_a_snowball.c
 # verify-then-abort, the MrBlizzard treatment in the same file.
 #
 # THE ENTER HALF IS ALREADY IN THE BINARY UNDER ANOTHER NAME. 0x021261b8 is
-# src/func_ov081_021261b8.c, which gate 192 sliced as MR_BLIZZARD's own Kill
+# src/actors/daSnowball_c.cpp, which gate 192 sliced as MR_BLIZZARD's own Kill
 # (vtable slot 31, confirmed by reloc). One ROM body, two roles -- the same
 # shape as func_ov081_02124e64, which is Spindrift's Kill AND MrBlizzard's PMF
 # cell-0 tick, and which gate 192 documents at length. It is NOT re-listed

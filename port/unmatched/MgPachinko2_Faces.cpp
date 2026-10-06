@@ -15,7 +15,7 @@
 //
 // ---- THE CLASS VTABLE SYMBOL ---------------------------------------------
 //
-// src/d_s_mg_pachinko2.c ends with `p[0] = (int)_ZTV16dScMgPachinko2_c;`
+// src/actors/dScMgPachinko2_c.cpp ends with `p[0] = (int)_ZTV16dScMgPachinko2_c;`
 // and nothing in this tree defines that symbol -- the table is mounted ov006
 // data under its address name, data_ov006_0213dbbc. This is the same shape
 // hal/scene_mg_faces.cpp already carries for curling
@@ -39,7 +39,7 @@
 //
 // ---- AND WHY THERE IS ONLY ONE ROW ---------------------------------------
 //
-// The sibling class needed a second: src/func_ov006_020fb97c.c spells
+// The sibling class needed a second: src/actors/dScMgPachinko_c.cpp spells
 // MultiStore16 as bare func_0205a448, a name that exists nowhere. This class's
 // closure has no such row -- the link over the whole 63-line slice returned
 // exactly one unresolved external, this one -- and that is a measurement

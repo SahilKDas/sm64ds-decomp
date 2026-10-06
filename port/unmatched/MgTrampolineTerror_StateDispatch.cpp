@@ -183,7 +183,7 @@ extern int data_ov006_02140830;
 
 /* Formerly the two bodiless floors; both are decompiled and seated as of run
    mg12 lane TRM, so these are ordinary forward declarations of slice bodies
-   (src/func_ov006_02123938.c and src/func_ov006_02123428.c) now. */
+   (src/minigames/d_s_mg_trampoline2.cpp and src/func_ov006_02123428.c) now. */
 void func_ov006_02123938(void *self);
 void func_ov006_02123428(char *c);
 
@@ -192,7 +192,7 @@ void func_ov006_02123428(char *c);
 // ---- the floors -------------------------------------------------------------
 
 /* BOTH TRAPS ARE RETIRED.  Run mg12 lane TRM decompiled both bodies:
-   src/func_ov006_02123938.c BYTE-MATCHES at 2004/b56 (link-verified, 0 blind,
+   src/minigames/d_s_mg_trampoline2.cpp BYTE-MATCHES at 2004/b56 (link-verified, 0 blind,
    and enrolled in config/arm9/overlays/ov006/delinks.txt), and
    src/func_ov006_02123428.c is an honest NONMATCHING seat whose banner carries
    its three measured divergences.  Both are slice_tte.txt lines now, so a trap

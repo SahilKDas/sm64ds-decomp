@@ -45,7 +45,7 @@
 # ONE SYMBOL PAIR IS AN OVERLAPPING NAME, the shape port/ov007_syms.txt calls
 # out: data_ov005_020c24d8 is the 36-row minigame launch table (stride 0x34,
 # 0x750 bytes, ending exactly at data_ov005_020c2c28) and dsd ALSO named
-# 0x020c24dc, its second column, because src/func_ov005_020c0378.cpp indexes the
+# 0x020c24dc, its second column, because src/actors/dScMiniGm_c.cpp indexes the
 # two separately. No pin is needed -- the delta rule gives 24d8 four bytes and
 # 24dc the remaining 0x74c -- and --pack is what puts the table back
 # contiguous. hal/scene_mg_menu.cpp checks the spacing at run time.

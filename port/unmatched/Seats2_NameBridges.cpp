@@ -46,7 +46,7 @@
  * checked DEFINED in walk_window's own 8670 link inputs.
  */
 #pragma comment(linker, "/alternatename:?Behavior@BowserPuzzleManager@@QAEHXZ=?Behavior@BowserPuzzleManager@@UAEHXZ")
-#pragma comment(linker, "/alternatename:?Behavior@TTC_MovingBar@@UAEHXZ=?Behavior@TTC_MovingBar@@QAEHXZ")
+#pragma comment(linker, "/alternatename:?Behavior@daObjCtKaitendai_c@@UAEHXZ=?Behavior@daObjCtKaitendai_c@@QAEHXZ")
 /* This one only fires because gate 3 also seats
  * src/_ZN14TTC_MovingBeam8BehaviorEv.cpp, which is what defines the
  * right-hand side. Seat and bridge are one change. */

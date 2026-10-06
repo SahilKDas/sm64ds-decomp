@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov102_021498e0.cpp -- the QUESTION_BLOCK's state-1
+/* HOST COPY of src/actors/daObjHatenaBlock_c.cpp -- the QUESTION_BLOCK's state-1
  * main half, the block bouncing after Mario hits it (daObjHatenaBlock_c,
  * actor 20, ov102), plus the seat for the two pointer-to-member CONTENT tables
  * it dispatches through.
@@ -103,7 +103,7 @@ extern signed char data_0209f2f8;
 /* __sinit from hal/actor_overlays.cpp.                                       */
 /* ------------------------------------------------------------------------- */
 /* HOST COPY RETIRED, run link100 wave 7 lane SEAT5, census batch B5.
-   src/func_ov102_021498e0.cpp dispatches the two content tables itself now.
+   src/actors/daObjHatenaBlock_c.cpp dispatches the two content tables itself now.
    THE WIDTH CLAIM IN THIS FILE'S BANNER IS DEAD: block R8 turns on /vmg AND
    /vmm for every C++ source in this build, and /vmm picks the multiple-
    inheritance worst case, which is EIGHT bytes -- the ROM's own {fn, delta}
@@ -209,7 +209,7 @@ extern "C" void port_question_block_content_seat(void)
                              sizeof g_qblock_content_statics[0]; ++i) {
         PortPmf *p = g_qblock_content_statics[i].slot;
         if (p->fn != g_qblock_content_statics[i].rom || p->delta != 0) {
-            std::fprintf(stderr, "FATAL: QuestionBlock content static %u: the "
+            std::fprintf(stderr, "FATAL: daObjHatenaBlock_c content static %u: the "
                          "mount holds %08x/%d, the ROM's own table says "
                          "%08x/0 -- WRONG BYTES\n", i, p->fn, p->delta,
                          g_qblock_content_statics[i].rom);

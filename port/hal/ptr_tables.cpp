@@ -484,4 +484,3 @@ DSSTATE_END
    src/func_ov002_020effb8.c is the same matched function. A weak alias ties
    the two spellings together without a forwarding thunk; it only binds if
    nothing else defines the bare name. */
-#pragma comment(linker, "/alternatename:_func_020effb8=_func_ov002_020effb8")

@@ -363,14 +363,14 @@ extern "C" void hal_fill_square_path_lift_vtable(void)
 // ---- method faces ----------------------------------------------------------
 // The four bodies src defines as real C++ methods rather than extern-C free
 // functions -- all four of SquarePathLift's. id 174's six are extern-C already.
-#include "SquarePathLift.h"
+#include "daObjEmmYuka_c.h"
 extern "C" {
 int _ZN14SquarePathLift13InitResourcesEv(void *self)
-{ return ((SquarePathLift *)self)->SquarePathLift::InitResources(); }
+{ return ((daObjEmmYuka_c *)self)->daObjEmmYuka_c::InitResources(); }
 int _ZN14SquarePathLift16CleanupResourcesEv(void *self)
-{ return ((SquarePathLift *)self)->SquarePathLift::CleanupResources(); }
+{ return ((daObjEmmYuka_c *)self)->daObjEmmYuka_c::CleanupResources(); }
 int _ZN14SquarePathLift8BehaviorEv(void *self)
-{ return ((SquarePathLift *)self)->SquarePathLift::Behavior(); }
+{ return ((daObjEmmYuka_c *)self)->daObjEmmYuka_c::Behavior(); }
 int _ZN14SquarePathLift6RenderEv(void *self)
-{ return ((SquarePathLift *)self)->SquarePathLift::Render(); }
+{ return ((daObjEmmYuka_c *)self)->daObjEmmYuka_c::Render(); }
 }

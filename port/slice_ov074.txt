@@ -41,7 +41,7 @@
 #
 # ==== 2. WHAT IS AND IS NOT IN THIS SLICE ==================================
 # 49 of the 55 (it was 47 of the 53 before lane prop17 added
-# src/func_ov074_021201f0.c and src/func_ov074_021204c0.c). The six held out,
+# src/actors/daKuriKing_c.cpp and src/actors/daKuriKing_c.cpp). The six held out,
 # each for a named reason, and prop17 held out none of them:
 #
 #   src/actors/Goomboss.cpp        ALREADY LINKED. port/slice_gate32.txt:356
@@ -115,7 +115,7 @@
 # is the PLAN's own remedy, and both dead pragmas are deleted.
 #
 # (4a) 0x02123038 -- ov071 bss vs ov074 bss.
-#      src/func_ov071_021209c8.cpp spells its texture-sequence SharedFilePtr
+#      src/actors/daEykn_c.cpp spells its texture-sequence SharedFilePtr
 #      `data_ov074_02123038`; hal/actor_classes_ov071.cpp:224 aliased that
 #      spelling onto data_ov071_02123038 and its own comment records the
 #      ruling (ov071's relocation from 0x02120a1c is module:overlay(71)).
@@ -124,7 +124,7 @@
 #      module:overlay(74) (from 0x02122948 rodata, 0x02122c9c in the sinit,
 #      0x02122f34 in the file table) and src/__sinit_ov074_02122978.c
 #      Constructs it with file id 0x38f, so the mount keeps the symbol.
-#      NEW:     set_source_files_properties(src/func_ov071_021209c8.cpp
+#      NEW:     set_source_files_properties(src/actors/daEykn_c.cpp
 #                   COMPILE_DEFINITIONS data_ov074_02123038=data_ov071_02123038)
 #      DELETED: hal/actor_classes_ov071.cpp:224 pragma
 #
@@ -184,7 +184,7 @@
 #
 #   _func_02011d20        src/func_02011d20.c exists and was in no slice.
 #                         func_ov074_0212018c (state 1's tick) calls it.
-#   _func_ov084_021296b0  src/func_ov084_021296b0.c exists and was in no
+#   _func_ov084_021296b0  src/actors/daKrb_c.cpp exists and was in no
 #                         slice. func_ov074_0211fd74 (state 2's tick) calls
 #                         it; ov084 is co-resident with ov074 on level 45.
 #   _func_020aed98        NOT A MISSING BODY. It is the ENEMY CONSTRUCTOR,
@@ -226,17 +226,17 @@
 # bridged with the rest and confirmed with dumpbin /symbols on the object.
 src/d_a_kuri_king_kuriking_vanish.cpp
 src/d_a_kuri_king_kuriking.cpp
-src/_ZN8Goomboss16CleanupResourcesEv.cpp
-src/_ZN8Goomboss8BehaviorEv.cpp
+src/_ZN12daKuriKing_c16CleanupResourcesEv.cpp
+src/_ZN12daKuriKing_c8BehaviorEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN8GoombossD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8GoombossD0Ev.cpp
-src/_ZN8GoombossD1Ev.cpp
+src/_ZN12daKuriKing_cD1Ev.cpp
 src/__sinit_ov074_02122978.c
-src/actors/Goomboss.cpp
+src/actors/daKuriKing_c.cpp
 # RETIRED at SLICE1: body now in src/actors/Goomboss.cpp. main consolidation put this body in the class TU, which the build already compiles, so the per-function leftover is a second definition.
-#src/func_ov074_021201f0.c
+#src/actors/daKuriKing_c.cpp
 # RETIRED at SLICE1: body now in src/actors/Goomboss.cpp. main consolidation put this body in the class TU, which the build already compiles, so the per-function leftover is a second definition.
-#src/func_ov074_021204c0.c
+#src/actors/daKuriKing_c.cpp
 src/func_ov074_021216f4.c
 src/func_ov074_02121800.c
 # SEATED 2026-09-17 (run link100 wave 10, fixer GOOMBOSS, card
@@ -262,5 +262,5 @@ src/func_ov074_0212229c.c
 src/func_ov074_021223bc.cpp
 src/func_ov074_02122634.cpp
 src/func_02011d20.c
-src/func_ov084_021296b0.c
+src/actors/daKrb_c.cpp
 src/_ZN5Sound13Func_02048ee4Ev.cpp

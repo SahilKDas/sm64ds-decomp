@@ -25,7 +25,7 @@
 // port/tools/inferred_stub_adjudicated.txt's row for _ZN10dScMgCup_c8BehaviorEv calls
 // it "the class ONLY pointer-to-member dispatch site", and
 // port/slice_mga361.txt section 4 says "exactly ONE TU dispatches it" and then
-// lists src/func_ov006_020c2b8c.cpp as an ORDINARY SLICE LINE.
+// lists src/actors/unit020bfec0.cpp as an ORDINARY SLICE LINE.
 //
 // Both sentences are true of a class's own STATE TABLE and neither is true of
 // the class. Each Behavior's last act but one is
@@ -147,7 +147,7 @@
 //
 // Both callers are in the 0x0211xxxx block, which is why neither can reach
 // dScMgCup_c and why lane CUP's own reading was sound. In the merged tree both
-// src TUs (src/func_ov006_020c22d8.c and src/func_ov006_020c26f4.c) are linked
+// src TUs (src/actors/unit020bfec0.cpp and src/actors/unit020bfec0.cpp) are linked
 // through port/slice_box.txt, so routing them is a link this tree already has
 // and NOT the link error CUP's header warned an unbacked case would be. The
 // union is therefore both safe and required: with four cases, scene 367's
@@ -163,7 +163,7 @@
 // The alternative to routing at the dispatch site is the ov085 / ov100
 // port_*_states_seat shape: write HOST addresses over the pairs before
 // anything copies them. IT WOULD BREAK A PREDICATE HERE, exactly as it would
-// for dScMgFlower_c. src/func_ov006_020c2994.c is
+// for dScMgFlower_c. src/actors/unit020bfec0.cpp is
 //
 //     struct P { int x, y; };
 //     extern struct P data_ov006_0213adb8;
@@ -195,7 +195,7 @@
 // fallthrough MgCup_StateDispatch.cpp:191 and MgSound_StateDispatch.cpp
 // already use.
 //
-// IT DEFINES func_ov006_020c2b8c, so src/func_ov006_020c2b8c.cpp is out of
+// IT DEFINES func_ov006_020c2b8c, so src/actors/unit020bfec0.cpp is out of
 // port/slice_cup.txt AND out of port/slice_box.txt. Listing it in either would
 // be an LNK2005.
 
@@ -212,16 +212,16 @@ void port_mg_call0(void *self, unsigned code, int adj);
    defines -- checked one by one against src/ rather than copied from either
    lane. All six are matched; four are on both slices, and 020c22d8 / 020c26f4
    are on port/slice_box.txt. */
-int  func_ov006_020c22d8(char *t);   /* src/func_ov006_020c22d8.c   int(char*)  */
-void func_ov006_020c23a8(void *c);   /* src/func_ov006_020c23a8.cpp void(void*) */
-void func_ov006_020c24e4(void *c);   /* src/func_ov006_020c24e4.cpp void(void*) */
-int  func_ov006_020c263c(char *t);   /* src/func_ov006_020c263c.c   int(char*)  */
-int  func_ov006_020c26f4(char *t);   /* src/func_ov006_020c26f4.c   int(char*)  */
-void func_ov006_020c27c4(char *c);   /* src/func_ov006_020c27c4.cpp void(char*) */
+int  func_ov006_020c22d8(char *t);   /* src/actors/unit020bfec0.cpp   int(char*)  */
+void func_ov006_020c23a8(void *c);   /* src/actors/unit020bfec0.cpp void(void*) */
+void func_ov006_020c24e4(void *c);   /* src/actors/unit020bfec0.cpp void(void*) */
+int  func_ov006_020c263c(char *t);   /* src/actors/unit020bfec0.cpp   int(char*)  */
+int  func_ov006_020c26f4(char *t);   /* src/actors/unit020bfec0.cpp   int(char*)  */
+void func_ov006_020c27c4(char *c);   /* src/actors/unit020bfec0.cpp void(char*) */
 
 /* the rest of the dispatching TU, verbatim from src */
-void func_ov006_020c2be8(char *c);   /* src/func_ov006_020c2be8.c   void(char*) */
-void func_ov006_020c2290(char *c);   /* src/func_ov006_020c2290.c   void(char*) */
+void func_ov006_020c2be8(char *c);   /* src/actors/unit020bfec0.cpp   void(char*) */
+void func_ov006_020c2290(char *c);   /* src/actors/unit020bfec0.cpp   void(char*) */
 void _ZN9Animation7AdvanceEv(void *anim);
 void _ZN14BlendModelAnim7AdvanceEv(void *anim);
 
@@ -284,7 +284,7 @@ static int sub_call(void *p, unsigned code)
     }
 }
 
-/* src/func_ov006_020c2b8c.cpp, verbatim except that the member-pointer read and
+/* src/actors/unit020bfec0.cpp, verbatim except that the member-pointer read and
    the indirect call become the two-word read and sub_call. The null guard, the
    call order and the three Advance offsets are all src's and all agree with the
    ROM disassembly in the header.
@@ -300,7 +300,7 @@ static int sub_call(void *p, unsigned code)
 //
 // THE PARAGRAPH ABOVE THIS ONE IS SUPERSEDED, and the measurement that
 // supersedes it is the point. "THE STORED WORD IS DELIBERATELY NOT REWRITTEN"
-// refused a seat because src/func_ov006_020c2994.c compares an object's stored
+// refused a seat because src/actors/unit020bfec0.cpp compares an object's stored
 // pair BY VALUE against data_ov006_0213adb8, so writing host addresses over the
 // pairs "would make that comparison ask whether a host address equals a DS
 // address, which is false forever".
@@ -324,7 +324,7 @@ static int sub_call(void *p, unsigned code)
 // from inside the same block except sixteen that point at 0x0213add8 and
 // 0x0213ade8, the two bone-name strings interleaved in it.
 //
-// THE EMITTED SIDE, off src/func_ov006_020c2b8c.cpp's own /FAsc listing under
+// THE EMITTED SIDE, off src/actors/unit020bfec0.cpp's own /FAsc listing under
 // the port's own flags (runs/link100/out/PMFB6/emit_gate3_out.txt):
 //     mov eax,[esi] / test eax,eax / je / mov ecx,[esi+4] / add ecx,esi /
 //     call eax
@@ -338,7 +338,7 @@ static int sub_call(void *p, unsigned code)
 // leaving a counter that reads zero forever (lane PMFB3's tapped-pad trap):
 //   calls   / routed  bumped by every face, one per dispatch, still exact;
 //   idle    NO LONGER OBSERVABLE. It counted entries the ROM's own null guard
-//           skipped, and that guard is now inside src/func_ov006_020c2b8c.cpp
+//           skipped, and that guard is now inside src/actors/unit020bfec0.cpp
 //           where nothing outside can see it. It reads 0 and the seat says so.
 //   unknown STRUCTURALLY ZERO. An unrouted code word was a field holding an
 //           address this file did not know; after the seat the field can only
@@ -409,4 +409,4 @@ extern "C" void port_mg_sub4f38_seat(void)
 }
 
 /* HOST COPY RETIRED, run link100 lane PMFB6 gate 3.
-   src/func_ov006_020c2b8c.cpp dispatches its own field now. */
+   src/actors/unit020bfec0.cpp dispatches its own field now. */

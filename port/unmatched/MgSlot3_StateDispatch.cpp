@@ -81,7 +81,7 @@
 //
 // ---- 3. SLOT 2 WAS THE CLASS'S ONE FLOOR. IT IS RETIRED --------------------
 //
-// RUN mg12, LANE MAM MATCHED IT. src/func_ov006_0210adac.c byte-reproduces
+// RUN mg12, LANE MAM MATCHED IT. src/actors/dScMgSlots.cpp byte-reproduces
 // 0x0210adac under mwccarm 2004/b56 (and 1.2/base, 1.2/sp2, 1.2/sp2p3), it has
 // a delink block in config/arm9/overlays/ov006/delinks.txt covering
 // 0x0210adac..0x0210af64, linkcheck reports VERIFIED with zero blind slots, and
@@ -100,14 +100,14 @@
 // WHAT IT COSTS THE PLAYER, derived rather than guessed. The state index at
 // +0x5000 moves like this:
 //
-//   0 -> 1   src/func_ov006_0210b1fc.c's tail (`*q += 1`), after the 0x50-frame
+//   0 -> 1   src/actors/dScMgSlots.cpp's tail (`*q += 1`), after the 0x50-frame
 //            open and the reel-lights setup
-//   1 -> 2   src/func_ov006_0210af64.c's tail: once the third reel has been
+//   1 -> 2   src/actors/dScMgSlots.cpp's tail: once the third reel has been
 //            stopped (`*(u8 *)(c + 0x503d) >= 3`) it sets +0x503e to 0x1e and
 //            writes 2
-//   3 / 4    src/func_ov006_0210ac3c.cpp, the payout and the round reset, which
+//   3 / 4    src/actors/dScMgSlots.cpp, the payout and the round reset, which
 //            dispatches vtable slot 18 with the argument 4
-//   6 -> 7   src/func_ov006_0210ab94.c's countdown
+//   6 -> 7   src/actors/dScMgSlots.cpp's countdown
 //
 // So state 2 is the FACE-EVALUATION step between "all three reels stopped" and
 // "the payout is tallied": the ROM body reads the three visible symbols out of
@@ -146,7 +146,7 @@
 // range and 400-odd source shapes do not move it. A redundant `(int)` cast on
 // the left operand of the sum inside the modulo does: it changes the expression
 // tree mwcc builds and the initialiser stays put. That cast is load-bearing and
-// src/func_ov006_0210adac.c says so at the top. The near-miss row was retired
+// src/actors/dScMgSlots.cpp says so at the top. The near-miss row was retired
 // with the match.
 //
 // IT HAS TWO EXITS AND THIS PARAGRAPH USED TO NAME ONLY ONE. On the PAY path
@@ -283,7 +283,7 @@ extern "C" void port_mg_slot3_state_slots(unsigned *out8)
 // Run link100 lane PMFB5. data_ov006_02142bdc's eight cells hold HOST addresses
 // after boot, written by port_mg_slot3_states_seat below once every cell has
 // been compared against the ROM's own code word and a zero adjustment word, so
-// src/_ZN12dScMgSlot3_c8BehaviorEv.cpp (dScMgSlot3_c's vtable slot 6) compiles from src
+// src/actors/dScMgSlots.cpp (dScMgSlot3_c's vtable slot 6) compiles from src
 // and this file no longer defines it.
 //
 //   _ZN12dScMgSlot3_c8BehaviorEv   data_ov006_02142bdc   8 slots   arity 0
@@ -313,7 +313,7 @@ extern "C" void port_mg_slot3_state_slots(unsigned *out8)
 // is `(self->*data_ov006_02142bdc[self->idx])()` with an empty argument list.
 // So all eight faces are ZERO-ARGUMENT __fastcall.
 //
-// ONE /alternatename. src/_ZN12dScMgSlot3_c8BehaviorEv.cpp names the member-pointer type
+// ONE /alternatename. src/actors/dScMgSlots.cpp names the member-pointer type
 // at C++ linkage, so MSVC spells the reference
 // ?data_ov006_02142bdc@@3PAP8Obj@@AEXXZA -- the `Obj` is the shadow class name
 // that TU gives its receiver, and the whole spelling was read off the object

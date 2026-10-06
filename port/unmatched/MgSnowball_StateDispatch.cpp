@@ -108,15 +108,15 @@
 // fatal.  All three apply here, and the three TUs split across BOTH of the
 // spelling shapes that section describes:
 //
-//   src/func_ov006_0212a2e0.cpp   declares `extern "C" PMF data_ov006_02143038[]`
-//   src/func_ov006_0212a224.cpp   declares `extern "C" PMF data_ov006_02143050[]`
+//   src/actors/dScMgSnowball_c.cpp   declares `extern "C" PMF data_ov006_02143038[]`
+//   src/actors/dScMgSnowball_c.cpp   declares `extern "C" PMF data_ov006_02143050[]`
 //        -- the SILENT shape.  extern "C" mangles to the plain C name the
 //        ov006 mount already defines, so the link is satisfied and the
 //        compile is clean while MSVC strides an eight-byte table by four.
 //        Slot 0 would read correctly and slots 1 and 2 would each read half
 //        of one record and half of the next.
 //
-//   src/func_ov006_02129d94.cpp   declares `extern Entry data_ov006_02143070[]`
+//   src/actors/dScMgSnowball_c.cpp   declares `extern Entry data_ov006_02143070[]`
 //                                 and `extern Entry data_ov006_02143020[]`
 //        -- the LOUD shape.  C++ linkage encodes the member-pointer type into
 //        the symbol, so the link fails with LNK2019 and the defect announces
@@ -174,7 +174,7 @@ extern MgPmf data_ov006_02143050[];
 extern MgPmf data_ov006_02143070[];
 extern MgPmf data_ov006_02143020[];
 
-/* src/func_ov006_0212a2e0.cpp's other two externals, spelled as its src
+/* src/actors/dScMgSnowball_c.cpp's other two externals, spelled as its src
    spells them. */
 int RandomIntInternal(int *seed);
 extern int data_0209d4b8;
@@ -197,7 +197,7 @@ static int g_snw_sel_lo = -1, g_snw_sel_hi = -1;
    last slot-6 pass", and it could be: the host copy of func_ov006_0212a2e0 WAS
    the loop over the fifty elements, so it could reset a per-pass count at the
    top and publish it at the bottom. With that host copy retired, the loop is
-   inside src/func_ov006_0212a2e0.cpp and nothing outside it can see a pass
+   inside src/actors/dScMgSnowball_c.cpp and nothing outside it can see a pass
    boundary. What the faces below CAN count exactly is the thing the census is
    actually for -- that the machine was entered, and how often -- so this is a
    running total of first-level dispatches instead of a snapshot of one pass.
@@ -291,7 +291,7 @@ extern "C" void port_mg_snowball_slot_hits(const unsigned **v, unsigned *n)
    -- "the mwcc eight-byte member-pointer table MSVC's four-byte pmf cannot
    stride" -- expired when block R8's /vmg /vmm landed. Measured on this tree:
    the ROM strides `add r3, r2, r1, lsl #3` at 0212a324 on the pool word
-   0212a3b4 = 02143038, and src/func_ov006_0212a2e0.cpp emits
+   0212a3b4 = 02143038, and src/actors/dScMgSnowball_c.cpp emits
    _data_ov006_02143038[eax*8] and [eax*8+4] against it -- eight both sides.
    ITS ARITY IS ONE, unlike gate 1's nine rows: the listing pushes the element
    index before the call and the caller does NOT clean up afterwards, because

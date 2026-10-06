@@ -35,7 +35,4 @@
 # the spawn spine. The copy writes the derived table last, exactly what the ROM
 # asm does. See the file header.
 src/game/actors/d_a_obj_b_swdoor.cpp
-src/func_ov002_020bac18.c
-src/func_ov002_020bad10.c
-src/func_ov002_020baba8.cpp
-src/_ZN13daObjSwdoor_c6RenderEv.cpp
+src/actors/daObjSwdoor_c.cpp

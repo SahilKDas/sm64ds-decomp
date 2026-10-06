@@ -49,7 +49,7 @@
 #
 # ---------------------------------------------------------------------------
 # ROW 2 (NOT a plain row -- it builds through tools/hostgen.py):
-#        src/_ZN15dScMgSnowball_c6RenderEv.cpp
+#        src/actors/dScMgSnowball_c.cpp
 # ---------------------------------------------------------------------------
 # dScMgSnowball_c's Render, ROM vtable slot 9. Retires
 # port/unmatched/MgSnowball_ModelRender.cpp -- the one row of lane FOLD2's
@@ -64,7 +64,7 @@
 #                 02140030 = 02127d10
 #             (slot 8 = 0202e3c8 and slot 10 = 0210a664 either side of it, so
 #             the stride and the index are both checked, not assumed.)
-#   marker    src/_ZN15dScMgSnowball_c6RenderEv.cpp carries "recovered from vtable slot
+#   marker    src/actors/dScMgSnowball_c.cpp carries "recovered from vtable slot
 #             identity", and it is ADJUDICATED REAL_DECOMP at
 #             port/tools/inferred_stub_adjudicated.txt:1283 -- ten distinct
 #             callees at ten matching counts, and a 0x694 body that is 400

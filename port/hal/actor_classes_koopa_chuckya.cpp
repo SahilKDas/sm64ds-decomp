@@ -189,7 +189,7 @@ int _ZTV5Koopa[31];
    ov062's. Both are now
      -Dfunc_ov066_02118cdc=func_ov062_02118cdc
      -Dfunc_ov066_02118a50=func_ov062_02118a50
-   on the one caller, src/func_ov062_02117acc.c, in port/CMakeLists.txt --
+   on the one caller, src/game/actors/d_a_nknk.cpp, in port/CMakeLists.txt --
    the same recipe the paragraph above describes, applied a second and third
    time. Nothing else in this file spelled either name. */
 

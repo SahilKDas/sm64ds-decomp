@@ -149,14 +149,14 @@
 # row for _ZN10dScMgCup_c8BehaviorEv calls it "the class ONLY pointer-to-member
 # dispatch site", and port/slice_mga361.txt section 4 says "exactly ONE TU
 # dispatches it ... Curling needs five host copies; this needs one" and then
-# lists src/func_ov006_020c2b8c.cpp as an ORDINARY SLICE LINE.
+# lists src/actors/unit020bfec0.cpp as an ORDINARY SLICE LINE.
 #
 # Both sentences are true of the class's own STATE TABLE and false of the
 # class. The Behavior's second-to-last statement is
 #
 #     func_ov006_020c2b8c(o + 0x4f38);
 #
-# and src/func_ov006_020c2b8c.cpp is
+# and src/actors/unit020bfec0.cpp is
 #
 #     struct C; typedef void (C::*PMF)(); struct C { PMF pmf; };
 #     void func_ov006_020c2b8c(C* c) {
@@ -189,7 +189,7 @@
 #   0213adf0 {020c263c, 0}  written by func_ov006_020c2664
 #   0213adf8 {020c23a8, 0}  written by func_ov006_020c2440
 #   0213adb8 {020c27c4, 0}  NOT a state -- the idle SENTINEL that
-#                           src/func_ov006_020c2994.c compares the live pair
+#                           src/actors/unit020bfec0.cpp compares the live pair
 #                           against BY VALUE, which is why the stored words are
 #                           routed at the dispatch site and never rewritten
 #
@@ -214,7 +214,7 @@
 #   src/actors/dScMgCup_c.cpp  the BEHAVIOR, the table dispatcher. Host-copied
 #       in port/unmatched/MgCup_StateDispatch.cpp. (MGA had already removed it,
 #       so it is not one of the sixty-eight.)
-#   src/func_ov006_020c2b8c.cpp  the SUB-OBJECT dispatcher, section 4 above.
+#   src/actors/unit020bfec0.cpp  the SUB-OBJECT dispatcher, section 4 above.
 #       Host-copied in port/unmatched/MgShared4f38_SubDispatch.cpp.
 #   src/minigames/d_s_mg_single3_d_base.cpp  vtable slot 2, the argument ride-through.
 #       port/unmatched/MgFlower_Slot2.cpp host-copies it as
@@ -227,7 +227,7 @@
 #       error cannot happen.
 #
 # and FIVE are added: the four sub-object state bodies above plus
-# src/func_ov006_020c2984.c, which three of them call.
+# src/actors/unit020bfec0.cpp, which three of them call.
 #
 #   68 - 18 already compiled in - 4 removed from the sixty-eight + 5 added
 #   = 51 lines.
@@ -257,19 +257,10 @@
 #
 # ---- the list ---------------------------------------------------------------
 src/func_02012174.c
-src/func_ov004_020b2574.c
-src/func_ov004_020b6808.c
-src/func_ov006_020c225c.c
-src/func_ov006_020c2290.c
-src/func_ov006_020c23a8.cpp
-src/func_ov006_020c2440.cpp
-src/func_ov006_020c24e4.cpp
-src/func_ov006_020c2594.c
-src/func_ov006_020c263c.c
-src/func_ov006_020c2664.c
-src/func_ov006_020c27c4.cpp
-src/func_ov006_020c2848.cpp
-# HOST-COPIED (mg9 adjudication): src/func_ov006_020c2924.cpp -- a RECEIVER
+src/minigames/d_s_mg_base.cpp
+src/actors/dMgState_c.cpp
+src/actors/unit020bfec0.cpp
+# HOST-COPIED (mg9 adjudication): src/actors/unit020bfec0.cpp -- a RECEIVER
 #   DROP at a host C++ virtual. The src spells the byte +0x18 call as
 #   `int (**vt)(void*)`, a __cdecl pointer that PUSHES the object, against
 #   HalFaderWipe::IsAtEnd, a __thiscall virtual that reads `this` out of ecx.
@@ -278,10 +269,4 @@ src/func_ov006_020c2848.cpp
 #   from vtable slot 18 (_ZN10dScMgCup_c13OnYoshiTryEatEi @ 0x020e0018), so scene 361 was
 #   running the defect too. The fix is
 #   port/unmatched/MgShared4f38_ShadowFader_020c2924.cpp and src/ is untouched.
-src/func_ov006_020c2984.c
-src/func_ov006_020c2994.c
-src/func_ov006_020c2be8.c
-src/func_ov006_020c3050.c
-src/func_ov006_020c3288.c
-src/func_ov006_020c33dc.c
 src/actors/dScMgCup_c.cpp

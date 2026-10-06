@@ -5,15 +5,15 @@
  * addresses their ov065/ov066 spellings, the /alternatename:_data_ov059_...
  * =_func_ov045_... case from hal/actor_classes_ov045.cpp in source form):
  *
- *     src/unnamed/ov063/func_ov063_02116d38.c   case 0 spelled daYurei_Mucho_c_classInit
+ *     src/actors/daTrs_c.cpp   case 0 spelled daYurei_Mucho_c_classInit
  *         -- ov065's name for 0x02116f48; ov063's own body there is
  *         func_ov063_02116f48 (0x64 bytes vs daYurei_Mucho_c_classInit's 0x50: different
  *         content, so an /alternatename would go WRONG the moment lane 5-B
  *         links the real ov065 TU -- the alias only fires while undefined).
- *     src/unnamed/ov063/func_ov063_021192d4.c   case 6 spelled
+ *     src/actors/daTrs_c.cpp   case 6 spelled
  *         _ZN15TtcRotatingCube8BehaviorEv -- ov065's name for 0x02119a50;
  *         ov063's body is func_ov063_02119a50 (on the slice).
- *     src/unnamed/ov063/func_ov063_02116f48.cpp calls data_ov066_0211ad00 AS
+ *     src/actors/daTrs_c.cpp calls data_ov066_0211ad00 AS
  *         A FUNCTION -- ov066's data name for 0x0211ad00; ov063's body is
  *         func_ov063_0211ad00 (on the slice). Mounting ov066's word there
  *         one day would hand this call host DATA to jump into; the by-name

@@ -29,4 +29,4 @@
 # object) -- plus the registry row, which reuses WARP_PIPE's shared vtable fill
 # (fill 0, the BIG_BRICK_BLOCK / LIGHT_BEAM shape). No new overlay data, no PMF
 # state table, no method face.
-src/d_a_obj_simple_bg_bk_tower.c
+src/actors/daObjSimpleBg_c.cpp

@@ -120,8 +120,8 @@
 # Coincentration and Loves-Me slices and the framework seat brought them in.
 #
 # THE TWO ov004 BLOCKS THAT ARE NOT LINKED ARE NOT SLICE LINES EITHER, because
-# the framework already owns both: src/func_ov004_020b3278.cpp is host-copied
-# in port/unmatched/MgBase_StateDispatch.cpp and src/_ZN10dMgState_c8SetStateEi.cpp in
+# the framework already owns both: src/actors/unit020b2c84.cpp is host-copied
+# in port/unmatched/MgBase_StateDispatch.cpp and src/actors/dMgState_c.cpp in
 # port/unmatched/MgBase_StateSetter.cpp. This lane inherits both and adds
 # neither. So the ov004 delta of this class over what is already seated is
 # ZERO, which is section 2's "paid once, by this lane, for all thirty" holding
@@ -290,8 +290,8 @@ src/actors/dScMgPanel_c.cpp
 # into src/actors/dScMgPanel_c.cpp, which the build already compiles (through
 # hostgen), so the per-function leftover here was the second definition
 # (LNK2005).
-#src/func_ov006_02106168.cpp
+#src/actors/dScMgPanel_c.cpp
 # THE JOIN MISS, section 4. Outside the delinks join and bannered NONMATCHING,
 # so the closure walk could not reach it and stategen could not emit its case;
 # both are boundaries of a tool rather than floors for the port.
-src/d_s_mg_panel.c
+src/d_s_mg_panel.cpp

@@ -103,7 +103,7 @@ LEDGER = [
      "push nothing (?BeforeBehavior@dScMgBase_c@@UAEHXZ+0x96 lea ecx,"
      "[esi+0xcc]; call), so the word at [esp+4] is the caller's saved edi"),
     ("ECX", r"^\?cells_490@\?1\?\?port_mg_framework_tables_seat@@",
-     "data_ov004_020bf490: src/func_ov004_020b3278.cpp dispatches this table "
+     "data_ov004_020bf490: src/actors/unit020b2c84.cpp dispatches this table "
      "itself with a real call, ecx = this and nothing pushed (lane MGWRITER "
      "measured it off the TU's own listing and seated __fastcall faces)"),
 
@@ -121,7 +121,7 @@ LEDGER = [
      "and _func_ov004_020b31b4 read, and both are flat f(self) tail jumps"),
     ("CDECL", r"^\?seats@\?1\?\?port_mg_framework_states_seat@@",
      "data_ov004_020beb88 and _020beb98: the readers are the matched TUs "
-     "src/func_ov004_020add88.cpp and src/func_ov004_020adf2c.cpp, each a "
+     "src/minigames/d_s_mg_base.cpp and src/minigames/d_s_mg_base.cpp, each a "
      "flat f(self) that loads the pair out of the table and tail jumps with "
      "the frame restored (lane PMFB3 measured both listings)"),
 
@@ -519,7 +519,7 @@ VERDICTS = [
     ("an ECX cell in a checked table passes",
      [_row("ECX", "?g_rabbit_states@@3QBU", "?rb_0212b4b4@@YIXPAX0@Z", "ECX")], 0, 0),
     ("the named __cdecl exception inside a checked table is excused",
-     [_row("ECX", "?g_ov077_seats@?A0x1@@3QBU", "_func_ov077_02124118", "STACK")], 0, 1),
+     [_row("ECX", "?g_ov077_seats@?A0x1@@3QBU", "__ZN7daJgm_c15UpdateSpitStateEv", "STACK")], 0, 1),
     ("a body the exception does NOT name still refuses",
      [_row("ECX", "?g_ov077_seats@?A0x1@@3QBU", "_func_ov077_02126640", "STACK")], 1, 0),
     ("a stack-receiver cell in an adjudicated table is only reported",

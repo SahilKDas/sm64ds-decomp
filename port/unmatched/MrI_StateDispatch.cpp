@@ -13,7 +13,7 @@
  *   func_ov071_02121634(c, idx)  -- MrI_SetState. `add r1, r2, r1, lsl #4`:
  *       stores &data_ov071_02123088[idx] at 16-byte stride into c+0x1e4, then
  *       tail-calls the ENTER dispatcher. MATCHED SRC and correct as it stands
- *       (src/func_ov071_02121634.c strides a 16-byte `Item16`), so it rides
+ *       (src/actors/daEykn_c.cpp strides a 16-byte `Item16`), so it rides
  *       the slice rather than being copied here.
  *   func_ov071_021215fc(c)  -- ENTER: reads record+0, called on SetState
  *   func_ov071_021215c0(c)  -- MAIN:  reads record+8, called by MrI::Behavior
@@ -47,7 +47,7 @@
  * ---- WHY BOTH DISPATCHERS MUST BE HOST COPIES ------------------------------
  * The same two reasons as Scuttlebug's pair, verified against the matched TUs:
  *
- *   1. src/func_ov071_021215c0.cpp is
+ *   1. src/actors/daEykn_c.cpp is
  *          struct C; typedef void (C::*PMF)();
  *          struct C { char pad[0x1e4]; PMF *pp; };
  *          void func_ov071_021215c0(C *c) { PMF *p = c->pp + 1; (c->**p)(); }
@@ -55,7 +55,7 @@
  *      the complete single-inheritance C, so the host `+ 1` lands on the
  *      record's +4 -- the delta=0 word -- instead of the MAIN PMF at +8, and
  *      dispatches a zero. That is a null call on the FIRST frame MrI ticks.
- *   2. src/func_ov071_021215fc.cpp reads `*c->pp`, which happens to work
+ *   2. src/actors/daEykn_c.cpp reads `*c->pp`, which happens to work
  *      because delta is 0, but models the same wrong stride. Both are read
  *      here as plain { fn, 0 } halves and the fn is called with `this`.
  *
@@ -99,7 +99,7 @@ void port_mri_states_seat(void);
 /* func_ov071_021215c0 -- the MAIN half, `c->pp + 1`, ROM 0x021215c0, 0x3c
    bytes -- WAS host-copied here for the width reason this file's header
    states, and is now back on the slice: run linkw wave 18 compiles
-   src/func_ov071_021215c0.cpp with /vmg /vmm, which gives MSVC the 8-byte
+   src/actors/daEykn_c.cpp with /vmg /vmm, which gives MSVC the 8-byte
    {fn, delta} representation the ROM's record already is. All six of this
    table's source deltas are ROM zeros, so the matched dispatch (which adds
    delta to `this`) and the host body it replaces (which did not) agree word
@@ -108,7 +108,7 @@ void port_mri_states_seat(void);
    wrong stride never bit. */
 
 /* func_ov071_021215fc IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov071_021215fc.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daEykn_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two

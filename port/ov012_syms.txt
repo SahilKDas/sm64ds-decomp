@@ -77,7 +77,7 @@
 # 6 Behavior 0x0211134c, 9 Render 0x02111324, 12 OnPendingDestroy SHARED,
 # 16 D1 0x021111a0, 17 D0 0x021111e4, 21 OnGroundPounded 0x0211123c (own).
 # D1/D0 both store then OVERWRITE with the shared _ZTV10dBgActor_c
-# placeholder (the ShipUp/RockPillar/SkiLift shape) -- HOST THUNKS, dropped
+# placeholder (the daObjKi_Fune_c/RockPillar/SkiLift shape) -- HOST THUNKS, dropped
 # from the slice.
 #
 # BASEMENT_WATER (daObjC0Water_c), a Platform, 32 slots (no own Kill,

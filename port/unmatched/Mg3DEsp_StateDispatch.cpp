@@ -140,7 +140,7 @@
 // a member-pointer type and neither has a PMF global, so there is no symbol for
 // a link to fail on AND no `::*` for a source sweep to match.  src/
 // func_ov006_020e8830.c reads the pair as `int* ent = &data_ov006_02141f8c[b*2]`
-// and does its own `adj >> 1` / `adj & 1` decode; src/func_ov006_020e82fc.cpp
+// and does its own `adj >> 1` / `adj & 1` decode; src/actors/dMg3DEspAnimSet_c.cpp
 // declares `struct Ent{ int a; int b; }` inside extern "C" and does the same.
 // Both compile, both link, and only a run convicts them -- the tell is eip on a
 // raw DS address.
@@ -373,7 +373,7 @@ extern "C" void port_mg_esp3d_table_counts(unsigned *out7)
    port/slice_seat4.txt, so the host copy that stood in for it is gone and
    the declaration above is what the faces in this file reach. */
 
-/* src/func_ov006_020e8830.c -- THE THIRD SHAPE, and also slot 1 of the table
+/* src/actors/dMg3DEspAnimSet_c.cpp -- THE THIRD SHAPE, and also slot 1 of the table
    above.  Its src is bannered
        NONMATCHING: different op / idiom (div=36). Logic verified correct vs ROM
    and it decodes the pair by hand out of `extern int data_ov006_02141f8c[]`:
@@ -408,7 +408,7 @@ extern "C" void func_ov006_020e8830(char *base, int idx)
     }
 }
 
-/* src/func_ov006_020e82fc.cpp -- THE THIRD SHAPE AGAIN, spelled
+/* src/actors/dMg3DEspAnimSet_c.cpp -- THE THIRD SHAPE AGAIN, spelled
    `struct Ent{ int a; int b; }` inside extern "C", which is eight bytes on both
    machines and therefore reads and links entirely clean.  THE BOUND IS THE
    ROM'S OWN: `cmp r2,#3 / bxhs lr` at 0x020e830c, and it is kept rather than
@@ -448,7 +448,7 @@ extern "C" void func_ov006_020e82fc(char *c)
 // /vmg /vmm. This port compiles with both, which is lane PMFC2's finding in one
 // line: under /vmg /vmm an incomplete class's pointer to member is the GENERAL
 // representation, eight bytes, whether the class is complete at the declaration
-// or not. src/_ZN12dScMg3DEsp_c8BehaviorEv.cpp was compiled for this lane under the
+// or not. src/actors/dMg3DEspAnimSet_c.cpp was compiled for this lane under the
 // port's own flags and its listing reads
 // `_data_ov006_02141f2c[eax*8]` and `[eax*8+4]`
 // (runs/link100/out/PMFB4/listings/func_ov006_020e9e00_nozp.asm), against the
@@ -484,13 +484,13 @@ extern "C" void func_ov006_020e82fc(char *c)
 // and 02141f74 take one-argument faces and 02141f2c takes zero-argument ones.
 //
 // TWO /alternatename DIRECTIVES AND A THIRD SPELLING THAT NEEDS NONE.
-// src/func_ov006_020e9374.cpp and src/func_ov006_020e8d08.cpp declare their
+// src/actors/dMg3DEspAnimSet_c.cpp and src/actors/dMg3DEspAnimSet_c.cpp declare their
 // tables at namespace scope through their own shadow classes, so MSVC spells
 // ?data_ov006_02141f5c@@3PAP8C71@@AEXH@ZA and
 // ?data_ov006_02141f74@@3PAP8C70@@AEXH@ZA -- the C70 and C71 are the shadow
 // class names those two TUs give their receiver, part of the decoration and not
 // a typo. Both read off the objects with dumpbin /symbols.
-// src/_ZN12dScMg3DEsp_c8BehaviorEv.cpp declares its table inside extern "C" and comes in
+// src/actors/dMg3DEspAnimSet_c.cpp declares its table inside extern "C" and comes in
 // as the plain _data_ov006_02141f2c, which is the silence section 4 records.
 #pragma comment(linker, "/alternatename:?data_ov006_02141f5c@@3PAP8C71@@AEXH@ZA=_data_ov006_02141f5c")
 #pragma comment(linker, "/alternatename:?data_ov006_02141f74@@3PAP8C70@@AEXH@ZA=_data_ov006_02141f74")

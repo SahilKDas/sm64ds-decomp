@@ -30,7 +30,7 @@
  * timer and a speed and returns 1.
  *
  * 09-19, run link100 wave 14, lane SEAT14B: that tenth body was a hand
- * transcription here (unagi_state_arrive); src/BookSwitch_Spawn.c is the same
+ * transcription here (unagi_state_arrive); src/actors/daMoray_c.cpp is the same
  * seven instructions and now takes the seat, off port/slice_small7.txt. Read
  * out of extracted/overlays/overlay_0016.bin at base 0x021111a0, the body is a
  * real standalone leaf entry -- ADD r1,r0,#0x100 / MOV r2,#100 / STRH r2,[r1] /
@@ -92,7 +92,7 @@ extern unsigned char data_0209f220;
 
 }  /* extern "C" */
 
-/* The d7c ENTER (0x021115a4, size 0x1c) is src/BookSwitch_Spawn.c now. The
+/* The d7c ENTER (0x021115a4, size 0x1c) is src/actors/daMoray_c.cpp now. The
  * hand transcription that stood here read, from the overlay bytes:
  *   add r1,r0,#0x100; mov r2,#0x64; strh r2,[r1]   -> *(u16*)(this+0x100)=100
  *   mov r1,#0x14000;  str r1,[r0,#0x98]             -> *(int*)(this+0x98)=0x14000
@@ -112,7 +112,7 @@ extern unsigned char data_0209f220;
  * that bridged name too). */
 extern "C" int func_ov018_02111bf0(void *c, void *cell);
 /* func_ov016_02111bf0 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov016_02111bf0.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daMoray_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two

@@ -83,7 +83,7 @@
 // ============================================================================
 // TRAP T5: ONE MARKER-CARRYING BODY, ADJUDICATED BEFORE IT WAS SEATED.
 // ============================================================================
-// src/_ZN6Eyerok16OnAimedAtWithEggEv.cpp is the only file in the overlay carrying
+// src/actors/Eyerok.cpp is the only file in the overlay carrying
 // "recovered from vtable slot identity", and this file seats it at slot 29, so
 // it needs a pre-seat ROM ruling. It got one:
 //
@@ -274,7 +274,7 @@ extern PortEyerokCell data_ov066_0211b0ec;
 }
 
 /* ---- MSVC-typed spellings of mounted C storage and of the vtable ----------
-   src/d_a_iwante.cpp declares `extern void *_ZTV6Eyerok[];` OUTSIDE
+   src/actors/Eyerok.cpp declares `extern void *_ZTV6Eyerok[];` OUTSIDE
    extern "C" -- the ov063 MadPiano shape -- so MSVC decorates the reference
    while this file defines the one real C symbol. The LHS is a decorated
    spelling NOTHING in this link defines, which is what keeps
@@ -316,7 +316,7 @@ extern PortEyerokCell data_ov066_0211b0ec;
    alias. The ov046 arena-CLPS precedent (hal/actor_classes_ov060.cpp:201) is
    the same data-under-a-function-spelling shape. ---- */
 
-/* src/func_ov066_021166c8.cpp -- InitResources' resource half. The three
+/* src/actors/Eyerok.cpp -- InitResources' resource half. The three
       @@YAXXZ rows are the two ov025 CLPS blocks and ov066's own collider
       callback veneer, all three address-taken only. */
 #pragma comment(linker, "/alternatename:?data_ov025_02112cc8@@YAXXZ=_data_ov025_02112cc8")
@@ -329,7 +329,7 @@ extern PortEyerokCell data_ov066_0211b0ec;
 #pragma comment(linker, "/alternatename:?data_ov066_0211ae34@@3PAPAXA=_data_ov066_0211ae34")
 #pragma comment(linker, "/alternatename:?data_ov066_0211ae1c@@3PAPAXA=_data_ov066_0211ae1c")
 
-/* src/func_ov066_02116d14.cpp -- a state body that re-arms the blend anim. */
+/* src/actors/Eyerok.cpp -- a state body that re-arms the blend anim. */
 #pragma comment(linker, "/alternatename:?data_ov066_0211aea4@@3PAPAXA=_data_ov066_0211aea4")
 #pragma comment(linker, "/alternatename:?data_ov066_0211ae8c@@3PAPAXA=_data_ov066_0211ae8c")
 
@@ -358,7 +358,7 @@ extern PortEyerokCell data_ov066_0211b0ec;
 #pragma comment(linker, "/alternatename:?data_ov066_0211ae1c@@3PADA=_data_ov066_0211ae1c")
 #pragma comment(linker, "/alternatename:?data_ov066_0211ae34@@3PADA=_data_ov066_0211ae34")
 
-/* src/_ZN6Eyerok13InitResourcesEv.cpp -- the class's biggest body: the same
+/* src/actors/Eyerok.cpp -- the class's biggest body: the same
       twenty-two file pointers spelled `extern int data_ov066_*[]`, three
       scalars spelled `extern s8`, ten arm9 helpers and the collider
       callback, whose C name is already in the link from slice_gate59. */

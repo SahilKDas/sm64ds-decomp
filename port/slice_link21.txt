@@ -49,7 +49,7 @@ src/_ZN11dScMgJump_c13OnYoshiTryEatEi.cpp
 # port/CMakeLists.txt), so the rows here are the raw paths and port_read_lines
 # substitutes the generated ones.
 #
-# src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp   ov098 0x02137d40, 0x40
+# src/actors/daObjYajirusi_c.cpp   ov098 0x02137d40, 0x40
 #     Quarantined since lane SLICE1 for a C2561: a bare `return;` inside an int
 #     body, which /wd4716 cannot answer. Its host copy,
 #     port/unmatched/ArrowSign_OnAttacked1.cpp, was retired at lane SEAT6 on the
@@ -59,7 +59,7 @@ src/_ZN11dScMgJump_c13OnYoshiTryEatEi.cpp
 #     on that path, so there is no value to invent), and the raw path is on
 #     PORT_FALLS_OFF_END_SOURCES for the C4716 that is left. Measured after the
 #     patch and before the row: compiles clean, defines exactly
-#     ?OnAttacked1@ArrowSignRight@@QAEHAAUdActor_c@@@Z, references nothing
+#     ?OnAttacked1@daObjYajirusi_c@@QAEHAAUdActor_c@@@Z, references nothing
 #     outside the link. The FLAT name the wall asks for is a reverse face, one R
 #     row in port/faces_sync.txt beside this class's four existing ones.
 #
@@ -68,7 +68,7 @@ src/_ZN11dScMgJump_c13OnYoshiTryEatEi.cpp
 #     Needs hostgen for the IME and IE pokes (two MMIO rewrites). Defines exactly
 #     ?SetIRQs@IRQ@@YAII@Z, references nothing at all, and the decorated static
 #     spelling the wall asks for is one alias row in port/hal/link21_rows.cpp.
-src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp
+src/actors/daObjYajirusi_c.cpp
 src/_ZN3IRQ7SetIRQsEj.cpp
 
 # ---- THIS LANE'S OWN HAL ROWS ----------------------------------------------

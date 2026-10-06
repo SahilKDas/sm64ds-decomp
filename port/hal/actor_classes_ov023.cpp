@@ -153,7 +153,6 @@ DSSTATE_END
 #pragma comment(linker, "/alternatename:?port_ov023_sq_file0@@3PAHA=_data_ov023_02112088")
 #pragma comment(linker, "/alternatename:_port_ov023_sq_file1=_data_ov023_02112080")
 #pragma comment(linker, "/alternatename:_port_ov023_clsn_file=_data_ov023_02112080")
-#pragma comment(linker, "/alternatename:_port_ov023_xform=_func_ov023_02111308")
 
 /* The three bodies src defines as real C++ methods, faced here -- the
    ov013/ov024/ov025/ov033/ov035 recipe. Render rides FROM SRC as a plain-Model

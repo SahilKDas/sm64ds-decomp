@@ -98,7 +98,7 @@
 
 // ---- 2. FIVE FUNCTION ALIASES, ALL cdecl ON BOTH SIDES --------------------
 //
-// Model::LoadTextureToVram.  src/func_ov006_020d0b2c.cpp declares
+// Model::LoadTextureToVram.  src/actors/unit020cd744.cpp declares
 // `namespace Model { int LoadTextureToVram(char *, unsigned int); }` and calls
 // it qualified, so MSVC wants ?LoadTextureToVram@Model@@YAHPADI@Z -- a free
 // function in a NAMESPACE called Model, __cdecl.  include/Model.h:68 declares
@@ -110,7 +110,7 @@
 // difference is a spelling: both are four bytes returned in eax.
 #pragma comment(linker, "/alternatename:?LoadTextureToVram@Model@@YAHPADI@Z=?LoadTextureToVram@Model@@SAIPADI@Z")
 //
-// Particle::System::New.  src/func_ov006_020c8f20.cpp declares a local
+// Particle::System::New.  src/actors/dMgTrmpln2Mario_c.cpp declares a local
 // `struct System { static System* New(...); }` with seven parameters, so MSVC
 // wants ?New@System@@SAPAU1@IIHHHPBUVector3_16f@@PAUCallback@@@Z -- SA, a
 // static member, __cdecl.  The matched body is
@@ -123,7 +123,7 @@
 //
 // Scene::AfterRender.  include/decl_common.h:1936 declares
 // `extern void Scene_AfterRender(void*, unsigned int);` while the matched body
-// is src/_ZN8dScene_c11AfterRenderEj.cpp, already linked by port/slice_w1l2.txt
+// is src/actors/dScene_c.cpp, already linked by port/slice_w1l2.txt
 // under the ROM's own Itanium name (config/arm9/symbols.txt:1105,
 // _ZN8dScene_c11AfterRenderEj at 0x0202e398 -- the address dScMgD3DBase_c's slot
 // 11 tail-jumps to, which is how this lane found it).  Both are C linkage and
@@ -144,7 +144,7 @@
 // ApproachLinear2, the INT overload.  src/_Z15ApproachLinear2Riii.cpp defines
 // `int ApproachLinear2(int &, int, int)` with NO extern "C", so MSVC decorates
 // it ?ApproachLinear2@@YAHAAHHH@Z, while three .c TUs in this closure
-// (src/func_ov006_020cd744.c, _020cf790.c and _020cf820.c) spell the ROM's
+// (src/actors/unit020cd744.cpp, _020cf790.c and _020cf820.c) spell the ROM's
 // Itanium name at C linkage.  port/unmatched/Ov085_Behaviors.cpp:142 records
 // the same fact and solves it the other way, by declaring the C++ signature in
 // a C++ TU; a .c caller cannot do that.  Both sides are plain __cdecl free
@@ -153,7 +153,7 @@
 // above with a reference instead of a pointer.
 #pragma comment(linker, "/alternatename:__Z15ApproachLinear2Riii=?ApproachLinear2@@YAHAAHHH@Z")
 //
-// Sound_PlayBank1Panned.  src/func_ov006_020c94e0.cpp and
+// Sound_PlayBank1Panned.  src/actors/dMgTrmpln2Mario_c.cpp and
 // src/actors/dMgJump3DMario_c.cpp call `func_ov006_020e6df0(a, b, c)` by address-
 // derived name, while config/arm9/overlays/ov006/symbols.txt:690 gives 0x020e6df0
 // the recovered name Sound_PlayBank1Panned (size 0x4c) and the matched TU is
@@ -182,7 +182,7 @@ void _ZN9ModelAnim7SetAnimEP8BCA_Filei5Fix12IiEj(
    ?St_Null_Init@Player@@QAEXXZ, __thiscall with the receiver in ecx.
 
    THE RECEIVER IS DROPPED ON PURPOSE AND THE ROM DROPS IT TOO.  The matched
-   body src/func_ov006_020cac30.cpp takes `(void)` -- it walks
+   body src/actors/dMgTrmpln2Mario_c.cpp takes `(void)` -- it walks
    data_ov006_02140554 for data_ov006_021405bc entries and then calls
    func_ov006_020c8a64, and never reads a receiver.  On ARM the caller's r0 is
    simply not read.  So this is NOT the dropped-receiver disease
@@ -191,7 +191,7 @@ void _ZN9ModelAnim7SetAnimEP8BCA_Filei5Fix12IiEj(
 struct Player { void St_Null_Init(); };
 void Player::St_Null_Init() { func_ov006_020cac30(); }
 
-/* TextureTransformer::SetFile.  src/func_ov006_020cecc0.cpp declares a local
+/* TextureTransformer::SetFile.  src/actors/unit020cd744.cpp declares a local
    `struct TextureTransformer { ...; void SetFile(BTA_File&, int, int, unsigned); }`
    and calls it on `c + 0x194`, so MSVC wants
    ?SetFile@TextureTransformer@@QAEXAAUBTA_File@@HHI@Z -- __thiscall, receiver
@@ -210,7 +210,7 @@ void TextureTransformer::SetFile(BTA_File &f, int a, int b, unsigned c)
 /* ModelAnim::SetAnim, THE void* SPELLING.  hal/bob_enemy_shadow_faces.cpp:88
    already carries this face with a `BCA_File *` first parameter, which MSVC
    mangles ?SetAnim@ModelAnim@@QAEXPAUBCA_File@@HHI@Z.  Two TUs in this closure
-   -- src/func_ov006_020c9c8c.cpp and src/func_ov006_020cc198.cpp -- declare their
+   -- src/actors/dMgTrmpln2Mario_c.cpp and src/actors/dMgTrmpln2Mario_c.cpp -- declare their
    local ModelAnim with the first parameter as `void *`, so MSVC wants
    ?SetAnim@ModelAnim@@QAEXPAXHHI@Z instead.  Different mangled name, same body,
    same four stack arguments and the same receiver in ecx; the existing face
@@ -236,11 +236,11 @@ void TextureTransformer::SetFile(BTA_File &f, int a, int b, unsigned c)
 // callees from static closure, so retiring one of these costs its own slice
 // lines on top of the body.
 //
-//   func_ov006_020cf2fc  0x45c  void(char*)                 src/func_ov006_020d09e0.c
-//   func_ov006_020d01e0  0x800  void(short*,short*,short*)  src/func_ov006_020d0b78.c
+//   func_ov006_020cf2fc  0x45c  void(char*)                 src/actors/unit020cd744.cpp
+//   func_ov006_020d01e0  0x800  void(short*,short*,short*)  src/actors/unit020cd744.cpp
 //   func_ov006_020d0c38  0x3ac  int(u16*,u16*)              src/minigames/d_s_mg_trampoline2.cpp
 //                                                           (THIS class's slot 23)
-//   func_ov006_020cfc74  0x56c  void(char*)                 src/func_ov006_020cfa44.c
+//   func_ov006_020cfc74  0x56c  void(char*)                 src/actors/unit020cd744.cpp
 //
 // THE THIRD ONE IS A PLAYER-FACING GAP AND IT IS NAMED AS ONE.  Slot 23
 // (OnAttacked2) packs the current and previous stylus points into four
@@ -280,7 +280,7 @@ extern "C" void port_mg_shared_trap_counts(unsigned *f2fc, unsigned *f1e0,
 /* THIS FILE'S OWN TRAP IS RETIRED.  It used to define func_ov006_020cfc74
    count-and-return, 0x56c, with no src and no delinks block, and run mg12 lane
    TRM had already read the listing and called it the bounce.  Run mg13 lane
-   BOUNCE decompiled it: src/func_ov006_020cfc74.c is a slice_tte.txt line now,
+   BOUNCE decompiled it: src/actors/unit020cd744.cpp is a slice_tte.txt line now,
    an honest NONMATCHING seat at 8 divergences against 339 ROM code words with
    the size, the 8-word literal pool and all 28 call offsets exactly the ROM's,
    and with every one of those 8 divergences a permutation or a re-association
@@ -301,7 +301,7 @@ extern "C" void port_mg_shared_trap_counts(unsigned *f2fc, unsigned *f1e0,
 static const unsigned g_tte_trap_020cfc74 = 0;   /* RETIRED, see above */
 
 /* THE CHARACTER CENSUS, added with the seat by run mg13 lane BOUNCE.
-   src/func_ov006_020cfc74.c walks data_ov006_0214097c -- the up-to-five
+   src/actors/unit020cd744.cpp walks data_ov006_0214097c -- the up-to-five
    character records func_ov006_020cae9c (stride 0xdc) and func_ov006_020cd658
    (stride 0xd0) register -- and writes each caught character's bounce state to
    its +0x18.  Without this readout a run in which nothing bounces cannot be told

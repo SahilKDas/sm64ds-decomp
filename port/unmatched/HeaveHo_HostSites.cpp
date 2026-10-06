@@ -6,17 +6,17 @@
  * out here.
  *
  * HEAVEHO'S DESTRUCTORS NEED NOTHING. Unlike Lakitu's and Spiny's,
- * src/_ZN7HeaveHoD1Ev.cpp and src/_ZN7HeaveHoD0Ev.cpp are already plain C bodies
+ * src/actors/daPopoi_c.cpp and src/actors/daPopoi_c.cpp are already plain C bodies
  * that store their table by name (_ZTV7HeaveHo and _ZTV9daPopoi_c) and call
  * flat member destructors, so both stay in the slice as matched source. That
  * asymmetry is the ROM's, not a choice: the three classes were recovered by
  * different routes.
  *
- * (1) src/_ZN7HeaveHo6RenderEv.cpp -- the ModelAnim slot-5 collision. The
+ * (1) src/actors/daPopoi_c.cpp -- the ModelAnim slot-5 collision. The
  *     whole body is a draw guard plus one `((Cls *)&mModelAnim)->method5(0)`
  *     through a six-virtual local shadow. mPosY 0x60, mModelAnim 0x340.
  *
- * (2) src/func_ov077_02126d5c.cpp -- the PMF disease, and the ONE of the six
+ * (2) src/actors/daPopoi_c.cpp -- the PMF disease, and the ONE of the six
  *     ov077 sites that is a SETTER as well as a dispatch:
  *         struct C; typedef int (C::*PMF)();
  *         struct C { char pad[0x3fc]; PMF *pp; };
@@ -34,7 +34,7 @@
  *     stored pointer is a cell, not a source record -- which is what makes
  *     HeaveHo::Behavior's `!= data_ov077_02127cd8` comparison below meaningful.
  *
- * (3) src/_ZN7HeaveHo8BehaviorEv.cpp -- the SAME PMF, dispatched INLINE:
+ * (3) src/actors/daPopoi_c.cpp -- the SAME PMF, dispatched INLINE:
  *         struct M { char pad[8]; PMF pmf; };
  *         m = *(M **)&unk_3fc;
  *         if (m->pmf != 0) (((Klass *)this)->*(m->pmf))();
@@ -49,7 +49,6 @@
  * the ten records into the five bss cells.
  */
 #include "ModelAnim.h"
-#include "HeaveHo.h"
 
 extern "C" {
 
@@ -72,7 +71,7 @@ extern int data_0209f32c;
 /* ---- (2) the state setter + enter dispatch ----------------------------- */
 
 /* func_ov077_02126d5c IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov077_02126d5c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daPopoi_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.
@@ -94,7 +93,7 @@ void _ZN5dCc_c6UpdateEv(void *self);
 void _ZN9Animation7AdvanceEv(void *self);
 extern int data_ov077_02127cd8[];
 
-/* HOST COPY RETIRED, run link100 lane PMFB7 gate 2. src/_ZN7HeaveHo8BehaviorEv.cpp
+/* HOST COPY RETIRED, run link100 lane PMFB7 gate 2. src/actors/daPopoi_c.cpp
    dispatches its own field now: with /vmg /vmm (block R8) MSVC's pointer to
    member IS the ROM's eight-byte {code, adjust} pair, so the widening this
    banner was written for does not happen. The per-frame half of every state

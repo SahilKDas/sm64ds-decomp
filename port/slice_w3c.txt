@@ -17,10 +17,10 @@
 # all seven (port/slice_gate179.txt), filled the array and seated the class's
 # two-record state Obj -- everything except the SpawnInfo, the factory and the
 # registry row. So this slice contributes ONE TU for id 245. Nothing in gate 179
-# is re-listed here; src/func_ov064_02119ea0.c in particular is ALREADY in
+# is re-listed here; src/actors/daWater_Ring_c.cpp in particular is ALREADY in
 # slice_gate179.txt and must not appear below (it is WaterRing's state-enter
 # body, which is why gate 179 read it as a stray pair behind "the Piece" table).
-src/d_a_water_hakidasi.c
+src/actors/daWater_Hakidasi_c.cpp
 #
 # ---- WATER_RING (244) ------------------------------------------------------
 #
@@ -51,18 +51,8 @@ src/d_a_water_hakidasi.c
 # scale where the ROM (overlay_0064.bin 0x02119fc8: add r1, r4, #0x80 before the
 # blx through slot 5) and the matched TU both pass this+0x80, so this also fixes
 # that null.
-src/_ZN9WaterRing6RenderEv.cpp
-src/d_a_water_ring.c
-src/_ZN9WaterRing13InitResourcesEv.cpp
-src/_ZN9WaterRing16CleanupResourcesEv.cpp
-src/_ZN9WaterRing16OnPendingDestroyEv.cpp
-src/_ZN9WaterRingD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN9WaterRingD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9WaterRingD0Ev.cpp
-src/func_ov064_02119c60.c
-src/func_ov064_02119ce4.c
-src/func_ov064_02119d28.c
-src/func_ov064_02119f1c.cpp
 src/__sinit_ov064_0211b518.c
 #
 # ---- TREASURE_CHEST (13) ---------------------------------------------------
@@ -92,18 +82,9 @@ src/__sinit_ov064_0211b518.c
 # out of InitResources, so state 0's tick runs on the first Behavior frame of
 # every chest, and the campaign plan's step 15 bars this lane from carrying the
 # result as a battery skip on levels 8, 9 and 18.
-src/d_a_obj_tbox.c
-src/_ZN13TreasureChest13InitResourcesEv.cpp
-src/_ZN13TreasureChest16CleanupResourcesEv.cpp
-src/_ZN13TreasureChest8BehaviorEv.cpp
+src/actors/daObjTbox_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN13TreasureChestD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN13TreasureChestD0Ev.cpp
-src/_ZN13TreasureChest20UpdateModelTransformEv.cpp
-src/_ZN13TreasureChest6State2Ev.cpp
-src/_ZN13TreasureChest10InitState2Ev.cpp
-src/_ZN13TreasureChest6State1Ev.cpp
-src/_ZN13TreasureChest10InitState1Ev.cpp
-src/_ZN13TreasureChest10InitState0Ev.cpp
 src/__sinit_ov064_0211b59c.c
 #
 # ---- THE MEASURED EXTERNAL CLOSURE -----------------------------------------

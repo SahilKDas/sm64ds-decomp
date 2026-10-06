@@ -469,25 +469,25 @@ extern "C" void hal_fill_fortress_wall_vtable_c(void) { hal_fill_fortress_wall_v
 // methods against include/. Everything else in ov079 is already a C-named free
 // function in its own TU (the D1/D0, the func_ov079_*, the two Behaviors that
 // became host copies).
-#include "Whomp.h"
-#include "BulletBill.h"
-#include "FortressWall.h"
+#include "daBtn_c.h"
+#include "daKlr_c.h"
+#include "daObjBk_Kabe_c.h"
 extern "C" {
 int _ZN5Whomp13InitResourcesEv(void *self)
-{ return ((Whomp *)self)->Whomp::InitResources(); }
+{ return ((daBtn_c *)self)->daBtn_c::InitResources(); }
 /* Whomp::Render is NOT faced here: it dispatches ModelAnim slot 5 through a
    local six-virtual shadow (the ROM Render), which the host _ZTV9ModelAnim
    array numbers as Virtual18. src/_ZN5Whomp6RenderEv.cpp is dropped from
    slice_gate64.txt and _ZN5Whomp6RenderEv is the host copy in
-   port/unmatched/ModelAnim_Renders.cpp, the Butterfly/Fish/QuestionBlock case. */
+   port/unmatched/ModelAnim_Renders.cpp, the Butterfly/Fish/daObjHatenaBlock_c case. */
 int _ZN5Whomp16CleanupResourcesEv(void *self)
-{ return ((Whomp *)self)->Whomp::CleanupResources(); }
+{ return ((daBtn_c *)self)->daBtn_c::CleanupResources(); }
 int _ZN10BulletBill6RenderEv(void *self)
-{ return ((BulletBill *)self)->BulletBill::Render(); }
+{ return ((daKlr_c *)self)->daKlr_c::Render(); }
 int _ZN12FortressWall13InitResourcesEv(void *self)
-{ return ((FortressWall *)self)->FortressWall::InitResources(); }
+{ return ((daObjBk_Kabe_c *)self)->daObjBk_Kabe_c::InitResources(); }
 int _ZN12FortressWall6RenderEv(void *self)
-{ return ((FortressWall *)self)->FortressWall::Render(); }
+{ return ((daObjBk_Kabe_c *)self)->daObjBk_Kabe_c::Render(); }
 int _ZN12FortressWall16CleanupResourcesEv(void *self)
-{ return ((FortressWall *)self)->FortressWall::CleanupResources(); }
+{ return ((daObjBk_Kabe_c *)self)->daObjBk_Kabe_c::CleanupResources(); }
 }

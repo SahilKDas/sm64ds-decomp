@@ -53,7 +53,7 @@
  *     Offsets are Lakitu.h's own: unk_0b0 0xb0, mModelAnim 0xd4, unk_0dc 0xdc,
  *     unk_12c 0x12c, mModel 0x138, mTextureSequence 0x1b0, unk_3f4 0x3f4.
  *
- * (3) src/func_ov077_02124718.cpp and src/func_ov077_02124754.cpp -- THE PMF
+ * (3) src/game/actors/d_a_jgm.cpp and src/game/actors/d_a_jgm.cpp -- THE PMF
  *     DISEASE, the SoundObject/Cap/MrBlizzard/BabyPenguin/Unagi/HootTheOwl
  *     shape. Both form
  *         struct C; typedef void (C::*PMF)();
@@ -124,7 +124,7 @@ int *_ZN6LakituD1Ev(int *t)
  * +0xf -- `mov eax,[ecx]` with ecx = the actor's own +0x3f0, holding garbage.
  *
  * THE CAUSE IS IN THE MATCHED SOURCE AND IT IS A REAL ONE.
- * src/func_ov077_0212478c.c is the state SETTER and takes two arguments:
+ * src/game/actors/d_a_jgm.cpp is the state SETTER and takes two arguments:
  *     void func_ov077_0212478c(char *c, int i)
  *     { *(char **)(c + 0x3f0) = data_ov077_02127bc4 + (i << 4);
  *       func_ov077_02124754(c); }
@@ -154,7 +154,7 @@ int *_ZN6LakituD1Ev(int *t)
  * port/unmatched/Actor_ClosestPlayer_OverlayReaders.cpp ("HOST COPY passes `c`
  * explicitly"). The body below is src/_ZN6Lakitu13InitResourcesEv.cpp
  * statement for statement with Lakitu.h's own offsets, and the ONE difference
- * is that the state index is spelled out. src/func_ov077_0212478c.c is
+ * is that the state index is spelled out. src/game/actors/d_a_jgm.cpp is
  * untouched and stays in the slice: it is correct, and eight callers rely on
  * it. The matched InitResources stays byte-locked in src/ and comes out of the
  * slice; hal/actor_classes_ov077.cpp therefore does NOT face it.
@@ -174,7 +174,7 @@ void _ZN10dCcAcPos_c4InitEP8dActor_cRK7Vector35Fix12IiES6_jj(
 void _ZN10dBgCh_Actr4InitEP8dActor_c5Fix12IiES3_P10Vector3_16S5_(
         void *self, void *a, int b, int c, void *d, void *e);
 void func_ov077_02123d40(void *c);
-/* the TWO-argument form, which is what src/func_ov077_0212478c.c defines */
+/* the TWO-argument form, which is what src/game/actors/d_a_jgm.cpp defines */
 void func_ov077_0212478c(char *c, int i);
 extern int data_ov077_02127b38[], data_ov077_02127b48[], data_ov077_02127b50[];
 extern int data_ov077_02127b88[], data_ov077_02127230[], data_ov077_02127238[];
@@ -228,14 +228,14 @@ struct PortOv077Pmf { unsigned int fn; int delta; };
 typedef void (*PortOv077StateFn)(void *);
 
 /* func_ov077_02124754 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov077_02124754.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/game/actors/d_a_jgm.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.
    The reading above is kept because it is the derivation. */
 
 /* func_ov077_02124718 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov077_02124718.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/game/actors/d_a_jgm.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.

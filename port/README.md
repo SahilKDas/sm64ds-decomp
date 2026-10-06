@@ -4,6 +4,35 @@ This tree hosts the PC port of the decompiled game: the same `src/` sources
 compiled for the host, a platform seam instead of DS hardware, and its own
 build that never touches the byte-matching pipeline.
 
+## 64DS-DX additions
+
+The repository's `main` branch is the single integration branch. It contains
+Tango's v0.4 PC-port base, SCOPIC-derived co-op work, native character manifests,
+and Lua resource packs. The retired `coop-port` and `codex/*` branches are not
+required to build or play this tree.
+
+### Online co-op
+
+The port includes the lobby, chat, host/join flow, and host-relayed gameplay
+snapshots. The network layer is port-only and does not alter byte-matched `src/`
+code. Developer and protocol details live with the implementation under
+`port/hal/` and [the lobby guide](tools/lobby/README.md).
+
+### Modding
+
+Two asset-facing paths are kept distinct:
+
+- [Lua resource packs](mods/resource-packs/README.md) declaratively register
+  content-hash PNG replacements and validated native character metadata. Lua is
+  sandboxed and cannot access game memory, networking, processes, or arbitrary
+  native code. There is no Zig modding runtime.
+- [Native character packs](mods/characters/README.md) describe logical character
+  IDs above the four retail slots and use ordinary SM64DS BMD/BCA assets. Mario,
+  Luigi, Wario, and Yoshi are never overwritten.
+
+Both paths use the existing native renderer. 64DS-DX does not carry a parallel
+OBJ/host-triangle/custom renderer.
+
 ## Rules
 
 - **`src/` stays the byte-verified source of truth.** The port compiles files
@@ -34,6 +63,14 @@ Two toggles, both of which the launcher exposes:
 |---|---|
 | `SM64DS_SKIP_MENU` | boot straight to the file select. The player still picks A, B or C. |
 | `SM64DS_SKIP_INTRO` | no opening cutscene. The title still comes up. |
+
+The PC frontend adds a compact 64DS-DX status card to the title and file-select
+scene. Press **F6** there to open Character Select. Left/Right chooses Mario,
+Luigi, Wario, Yoshi, or any enabled Lua-pack character; Enter, controller Start,
+or controller A confirms. Pack characters retain their stable namespaced key
+and use their declared retail base profile without replacing a retail slot.
+The choice is applied after File A/B/C is loaded and persists beside
+`settings.json` in `resource-packs.state`.
 
 They compose. Both set is "file select, then straight into the game"; only
 `SKIP_MENU` still plays the cutscene, because the cutscene is downstream of the
@@ -153,8 +190,10 @@ is `port_level_mount_register` in `hal/level_change.cpp`, which gate 30's
 There is no gate 11: it was folded into the gate-10 walking campaign before
 either landed. Gates 25 through 28 were **renumbered at merge** because three
 parallel streams each picked 24 the same night; the animation stream kept 24
-for BlendModelAnim. Gate 29 belongs to the unmerged `port-particles` branch,
-and gates 32 and 34 to branches that had not merged when 35 landed.
+for BlendModelAnim. Gate 29 belonged to the historical `port-particles` branch,
+and gates 32 and 34 to branches that had not merged when gate 35 originally
+landed. This is historical gate numbering, not a list of branches required by
+the current build.
 
 Gate 30's slice is empty of `src/`, which is the point rather than a gap: the
 boot was already generic matched code walking the level's own tables, so a

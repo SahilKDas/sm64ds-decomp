@@ -13,9 +13,9 @@
 // their extern "C" block, so MSVC mangles it and the plain C name the ov006
 // mount defines cannot satisfy the reference:
 //
-//   src/_ZN12dScMg3DEsp_c13InitResourcesEv.cpp  extern volatile M48 data_ov006_0213c88c;
+//   src/actors/dMg3DEspAnimSet_c.cpp  extern volatile M48 data_ov006_0213c88c;
 //       -> ?data_ov006_0213c88c@@3UM48@@C
-//   src/_ZN12dScMg3DEsp_cD1Ev.cpp  extern void *_ZTV12dScMg3DEsp_c;
+//   src/actors/dMg3DEspAnimSet_c.cpp  extern void *_ZTV12dScMg3DEsp_c;
 //       -> ?_ZTV12dScMg3DEsp_c@@3PAXA
 //
 // Both are DATA, so there is no calling convention to disagree about and an
@@ -32,7 +32,7 @@
 // ---- 2. THREE SHADOW-CLASS DESTRUCTORS, AND WHY THEY ARE FACES AND NOT ----
 //         ALIASES
 //
-// src/_ZN12dScMg3DEsp_cD1Ev.cpp (slot 16, D2) unwinds the object through LOCAL
+// src/actors/dMg3DEspAnimSet_c.cpp (slot 16, D2) unwinds the object through LOCAL
 // shadow classes:
 //
 //     struct TextureTransformer { ~TextureTransformer(); };
@@ -82,7 +82,7 @@
 
 // ---- 3. WAVE THREE ADDS TWO MORE DESTRUCTORS AND TWELVE MORE ALIASES -----
 //
-// src/_ZN15dMg3DEspModel_cD1Ev.cpp is the sub-object's own teardown and spells two
+// src/actors/dMg3DEspAnimSet_c.cpp is the sub-object's own teardown and spells two
 // further shadow classes, TextureSequence and ModelAnim.  Same ruling, same
 // evidence, read off the ROM at 0x020e80d8:
 //
@@ -100,8 +100,8 @@
 //
 // THE TWELVE ALIASES ARE SIX ADDRESSES SPELLED TWICE.  The same six ov006
 // SharedFilePtrs -- the ones __sinit_ov006_02130a08 constructs -- are declared
-// `extern void *` by src/_ZN15dMg3DEspModel_c13InitResourcesEv.cpp and `extern SharedFilePtr` by
-// src/_ZN15dMg3DEspModel_cD1Ev.cpp, so MSVC emits two different mangles per address
+// `extern void *` by src/actors/dMg3DEspAnimSet_c.cpp and `extern SharedFilePtr` by
+// src/actors/dMg3DEspAnimSet_c.cpp, so MSVC emits two different mangles per address
 // and both need a row onto the one C name the mount defines.  That is a fact
 // about two src TUs disagreeing on a type, not about the port.
 //
@@ -109,7 +109,7 @@
 // port/mg_fanout_costs.txt section 10 finding 1 says slips facegen's guards.
 // ?data_ov006_02133f24@@3PAPAUEnt@@A is `struct Ent **`, the PAU family, and
 // the rule there is that an array-of-struct spelling can hide a member-pointer
-// table.  It does not here: src/func_ov006_020e8e10.cpp declares
+// table.  It does not here: src/actors/dMg3DEspAnimSet_c.cpp declares
 // `struct Ent { u16 f0, f2, f4, f6; }` and `Ent *data_ov006_02133f24[]`, walks
 // the pointed-at record until f6 == 0xffff and hands it to
 // func_ov004_020af770 -- a sprite layout list, not a pair run.  The array holds
@@ -125,7 +125,7 @@ void _ZN15TextureSequenceD1Ev(void *self);
 void _ZN9ModelAnimD1Ev(void *self);
 }
 
-/* The three shadow classes, declared exactly as src/_ZN12dScMg3DEsp_cD1Ev.cpp
+/* The three shadow classes, declared exactly as src/actors/dMg3DEspAnimSet_c.cpp
    declares them so the mangles match byte for byte, and defined here. */
 struct TextureTransformer { ~TextureTransformer(); };
 struct Model { ~Model(); };
@@ -188,8 +188,8 @@ TextureSequence::~TextureSequence()
    for ??1ModelAnim@@QAE@XZ".  It has not.  Two COMPILED src TUs declare the
    same non-virtual shadow and call it on an embedded member:
 
-       src/func_ov006_020ca604.cpp:3   (live on port/slice_tte.txt)
-       src/func_ov006_020ccfc8.cpp:3   (live on port/slice_tti.txt)
+       src/actors/dMgTrmpln2Mario_c.cpp:3   (live on port/slice_tte.txt)
+       src/actors/dMgTrmpln2Mario_c.cpp:3   (live on port/slice_tti.txt)
 
    Read back out of their objects with dumpbin at 319f0f191, both carry
    ??1ModelAnim@@QAE@XZ as an UNDEF, and this definition is the only one in the
@@ -209,12 +209,12 @@ ModelAnim::~ModelAnim()
 /* ---- the two ordinary alias rows ---------------------------------------- */
 
 /* ?data_ov006_0213c88c@@3UM48@@C  <- the ov006 mount's _data_ov006_0213c88c.
-   src/_ZN12dScMg3DEsp_c13InitResourcesEv.cpp declares it `extern volatile M48` at C++ linkage;
+   src/actors/dMg3DEspAnimSet_c.cpp declares it `extern volatile M48` at C++ linkage;
    the mount defines the plain C name. */
 #pragma comment(linker, "/alternatename:?data_ov006_0213c88c@@3UM48@@C=_data_ov006_0213c88c")
 
 /* ?_ZTV12dScMg3DEsp_c@@3PAXA  <- the class's own vtable, declared
-   `extern void *` at C++ linkage by src/_ZN12dScMg3DEsp_cD1Ev.cpp. */
+   `extern void *` at C++ linkage by src/actors/dMg3DEspAnimSet_c.cpp. */
 /* RETIRED at ALIAS2 (wave 8, the main -> port sync). DEAD RHS and an UNREFERENCED left hand side: nothing in the build defines _data_ov006_0213c8c4, and nothing references ?_ZTV12dScMg3DEsp_c@@3PAXA, so the row can never fire and nothing wants it to. */
 // #pragma comment(linker, "/alternatename:?_ZTV12dScMg3DEsp_c@@3PAXA=_data_ov006_0213c8c4")
 
@@ -245,7 +245,7 @@ ModelAnim::~ModelAnim()
 
 /* ---- 4. WAVE FOUR IS TWO ROWS AND BOTH COME FROM ONE TU ------------------
 
-   src/func_ov006_020e7f5c.cpp is the fifth writer of the field at the
+   src/actors/dMg3DEspAnimSet_c.cpp is the fifth writer of the field at the
    sub-object's +0x210 and it is the one that spells the eight-byte pair as a
    `double`:
 
@@ -255,8 +255,8 @@ ModelAnim::~ModelAnim()
    which is a correct eight-byte move on both machines and is why that writer
    needs no host copy -- only an alias for the mangle.  The second row is a
    THIRD spelling of an address two earlier TUs already declared: 0x02141e7c is
-   `extern void *` in src/_ZN15dMg3DEspModel_c13InitResourcesEv.cpp, `extern SharedFilePtr` in
-   src/_ZN15dMg3DEspModel_cD1Ev.cpp and `extern int []` here, so it carries three
+   `extern void *` in src/actors/dMg3DEspAnimSet_c.cpp, `extern SharedFilePtr` in
+   src/actors/dMg3DEspAnimSet_c.cpp and `extern int []` here, so it carries three
    mangles onto one C name.  Three src TUs disagreeing about a type is a fact
    about src, and the alias rows are where the port absorbs it. */
 #pragma comment(linker, "/alternatename:?data_ov006_02141e7c@@3PAHA=_data_ov006_02141e7c")

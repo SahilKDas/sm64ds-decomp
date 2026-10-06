@@ -18,7 +18,7 @@
 #include <cstdlib>
 
 #include "dsstate_seg.h"
-#include "Bird.h"      /* for the cdecl face at the end of this file */
+#include "daSBird_c.h" /* for the cdecl face at the end of this file */
 
 /* THE GUARD IS CAPTURED, and it is the same defect the level mount cache had.
  *
@@ -186,5 +186,5 @@ int _ZN8dActor_c19DropShadowRadHeightER11ShadowModelR9Matrix4x35Fix12IiES5_j(
 int _ZN9Animation7AdvanceEv(void *a);
 extern int data_020a0e68[12];
 
-int _ZN4Bird8BehaviorEv(void *s)   { return ((Bird *)s)->Bird::Behavior(); }
+int _ZN9daSBird_c8BehaviorEv(void *s) { return ((daSBird_c *)s)->daSBird_c::Behavior(); }
 }  /* extern "C" */

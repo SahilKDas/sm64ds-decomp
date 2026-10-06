@@ -150,45 +150,24 @@
 # port/unmatched/MgFlower_Slot2.cpp already defines the repaired body as
 # port_mg_flower_after_init and its header says "THE NEXT LANE TO SEAT 361 OR
 # 363 SHOULD CALL THIS RATHER THAN WRITE A SECOND". This seat calls it.
-# src/func_ov004_020ad8b8.c is absent for the same reason -- port/unmatched/
+# src/minigames/d_s_mg_base.cpp is absent for the same reason -- port/unmatched/
 # MgFlower_InitScore.cpp defines that symbol, and slot 0 InitResources calls it.
 
 # ---- ov006: dScMgMemory2_c's own closure, plus the model sub-object -------
 src/actors/dScMgMemory2_c.cpp
-src/func_ov006_020c0264.cpp
-src/func_ov006_020c0304.c
-src/func_ov006_020c0364.c
-src/func_ov006_020c057c.cpp
-# HOST-COPIED (mg6 lane MEM): src/func_ov006_020c06dc.cpp -- the same
+src/actors/unit020bfec0.cpp
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020bfec0.cpp -- the same
 #   local-shadow-class defect as 020c1804 one call deeper, and the worse one:
 #   its `->m()` is the ROM's vtable byte +0xc (UpdateVerts) and MSVC's fourth
 #   word (Virtual10), which is __thiscall with ONE stack parameter and so
 #   `ret 4`s four bytes the caller never pushed. The stack imbalance shifted
 #   every frame above it and func_ov006_020c07a0's own ret jumped into the DS
 #   heap. See port/unmatched/MgMemory2_ShadowSlot_020c06dc.cpp.
-src/func_ov006_020c07a0.c
-src/func_ov006_020c092c.cpp
-src/func_ov006_020c09f8.c
-# HOST-COPIED (mg6 lane MEM): src/func_ov006_020c0a48.c -- its three
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020bfec0.cpp -- its three
 #   SharedFilePtr file ids are spelled `extern int g0[], g1[], g2[]`, three
 #   globals that exist in no config. The ROM loads 0x205, 0x206 and 0x207 out
 #   of its own literal pool. See port/unmatched/MgMemory2_SubObjCtor.cpp.
-src/func_ov006_020c0aa8.c
-src/func_ov006_020c0af8.c
-src/func_ov006_020c0b74.c
-src/func_ov006_020c0c80.cpp
-src/func_ov006_020c0ce8.c
-src/func_ov006_020c0d68.cpp
-src/func_ov006_020c0df0.cpp
-src/func_ov006_020c0f9c.cpp
-src/func_ov006_020c11c0.cpp
-src/func_ov006_020c1420.cpp
-src/func_ov006_020c14bc.cpp
-src/func_ov006_020c1604.c
-src/func_ov006_020c1718.c
-src/func_ov006_020c1760.c
-src/func_ov006_020c1764.cpp
-# HOST-COPIED (mg6 lane MEM): src/func_ov006_020c1804.cpp -- TWO defects in
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020bfec0.cpp -- TWO defects in
 #   one TU, both the host's rather than the decomp's. It draws the model
 #   sub-object through a LOCAL SHADOW CLASS at two call sites, so its `f5(0)`
 #   counts in the ROM's vtable numbering (byte +0x14 = the sixth word =
@@ -200,9 +179,6 @@ src/func_ov006_020c1764.cpp
 #   geometry engine. See port/unmatched/MgMemory2_ModelRender_020c1804.cpp;
 #   the same pair port/unmatched/MgFlower_ModelRender_020c3bf4.cpp carries for
 #   the flower's sub-object.
-src/func_ov006_020c1a88.c
-src/func_ov006_020c1c64.c
-src/func_ov006_020c1d80.c
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): this row is the raw
 # consolidated TU, and slice_flw.txt substitutes a hostgen'd copy of the WHOLE TU so
 # its fourteen MMIO writes reach the geometry engine instead of latching in the I/O
@@ -219,9 +195,9 @@ src/func_ov006_020c1d80.c
 #   src/func_ov002_020f5b98.c is a DIFFERENT function at the same address in a
 #   different overlay -- the module-residency trap -- and is NOT a substitute
 #   and must never be the file that satisfies this symbol.
-# HOST-COPIED (mg6 lane MEM): src/func_ov006_020c07e8.cpp -- object-FIELD member
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020bfec0.cpp -- object-FIELD member
 #   pointer, and its src struct pads for eight bytes
-# HOST-COPIED (mg6 lane MEM): src/func_ov006_020c19d0.cpp -- object-FIELD
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020bfec0.cpp -- object-FIELD
 # HOST-COPIED (mg6 lane MEM): src/actors/dScMgMemory2_c.cpp -- the arity-1 table
 # HOST-COPIED (mg6 lane MEM): src/actors/dScMgMemory2_c.cpp
 # HOST-COPIED (mg6 lane MEM): src/actors/dScMgMemory2_c.cpp
@@ -231,45 +207,12 @@ src/func_ov006_020c1d80.c
 
 # ---- ov004: the delta over slice_mg1.txt, including the twenty-record
 #      member-pointer array func_ov004_020b65e4 walks -----------------------
-src/func_ov004_020ad79c.c
-src/func_ov004_020ad878.c
-src/func_ov004_020ae1a8.c
-src/func_ov004_020b1b08.c
-src/func_ov004_020b1b78.c
-src/func_ov004_020b1bc8.c
-src/func_ov004_020b4aa4.c
-src/func_ov004_020b4b84.c
-src/func_ov004_020b4c30.c
-src/func_ov004_020b4d50.c
-src/func_ov004_020b4dfc.c
-src/func_ov004_020b4f44.c
-src/func_ov004_020b4ff0.c
-src/func_ov004_020b506c.c
-src/func_ov004_020b5108.c
-src/func_ov004_020b51f0.c
-src/func_ov004_020b5288.cpp
-src/func_ov004_020b52b8.c
-src/func_ov004_020b5368.c
-src/func_ov004_020b53f0.c
-src/func_ov004_020b556c.cpp
-src/func_ov004_020b56c8.c
-src/func_ov004_020b5a54.cpp
-src/func_ov004_020b5aac.cpp
-src/func_ov004_020b5dd4.c
-src/func_ov004_020b5f6c.cpp
-src/func_ov004_020b612c.c
-src/func_ov004_020b6234.cpp
-src/func_ov004_020b63a0.c
-src/func_ov004_020b6430.c
-src/func_ov004_020b653c.c
-src/func_ov004_020b65e4.c
-src/func_ov004_020b66d4.c
-src/func_ov004_020b67e8.c
-src/func_ov004_020b67f8.c
-src/func_ov004_020b682c.c
-# HOST-COPIED (mg6 lane MEM): src/func_ov004_020b52fc.cpp -- the seventh ov004
+src/minigames/d_s_mg_base.cpp
+src/actors/unit020b4aa4.cpp
+src/actors/dMgState_c.cpp
+# HOST-COPIED (mg6 lane MEM): src/actors/unit020b4aa4.cpp -- the seventh ov004
 #   pointer-to-member dispatcher, found by the sweep and by no link
-# NOT HERE: src/func_ov004_020ad8b8.c, defined by
+# NOT HERE: src/minigames/d_s_mg_base.cpp, defined by
 #   port/unmatched/MgFlower_InitScore.cpp
 
 # ---- arm9: the two the link asked for -------------------------------------

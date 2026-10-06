@@ -97,8 +97,8 @@ _ZN10dBgCh_Actr22UpdateDiscreteNoLava_2Ev                    FORWARDS    hal/met
 _ZN13PeachPainting13InitResourcesEv                            FORWARDS    hal/method_faces.cpp:773 -- one statement calling PeachPainting::InitResources
 _ZN13PeachPainting6RenderEv                                    FORWARDS    hal/method_faces.cpp:777 -- one statement calling PeachPainting::Render
 _ZN13PeachPainting8BehaviorEv                                  FORWARDS    hal/method_faces.cpp:775 -- one statement calling PeachPainting::Behavior
-_ZN13QuestionBlock16CleanupResourcesEv                         FORWARDS    hal/method_faces.cpp:868 -- one statement calling QuestionBlock::CleanupResources
-_ZN13QuestionBlock8BehaviorEv                                  FORWARDS    hal/method_faces.cpp:866 -- one statement calling QuestionBlock::Behavior
+_ZN18daObjHatenaBlock_c16CleanupResourcesEv                         FORWARDS    hal/method_faces.cpp:868 -- one statement calling daObjHatenaBlock_c::CleanupResources
+_ZN18daObjHatenaBlock_c8BehaviorEv                                  FORWARDS    hal/method_faces.cpp:866 -- one statement calling daObjHatenaBlock_c::Behavior
 _ZN9dBgCh_Gnd10DetectClsnEv                               FORWARDS    hal/cxx_aliases.cpp:456 -- one statement calling RaycastGround::DetectClsn
 _ZN14BlendModelAnim7AdvanceEv                                  FORWARDS    hal/bob_enemy_header_faces.cpp:46 -- one statement calling BlendModelAnim::Advance
 _ZN15FaderBrightness14SetForwardTimeEj                         FORWARDS    hal/method_faces.cpp:943 -- one statement calling FaderBrightness::SetForwardTime

@@ -214,17 +214,17 @@ static int __fastcall wf_kill(void *s, void *)
    into the one host table together. */
 extern "C" {
 void _ZN14KnockDownPlank15OnHitByMegaCharER6Player(void *self, void *player);  /* KDP  slot 27 */
-void _ZN9TowerStep4KillEv(void *self);                /* TS   slot 31 Kill */
-void _ZN9TowerStep15OnHitByMegaCharER6Player(void *self, int player);    /* TS   slot 27 */
+void _ZN14daObjBk_Lift_c4KillEv(void *self);                /* TS   slot 31 Kill */
+void _ZN14daObjBk_Lift_c15OnHitByMegaCharER6Player(void *self, int player);    /* TS   slot 27 */
 void _ZN19daObjBk_Dossunbar_c4KillEv(void *self);                /* MB   slot 31 Kill */
 void _ZN19daObjBk_Dossunbar_c15OnHitByMegaCharER6Player(void *self, int player);    /* MB   slot 27 */
 }
 static int __fastcall kp_mega(void *s, void *, void *p)
 { _ZN14KnockDownPlank15OnHitByMegaCharER6Player(s, p); return 0; }
 static int __fastcall ts_mega(void *s, void *, void *p)
-{ _ZN9TowerStep15OnHitByMegaCharER6Player(s, (int)(size_t)p); return 0; }
+{ _ZN14daObjBk_Lift_c15OnHitByMegaCharER6Player(s, (int)(size_t)p); return 0; }
 static int __fastcall ts_kill(void *s, void *)
-{ _ZN9TowerStep4KillEv(s); return 0; }
+{ _ZN14daObjBk_Lift_c4KillEv(s); return 0; }
 static int __fastcall mb_mega(void *s, void *, void *p)
 { _ZN19daObjBk_Dossunbar_c15OnHitByMegaCharER6Player(s, (int)(size_t)p); return 0; }
 static int __fastcall mb_kill(void *s, void *)
@@ -283,32 +283,32 @@ static void wf_fill_shared(void **vt)
 /* Init/Clean/Render are real C++ methods (the .cpp files define
    MovingBarSmall::<name>); Behavior and D1 are plain C in src. The thunks call
    each the way it is defined, the Tree/ArrowSign shape. */
-#include "TowerStep.h"
+#include "daObjBk_Lift_c.h"
 extern "C" {
-int _ZN9TowerStep13InitResourcesEv(char *self);  /* .cpp, but extern "C" */
-int _ZN9TowerStep8BehaviorEv(char *self);   /* .c, C linkage */
-int *_ZN9TowerStepD1Ev(int *self);          /* .c, C linkage */
-int *_ZN9TowerStepD0Ev(int *self);          /* .c, slot 17, DTOR-PAIRS seat (0x021122dc) */
+int _ZN14daObjBk_Lift_c13InitResourcesEv(char *self);  /* .cpp, but extern "C" */
+int _ZN14daObjBk_Lift_c8BehaviorEv(char *self);   /* .c, C linkage */
+int *_ZN14daObjBk_Lift_cD1Ev(int *self);          /* .c, C linkage */
+int *_ZN14daObjBk_Lift_cD0Ev(int *self);          /* .c, slot 17, DTOR-PAIRS seat (0x021122dc) */
 void *_ZTV14MovingBarSmall[32];
 }
 /* The address 0x02114650 answers to both _ZTV names; the class D1 restores it
    by its RTTI name. */
 #pragma comment(linker, "/alternatename:__ZTV14daObjBk_Lift_c=__ZTV14MovingBarSmall")
 static int __fastcall ts_init(void *s, void *)
-{ return _ZN9TowerStep13InitResourcesEv((char *)s); }
+{ return _ZN14daObjBk_Lift_c13InitResourcesEv((char *)s); }
 static int __fastcall ts_clean(void *s, void *)
-{ return ((TowerStep *)s)->TowerStep::CleanupResources(); }
+{ return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::CleanupResources(); }
 static int __fastcall ts_behavior(void *s, void *)
-{ return _ZN9TowerStep8BehaviorEv((char *)s); }
+{ return _ZN14daObjBk_Lift_c8BehaviorEv((char *)s); }
 static int __fastcall ts_render(void *s, void *)
 {
     port_actor_render_probe("TOWER_STEP", (char *)s + 0xd4);
-    return ((TowerStep *)s)->TowerStep::Render();
+    return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::Render();
 }
 static int __fastcall ts_d1(void *s, void *)
-{ return (int)(size_t)_ZN9TowerStepD1Ev((int *)s); }
+{ return (int)(size_t)_ZN14daObjBk_Lift_cD1Ev((int *)s); }
 static int __fastcall ts_d0(void *s, void *)
-{ return (int)(size_t)_ZN9TowerStepD0Ev((int *)s); }
+{ return (int)(size_t)_ZN14daObjBk_Lift_cD0Ev((int *)s); }
 extern "C" void hal_fill_tower_step_vtable(void)
 {
     void **vt = _ZTV14MovingBarSmall;
@@ -335,16 +335,16 @@ extern "C" void hal_fill_tower_step_vtable(void)
 }
 
 // ============================================================================
-// ROTATING_BRIDGE (id 51) -- vtable 0x02114714, the _ZN9TowerStep* methods
+// ROTATING_BRIDGE (id 51) -- vtable 0x02114714, the _ZN14daObjBk_Lift_c* methods
 // ============================================================================
 //
 // daObjBk_Rotebar_c_classInit installs 0x02114714 (config _ZTV17daObjBk_Rotebar_c /
-// _ZTV17daObjBk_Rotebar_c), so an id-51 object runs TowerStep's lifecycle.
+// _ZTV17daObjBk_Rotebar_c), so an id-51 object runs daObjBk_Lift_c's lifecycle.
 // 804-byte object: Model at +0xd4, MovingMeshCollider at +0x124. Whomp's
 // Fortress names the rotating bridge.
-/* TowerStep's Init/Clean/Behavior/Render are real C++ methods; only D1 is
+/* daObjBk_Lift_c's Init/Clean/Behavior/Render are real C++ methods; only D1 is
    plain C in src. */
-#include "TowerStep.h"
+#include "daObjBk_Lift_c.h"
 extern "C" {
 int *_ZN17daObjBk_Rotebar_cD1Ev(int *self);                /* .c, C linkage */
 int *_ZN17daObjBk_Rotebar_cD0Ev(int *self);                /* .c, slot 17, DTOR-PAIRS seat (0x02112988) */
@@ -360,15 +360,15 @@ void *_ZTV17daObjBk_Rotebar_c[32];
    extracted/overlays/overlay_0015.bin; the LHS is not a config symbol
    anywhere, so the alias cannot be defeated by a later slice. */
 static int __fastcall rb_init(void *s, void *)
-{ return ((TowerStep *)s)->TowerStep::InitResources(); }
+{ return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::InitResources(); }
 static int __fastcall rb_clean(void *s, void *)
-{ return ((TowerStep *)s)->TowerStep::CleanupResources(); }
+{ return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::CleanupResources(); }
 static int __fastcall rb_behavior(void *s, void *)
-{ return ((TowerStep *)s)->TowerStep::Behavior(); }
+{ return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::Behavior(); }
 static int __fastcall rb_render(void *s, void *)
 {
     port_actor_render_probe("ROTATING_BRIDGE", (char *)s + 0xd4);
-    return ((TowerStep *)s)->TowerStep::Render();
+    return ((daObjBk_Lift_c *)s)->daObjBk_Lift_c::Render();
 }
 static int __fastcall rb_d1(void *s, void *)
 { return (int)(size_t)_ZN17daObjBk_Rotebar_cD1Ev((int *)s); }
@@ -465,7 +465,7 @@ extern "C" void hal_fill_pole_billboard_vtable(void)
 // a 924-byte object with Model at +0xd4, MovingMeshCollider at +0x124,
 // ShadowModel at +0x320. Init and Behavior are plain C in src (the .cpp files
 // define them extern "C"); Clean and Render are real C++ methods; D1 is C.
-#include "KnockDownPlank.h"
+#include "daObjBk_Botaosi_c.h"
 extern "C" {
 int _ZN14KnockDownPlank13InitResourcesEv(char *self);  /* .c, C linkage */
 int _ZN14KnockDownPlank8BehaviorEv(char *self);         /* .cpp extern "C" */
@@ -486,13 +486,13 @@ void *_ZTV13PoleBillboard[32];
 static int __fastcall kp_init(void *s, void *)
 { return _ZN14KnockDownPlank13InitResourcesEv((char *)s); }
 static int __fastcall kp_clean(void *s, void *)
-{ return ((KnockDownPlank *)s)->KnockDownPlank::CleanupResources(); }
+{ return ((daObjBk_Botaosi_c *)s)->daObjBk_Botaosi_c::CleanupResources(); }
 static int __fastcall kp_behavior(void *s, void *)
 { return _ZN14KnockDownPlank8BehaviorEv((char *)s); }
 static int __fastcall kp_render(void *s, void *)
 {
     port_actor_render_probe("KNOCK_DOWN_PLANK", (char *)s + 0xd4);
-    return ((KnockDownPlank *)s)->KnockDownPlank::Render();
+    return ((daObjBk_Botaosi_c *)s)->daObjBk_Botaosi_c::Render();
 }
 static int __fastcall kp_d1(void *s, void *)
 { return (int)(size_t)_ZN14KnockDownPlankD1Ev((int *)s); }
@@ -659,7 +659,6 @@ extern "C" void hal_fill_rotating_platform_wf_vtable(void)
 // The address 0x0211458c answers to both _ZTV names; MovingBar*_Spawn install
 // it as _ZTV19daObjBk_Dossunbar_c and the class D1 restores it as
 // _ZTV19daObjBk_Dossunbar_c, so both names are aliased onto the one host array.
-#include "KnockDownPlank.h"
 #include "daObjBk_Dossunbar_c.h"
 extern "C" {
 int _ZN19daObjBk_Dossunbar_c8BehaviorEv(void *self);          /* host copy, extern C */
@@ -705,7 +704,7 @@ void *_ZTV19daObjBk_Dossunbar_c[32];
 #pragma comment(linker, "/alternatename:_func_02012664=__ZN5Sound9PlayBank3EjRK7Vector3")
 /* Init/Clean/Render are real C++ methods (the .cpp defines KnockDownPlank::<n>),
    so the thunks call them QUALIFIED; Behavior is the host copy (extern "C") and
-   D1 is plain C, the TowerStep/ArrowSign shape. */
+   D1 is plain C, the daObjBk_Lift_c/ArrowSign shape. */
 static int __fastcall mb_init(void *s, void *)
 { return ((daObjBk_Dossunbar_c *)s)->daObjBk_Dossunbar_c::InitResources(); }
 static int __fastcall mb_clean(void *s, void *)
@@ -788,7 +787,7 @@ void *_ZTV20daObjBk_Fall_Block_c[32];
 /* FallBlockWf's ov015 Init/CleanupResources are cross-overlay veneers that
    tail-call the ov098 bodies by their UNPREFIXED spelling (func_0213a794 /
    func_0213a2cc); alias those onto the real ov098 symbols. */
-#pragma comment(linker, "/alternatename:_func_0213a794=_func_ov098_0213a794")
+#pragma comment(linker, "/alternatename:_func_0213a794=_daObjFallBlock_c_InitResources")
 #pragma comment(linker, "/alternatename:_func_0213a2cc=_func_ov098_0213a2cc")
 static int __fastcall fb_init(void *s, void *)
 { return _ZN20daObjBk_Fall_Block_c13InitResourcesEv(s); }

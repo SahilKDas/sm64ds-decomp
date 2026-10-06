@@ -45,11 +45,11 @@
 #   table       dsd Ttc spelling            RTTI at vtable[-1]      verdict
 #   0x0211d028  _ZTV15TtcRotatingCube       20daObjCtRotateBlock_c  ok
 #   0x0211d1ec  _ZTV20TtcConveyorBeltLarge  16daObjCtMecha04_c      ok
-#   0x0211d3b4  _ZTV13TTC_MovingBar         18daObjCtKaitendai_c    SHIFTED
+#   0x0211d3b4  _ZTV13daObjCtKaitendai_c         18daObjCtKaitendai_c    SHIFTED
 #   0x0211d494  _ZTV15TtcRotatingGear       16daObjCtMecha08_c      SHIFTED
 #   0x0211d568  _ZTV14TtcMovingCubeA        16daObjCtMecha09_c      SHIFTED
 #
-# TTC_MovingBar is id 113 (record 0x0211d290), TtcRotatingGear is id 114
+# daObjCtKaitendai_c is id 113 (record 0x0211d290), TtcRotatingGear is id 114
 # (0x0211d374) and TtcMovingCubeA is id 116 (0x0211d454) -- each one class
 # earlier than the table dsd hangs its name on. The dsd RTTI spellings are
 # right on all five. The practical trap: daObjCtKaitendai_c_classInit_CT_MECHA06 is id 114's

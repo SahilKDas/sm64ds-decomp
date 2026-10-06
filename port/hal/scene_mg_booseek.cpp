@@ -63,7 +63,7 @@
 //
 // port/unmatched/MgTeresa_StateDispatch.cpp is the whole of it and carries the
 // derivation. What belongs in THIS file is the one rule it exists to obey:
-// vtable slot 6 is NOT wired to src/_ZN13dScMgTeresa_c8BehaviorEv.cpp. That TU declares
+// vtable slot 6 is NOT wired to src/actors/dScMgTeresa_c.cpp. That TU declares
 // its table through `struct Entry { PMF pmf; }`, which mangles
 // ?data_ov006_02142eb0@@3PAUEntry@@A -- the @@3PAU spelling section 10's tool
 // finding 1 records that port/tools/facegen.py does NOT refuse. It links, it
@@ -73,7 +73,7 @@
 // ---- 5. THE RENDER TRAP IS RETIRED (run mg10, lane F387) ------------------
 //
 // func_ov006_0211e72c, ov006, size 0xac, the SIXTH call vtable slot 9 (Render)
-// makes: src/_ZN13dScMgTeresa_c6RenderEv.cpp runs func_ov004_020b1e34, then 0211ddcc,
+// makes: src/actors/dScMgTeresa_c.cpp runs func_ov004_020b1e34, then 0211ddcc,
 // 0211e29c, 0211e460, 0211e118, and then this one.
 //
 // Run mg9 gave it a counted trap because no src file defined it and
@@ -84,7 +84,7 @@
 // and did nothing each time, so THE CLASS HAS BEEN DRAWING EVERYTHING EXCEPT
 // THE BOOS.
 //
-// It is decompiled: src/func_ov006_0211e72c.c byte-matches the ROM under
+// It is decompiled: src/actors/dScMgTeresa_c.cpp byte-matches the ROM under
 // mwccarm 2004/b56 and passes tools/linkcheck.py VERIFIED with zero blind
 // relocations. It is a plain OAM sprite loop over the sixteen 0x24-stride
 // records at this + 0x4660 -- gate byte at +0x1a, x and y at +0x00 and +0x04,
@@ -101,7 +101,7 @@
 //
 // THE OTHER TWO FLOORS. func_ov006_0211ebdc is a state, was reported by the
 // address switch in unmatched/MgTeresa_StateDispatch.cpp, and is retired by
-// this same lane -- src/func_ov006_0211ebdc.c, same two gates. It is the body
+// this same lane -- src/actors/dScMgTeresa_c.cpp, same two gates. It is the body
 // that drives the byte at +0x1e the loop above picks the sprite ROW with, so
 // the two were always one piece of work. func_ov004_020ae5c4 is ov004's, is
 // STILL A FLOOR, and its trap stays in hal/scene_mg_faces.cpp beside
@@ -122,7 +122,7 @@
 // exactly right and no storage is involved. hal/scene_mg_faces.cpp:245 and
 // hal/scene_mg_curling2.cpp:446 are the same row for their classes.
 //
-// ROW 2, A STATIC MEMBER FUNCTION'S MSVC NAME. src/_ZN13dScMgTeresa_c13OnYoshiTryEatEi.cpp
+// ROW 2, A STATIC MEMBER FUNCTION'S MSVC NAME. src/actors/dScMgTeresa_c.cpp
 // declares `struct G2S { static char* GetBG0CharPtr(); };` and calls it, which
 // mangles ?GetBG0CharPtr@G2S@@SAPADXZ. The mount defines the Itanium spelling
 // __ZN3G2S13GetBG0CharPtrEv. A STATIC member function is __cdecl with no
@@ -173,7 +173,7 @@ int   _ZN13dScMgTeresa_c9Virtual50Ev(void);              /* slot 20  FreeGfxSlot
    dropping four. The ROM's prologue at 0x021200dc is
        push {r4,r5,r6,r7,r8,sb,sl,fp,lr} / sub sp,sp,#0x1c / ldr sl,[sp,#0x40]
    where 0x40 = 0x24 + 0x1c is the first word above the frame, so it reads
-   r0..r3 plus one stack word; src/_ZN13dScMgTeresa_c9Virtual88Eiiii.cpp defines it the same
+   r0..r3 plus one stack word; src/actors/dScMgTeresa_c.cpp defines it the same
    way. The dScMgBase_c body it overrides, _ZN11dScMgBase_c9Virtual88Eiiii, has the same
    five-argument shape (ldr fp,[sp,#0x38] after push{9}+sub#0x14).
 
@@ -234,7 +234,7 @@ static void *__fastcall boo_d0(void *s, void *)
    rather than inheriting it. Every slot-18 dispatch in both overlay images
    passes one argument -- the 22-site census in hal/scene_mg.cpp's mg_reset
    block and runs/mg5/out/baseset/slot18_19_scan.txt -- and this class's own
-   slot-18 body READS IT: src/_ZN13dScMgTeresa_c13OnYoshiTryEatEi.cpp's first statement is
+   slot-18 body READS IT: src/actors/dScMgTeresa_c.cpp's first statement is
    `if (reset == 0)` and the ROM's is `cmp r1,#0 / bne`. So the parameter is
    not only there to let __fastcall clean four bytes off the stack, it carries
    a value that picks between two different bodies of work, and a thunk

@@ -49,8 +49,8 @@
 #       Klepto's OnAimedAtWithEgg. Word 0x0211ddd0 -> 0x0211ce78. The whole body
 #       is `return 458752`. Slot 29 sits on the shared two-parameter ac_egg and
 #       the body takes NOTHING, not even the receiver.
-src/_ZN10KoopaShell13OnYoshiTryEatEv.cpp
-src/_ZN6Klepto16OnAimedAtWithEggEv.cpp
+src/game/actors/d_a_shl.cpp
+src/actors/daJango_c.cpp
 #
 #   NOT ov016 _ZTV10RockPillar slot 9 (0x02112b28, RockPillar's Render),
 #   which this lane looked at and put back. Its call shape is fine --

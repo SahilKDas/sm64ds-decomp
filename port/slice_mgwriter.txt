@@ -132,7 +132,7 @@
 # ---- THE ONE ROW THAT WOULD HAVE BROKEN QUIETLY ---------------------------
 #
 # data_ov004_020bc254 is never copied into an object at all.
-# src/func_ov004_020b40c0.c COMPARES the object's own pair against it:
+# src/actors/unit020b2c84.cpp COMPARES the object's own pair against it:
 #
 #     if (o[0] == d[0] && (o[1] == d[1] || o[0] == 0) && o[9] == o[10])
 #
@@ -171,7 +171,7 @@
 # dispatches those itself and counts there.
 #
 # ONE /alternatename, in unmatched/MgBase_StateDispatch.cpp.
-# src/func_ov004_020b3278.cpp declares `extern PMF data_ov004_020bf490[]` at
+# src/actors/unit020b2c84.cpp declares `extern PMF data_ov004_020bf490[]` at
 # namespace scope, so MSVC encodes the member-pointer type into the reference
 # and spells it ?data_ov004_020bf490@@3PAP8Base@@AEXXZA -- read off that TU's
 # own /FAsc listing, not guessed -- while the ov004 mount defines the plain C
@@ -204,9 +204,6 @@
 # func_ov006_020c07e8 is NOT taken with it (its src TU needs /Zp4, and neither
 # the ROM nor the src guards a null pair at 0x020c07e8 so the port's added
 # guard is load-bearing).
-src/func_ov006_020c19d0.cpp
-src/func_ov004_020b31b4.cpp
-src/func_ov004_020b321c.cpp
-src/func_ov004_020b3278.cpp
-src/_ZN10dMgState_c6RenderEv.cpp
-src/_ZN10dMgState_c8BehaviorEv.cpp
+src/actors/unit020bfec0.cpp
+src/actors/unit020b2c84.cpp
+src/actors/dMgState_c.cpp

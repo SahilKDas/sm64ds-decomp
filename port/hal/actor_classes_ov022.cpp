@@ -281,9 +281,9 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
      74  D1 / D0                                               -> C names
      82  InitResources / Render                                -> methods
      82  Behavior / D1 / D0                                    -> C names */
-#include "RotatingPlatformLll.h"
-#include "FloatOnLavaPlatform.h"
-#include "LavaPlank.h"
+#include "daObjFl_Koma_D_c.h"
+#include "daObjFl_Block_c.h"
+#include "daObjFl_UkiKi_c.h"
 
 extern "C" {
 /* the arm9 shared half -- every address read off this lane's own reloc runs
@@ -558,14 +558,14 @@ DSSTATE_END
 /* Slots 0/3/6/9 are this class's OWN four bodies, read off the ROM table at
    0x02113eac; the wave-8 spelling dispatched RotatingPlatformLll's instead. */
 static int __fastcall fl_init(void *s, void *)
-{ return ((FloatOnLavaPlatform *)s)->FloatOnLavaPlatform::InitResources(); }
+{ return ((daObjFl_Block_c *)s)->daObjFl_Block_c::InitResources(); }
 static int __fastcall fl_clean(void *s, void *)
-{ return ((FloatOnLavaPlatform *)s)->FloatOnLavaPlatform::CleanupResources(); }
+{ return ((daObjFl_Block_c *)s)->daObjFl_Block_c::CleanupResources(); }
 static int __fastcall fl_behavior(void *s, void *)
-{ return ((FloatOnLavaPlatform *)s)->FloatOnLavaPlatform::Behavior(); }
+{ return ((daObjFl_Block_c *)s)->daObjFl_Block_c::Behavior(); }
 static int __fastcall fl_render(void *s, void *)
 { port_actor_render_probe("FLOAT_ON_LAVA_PLATFORM", (char *)s + 0xd4);
-  return ((FloatOnLavaPlatform *)s)->FloatOnLavaPlatform::Render(); }
+  return ((daObjFl_Block_c *)s)->daObjFl_Block_c::Render(); }
 static int __fastcall fl_d1(void *s, void *)
 { return (int)(size_t)_ZN19FloatOnLavaPlatformD1Ev((int *)s); }
 static int __fastcall fl_d0(void *s, void *)
@@ -703,7 +703,7 @@ DSSTATE_END
    data-alias rule as 74's file pointers above. */
 #pragma comment(linker, "/alternatename:?data_02082214@@3PAUSEnt@@A=_data_02082214")
 static int __fastcall lp_init(void *s, void *)
-{ return ((LavaPlank *)s)->LavaPlank::InitResources(); }
+{ return ((daObjFl_UkiKi_c *)s)->daObjFl_UkiKi_c::InitResources(); }
 /* slot 3, THE MATCHED TU (run link100 wave 14, lane SEAT14B). The host thunk
    lp_clean stood here from wave 8 over a G0/G1 refusal that has since gone
    stale. The old reason: the matched TU spelled its two SharedFilePtrs G0/G1,
@@ -729,12 +729,12 @@ static int __fastcall lp_init(void *s, void *)
 #pragma comment(linker, "/alternatename:?FloatingFloorLllBig_ModelFile@@3PAHA=_data_ov022_02114620")
 #pragma comment(linker, "/alternatename:?FloatingFloorLllBig_ClsnFile@@3PAHA=_data_ov022_02114618")
 static int __fastcall lp_clean(void *s, void *)
-{ return ((LavaPlank *)s)->LavaPlank::CleanupResources(); }
+{ return ((daObjFl_UkiKi_c *)s)->daObjFl_UkiKi_c::CleanupResources(); }
 static int __fastcall lp_behavior(void *s, void *)
 { return _ZN9LavaPlank8BehaviorEv((char *)s); }
 static int __fastcall lp_render(void *s, void *)
 { port_actor_render_probe("LAVA_PLANK", (char *)s + 0xd4);
-  return ((LavaPlank *)s)->LavaPlank::Render(); }
+  return ((daObjFl_UkiKi_c *)s)->daObjFl_UkiKi_c::Render(); }
 static int __fastcall lp_d1(void *s, void *)
 { return (int)(size_t)_ZN9LavaPlankD1Ev((int *)s); }
 static int __fastcall lp_d0(void *s, void *)

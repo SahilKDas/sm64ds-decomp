@@ -601,7 +601,7 @@ extern "C" void hal_fill_ice_sheet_vtable(void)
 // InitResources/CleanupResources/Render/OnPendingDestroy) since the class
 // overrides none of them -- confirmed by reloc target address, not assumed.
 /* ActorBase::InitResources is deliberately NOT a real qualified method
-   anywhere in this build (src/_ZN7fBase_c13InitResourcesEv.cpp's own header
+   anywhere in this build (src/actors/ActorBase.cpp's own header
    comment: it is ActorBase's KEY FUNCTION -- the first virtual CW would emit
    the class's vtable into, and the ROM already supplies that vtable as data,
    so a real method definition would multiply-define it at ROM link time). It
@@ -800,7 +800,7 @@ extern "C" void hal_fill_sound_object_vtable(void)
 // C function, func_ov018_*). SoundObject's Init/D1/D0 are C-linkage .c bodies
 // and its Behavior is the host copy -- no face either.
 #include "daObjIceBoard_c.h"
-#include "OneUpLogo.h"
+#include "daObj1UpLogo_c.h"
 extern "C" {
 int _ZN15daObjIceBoard_c13InitResourcesEv(void *self)
 { return ((daObjIceBoard_c *)self)->daObjIceBoard_c::InitResources(); }
@@ -811,9 +811,9 @@ int _ZN15daObjIceBoard_c8BehaviorEv(void *self)
 int _ZN15daObjIceBoard_c6RenderEv(void *self)
 { return ((daObjIceBoard_c *)self)->daObjIceBoard_c::Render(); }
 int _ZN9OneUpLogo13InitResourcesEv(void *self)
-{ return ((OneUpLogo *)self)->OneUpLogo::InitResources(); }
+{ return ((daObj1UpLogo_c *)self)->daObj1UpLogo_c::InitResources(); }
 int _ZN9OneUpLogo6RenderEv(void *self)
-{ return ((OneUpLogo *)self)->OneUpLogo::Render(); }
+{ return ((daObj1UpLogo_c *)self)->daObj1UpLogo_c::Render(); }
 }
 
 // ============================================================================
@@ -826,7 +826,7 @@ int _ZN9OneUpLogo6RenderEv(void *self)
 // 32 words (the full 31-slot Actor shape plus Platform's Kill tail). Own
 // overrides: 0 Init, 3 Cleanup, 6 Behavior, 9 Render, 16 D1, 17 D0
 // (HOST THUNKS -- store the class's own table then OVERWRITE with the
-// _ZTV10dBgActor_c / VT0+VT1 shared placeholders, the ShipUp/RockPillar
+// _ZTV10dBgActor_c / VT0+VT1 shared placeholders, the daObjKi_Fune_c/RockPillar
 // gate-188 shape), 27 OnHitByMegaChar, 31 Kill (the shared Platform base
 // body 0x020ee55c, already in the build -- NOT overridden by this class).
 //
@@ -848,7 +848,8 @@ int _ZN9OneUpLogo6RenderEv(void *self)
 // to their own ov018 names. tools/ovsweep.py's E2 rule no longer flags this
 // file (ov018/ov022/ov036/ov056 share load window base 0x021111a0, never
 // co-resident, confirmed both via the tool and by delinks.txt ownership).
-#include "SkiLift.h"
+#include "daObjSm_Lift_c.h"
+#include "daPgMthr_c.h"
 extern "C" {
 /* the real SkiLift's own bodies (all matched src, C linkage except Behavior/
    InitResources/CleanupResources/Render below which are real methods) */
@@ -914,7 +915,7 @@ static int __fastcall skl_kill(void *s, void *)
 { _ZN10dBgActor_c4KillEv(s); return 0; }
 /* D1/D0 host thunks: the matched src stores _ZTV7SkiLift (own table)
    then OVERWRITES with the _ZTV10dBgActor_c / VT0+VT1 shared placeholders --
-   the ShipUp/RockPillar gate-188 shape, dropped from the slice. Store the
+   the daObjKi_Fune_c/RockPillar gate-188 shape, dropped from the slice. Store the
    derived table once and run the chain high-address first: MovingMeshCollider
    +0x124, Model +0xd4, then Actor's own D2. D0 also frees on the game heap;
    D1's caller (ActorBase::AfterCleanupResources) frees itself after the

@@ -30,9 +30,7 @@
 # name, not the RTTI name) with a SINGLE store, so it needs no host copy -- the
 # double-vtable-store misorder that forced ShutterBob's host copy is absent here.
 src/d_a_obj_seesaw_bomb_seesaw.c
-src/_ZN9SeesawBob13InitResourcesEv.cpp
-src/_ZN9SeesawBob16CleanupResourcesEv.cpp
-src/_ZN9SeesawBob8BehaviorEv.cpp
+src/actors/daObjSeesaw_c.cpp
 # _ZN9SeesawBob6RenderEv IS NOT HERE: like PowerStar/Whomp/UpDownLiftBbh it
 # dispatches ModelAnim slot 5 through a local six-virtual ROM-order shadow
 # (b->m(0) off the ModelAnim at +0xd4), which lands on the host _ZTV9ModelAnim's
@@ -44,14 +42,9 @@ src/_ZN9SeesawBob8BehaviorEv.cpp
 # with them, so the ONE compiled body serves every one of their dispatches; leaving
 # it in makes SeesawBob's own vtable call fault. Host copy in
 # port/unmatched/ModelAnim_Renders.cpp, dispatched by C name from the vtable fill.
-src/_ZN9SeesawBobD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN9SeesawBobD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9SeesawBobD0Ev.cpp
-src/func_ov095_021358cc.c
-src/func_ov095_0213597c.c
 src/func_ov095_02135e90.c
 src/func_ov095_02135cdc.c
-src/func_ov095_0213579c.c
-src/_ZN9SeesawBob15OnGroundPoundedER8dActor_c.cpp
 src/__sinit_ov095_02136fe0.c
 src/__sinit_ov095_0213722c.c

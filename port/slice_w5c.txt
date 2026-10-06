@@ -39,7 +39,7 @@ src/game/actors/d_a_kp_fr.cpp
 # absorbed range), which port/slice_w5c.txt:31 and port/slice_dtorfaces.txt:22 already compile, so the
 # symbols this row seated now come from there and the per-function file is gone
 # from main's tree.
-#src/d_a_brq.c
+#src/game/actors/daBrq_c.cpp
 # ...and the collider initialiser both chomp InitResources bodies call (the
 # link named it; its decorated free-function spelling is aliased in the fill
 # file).

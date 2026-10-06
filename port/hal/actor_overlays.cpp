@@ -430,10 +430,10 @@ void port_unchained_chomp_states_seat(void);
 void port_door_callbacks_seat(void);
 
 /* the question block's six, likewise -- three states of two halves each, all
-   matched src now. port/unmatched/QuestionBlock_States.cpp */
+   matched src now. port/unmatched/daObjHatenaBlock_c_States.cpp */
 void port_question_block_states_seat(void);
 /* the 36 statics feeding state 1's two pointer-to-member CONTENT tables
-   (gate 180). port/unmatched/QuestionBlock_BounceDispatch.cpp; must run
+   (gate 180). port/unmatched/daObjHatenaBlock_c_BounceDispatch.cpp; must run
    before __sinit_ov102_0214d908 copies them into the BSS tables. */
 void port_question_block_content_seat(void);
 
@@ -1974,7 +1974,7 @@ extern "C" void port_actor_overlays_sinits(void)
        six MOVER classes. Seat UNAGI's nine state SOURCE PMFs over their host
        bodies BEFORE __sinit_ov016_021136ec copies their addresses into the five
        dispatch cells (d8c/d9c/dac/dbc/d7c). The other four sinits are the
-       ShipUp/RockPillar/ShipDown/FloatOnWater+SlidingBox SharedFilePtr
+       daObjKi_Fune_c/RockPillar/ShipDown/FloatOnWater+SlidingBox SharedFilePtr
        constructors; no state seat -- only Unagi dispatches a PMF table. */
     port_ov016_pack_check();
     port_ov016_syms_patch();

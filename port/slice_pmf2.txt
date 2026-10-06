@@ -41,7 +41,7 @@
 #       pop  ebp
 #       jmp  eax
 #
-#   the setter plus null guard, src/func_ov073_021223a4.cpp:
+#   the setter plus null guard, src/actors/daObjEwbIce_c.cpp:
 #       push ebp / mov ebp,esp
 #       mov  ecx, [ebp+12]         ; p
 #       mov  eax, [ebp+8]          ; c
@@ -119,9 +119,9 @@
 #   _ZN12daBgSnmBdy_c17CallStateBehaviorEv  <- src/actors/daBgSnmBdy_c.cpp
 #   _ZN11SnowmanHead13CallStateInitEv  <- src/_ZN11SnowmanHead8SetStateEi.cpp
 #   _ZN11SnowmanHead17CallStateBehaviorEv  <- src/_ZN11SnowmanHead8BehaviorEv.cpp
-#   func_ov077_02124754  <- src/func_ov077_0212478c.c
+#   func_ov077_02124754  <- src/game/actors/d_a_jgm.cpp
 #   func_ov077_02124718  <- src/_ZN6Lakitu8BehaviorEv.cpp
-#   func_ov077_02125e5c  <- src/func_ov077_02125e94.c
+#   func_ov077_02125e5c  <- src/actors/daTgz_c.cpp
 #   func_ov077_02125e20  <- src/_ZN5Spiny8BehaviorEv.cpp
 #   func_ov096_021368f0  <- src/actors/daSanbo_c.cpp
 #   func_ov096_021368b4  <- src/actors/daSanbo_c.cpp
@@ -133,7 +133,7 @@
 #   func_ov032_02111ff4  <- src/game/actors/d_a_bakubaku.cpp and five more
 #   func_ov065_0211691c  <- src/actors/daYurei_Mucho_c.cpp
 #   func_ov065_02117944  <- src/_ZN5Swoop13InitResourcesEv.cpp
-#   func_ov066_02119454  <- src/_ZN6Eyerok13InitResourcesEv.cpp and eighteen more
+#   func_ov066_02119454  <- src/actors/Eyerok.cpp and eighteen more
 #   func_ov077_02126d5c  <- src/_ZN7HeaveHo13InitResourcesEv.cpp
 #   func_ov081_02125488  <- src/_ZN10MrBlizzard13InitResourcesEv.cpp
 #   func_ov090_02131e00  <- src/_ZN7Skeeter13InitResourcesEv.cpp
@@ -145,8 +145,8 @@
 #
 # ---- WHAT IS NOT HERE, AND THE MECHANISM THAT KEEPS IT OUT -----------------
 #
-# (1) THE EXTRA-ARGUMENT SETTERS. src/func_ov055_021112c4.cpp (MirrorLuigi) and
-#     src/func_ov100_021453d8.cpp (Door) are the same guard shape with one more
+# (1) THE EXTRA-ARGUMENT SETTERS. src/actors/daLuigi_c.cpp (MirrorLuigi) and
+#     src/actors/daDoor_c.cpp (Door) are the same guard shape with one more
 #     parameter: `return (c->**q)(a2);`. Measured under the same flags they do
 #     NOT tail jump -- MSVC pushes a2 and emits `call edx`, so at the callee
 #     [esp+4] is a2 and the cdecl seat would read the state argument as `this`.
@@ -221,12 +221,9 @@
 # returns when main lands the fix.
 #src/actors/daMky_c.cpp
 src/actors/daBgSnmBdy_c.cpp
-src/_ZN11SnowmanHead17CallStateBehaviorEv.cpp
-src/_ZN11SnowmanHead13CallStateInitEv.cpp
-src/func_ov077_02124718.cpp
-src/func_ov077_02124754.cpp
-src/func_ov077_02125e20.cpp
-src/func_ov077_02125e5c.cpp
+src/actors/daBgSnmHed_c.cpp
+src/game/actors/d_a_jgm.cpp
+src/actors/daTgz_c.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_ov096 host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
@@ -234,27 +231,27 @@ src/func_ov077_02125e5c.cpp
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/daSanbo_c.cpp
 # setter plus null guard
-src/ChiefChilly_ChangeState.cpp
-src/func_ov073_021223a4.cpp
-src/func_ov026_02111ee0.cpp
-src/func_ov026_021122d4.cpp
+src/actors/daKing_Donketu_c.cpp
+src/actors/daObjEwbIce_c.cpp
+src/actors/daWater_Tatumaki_c.cpp
+src/actors/daWater_Suikomi_c.cpp
 src/game/actors/d_a_bakubaku.cpp
 src/actors/daYurei_Mucho_c.cpp
-src/func_ov065_02117944.cpp
+src/actors/daBasabasa_c.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_ov066 host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/Eyerok.cpp
-src/func_ov077_02126d5c.cpp
-src/func_ov081_02125488.cpp
-src/func_ov090_02131e00.cpp
-src/func_ov090_02132ac4.cpp
-src/func_ov090_021332e8.cpp
-src/func_ov090_021338b4.cpp
-src/func_ov091_02134044.cpp
-src/func_ov100_02143b18.cpp
+src/actors/daPopoi_c.cpp
+src/actors/daSnowman_c.cpp
+src/actors/daMenbo_c.cpp
+src/actors/daManta_c.cpp
+src/actors/daPukupuku_c.cpp
+src/actors/daShark_c.cpp
+src/game/actors/d_a_hyuhyu.cpp
+src/actors/daWanwan2_c.cpp
 
 # ---- BATCH 2, THE SAME GATE, EIGHT MORE ------------------------------------
 #
@@ -265,29 +262,29 @@ src/func_ov100_02143b18.cpp
 # it is about to seat carries a nonzero delta. All eight also TAIL JUMP under
 # the port's own flags, measured the same way and in the same listing set.
 #
-#   src/func_ov071_021215fc.cpp   MrI ENTER, +0x1e4
+#   src/actors/daEykn_c.cpp   MrI ENTER, +0x1e4
 #       seat unmatched/MrI_StateDispatch.cpp:140, six sources
-#       referrer src/func_ov071_02121634.c
+#       referrer src/actors/daEykn_c.cpp
 #   src/Chuckya_ChangeState.cpp   Chuckya, +0x364
 #       seat unmatched/KoopaChuckya_StateDispatch.cpp:277
 #       referrer src/_ZN7Chuckya13InitResourcesEv.cpp and ten more ov062 bodies
-#   src/func_ov002_020fed2c.cpp   Bullet, +0x350
+#   src/actors/daPropeller_Heyho_Fire_c.cpp   Bullet, +0x350
 #       seat unmatched/Bullet_StateDispatch.cpp:135
 #       referrer src/_ZN6Bullet13InitResourcesEv.cpp
-#   src/func_ov016_02111bf0.cpp   Unagi, +0x34c
+#   src/actors/daMoray_c.cpp   Unagi, +0x34c
 #       seat unmatched/Unagi_StateDispatch.cpp:193
 #       referrer src/_ZN5Unagi13InitResourcesEv.cpp
-#   src/func_ov062_0211c658.cpp   Klepto, +0x42c
+#   src/actors/daJango_c.cpp   Klepto, +0x42c
 #       seat unmatched/Klepto_StateDispatch.cpp:208
 #       referrer src/_ZN6Klepto13InitResourcesEv.cpp; the host file also calls it
 #       at :149 and :156, so its own forward declaration stays
-#   src/func_ov064_021187ec.cpp   LavaBubble seeder, +0x300
+#   src/actors/daBbl_c.cpp   LavaBubble seeder, +0x300
 #       seat unmatched/Ov064Gate178_States.cpp:240
 #       referrer src/_ZN10LavaBubble13InitResourcesEv.cpp
-#   src/func_ov064_0211982c.cpp   BowserPuzzle, +0x300
+#   src/actors/daWater_Hakidasi_c.cpp   BowserPuzzle, +0x300
 #       seat unmatched/BowserPuzzle_StateDispatch.cpp:164 and :192
 #       referrer src/_ZN9JetStream13InitResourcesEv.cpp
-#   src/func_ov064_02119ecc.cpp   WaterRing, +0x370
+#   src/actors/daWater_Ring_c.cpp   WaterRing, +0x370
 #       seat unmatched/Ov064_WaterRing.cpp:207
 #       referrer src/_ZN9WaterRing13InitResourcesEv.cpp; the host file also calls
 #       it at :181
@@ -303,11 +300,11 @@ src/func_ov100_02143b18.cpp
 # above passes, so they wait for either a static re-read of the overlay bytes or
 # a delta assertion added to their seat. That is the next lane's batch and it is
 # a small one.
-src/func_ov071_021215fc.cpp
-src/Chuckya_ChangeState.cpp
-src/func_ov002_020fed2c.cpp
-src/func_ov016_02111bf0.cpp
-src/func_ov062_0211c658.cpp
-src/func_ov064_021187ec.cpp
-src/func_ov064_0211982c.cpp
-src/func_ov064_02119ecc.cpp
+src/actors/daEykn_c.cpp
+src/game/actors/d_a_holhei.cpp
+src/actors/daPropeller_Heyho_Fire_c.cpp
+src/actors/daMoray_c.cpp
+src/actors/daJango_c.cpp
+src/actors/daBbl_c.cpp
+src/actors/daWater_Hakidasi_c.cpp
+src/actors/daWater_Ring_c.cpp

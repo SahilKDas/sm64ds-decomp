@@ -132,7 +132,7 @@ ACTOR_EXT_SLOT_AUTHORITY = {
     # PathLift / PathLiftActor_c, the two tables pl_fill_shared writes.
     # Dispatched ONLY by func_ov002_020eff90, the veneer PathLift's own base
     # init seats as the collider callback at MeshColliderBase+0x1c
-    # (src/func_ov002_020efaf0.cpp:41), which pushes one word and does not
+    # (src/actors/dPathLiftActor_c.cpp:41), which pushes one word and does not
     # clean it. Report 7447e46c is that word going unpopped.
     ('_data_ov002_0210af70', 32): 1,
     ('_data_ov100_0214857c', 32): 1,
@@ -208,7 +208,7 @@ ACTOR_EXT_SLOT_AUTHORITY = {
     #         func_ov098_021390ec+0xAD, func_ov098_02139228+0xFC,
     #         func_ov064_02116560+0xB
     #   jmp:  _ZN13BigBrickBlock15OnGroundPoundedER8dActor_c+0x20 and +0x26, func_ov002_020bba28+0x86,
-    #         _ZN14ArrowSignRight11OnAttacked1ER8dActor_c+0x17, _ZN8IceBlock15OnHitByMegaCharER6Player+0x14,
+    #         _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c+0x17, _ZN8IceBlock15OnHitByMegaCharER6Player+0x14,
     #         _ZN5Crate15OnGroundPoundedER8dActor_c+0x9, _ZN15daObjIceBoard_c15OnGroundPoundedER8dActor_c+0x16,
     #         func_ov098_021388bc+0x51
     # NO PUSH IS LIVE AT THE TRANSFER IN ANY OF THE TWENTY-TWO. That is the
@@ -304,7 +304,7 @@ ACTOR_EXT_SLOT_AUTHORITY = {
     # hal/actor_classes_ov100pl.cpp:209 declares), and that is the PathLift
     # base init whose last statement seats func_ov002_020eff90 as the collider
     # callback on the MovingMeshCollider at +0x124
-    # (src/func_ov002_020efaf0.cpp:41). func_ov002_020eff90+0xB is the ONE of
+    # (src/actors/dPathLiftActor_c.cpp:41). func_ov002_020eff90+0xB is the ONE of
     # slot 32's three sites that pushes. So FLYING_CARPET's slot 32 owes a
     # one-word pop and ?ov36_after_clsn@@YIHPAX00@Z's `ret 4` is right; a
     # zero-pop thunk here would leave the collider callback's pushed Actor on

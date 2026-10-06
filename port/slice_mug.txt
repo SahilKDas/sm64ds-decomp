@@ -232,7 +232,7 @@
 #   func_ov006_0210adac (0x1b8) is slot 2, the face-evaluation step between the
 #   third reel stopping and the payout. A seat lane that trusted the column
 #   would not have looked. RUN mg12 LANE MAM MATCHED IT: there is now a
-#   src/func_ov006_0210adac.c that byte-reproduces it under 2004/b56, a delink
+#   src/actors/dScMgSlots.cpp that byte-reproduces it under 2004/b56, a delink
 #   block covering 0x0210adac..0x0210af64, a linkcheck VERIFIED with zero blind
 #   slots, and a line for it in the slice below, so the dispatcher calls it.
 #   Adjudication arithmetic: 108 instructions plus a two-word literal pool
@@ -280,7 +280,7 @@
 #   charges slot 3 for both.
 #   NO src ROW WAS OWED BY THE mg11 SEAT LANE and none was written: it changed
 #   no src/ file at all. Run mg12 lane MAM adds exactly one,
-#   src/func_ov006_0210adac.c, and it is a byte match with no banner.
+#   src/actors/dScMgSlots.cpp, and it is a byte match with no banner.
 #
 # ---- SLOT 18 TAKES A REAL ARGUMENT ----------------------------------------
 #
@@ -299,7 +299,7 @@
 #
 # ---- SLOT 32 TAKES NO RECEIVER --------------------------------------------
 #
-# src/_ZN12dScMgSlot3_c9Virtual80Ev.cpp declares (void) and the ROM agrees: the body's
+# src/actors/dScMgSlots.cpp declares (void) and the ROM agrees: the body's
 # first use of r0 is `mov r0,#0` at 0x0210aa68 feeding SetBg1Offset(0,0). This
 # is the ARM ride-through, not the dropped-receiver defect -- there is no
 # receiver in the body to drop. hal/scene_mg.cpp's own base face for this slot
@@ -339,7 +339,7 @@
 #
 # HOST-COPIED, so listing them here would be an LNK2005 against a file already
 # on every target:
-#   src/_ZN12dScMgSlot3_c8BehaviorEv.cpp  vtable slot 6. It is the pointer-to-member
+#   src/actors/dScMgSlots.cpp  vtable slot 6. It is the pointer-to-member
 #     dispatcher; port/unmatched/MgSlot3_StateDispatch.cpp defines the same
 #     symbol with the dispatch routed through an address switch.
 #   src/minigames/d_s_mg_single3_d_base.cpp  slot 2 of the middle base. It drops the
@@ -351,13 +351,13 @@
 #   src/minigames/d_s_mg_single3_d_base.cpp    slot 33 of the middle base. Its last two
 #     stores reach LIGHT_COLOR at 0x040004cc, so it builds from the FLW
 #     hostgen'd copy port/CMakeLists.txt already emits.
-#   src/func_ov006_020c221c.c    the +0x4f38 sub-object's constructor. It
+#   src/actors/unit020bfec0.cpp    the +0x4f38 sub-object's constructor. It
 #     passes two literal-pool file ids by the invented names g0 and g1, which
 #     exist in no config -- the defect unmatched/MgMemory2_SubObjCtor.cpp
 #     records for the sibling body func_ov006_020c0a48. Host-copied with the
 #     ROM's own 0x205 and 0x206 in unmatched/MgSlot3_SubObjCtor.cpp, which is
 #     the second linked function this seat pays.
-#   src/func_ov006_020c1f4c.cpp  the +0x4f38 sub-object's per-frame matrix
+#   src/actors/unit020bfec0.cpp  the +0x4f38 sub-object's per-frame matrix
 #     update. It dispatches the BlendModelAnim at +0x10 through a LOCAL SHADOW
 #     CLASS of four virtuals and calls v3, which is the ROM's byte +0xc =
 #     UpdateVerts; on the host that index is Virtual10(Matrix4x3&) and the
@@ -379,11 +379,11 @@
 # cause was already written down in the file that owns the table:
 # hal/blend_vtable.cpp's header says "a TU that dispatches Render through a
 # LOCAL SHADOW CLASS (which counts in ROM numbering) cannot be served by this
-# array", lists both numberings, and names Butterfly, Fish and QuestionBlock as
+# array", lists both numberings, and names Butterfly, Fish and daObjHatenaBlock_c as
 # the classes that had already walked into it on ModelAnim. This class walks
 # into it on UpdateVerts.
 #
-# src/func_ov006_020c1f4c.cpp spells the BlendModelAnim at +0x10 as a local
+# src/actors/unit020bfec0.cpp spells the BlendModelAnim at +0x10 as a local
 # four-virtual struct and calls v3. The ROM's own instruction is
 # `ldr r1,[r1,#0xc] / blx r1` at 0x020c1fa0, and _ZTV14BlendModelAnim at arm9
 # 0x0208e94c has UpdateVerts at byte 0xc because Itanium spends TWO slots on
@@ -486,7 +486,7 @@
 #   commit into a silent revert. Building first has no such window.
 #
 #   IT READ +24 FOR ONE BUILD IN BETWEEN and the missing line is accounted for
-#   rather than waved at: src/func_ov006_020c1f4c.cpp was in the slice until
+#   rather than waved at: src/actors/unit020bfec0.cpp was in the slice until
 #   the shadow-class fault was diagnosed, and moving it into
 #   unmatched/MgSlot3_SubObjUpdate_020c1f4c.cpp is what took the count from 24
 #   to 23. The two other host copies this seat pays cost their lines the same
@@ -547,7 +547,7 @@
 # in a headless boot taps.
 #
 # SO THE FLOOR WAS DRIVEN TO, WITH A SCRIPTED STYLUS, rather than left as an
-# argument. src/func_ov006_0210af64.c reads the touch record's Y byte
+# argument. src/actors/dScMgSlots.cpp reads the touch record's Y byte
 # (data_020a0deb) and stops reel 0 on 0x40..0x57, reel 1 on 0x58..0x6f and
 # reel 2 on 0x70..0x87, and sets the state index to 2 once all three have
 # landed. Three taps, one per band:
@@ -575,7 +575,7 @@
 #
 # The numbers above are left exactly as mg11 measured them, because the point
 # of this section is the comparison. Same recipe, same 1200 frames, same three
-# taps, on a build carrying src/func_ov006_0210adac.c:
+# taps, on a build carrying src/actors/dScMgSlots.cpp:
 #
 #     state slots   0(x120) 1(x923) 2(x30) 3(x80) 4(x0) 5(x0) 6(x0) 7(x0)
 #     state index   +0x5000 = 1 at the end, reels stopped +0x503d = 0,
@@ -586,7 +586,7 @@
 #     UNHANDLED     0, exit 0
 #
 # State 2 runs 30 times and not 598, and 30 is the number the ROM asks for:
-# src/func_ov006_0210af64.c's tail sets the +0x503e hold to 0x1e before it
+# src/actors/dScMgSlots.cpp's tail sets the +0x503e hold to 0x1e before it
 # writes the index, and the matched body's first statement is
 # DecIfAbove0_Byte(c + 0x503e), which returns early while the hold is running.
 # So it idles exactly through the hold, evaluates once, and hands off to slot
@@ -622,7 +622,7 @@
 #     linkage        7654 (67.8%) MEASURED on this tree. The base was not
 #                    re-measured, so no delta is claimed here; the only
 #                    linkage-relevant change this lane makes is the one added
-#                    TU, src/func_ov006_0210adac.c.
+#                    TU, src/actors/dScMgSlots.cpp.
 #
 # All of the above are on the binary this lane ships. The two scene-365 runs
 # and the canary were re-run after the last comment edit and reproduce
@@ -667,28 +667,7 @@
 # reached -- the BlendModelAnim + SharedFilePtr block the factory constructs
 # and the camera preset the Render and InitResources call -- then whatever the
 # link asked for, each line marked with the wave that added it.
-src/func_ov006_020c1eb4.c
-src/func_ov006_020c1ef8.c
-src/func_ov006_020c1f04.c
-src/func_ov006_020c201c.cpp
-src/func_ov006_020c2144.c
-src/func_ov006_020c2154.c
-src/func_ov006_020c21e4.c
-src/_ZN12dScMgSlot3_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN12dScMgSlot3_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dScMgSlot3_cD0Ev.cpp
-src/_ZN12dScMgSlot3_c25OnAimedAtWithEggReturnVecEv.cpp
-src/_ZN12dScMgSlot3_c16OnAimedAtWithEggEv.cpp
-src/_ZN12dScMgSlot3_c9Virtual80Ev.cpp
-src/func_ov006_0210ab08.c
-src/func_ov006_0210ab90.c
-src/func_ov006_0210ab94.c
-src/func_ov006_0210ac38.c
-src/func_ov006_0210ac3c.cpp
-src/func_ov006_0210adac.c
-src/func_ov006_0210af64.c
-src/func_ov006_0210b1fc.c
-src/_ZN12dScMgSlot3_c13OnYoshiTryEatEi.cpp
-src/_ZN12dScMgSlot3_c6RenderEv.cpp
-src/_ZN12dScMgSlot3_c13InitResourcesEv.cpp
-src/d_s_mg_slot3.c
+src/actors/unit020bfec0.cpp
+src/actors/dScMgSlots.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgSlots.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgSlots.cpp

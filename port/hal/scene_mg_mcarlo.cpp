@@ -306,7 +306,7 @@ void  port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 /* The persistent minigame record this class's board progress is READ FROM and
    WRITTEN BACK TO. Nothing new is defined here: the storage is
    hal/level_boot.cpp's .dsstate$savblk0004 and the index function is
-   src/func_ov004_020adc3c.c. Named so the census can print the record rather
+   src/minigames/d_s_mg_base.cpp. Named so the census can print the record rather
    than leave it to be inferred. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
@@ -770,7 +770,7 @@ extern "C" void port_scene_mcarlo_hits(void)
 #pragma comment(linker, "/alternatename:?_ZTV13dScMgMCarlo_c@@3HA=__ZTV13dScMgMCarlo_c")
 #pragma comment(linker, "/alternatename:?_ZTV13dScMgMCarlo_c@@3PAXA=__ZTV13dScMgMCarlo_c")
 #pragma comment(linker, "/alternatename:?data_ov006_02142504@@3PAUNode@@A=_data_ov006_02142504")
-/* AND ONE FROM THE ov004 TALLY CHAIN. src/func_ov004_020b58c4.cpp declares
+/* AND ONE FROM THE ov004 TALLY CHAIN. src/actors/unit020b4aa4.cpp declares
  * `extern int data_ov004_020bfa0c;` outside its extern "C" block; the mount
  * defines the plain C name for the ov004 bss word at 0x020bfa0c. It is the
  * ONLY one of that TU's nine namespace-scope externs the link asked for --

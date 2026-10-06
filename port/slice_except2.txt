@@ -87,7 +87,7 @@
 #       decorates nothing) but it has not been measured, so it stays.
 #   MgD3DBase_ModelAnimRender.cpp (4 rows)  ov006, four bodies in one file,
 #       one of which is a different shape again. A minigame lane's row.
-#   Ov085_Renders.cpp's _ZN9RabbitKey6RenderEv  its header records a MEASURED
+#   Ov085_Renders.cpp's _ZN15daObj_Mip_Key_c6RenderEv  its header records a MEASURED
 #       convention twist on top of the slot, so it is not this reading.
 #   port/hal/method_faces.cpp's Bird::Render and Flag::Render  the same
 #       reading, one line each, but that file is outside this lane's list.
@@ -96,73 +96,73 @@
 #   referrer  _ZTV3MrI[9] @ 02122d54 = 021216b8   (overlay_0071.bin, base 0211f000)
 #   record    _ZN3MrI6RenderEv kind:function(arm,size=0x34) addr:0x021216b8   (overlays/ov071/symbols.txt:58)
 #   retires   port/unmatched/MrI_Render.cpp (whole file)
-src/_ZN3MrI6RenderEv.cpp
+src/actors/daEykn_c.cpp
 #
 # ChiefChilly (ov073) OK
 #   referrer  _ZTV11ChiefChilly[9] @ 021230b4 = 02121870   (overlay_0073.bin, base 0211f000)
 #   record    _ZN11ChiefChilly6RenderEv kind:function(arm,size=0x30) addr:0x02121870   (overlays/ov073/symbols.txt:43)
 #   retires   port/unmatched/Ov073_Render.cpp (whole file)
-src/_ZN11ChiefChilly6RenderEv.cpp
+src/actors/daKing_Donketu_c.cpp
 #
 # Clam (ov064) OK
 #   referrer  _ZTV4Clam[9] @ 0211c5ec = 0211aa30   (overlay_0064.bin, base 02115ee0)
 #   record    _ZN4Clam6RenderEv kind:function(arm,size=0x28) addr:0x0211aa30   (overlays/ov064/symbols.txt:156)
 #   retires   port/unmatched/Ov064_Clam.cpp (whole file)
-src/_ZN4Clam6RenderEv.cpp
+src/actors/daObjShell_c.cpp
 #
 # TreasureChest (ov064) OK
 #   referrer  _ZTV13TreasureChest[9] @ 0211c530 = 0211a7c4   (overlay_0064.bin, base 02115ee0)
 #   record    _ZN13TreasureChest6RenderEv kind:function(arm,size=0x28) addr:0x0211a7c4   (overlays/ov064/symbols.txt:148)
 #   retires   port/unmatched/Ov064_Clam.cpp (whole file)
-src/_ZN13TreasureChest6RenderEv.cpp
+src/actors/daObjTbox_c.cpp
 #
 # Spiny (ov077) OK
 #   referrer  _ZTV5Spiny[9] @ 021279a8 = 02125ef0   (overlay_0077.bin, base 02123740)
 #   record    _ZN5Spiny6RenderEv kind:function(arm,size=0x78) addr:0x02125ef0   (overlays/ov077/symbols.txt:62)
 #   retires   port/unmatched/Spiny_HostSites.cpp (body cut)
-src/_ZN5Spiny6RenderEv.cpp
+src/actors/daTgz_c.cpp
 #
 # Shark (ov090) OK
 #   referrer  _ZTV5Shark[9] @ 02134410 = 021339ac   (overlay_0090.bin, base 02130f00)
 #   record    _ZN5Shark6RenderEv kind:function(arm,size=0x2c) addr:0x021339ac   (overlays/ov090/symbols.txt:63)
 #   retires   port/unmatched/Shark_HostSites.cpp (body cut)
-src/_ZN5Shark6RenderEv.cpp
+src/actors/daShark_c.cpp
 #
 # Skeeter (ov090) OK
 #   referrer  _ZTV7Skeeter[9] @ 0213418c = 02131f34   (overlay_0090.bin, base 02130f00)
 #   record    _ZN7Skeeter6RenderEv kind:function(arm,size=0x54) addr:0x02131f34   (overlays/ov090/symbols.txt:19)
 #   retires   port/unmatched/Skeeter_HostSites.cpp (body cut)
-src/_ZN7Skeeter6RenderEv.cpp
+src/actors/daMenbo_c.cpp
 #
 # MantaRay (ov090) OK
 #   referrer  _ZTV8MantaRay[9] @ 02134260 = 02132c68   (overlay_0090.bin, base 02130f00)
 #   record    _ZN8MantaRay6RenderEv kind:function(arm,size=0x2c) addr:0x02132c68   (overlays/ov090/symbols.txt:35)
 #   retires   port/unmatched/MantaRay_HostSites.cpp (body cut)
-src/_ZN8MantaRay6RenderEv.cpp
+src/actors/daManta_c.cpp
 #
 # Lakitu (ov077) OK
 #   referrer  _ZTV6Lakitu[9] @ 02127890 = 02124828   (overlay_0077.bin, base 02123740)
 #   record    _ZN6Lakitu6RenderEv kind:function(arm,size=0x90) addr:0x02124828   (overlays/ov077/symbols.txt:28)
 #   retires   port/unmatched/Lakitu_HostSites.cpp (body cut)
-src/_ZN6Lakitu6RenderEv.cpp
+src/game/actors/d_a_jgm.cpp
 #
 # HeaveHo (ov077) OK
 #   referrer  _ZTV7HeaveHo[9] @ 02127abc = 02126e38   (overlay_0077.bin, base 02123740)
 #   record    _ZN7HeaveHo6RenderEv kind:function(arm,size=0x50) addr:0x02126e38   (overlays/ov077/symbols.txt:85)
 #   retires   port/unmatched/HeaveHo_HostSites.cpp (body cut)
-src/_ZN7HeaveHo6RenderEv.cpp
+src/actors/daPopoi_c.cpp
 #
 # CheepCheep (ov090) OK
 #   referrer  _ZTV10CheepCheep[9] @ 02134348 = 021333e0   (overlay_0090.bin, base 02130f00)
 #   record    _ZN10CheepCheep6RenderEv kind:function(arm,size=0x50) addr:0x021333e0   (overlays/ov090/symbols.txt:50)
 #   retires   port/unmatched/CheepCheep_HostSites.cpp (body cut)
-src/_ZN10CheepCheep6RenderEv.cpp
+src/actors/daPukupuku_c.cpp
 #
 # Stump (ov091) OK
 #   referrer  _ZTV5Stump[9] @ 021353d0 = 02134184   (overlay_0091.bin, base 02130f00)
 #   record    _ZN6Fwoosh6RenderEv kind:function(arm,size=0x68) addr:0x02134184   (overlays/ov091/symbols.txt:85)
 #   retires   port/unmatched/Ov091_HostSites.cpp (body cut)
-src/_ZN6Fwoosh6RenderEv.cpp
+src/game/actors/d_a_hyuhyu.cpp
 #
 # PiranhaPlant (ov084) OK
 #   referrer  _ZTV12PiranhaPlant[9] @ 02130c4c = 0212fcdc   (overlay_0084.bin, base 02129020)
@@ -180,7 +180,7 @@ src/_ZN6Fwoosh6RenderEv.cpp
 #   referrer  _ZTV19FirePiranhaPlantBig[9] @ 02130b4c = 0212e5a8   (overlay_0084.bin, base 02129020)
 #   record    _ZN19FirePiranhaPlantBig6RenderEv kind:function(arm,size=0x6c) addr:0x0212e5a8   (overlays/ov084/symbols.txt:71)
 #   retires   port/unmatched/PiranhaPlant_States.cpp (body cut)
-src/_ZN19FirePiranhaPlantBig6RenderEv.cpp
+src/actors/daFPkn_c.cpp
 #
 # Rabbit (ov085) OK
 #   referrer  _ZTV6Rabbit[9] @ 0213011c = 0212c074   (overlay_0085.bin, base 02129020)
@@ -199,11 +199,11 @@ src/_ZN19FirePiranhaPlantBig6RenderEv.cpp
 #   referrer  _ZTV9LakituBro[9] @ 02130368 = 0212ead0   (overlay_0085.bin, base 02129020)
 #   record    _ZN9LakituBro6RenderEv kind:function(arm,size=0x48) addr:0x0212ead0   (overlays/ov085/symbols.txt:117)
 #   retires   port/unmatched/Ov085_Renders.cpp (body cut)
-src/_ZN9LakituBro6RenderEv.cpp
+src/game/actors/d_a_c_jugem.cpp
 #
 # Tornado (ov096) OK
 #   referrer  _ZTV7Tornado[9] @ 02137ab4 = 02137414   (overlay_0096.bin, base 02135700)
 #   record    _ZN7Tornado6RenderEv kind:function(arm,size=0x34) addr:0x02137414   (overlays/ov096/symbols.txt:44)
 #   retires   port/unmatched/Tornado_HostSites.cpp (body cut)
-src/_ZN7Tornado6RenderEv.cpp
+src/actors/daTor_c.cpp
 #

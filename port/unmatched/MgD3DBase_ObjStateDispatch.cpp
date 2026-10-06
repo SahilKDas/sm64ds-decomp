@@ -92,11 +92,11 @@
 // keeping now that the two records live together: its encoding scan over
 // dScMgJump2_c's closure found three dispatch sites too -- 0x020ef450 (that
 // class's own vtable slot 6), 0x020c4cec and 0x020c789c -- and its independent
-// `::*` source sweep returned four hits, src/_ZN10dMgState_c8SetStateEi.cpp (the
+// `::*` source sweep returned four hits, src/actors/dMgState_c.cpp (the
 // framework state setter, already host-copied in
 // unmatched/MgBase_StateSetter.cpp and excluded from every minigame slice),
-// src/func_ov006_020c4cd8.cpp, src/actors/dMgJump3DMario_c.cpp and
-// src/_ZN12dScMgJump2_c8BehaviorEv.cpp. Two lanes, two closures, two detectors each,
+// src/actors/dMg3DHeyhoObjAdapter_c.cpp, src/actors/dMgJump3DMario_c.cpp and
+// src/minigames/d_s_mg_jump2.cpp. Two lanes, two closures, two detectors each,
 // and the same two shared bodies at the end of all four.
 //
 // ---- 2. THE TWO FIELDS AND THE TWENTY-FIVE STATES -------------------------
@@ -666,6 +666,6 @@ extern "C" void port_mg_objstate_seat(void)
 }
 
 /* HOST COPIES RETIRED, run link100 lane PMFB6 gate 3.
-   src/func_ov006_020c4cd8.cpp and src/actors/dMgJump3DMario_c.cpp dispatch their
+   src/actors/dMg3DHeyhoObjAdapter_c.cpp and src/actors/dMgJump3DMario_c.cpp dispatch their
    own fields now; the second is compiled with /Zp4 for the reason above. */
 

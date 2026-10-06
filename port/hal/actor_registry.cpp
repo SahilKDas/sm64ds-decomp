@@ -556,7 +556,7 @@ extern signed char data_0209f2f8;      /* current level */
 extern void *data_0209b458;            /* the closest-player cache itself */
 }
 
-/* Gate 203's read-back. The QuestionBlock/ExclamationBlock keeps its state
+/* Gate 203's read-back. The daObjHatenaBlock_c/ExclamationBlock keeps its state
    index at +0x3e8 and the character that hit it at +0x3f2; state 1 is the
    bounce and state 2 is spent. Printing those two across the hit is what
    distinguishes "the box opened" from "the frame did not crash". */

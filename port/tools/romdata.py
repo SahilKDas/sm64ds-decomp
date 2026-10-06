@@ -60,7 +60,7 @@ TABLES = [
     # ONE ROW THAT DELIBERATELY OVERLAPS THE TRIG TABLE, run mg11 lane SNW.
     # 0x02082314 is 0x100 bytes into the s16 table above -- entry 128 -- and
     # dScMgSnowball_c reads it BY NAME rather than by index:
-    # src/func_ov006_02126948.c does fdiv(0xc0000, data_02082314), and the ROM
+    # src/actors/dScMgSnowball_c.cpp does fdiv(0xc0000, data_02082314), and the ROM
     # at 0x02126958 is `ldrsh r1,[r1]` off a pool word holding 0x02082314, so
     # the read is one SIGNED HALFWORD and include/decl_common.h declares it
     # `extern short data_02082314;` to match.
@@ -89,7 +89,7 @@ NAMED = [
     #
     # THE -1 IS THE WHOLE REASON THEY COME FROM HERE AND NOT FROM A HAL LINE.
     # data_0208a174 is the menu's SELECTION and its boot value is the "nothing
-    # picked" sentinel; src/func_ov005_020c0378.cpp only ever writes a row index
+    # picked" sentinel; src/actors/dScMiniGm_c.cpp only ever writes a row index
     # into it, so a host that zeroed it would boot the menu with row 0 already
     # chosen and nothing in the game would ever say so. data_0208a170 is the
     # highlighted row base, advanced by func_ov005_020c0878, and 3 is where the
@@ -110,7 +110,7 @@ NAMED = [
     "data_0208a178", "data_0208c178",
     # Run link100 wave 14 (lane SEAT14D): the OBJ char blob the debug level
     # select loads, `GX::LoadOBJ(data_0208c378, 0, 0x2000)` in
-    # src/_ZN10dScTitle_c13InitResourcesEv.cpp. It is the exact sibling of the
+    # src/actors/dScTitle_c.cpp. It is the exact sibling of the
     # BG char blob one row up: 0x0208c378 to the next config symbol
     # (data_0208e378) is 0x2000, which is the length the call itself reads, it
     # sits below BSS_START so real bytes are behind it, and config/arm9/
@@ -429,7 +429,7 @@ NAMED = [
     # data, byte-hosted the same as every table above.
     "data_02082714",
     # run mg11 lane BNP: the 0x100 bytes at 0x02082614, which
-    # src/_ZN11dScMgJump_c13InitResourcesEv.cpp (dScMgJump_c::InitResources, id 0x174) reads
+    # src/actors/dScMgJump_c.cpp (dScMgJump_c::InitResources, id 0x174) reads
     # ONE s16 out of, as the divisor of cstd::fdiv(0xc0000, data_02082614) --
     # the projection constant it parks in the scene's two camera records. It is
     # an INTERIOR address of the TABLES entry above (data_02082214, the s16 trig

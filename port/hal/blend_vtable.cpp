@@ -27,7 +27,7 @@
 // Virtual18's MSVC slot, and Virtual18 takes two arguments where Render takes
 // one, so a TU that dispatches Render through a LOCAL SHADOW CLASS (which
 // counts in ROM numbering) cannot be served by this array. Butterfly, Fish and
-// QuestionBlock already walked into exactly that for ModelAnim and had to be
+// daObjHatenaBlock_c already walked into exactly that for ModelAnim and had to be
 // hand-written into port/unmatched/ModelAnim_Renders.cpp; if a shadow-class TU
 // ever dispatches BlendModelAnim::Render it will land on blend_virtual18 and
 // read its scale off the stack, so trap-by-Virtual18 will name it.

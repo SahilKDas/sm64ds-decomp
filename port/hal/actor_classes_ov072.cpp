@@ -161,9 +161,9 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 #include "dActor_c.h"
 #include "dtor_faces_cpp.h"
 #include "fBase_c.h"
-#include "BabyPenguin.h"
+#include "daPgBby_c.h"
 #include "daBgSnmBdy_c.h"
-#include "SnowmanHead.h"
+#include "daBgSnmHed_c.h"
 
 extern "C" {
 int _ZN8dActor_c19BeforeInitResourcesEv(void *self);
@@ -514,12 +514,12 @@ extern "C" void hal_fill_baby_penguin_vtable(void)
 // Render), which the host _ZTV9ModelAnim numbers as Virtual18. The TU is
 // dropped from slice_gate193.txt and _ZN11BabyPenguin6RenderEv is the
 // host copy in port/unmatched/ModelAnim_Renders.cpp, the Whomp/Butterfly/
-// Fish/QuestionBlock case (see this file's own header).
+// Fish/daObjHatenaBlock_c case (see this file's own header).
 extern "C" {
 int _ZN11BabyPenguin13InitResourcesEv(void *self)
-{ return ((BabyPenguin *)self)->BabyPenguin::InitResources(); }
+{ return ((daPgBby_c *)self)->daPgBby_c::InitResources(); }
 int _ZN11BabyPenguin8BehaviorEv(void *self)
-{ return ((BabyPenguin *)self)->BabyPenguin::Behavior(); }
+{ return ((daPgBby_c *)self)->daPgBby_c::Behavior(); }
 }
 
 // ============================================================================
@@ -888,9 +888,9 @@ int _ZN12daBgSnmBdy_c8BehaviorEv(void *self)
 int _ZN12daBgSnmBdy_c6RenderEv(void *self)
 { return ((daBgSnmBdy_c *)self)->daBgSnmBdy_c::Render(); }
 int _ZN11SnowmanHead13InitResourcesEv(void *self)
-{ return ((SnowmanHead *)self)->SnowmanHead::InitResources(); }
+{ return ((daBgSnmHed_c *)self)->daBgSnmHed_c::InitResources(); }
 int _ZN11SnowmanHead8BehaviorEv(void *self)
-{ return ((SnowmanHead *)self)->SnowmanHead::Behavior(); }
+{ return ((daBgSnmHed_c *)self)->daBgSnmHed_c::Behavior(); }
 int _ZN11SnowmanHead6RenderEv(void *self)
-{ return ((SnowmanHead *)self)->SnowmanHead::Render(); }
+{ return ((daBgSnmHed_c *)self)->daBgSnmHed_c::Render(); }
 }

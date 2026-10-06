@@ -23,7 +23,7 @@
  * 2026-09-14, run link100 lane CRASH4: THE MSVC-DECORATED NAME IS DEFINED HERE
  * TOO NOW, at the bottom of this file. Until today only the Itanium spelling
  * lived here, which is what the port's C-spelled callers reach. Commit
- * 5116945a1 folded the deleted src/_ZN7dBase_c5SpawnEjP7fBase_cii.cpp into
+ * 5116945a1 folded the deleted src/actors/ActorDerived.cpp into
  * src/actors/ActorDerived.cpp, a real C++ TU, so the two-argument decomp body
  * started carrying ?Spawn@dBase_c@@SAPAUfBase_c@@IPAU2@HH@Z and every C++
  * caller bound to that instead of to this file. The gate-14 filter in

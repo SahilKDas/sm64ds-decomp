@@ -76,7 +76,7 @@
 #
 # ==== ONE TU IS HELD OUT, AND IT IS NOT A REFUSAL OF THE BODY ==============
 #
-#   src/_ZN21daObj_volcanoCannon_cD1Ev.cpp  (VolcanoFire's slot 16)
+#   src/game/actors/d_a_obj_fl_maruta.cpp  (VolcanoFire's slot 16)
 # is a real MSVC-synthesised destructor over a shadow class with no vtable
 # store of its own. MSVC mangles `RollingLogLll::~RollingLogLll` as
 # ??1RollingLogLll@@UAE@XZ and never as the Itanium _ZN21daObj_volcanoCannon_cD1Ev the
@@ -90,45 +90,28 @@
 # bottom) = the 43-row census tail.
 
 # ---- ROTATING_PLATFORM_LLL (80), table 0x02113de8 -------------------------
-src/_ZN19FloatOnLavaPlatformD1Ev.cpp
+src/actors/daObjFl_Block_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN19FloatOnLavaPlatformD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN19FloatOnLavaPlatformD0Ev.cpp
-src/_ZN19FloatOnLavaPlatform16CleanupResourcesEv.cpp
-src/_ZN19FloatOnLavaPlatform13InitResourcesEv.cpp
 src/d_a_obj_fl_koma_d.c
 
 # ---- LAVA_BRIDGE (73), table 0x02113f70 ----------------------------------
 src/actors/daObjFl_London_c.cpp
 
 # ---- LAVA_SEESAW (77), table 0x02114034 ----------------------------------
-src/_ZN10LavaSeesawD1Ev.cpp
+src/actors/daObjFl_Seesaw_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN10LavaSeesawD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN10LavaSeesawD0Ev.cpp
-src/func_ov022_02111d48.c
-src/_ZN10LavaSeesaw16CleanupResourcesEv.cpp
-src/_ZN10LavaSeesaw6RenderEv.cpp
-src/_ZN10LavaSeesaw8BehaviorEv.cpp
-src/_ZN10LavaSeesaw13InitResourcesEv.cpp
 src/d_a_obj_fl_seesaw.c
 
 # ---- ROLLING_LOG_LLL (70), table 0x021143a4 (bodies spelled FallBlockLll) --
-src/_ZN21daObj_volcanoCannon_cD1Ev.cpp
-src/_ZN21daObj_volcanoCannon_cD0Ev.cpp
-src/_ZN21daObj_volcanoCannon_c16CleanupResourcesEv.cpp
-src/_ZN21daObj_volcanoCannon_c8BehaviorEv.cpp
-src/_ZN21daObj_volcanoCannon_c13InitResourcesEv.cpp
-src/d_a_obj_fl_maruta.c
+src/game/actors/d_a_obj_fl_maruta.cpp
 
 # ---- VOLCANO_FIRE (243), table 0x0211447c (bodies spelled RollingLogLll) --
 # 243 is NOT on level 14's object list, and it is still live: VolcanoRing's
 # Behavior (src/_ZN11VolcanoRing8BehaviorEv.cpp, linked and running on level 14 since
 # wave 8) calls Actor_Spawn(0xf3, ...) -- the ring's fireball. It is registered
 # for that reason, not for a placement row.
-src/func_ov022_02112654.cpp
-src/func_ov022_021126ac.c
-src/func_ov022_02112710.c
-src/_ZN21daObj_volcanoCannon_c11ChangeStateEPNS_5StateE.cpp
-src/d_a_obj_volcano_cannon.c
 
 # ---- LAVA_PLANK (82)'s last body: NOT HERE, and the refusal is measured ---
 # src/_ZN9LavaPlank16CleanupResourcesEv.cpp is wave 8's one host

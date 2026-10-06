@@ -18,8 +18,8 @@
 #
 # TWO MATCHED TUs ARE DELIBERATELY ABSENT, both host copies instead
 # (port/unmatched/PathLift_StateDispatch.cpp, the gate-200 PushBlock ruling):
-#   src/func_ov002_020efa54.cpp            state installer, PMF dispatch
-#   src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp   per-frame tick, PMF dispatch
+#   src/actors/dPathLiftActor_c.cpp            state installer, PMF dispatch
+#   src/actors/dPathLiftActor_c.cpp   per-frame tick, PMF dispatch
 # Both form an MSVC pointer-to-member over a DELIBERATELY INCOMPLETE class.
 # mwcc's PMF is a uniform 8-byte {fn, delta<<1|isVirtual} pair, which is what
 # makes the ROM's record 20 bytes wide (the `mov r0,#0x14` in both bodies);
@@ -49,7 +49,6 @@ src/game/actors/daObjPathLift_c.cpp
 # slot 6, Behavior
 # slot 0, InitResources
 # the factory
-src/d_a_obj_path_lift.cpp
 
 # ---- ov002, the PathLift BASE branch (20 of 22; 2 are host copies) ---------
 # base table slot 16
@@ -59,37 +58,20 @@ src/_ZN16dPathLiftActor_cD0Ev.cpp
 # slot 32 -- the EXTRA virtual PathLift adds
 #   to Platform's 32-slot shape, INHERITED
 #   unchanged by daObjPathLift_c
-src/_ZN16dPathLiftActor_c9AfterClsnEi.cpp
+src/actors/dPathLiftActor_c.cpp
 # the real base init (see the note above)
-src/func_ov002_020efaf0.cpp
 # base-init helper
-src/func_ov002_020efbdc.c
 # Render's base half
-src/func_ov002_020efc74.cpp
 # Behavior's base half (path node walk)
-src/func_ov002_020efcf4.c
 # the three states' six bodies, reloc-confirmed out of the sinit's own source
 # statics (data_ov002_0210aed0/d8/e0/e8/f0/f8):
 # state 0 WAIT  enter
-src/func_ov002_020ef3f0.c
 # state 0 WAIT  tick   (`bx lr`, 4 bytes)
-src/func_ov002_020ef3ec.c
 # state 1 PATH  enter
-src/func_ov002_020efa44.c
 # state 1 PATH  tick
-src/func_ov002_020ef670.c
 # state 2 FALL  enter
-src/func_ov002_020ef57c.c
 # state 2 FALL  tick
-src/func_ov002_020ef408.c
 # the small predicates the states and AfterClsn share:
-src/func_ov002_020efe68.c
-src/func_ov002_020efe7c.c
-src/func_ov002_020efe9c.c
-src/func_ov002_020efebc.c
-src/func_ov002_020efedc.c
-src/func_ov002_020eff04.cpp
-src/func_ov002_020eff90.cpp
 
 # ---- this lane's own host files (the ov065 pattern: one reader, one owner) --
 port/hal/actor_classes_ov100pl.cpp

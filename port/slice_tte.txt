@@ -227,13 +227,13 @@
 #   PLUS the 12 TUs this lane host-copies or repairs, which are not slice lines
 #   and would otherwise never be swept -- returns THREE files, and all three
 #   really do declare a `T::*`: src/minigames/d_s_mg_trampoline2.cpp (the site above),
-#   src/func_ov006_020cea2c.cpp and src/func_ov006_020cf758.cpp, the last two
+#   src/actors/unit020cd744.cpp and src/actors/unit020cd744.cpp, the last two
 #   dispatching the 3D-Mario record's member pointer at OFFSET 0.
 #   -> port/unmatched/MgTrampolineTerror_MarioDispatch.cpp
 #
 #   THREE, NOT FOUR, AND THE FOURTH IS THE POINT OF THE NEXT BULLET. An earlier
 #   version of this paragraph said the sweep returns FOUR and counted
-#   src/func_ov006_020c8f20.cpp among them, which contradicts the bullet below
+#   src/actors/dMgTrmpln2Mario_c.cpp among them, which contradicts the bullet below
 #   saying that file defeats this detector -- and the file contains no `::*` at
 #   all. The tool that produced the four was reporting PMF-SHAPED files, which is
 #   its `::*` arm and its open-coded arm added together; reading its total as one
@@ -241,7 +241,7 @@
 #   THREE FOUND BY THE SWEEP, ONE FOUND BY A RUN.
 #
 #   THE THIRD SHAPE, open-coded in plain ints, defeats both and was convicted BY
-#   A RUN: src/func_ov006_020c8f20.cpp decodes {off, adj} by hand on the
+#   A RUN: src/actors/dMgTrmpln2Mario_c.cpp decodes {off, adj} by hand on the
 #   Trampoline-Mario record's field at +0x70. It compiles, it links, and the
 #   third boot of scene 385 jumped to 0x020ca310.
 #   -> port/unmatched/MgTrampolineTerror_SubDispatch.cpp
@@ -283,8 +283,8 @@
 #                        0x0203b990 three times, this class's own 0x021238d0 /
 #                        0x0212382c / 0x021237c8 / 0x0212373c, ApproachLinear,
 #                        0x0203cc28 and 0x020cefa4. 0 wants so far.
-#   func_ov006_020cf2fc  0x45c  from src/func_ov006_020d09e0.c.
-#   func_ov006_020d01e0  0x800  from src/func_ov006_020d0b78.c. 1 want.
+#   func_ov006_020cf2fc  0x45c  from src/actors/unit020cd744.cpp.
+#   func_ov006_020d01e0  0x800  from src/actors/unit020cd744.cpp. 1 want.
 #   func_ov006_020d0c38  0x3ac  from THIS class's slot 23. It is the
 #                        stroke-connected test: the true arm plays
 #                        func_02012718(0x1af, ...) and the false arm
@@ -355,7 +355,7 @@
 #     that are not ModelAnims. 13 + 1 + 2 + 1 + 1 = 18, and NOT ONE of them is at
 #     index 5.
 #     THE TWO INDEX-5 HITS ARE IN HOST-COPIED FILES, NOT SLICE LINES:
-#     src/func_ov006_020c8e90.cpp and src/minigames/d_s_mg_trampoline2.cpp left this slice
+#     src/actors/dMgTrmpln2Mario_c.cpp and src/minigames/d_s_mg_trampoline2.cpp left this slice
 #     the moment MgD3DBase_ModelAnimRender.cpp took them, so a sweep phrased as
 #     "every TU in slice_tte.txt" cannot see the very hits it is quoted for.
 #     18 over the slice + 2 in the two host copies = 20 over the closure, and the
@@ -423,7 +423,7 @@
 # 7325 - 7121 = 204 = the 204 src lines below, one for one. Every one of the
 # 204 has an object in walk_window.map, and none of them is a line another
 # WIRED slice already carries -- both checked with a tool, not by eye. Two lines were
-# DROPPED for exactly that reason during the closure (src/func_ov006_020d100c.c,
+# DROPPED for exactly that reason during the closure (src/actors/unit020cd744.cpp,
 # already in slice_mg1.txt, and src/_Z15ApproachLinear2Riii.cpp, already in
 # slice_gate205.txt) and neither drop moved the headline, which is the check
 # that the reasoning was right.
@@ -432,11 +432,11 @@
 #
 # HOST-COPIED (listing them would be an LNK2005):
 #   src/minigames/d_s_mg_trampoline2.cpp   vtable slot 6, the field member pointer
-#   src/func_ov006_020c8f20.cpp   the Trampoline-Mario decode, open-coded
-#   src/func_ov006_020cea2c.cpp   the 3D-Mario decode, and its nine field copies
-#   src/func_ov006_020cf758.cpp   the 3D-Mario decode, one statement
+#   src/actors/dMgTrmpln2Mario_c.cpp   the Trampoline-Mario decode, open-coded
+#   src/actors/unit020cd744.cpp   the 3D-Mario decode, and its nine field copies
+#   src/actors/unit020cd744.cpp   the 3D-Mario decode, one statement
 #   src/minigames/d_s_mg_trampoline2.cpp the factory, section 8
-#   src/func_ov006_020c8e90.cpp   ModelAnim ROM slot 5, section 9
+#   src/actors/dMgTrmpln2Mario_c.cpp   ModelAnim ROM slot 5, section 9
 #   src/minigames/d_s_mg_trampoline2.cpp   ModelAnim ROM slot 5, section 9
 #
 # REPAIRED UNDER A port_ NAME (the flower's rule: the decomp has a real body and
@@ -459,17 +459,17 @@
 #
 # COMPILED AS C++ (a //cpp marker and a top-level `extern "C" {` block, neither
 # valid C; every .c line in this slice was swept with comments stripped):
-#   src/func_ov006_020c9098.cpp  src/func_ov006_020c9c8c.cpp
-#   src/func_ov006_020cb528.cpp  src/func_ov006_020cc198.cpp
+#   src/actors/dMgTrmpln2Mario_c.cpp  src/actors/dMgTrmpln2Mario_c.cpp
+#   src/actors/dMgTrmpln2Mario_c.cpp  src/actors/dMgTrmpln2Mario_c.cpp
 #
 # RENAMED AT COMPILE TIME:
-#   src/func_ov006_020cd6f4.c   -D data_ov007_020cd72c=func_ov006_020cd72c. The
+#   src/actors/dMgTrmpln2Mario_c.cpp   -D data_ov007_020cd72c=func_ov006_020cd72c. The
 #     address 0x020cd72c is func_ov006_020cd72c, a FUNCTION in ov006's symbol
 #     table, and ALSO data_ov007_020cd72c, kind data, in ov007's. On the DS
 #     ov007 is not resident while ov006 is; on the port both mounts exist and
 #     the data face won the name, so the call jumped into mounted ROM data. The
 #     run mg9 lane S364 -D rename, second instance.
-#   src/_ZN6Player29TryExitCharacterDoorWithIntroEv.cpp  -D VT0=data_ov006_0213b2e0.
+#   src/actors/dMgTrmpln2Mario_c.cpp  -D VT0=data_ov006_0213b2e0.
 #     The one bare VT extern in the slice (all 204 TUs swept; the other three
 #     hits are LOCAL TYPE NAMES). That TU is the Trampoline-Mario element
 #     constructor, misnamed by the naming pass and flagged in its own header;
@@ -492,7 +492,7 @@
 # it stamps were missing on every frame. Run mg12 lane TRM byte-matched it and gave
 # it a delinks block, and run mg13's own scene logs record the retired counter
 # reading 0 (no wants). Run mg14 lane GAPS re-derived the gate from a clean tree:
-# tools/match.py --c src/func_ov006_02123938.c --func func_ov006_02123938
+# tools/match.py --c src/minigames/d_s_mg_trampoline2.cpp --func func_ov006_02123938
 # --addr 0x02123938 --size 0x1e8 --module ov006 --all --brief reports MATCHING
 # VERSIONS 2004/b56, 1.2/base, 1.2/sp2, 1.2/sp2p3, and linkcheck reports
 # {"verdict": "VERIFIED", "diffs": [], "blind": 0}. Everything else in the render
@@ -505,57 +505,16 @@
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/dScMgD3DBase_c.cpp
-src/func_ov006_020cac30.cpp
-src/_ZN6Player29TryExitCharacterDoorWithIntroEv.cpp
+src/actors/dMgTrmpln2Mario_c.cpp
 src/func_020169f4.c
 src/func_0203cc28.c
 src/func_02045e70.c
 src/func_02053ea0.c
 src/func_02053eb0.c
 src/func_02054748.c
-src/func_ov006_020bfec0.cpp
-src/func_ov006_020bfff8.cpp
-src/func_ov006_020c8a30.c
-src/func_ov006_020c8a64.c
-src/func_ov006_020c8a9c.c
-src/func_ov006_020c8af4.c
-src/func_ov006_020c8ba8.cpp
-src/func_ov006_020c8c6c.c
-src/func_ov006_020c8c78.c
-src/func_ov006_020c8dd4.c
-src/func_ov006_020c8ddc.c
-src/func_ov006_020c8e80.c
-src/func_ov006_020c8e88.c
-src/func_ov006_020c8ecc.cpp
-src/func_ov006_020c9024.cpp
-src/func_ov006_020c905c.c
-src/func_ov006_020c9098.cpp
-src/func_ov006_020c91ac.cpp
-src/func_ov006_020c94e0.cpp
-src/func_ov006_020c97bc.cpp
-src/func_ov006_020c9aa0.cpp
-src/func_ov006_020c9c8c.cpp
-src/func_ov006_020c9d7c.c
-src/func_ov006_020c9e7c.c
-src/func_ov006_020c9efc.cpp
-src/func_ov006_020c9fe4.cpp
-src/func_ov006_020ca070.cpp
-src/func_ov006_020ca2ec.c
-src/func_ov006_020ca310.cpp
-src/func_ov006_020ca374.c
-src/func_ov006_020ca39c.c
-src/func_ov006_020ca3a8.cpp
-src/func_ov006_020ca430.c
-src/func_ov006_020ca604.cpp
-src/func_ov006_020ca7b8.c
-src/func_ov006_020ca840.c
-src/func_ov006_020ca8e0.cpp
-src/func_ov006_020caa08.c
-src/func_ov006_020caadc.c
-src/func_ov006_020cac9c.c
-src/func_ov006_020cad3c.c
-src/func_ov006_020cae9c.c
-# src/func_ov006_020cb16c.c is OUT at the mg11 merge. Lane TTI host-copies
+src/actors/unit020bfec0.cpp
+src/actors/unit020c8a30.cpp
+# src/actors/dMgTrmpln2Mario_c.cpp is OUT at the mg11 merge. Lane TTI host-copies
 # this body in unmatched/MgTrmpln3DMario_ModuleFix.cpp, because the src TU
 # calls data_ov007_020ccd78() -- an ov007 DATA address used as a call from an
 # ov006 TU, one of the three cross-module MISBINDINGS TTI found and routed to
@@ -563,76 +522,7 @@ src/func_ov006_020cae9c.c
 # (LNK2005) and, if it had won, would jump into mounted data. The host copy
 # wins for the reason every dup-guard block in port/CMakeLists.txt gives.
 # Neither lane could see this: each checked the other's FILENAMES.
-src/func_ov006_020cb2b4.c
-src/func_ov006_020cb528.cpp
-src/func_ov006_020cb5c4.c
-src/func_ov006_020cb690.cpp
-src/func_ov006_020cb72c.c
-src/func_ov006_020cb814.c
-src/func_ov006_020cb838.cpp
-src/func_ov006_020cbaec.cpp
-src/func_ov006_020cbd7c.cpp
-src/func_ov006_020cbfd8.cpp
-src/func_ov006_020cc198.cpp
-src/func_ov006_020cc2ac.c
-src/func_ov006_020cc37c.cpp
-src/func_ov006_020cc408.cpp
-src/func_ov006_020cc618.c
-src/func_ov006_020cc63c.c
-src/func_ov006_020cc698.cpp
-src/func_ov006_020cc724.c
-src/func_ov006_020cc8c8.c
-src/func_ov006_020cc9b8.c
-src/func_ov006_020cc9fc.cpp
-src/func_ov006_020ccae0.c
-src/func_ov006_020ccc8c.cpp
-src/func_ov006_020ccd64.c
-src/func_ov006_020ccd78.cpp
-src/func_ov006_020cd6d8.c
-src/func_ov006_020cd6f4.c
-src/func_ov006_020cd720.c
-src/func_ov006_020cd72c.c
-src/func_ov006_020cd744.c
-src/func_ov006_020cd7b8.c
-src/func_ov006_020cd864.c
-src/func_ov006_020cd98c.c
-src/func_ov006_020cd9b0.c
-src/func_ov006_020cdad0.c
-src/func_ov006_020cdaec.c
-src/func_ov006_020cdc14.c
-src/func_ov006_020cdc38.c
-src/func_ov006_020cdc68.c
-src/func_ov006_020cdc8c.c
-src/func_ov006_020cdce4.c
-src/func_ov006_020cdd08.c
-src/func_ov006_020cde28.c
-src/func_ov006_020cde4c.c
-src/func_ov006_020cde7c.c
-src/func_ov006_020cdea0.c
-src/func_ov006_020cdeec.c
-src/func_ov006_020cdf1c.c
-src/func_ov006_020cdf20.c
-src/func_ov006_020cdf3c.c
-src/func_ov006_020ce0ac.cpp
-src/func_ov006_020ce108.cpp
-src/func_ov006_020ce46c.c
-src/func_ov006_020ce674.c
-src/func_ov006_020ce8a0.cpp
-src/func_ov006_020ce988.cpp
-src/func_ov006_020ceabc.c
-src/func_ov006_020cecb4.c
-src/func_ov006_020cecc0.cpp
-src/func_ov006_020ced84.c
-src/func_ov006_020cedf0.c
-src/func_ov006_020cee5c.c
-src/func_ov006_020ceedc.c
-src/func_ov006_020cef14.c
-src/func_ov006_020cefa4.c
-src/func_ov006_020cf124.c
-src/func_ov006_020cf790.c
-src/func_ov006_020cf804.c
-src/func_ov006_020cf820.c
-src/func_ov006_020cfa44.c
+src/actors/unit020cd744.cpp
 # The 0x800 STROKE INSTALLER, seated by run mg12 lane INST. Listed in BOTH
 # trampoline slices; see the note beside it in slice_tti.txt. It replaces the
 # trap in unmatched/MgTrampolineTime_Floors.cpp, which no longer defines it.
@@ -648,13 +538,11 @@ src/func_ov006_020cfa44.c
 # register-allocation luck, at measured zero cost. Emitted game code is
 # byte-identical across the conversion; the banner has the proof and the one
 # spelling that had to change to keep it so.
-src/func_ov006_020d01e0.cpp
 # THE MESH DRAW, seated by run mg13 lane TRAMP. Listed in BOTH trampoline
 # slices; see the note beside it in slice_tti.txt. A TT_SHARED_HOSTGEN symbol,
 # so the generated copy is what this target compiles.
-src/func_ov006_020cf2fc.c
 # THE BOUNCE, seated by run mg13 lane BOUNCE, and the last floor between a drawn
-# trampoline and a character that lands on it. src/func_ov006_020cfa44.c -- one
+# trampoline and a character that lands on it. src/actors/unit020cd744.cpp -- one
 # of the record states this class dispatches, and a slice_tte line already --
 # calls it once per tick at 0x020cfa50, so with the mesh draw seated and this one
 # still trapped the trampolines appeared and every character fell through them.
@@ -664,7 +552,7 @@ src/func_ov006_020cf2fc.c
 # IT IS A C++ TU, and that is the host dispatch rather than a style choice: the
 # element is a class with four virtuals so MSVC emits a __thiscall virtual call
 # into the __fastcall adapters this vtable is bound to, the way
-# src/func_ov006_020ce8a0.cpp and src/func_ov006_020ce108.cpp already do. As a .c
+# src/actors/unit020cd744.cpp and src/actors/unit020cd744.cpp already do. As a .c
 # file with a struct of function pointers it compiled to the SAME BYTES and read
 # its positions out of the vtable instead of the character. The banner has the
 # disassembly.
@@ -672,7 +560,7 @@ src/func_ov006_020cf2fc.c
 # THIS ONE IS A PLAIN SLICE LINE, NOT A TT_SHARED_HOSTGEN SYMBOL: it writes no
 # MMIO and its 8-word literal pool holds no 0x04xxxxxx address, so the src/ copy
 # is the copy that compiles. It is a slice_tte line ONLY, because the only thing
-# that names it is src/func_ov006_020cfa44.c, which is a slice_tte line only --
+# that names it is src/actors/unit020cd744.cpp, which is a slice_tte line only --
 # scene 384 reaches it as well, but through the same TU, and the trampoline
 # slices land in one binary.
 #
@@ -688,18 +576,8 @@ src/func_ov006_020cf2fc.c
 # the size, the whole literal pool and all 28 call offsets exactly the ROM's, and
 # every divergence a permutation or re-association of the same computation -- and
 # the banner in the file states each one.
-src/func_ov006_020cfc74.c
 # the installer's own three callees; see the note beside them in slice_tti.txt.
 # None was in any slice before the installer was seated.
-src/func_ov006_020cf040.c
-src/func_ov006_020cfa28.c
-src/func_ov006_020cfc58.c
-src/func_ov006_020d09e0.c
-src/func_ov006_020d0ac0.c
-src/func_ov006_020d0b04.c
-src/func_ov006_020d0b2c.cpp
-src/func_ov006_020d0b78.c
-src/func_ov006_020d0c38.c
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): this row is the raw
 # consolidated TU. slice_bnt.txt's BNT_HOSTGEN_SRCS substitutes a hostgen'd copy of
 # the WHOLE TU so its light-vector and matrix writes reach the geometry engine instead of
@@ -731,4 +609,4 @@ src/minigames/d_s_mg_trampoline2.cpp
 # into src/minigames/d_s_mg_trampoline2.cpp, which the build already compiles
 # (through hostgen), so the per-function leftover here was the second
 # definition (LNK2005).
-#src/func_ov006_02123938.c
+#src/minigames/d_s_mg_trampoline2.cpp

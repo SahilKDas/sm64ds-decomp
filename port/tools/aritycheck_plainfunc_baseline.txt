@@ -12,7 +12,7 @@
 # wrote.
 #
 # THIS IS THE SHAPE THAT SHIPPED A SOFTLOCK, found by run mg8 lane SBN on
-# 2026-08-22: src/func_ov006_020d8cc4.cpp declared
+# 2026-08-22: src/actors/dScMgBomroom_c.cpp declared
 #
 #     extern "C" int func_ov006_020d836c(void);
 #
@@ -71,7 +71,7 @@
 #       (src/func_ov002_020dc560.c, and the Goomboss_InitResources host copy)
 #       has the callee read only the first and cleans its own stack, exactly as
 #       the ROM discards r1. Two rows CLOSED, none added -- and a third was
-#       never opened, for src/func_ov074_021204c0.c, which prop17 propagated
+#       never opened, for src/actors/daKuriKing_c.cpp, which prop17 propagated
 #       and which declares the same honest one-parameter form.
 #
 # Generated 2026-08-22 from the mg8 tree (branch mg8-sosbin + the plain-name
@@ -87,7 +87,7 @@
 func_0200d8c8|src/_ZN8dActor_c10EarthquakeERK7Vector35Fix12IiE.cpp
 func_02011dcc|src/_ZN5Sound8SetMusicEjj.cpp
 func_02018a24|src/func_02018270.c
-func_0202e78c|src/func_ov004_020b2980.c
+func_0202e78c|src/minigames/d_s_mg_base.cpp
 func_020308b4|src/_ZN7dScMB_c8BehaviorEv.cpp
 func_020308b4|src/func_ov075_02118a78.c
 func_020308d0|src/SetNumPlayers.c
@@ -131,40 +131,40 @@ func_0205d644|src/func_02018e3c.c
 func_0205d644|src/func_0205d518.c
 func_0205fbd0|src/func_0205fab4.c
 func_ov002_020aefb8|src/actors/da1up_c.cpp
-func_ov002_020b16c4|src/func_ov002_020b19dc.c
-func_ov002_020b1884|src/func_ov002_020b19dc.c
+func_ov002_020b16c4|src/actors/daCoin_c.cpp
+func_ov002_020b1884|src/actors/daCoin_c.cpp
 func_ov002_020bac18|src/game/actors/d_a_obj_cv_shutter.cpp
-func_ov002_020c3e8c|src/func_ov085_0212d5dc.cpp
+func_ov002_020c3e8c|src/game/actors/d_a_c_jugem.cpp
 func_ov002_020d4d88|port/unmatched/func_ov002_020d3b9c.c
 func_ov002_020d4d88|src/_ZN6Player13St_Crawl_MainEv.cpp
 func_ov002_020d4d88|src/actors/Player.cpp
 func_ov002_020d4d88|src/_ZN6Player17St_HoldHeavy_MainEv.cpp
 func_ov002_020d4d88|src/_ZN6Player17St_HoldLight_MainEv.cpp
 func_ov002_020d5cec|src/actors/Player.cpp
-func_ov002_020de328|src/func_ov092_02131010.cpp
+func_ov002_020de328|src/actors/daOnms_c.cpp
 func_ov002_020e3f90|include/decl_common.h
 _ZN10StarMarker7CollectEv|src/func_ov002_020e930c.c
 func_ov002_020e8abc|src/func_ov002_020e8c34.c
 func_ov002_020e8e80|include/decl_common.h
 func_ov002_020f2630|src/func_ov002_020f26d4.c
-func_ov004_020adfc4|src/func_ov004_020b39a4.c
-func_ov004_020adfc4|src/func_ov004_020b484c.c
-func_ov004_020adfc4|src/func_ov006_020dd658.c
+func_ov004_020adfc4|src/actors/unit020b2c84.cpp
+func_ov004_020adfc4|src/actors/unit020b2c84.cpp
+func_ov004_020adfc4|src/actors/dScMgCoin_c.cpp
 _ZN11dScMgBase_c19OnHitFromUnderneathEv|src/actors/dScMgD3DBase_c.cpp
 _ZN11dScMgBase_c15OnHitByMegaCharEv|src/actors/dScMgD3DBase_c.cpp
 _ZN11dScMgBase_c12BeforeRenderEv|src/actors/dScMgD3DBase_c.cpp
 _ZN11dScMgBase_c18AfterInitResourcesEj|include/decl_common.h
-func_ov004_020b19f0|src/func_ov006_021004c0.c
+func_ov004_020b19f0|src/actors/dScMgPachinko2_c.cpp
 _ZN11dScMgBase_cC2Ev|src/minigames/d_s_mg_roulette.cpp
 _ZN11dScMgBase_cC2Ev|src/actors/dScMgCup_c.cpp
-func_ov004_020b42c0|src/func_ov004_020b31b4.cpp
-func_ov004_020b743c|src/func_ov004_020b7460.c
+func_ov004_020b42c0|src/actors/unit020b2c84.cpp
+func_ov004_020b743c|src/actors/dMgState_c.cpp
 func_ov005_020c0030|include/decl_common.h
-func_ov005_020c007c|src/func_ov005_020c0030.c
-func_ov006_020fbb2c|src/func_ov006_020fb7e0.c
-_ZN21cMgSmartball_object_c14RestoreInitialEv|src/_ZN20cMgSmartball_dokan_c14RestoreInitialEv.cpp
-func_ov006_02115b0c|src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp
-func_ov006_0211fb1c|src/func_ov006_0211f9fc.c
+func_ov005_020c007c|src/actors/dScMiniGm_c.cpp
+func_ov006_020fbb2c|src/actors/dScMgPachinko_c.cpp
+_ZN21cMgSmartball_object_c14RestoreInitialEv|src/actors/dScMgSmartball_c.cpp
+func_ov006_02115b0c|src/actors/dScMgSmartball_c.cpp
+func_ov006_0211fb1c|src/actors/dScMgTeresa_c.cpp
 func_ov007_020ae558|src/func_ov007_020add3c.c
 func_ov007_020b3c54|src/func_ov007_020b3360.c
 func_ov007_020b3d30|src/func_ov007_020b3c54.c
@@ -176,16 +176,16 @@ func_ov007_020cc0e4|src/func_ov007_020cc600.c
 func_ov015_02111414|include/decl_common.h
 func_ov018_021123d0|src/game/actors/d_a_pg_mthr.cpp
 func_ov030_021141a8|src/actors/daMky_c.cpp
-func_ov063_02118eac|src/unnamed/ov063/func_ov063_02118ea0.c
-func_ov063_02119b84|src/unnamed/ov063/func_ov063_02119274.c
-func_ov063_0211a0dc|src/unnamed/ov063/func_ov063_02119b1c.c
+func_ov063_02118eac|src/actors/daTrs_c.cpp
+func_ov063_02119b84|src/actors/daTrs_c.cpp
+func_ov063_0211a0dc|src/actors/daTrs_c.cpp
 func_ov072_02121d50|src/_ZN11BabyPenguin13InitResourcesEv.cpp
-func_ov072_02121d50|src/func_ov072_021217ac.cpp
+func_ov072_02121d50|src/game/actors/d_a_pg_bby.cpp
 func_ov077_0212478c|include/decl_common.h
 func_ov079_02123d4c|src/_ZN5Whomp25OnAimedAtWithEggReturnVecEv.cpp
 func_ov080_0212513c|include/decl_common.h
-func_ov080_0212513c|src/func_ov080_02124e60.c
+func_ov080_0212513c|src/actors/daBttBk_c.cpp
 _ZN7Tornado6State2Ev|include/decl_common.h
 _ZN7Tornado6State1Ev|include/decl_common.h
 _ZN7Tornado6State0Ev|include/decl_common.h
-func_ov100_02145080|src/func_ov100_02144468.c
+func_ov100_02145080|src/actors/daDoor_c.cpp

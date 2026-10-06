@@ -233,7 +233,7 @@ src/_ZN5dBgChD1Ev.cpp
 #   src/__sinit_ov045_02112280.c   DEFINES  void __sinit_ov045_02112280(void)
 #   src/game/actors/d_a_obj_clock_huriko.cpp    declares extern int  ...[]  and hands it to
 #                                  Model::LoadFile as a SharedFilePtr
-#   src/func_ov026_021122b0.c      declares extern void ...(void *) and CALLS it
+#   src/actors/daWater_Suikomi_c.cpp      declares extern void ...(void *) and CALLS it
 # They are three different overlays' contents at the same window address
 # 0x02112280, and dsd's ov045 export won the naming race for all three. The port
 # already resolves ov013's half: hal/actor_classes_ov013.cpp carries
@@ -383,27 +383,11 @@ src/_ZN5dBgChD1Ev.cpp
 # _ZN17ExtendingPlatform16CleanupResourcesEv and _ZN17ExtendingPlatformD1Ev are deliberately absent
 # -- see (E) and (E2), and 141's five are held out by (G). Every other own-slot
 # body of the five hosted classes, and all five of their factories, is here.
-src/d_a_obj_km2_agaru.c
-src/_ZN8PoleLiftD1Ev.cpp
-src/_ZN8PoleLiftD0Ev.cpp
-src/_ZN8PoleLift16CleanupResourcesEv.cpp
-src/_ZN8PoleLift6RenderEv.cpp
-src/_ZN8PoleLift8BehaviorEv.cpp
-src/_ZN8PoleLift13InitResourcesEv.cpp
-src/func_ov045_021114a8.cpp
-src/func_ov045_021114c8.c
-src/d_a_obj_km2_ami_bou.c
-src/_ZN17ExtendingPlatformD1Ev.cpp
+src/game/actors/d_a_obj_km2_agaru.cpp
+src/game/actors/d_a_obj_km2_ami_bou.cpp
+src/actors/daObjKm2_Nobiru_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN17ExtendingPlatformD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN17ExtendingPlatformD0Ev.cpp
-src/_ZN17ExtendingPlatform16CleanupResourcesEv.cpp
-src/_ZN17ExtendingPlatform6RenderEv.cpp
-src/_ZN17ExtendingPlatform8BehaviorEv.cpp
-src/_ZN17ExtendingPlatform13InitResourcesEv.cpp
-src/d_a_obj_km2_nobiru.c
-src/_ZN17ExtendingPlatform16OnPendingDestroyEv.cpp
-src/_ZN17ExtendingPlatform23UpdateColliderTransformEv.cpp
-src/_ZN17ExtendingPlatform20UpdateModelTransformEv.cpp
 src/game/actors/d_a_obj_km2_ukishima.cpp
 src/game/actors/d_a_obj_km2_fall_block.cpp
 
@@ -430,10 +414,7 @@ src/__sinit_ov045_021123c0.c
 # (nothing would have named it; /OPT:REF drops an unreferenced object and the
 # line would sit there looking seated, which the header forbids). The wave-5
 # section (G) below carries it now, named by 141's fill.
-src/_ZN14daObjUkiyuka_c8BehaviorEv.cpp
-src/_ZN14daObjUkiyuka_c6RenderEv.cpp
-src/func_ov002_020b6584.c
-src/func_ov002_020b6424.c
+src/actors/daObjUkiyuka_c.cpp
 
 # ---- (G) TILTING_PLATFORM_BFS (141): HELD IN WAVE 4, RESTORED IN WAVE 5 ---
 # Wave 4 measured the class complete but held it back on one port-wide gap:
@@ -470,13 +451,7 @@ src/game/actors/d_a_obj_km2_gura.cpp
 # callback the base Init installs, and the two quaternion feeders that
 # callback runs. _ZN15daObjGuragura_c6RenderEv is here at last -- the 145 block above
 # recorded why it had to wait for exactly this section.
-src/_ZN15daObjGuragura_c8BehaviorEv.cpp
-src/_ZN15daObjGuragura_c6RenderEv.cpp
-src/func_ov002_020b6244.c
-src/func_ov002_020b60fc.c
-src/func_ov002_020b6374.c
-src/func_ov002_020b62cc.c
-src/func_ov002_020b6074.cpp
+src/actors/daObjGuragura_c.cpp
 
 # ---- the quaternion/Fix12 closure (6 TUs) ---------------------------------
 # Quaternion_Normalize is the sqrt unit's caller; Quaternion_FromVector3

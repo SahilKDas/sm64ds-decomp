@@ -41,7 +41,7 @@ src/_ZN5dPa_c7level_c16simpleCallback_c14SpawnParticlesERN8Particle6SystemE.cpp
 # bridge in port/unmatched/Seats2_NameBridges.cpp, and the pair closes the
 # row. Duplicates nothing: the flat ROM name stays with the hand face in
 # port/hal/actor_classes_ov065.cpp, which now has a real body under it.
-src/_ZN14TTC_MovingBeam8BehaviorEv.cpp
+src/actors/daObjCtMecha09_c.cpp
 
 # ---- the name bridges the class seats need --------------------------------
 # Sixteen decorated ROM data names, each a C++ declaration of a hosted symbol

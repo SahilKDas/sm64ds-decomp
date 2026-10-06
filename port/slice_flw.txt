@@ -51,7 +51,7 @@
 # mwcc member-pointer wall is "the same one for all thirty". It is not this
 # one's:
 #
-#   - src/_ZN13dScMgFlower_c8BehaviorEv.cpp, vtable slot 6, the Behavior, dispatches a
+#   - src/actors/dScMgFlower_c.cpp, vtable slot 6, the Behavior, dispatches a
 #     PLAIN C `switch (self->unk_5fe8)` with cases 0 and 1. There is no
 #     `(c->*table[j])()` anywhere in it. The ROM agrees: 0212ad00 is
 #     `cmp r0,#0 / beq / cmp r0,#1 / beq / b default`, not the five-instruction
@@ -76,7 +76,7 @@
 #     FAULT c0000005 at eip 020c395c accessing 020c395c
 #       flw_beh (slot 6) -> _ZN13dScMgFlower_c8BehaviorEv -> func_ov006_020c3d18+0x23
 #
-# eip IS the DS address. src/func_ov006_020c3d18.cpp dispatches a member
+# eip IS the DS address. src/actors/unit020bfec0.cpp dispatches a member
 # pointer held in the SUB-OBJECT at self+0x51f8 -- and it does it by OPEN-CODING
 # the ARM Itanium sequence in plain ints, `*(int*)(c+4)` for the adjustment and
 # `c + (v >> 1)` for the this-adjustment, with no member-pointer type anywhere.
@@ -176,33 +176,17 @@
 # a closure probe or a link wave proved the image does not already carry.
 #
 # ---- the list ---------------------------------------------------------------
-src/Camera_UpdateMatrices.c
-src/_ZN9dThIcon_c8BehaviorEv.cpp
+src/actors/unit020bfec0.cpp
+src/actors/dThIcon_c.cpp
 # HOST-COPIED (mg5 lane FLW, under the coordinator's granted displacement
-# ruling): src/func_ov004_020ad8b8.c. It calls func_ov004_020adc3c with no
+# ruling): src/minigames/d_s_mg_base.cpp. It calls func_ov004_020adc3c with no
 # argument while the ROM rides the pointer loaded from data_ov004_020beb68
 # through r0, and the callee dereferences it on its first statement. Listing
 # the TU here alongside port/unmatched/MgFlower_InitScore.cpp would be an
 # LNK2005; the host copy is the definition. That file states the delta line by
 # line and carries the ROM disassembly it was derived from.
-src/func_ov004_020af770.cpp
-src/func_ov006_020c3528.cpp
-src/func_ov006_020c35a8.cpp
-src/func_ov006_020c35e8.c
-src/func_ov006_020c3754.c
-src/func_ov006_020c3884.c
-src/func_ov006_020c38ac.c
-src/func_ov006_020c38b0.c
-src/func_ov006_020c3904.c
-src/func_ov006_020c3908.c
-src/func_ov006_020c395c.c
-src/func_ov006_020c3990.c
-src/func_ov006_020c3ad8.c
-src/func_ov006_020c3adc.c
-src/func_ov006_020c3b2c.c
-src/func_ov006_020c3b80.c
-src/func_ov006_020c3bc8.c
-# HOST-COPIED (mg5 lane Y3D): src/func_ov006_020c3bf4.cpp. It draws the
+src/minigames/d_s_mg_base.cpp
+# HOST-COPIED (mg5 lane Y3D): src/actors/unit020bfec0.cpp. It draws the
 # class's 3D sub-object through a LOCAL SHADOW CLASS, so its `f5(0)` counts in
 # the ROM's vtable numbering (byte +0x14 = the sixth word = Render) while the
 # host's model vtables are MSVC-shaped, where that byte is Virtual18. The call
@@ -211,36 +195,23 @@ src/func_ov006_020c3bc8.c
 # minigame showed its 2D background and no models at all. See
 # port/unmatched/MgFlower_ModelRender_020c3bf4.cpp; it is the same defect
 # port/unmatched/Door_Render.cpp records on the same two classes.
-# HOST-COPIED (mg5 lane FLW): src/func_ov006_020c3d18.cpp. IT IS THE
+# HOST-COPIED (mg5 lane FLW): src/actors/unit020bfec0.cpp. IT IS THE
 # POINTER-TO-MEMBER WALL IN A FORM NEITHER THE LINK NOR THE `::*` SWEEP CAN
 # SEE -- it open-codes the ARM Itanium dispatch sequence in plain ints, so it
 # names no member-pointer type, emits no PMF global and links clean, and then
 # jumps to a raw DS address the first time it runs (eip 020c395c). See
 # port/unmatched/MgFlower_SubDispatch.cpp, which is the address switch and the
 # four measured code words. The header block above this list is amended for it.
-src/func_ov006_020c3d88.cpp
-src/func_ov006_020c3e54.c
-src/func_ov006_020c3e70.cpp
-src/func_ov006_020c3f54.cpp
-src/func_ov006_020c402c.c
 src/minigames/d_s_mg_single3_d_base.cpp
-src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
-src/_ZN13dScMgFlower_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN13dScMgFlower_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN13dScMgFlower_cD0Ev.cpp
-src/func_ov006_0212a650.c
-src/func_ov006_0212a654.c
+src/actors/dScMgSlots.cpp
+src/actors/dScMgFlower_c.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgFlower_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgFlower_c.cpp
 # Run mg5, lane INTEG: the petal-array layout, recovered on branch
 # decomp/yoshi-petal (NONMATCHING regperm floor). It had a config symbol but no
 # delink block and no src when the comment above was written; both exist now, so
 # the trap in port/hal/scene_mg_flower.cpp is removed and the real body links.
-src/func_ov006_0212a764.cpp
-src/_ZN13dScMgFlower_c13OnYoshiTryEatEi.cpp
-src/_ZN13dScMgFlower_c6RenderEv.cpp
-src/_ZN13dScMgFlower_c8BehaviorEv.cpp
-src/_ZN13dScMgFlower_c13InitResourcesEv.cpp
 src/d_s_mg_flower.cpp
-src/func_ov006_0212b88c.c
 
 # ---- the arm9 lines, and why there are only eight --------------------------
 #
@@ -255,7 +226,7 @@ src/func_ov006_0212b88c.c
 # these eight says "map defines 37496 symbols".
 #
 # Vec2_Sub and Vec2_Len are the two the Behavior uses for its petal-vs-cursor
-# distance test (the `Vec2_Len(&d) < 0x18000` in src/_ZN13dScMgFlower_c8BehaviorEv.cpp).
+# distance test (the `Vec2_Len(&d) < 0x18000` in src/actors/dScMgFlower_c.cpp).
 # Particle::SysTracker::~SysTracker is the one the destructor chain needs and
 # the one lane MGA's probe named for 0x169 as well.
 src/Vec2_Len.c

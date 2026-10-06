@@ -55,15 +55,9 @@
 # TextureTransformer, SharedFilePtr, Event, Sound and Particle::System are all
 # already in the walk_window link for other classes. Measured off the link.
 
-src/_ZN9TinyWaterD1Ev.cpp
+src/actors/daObjTtWater_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN9TinyWaterD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9TinyWaterD0Ev.cpp
-src/_ZN9TinyCover15OnGroundPoundedER8dActor_c.cpp
-src/_ZN9TinyWater16CleanupResourcesEv.cpp
-src/_ZN9TinyWater6RenderEv.cpp
-src/_ZN9TinyWater8BehaviorEv.cpp
-src/_ZN9TinyWater13InitResourcesEv.cpp
-src/d_a_obj_tt_futa.c
-src/d_a_obj_tt_water.c
+src/actors/daObjTtFuta_c.cpp
 src/__sinit_ov033_021119e8.c
 src/__sinit_ov033_02111a54.c

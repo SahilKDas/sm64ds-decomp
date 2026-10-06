@@ -74,7 +74,7 @@ int port_scene_on_heap_created(void *self)
    _ZN14dScMgCurling_c13InitResourcesEv), which is why the fill keys on the ROM word rather than
    on the slot index. */
 /* SLOT 0 IS CALLED AT C LINKAGE AND SLOT 3 AS A METHOD, and the asymmetry is
-   the ROM's rather than a slip. src/_ZN7fBase_c13InitResourcesEv.cpp is
+   the ROM's rather than a slip. src/actors/ActorBase.cpp is
    "deliberately defined WITHOUT including ActorBase.h" -- its own header block
    says so at length: InitResources is the first virtual declared in the class,
    which makes it CW 1.2's KEY FUNCTION, and a real method definition there

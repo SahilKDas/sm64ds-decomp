@@ -94,17 +94,17 @@
 #      ov065's OWN image as func_ov065_02115f84, size 0x6c. Eyerok's D0 at the
 #      same address is size 0xb8 -- a DIFFERENT body; the sizes alone settle
 #      it. Undefeated this calls a destructor on a live Snufit.
-#   2  hal/actor_classes_koopa_chuckya.cpp    src/func_ov062_02117acc.c
+#   2  hal/actor_classes_koopa_chuckya.cpp    src/game/actors/d_a_nknk.cpp
 #      _func_ov066_02118cdc=_func_ov062_02118cdc
-#   3  hal/actor_classes_koopa_chuckya.cpp    src/func_ov062_02117acc.c
+#   3  hal/actor_classes_koopa_chuckya.cpp    src/game/actors/d_a_nknk.cpp
 #      _func_ov066_02118a50=_func_ov062_02118a50
 #      -> one -D row carrying both, on the one caller TU (slice_gate182).
-#   4  hal/actor_classes_ov060.cpp:215        src/func_ov060_02111c68.c
+#   4  hal/actor_classes_ov060.cpp:215        src/actors/daKpa_c.cpp
 #      _data_ov066_0211ac20=_data_ov060_0211ac20
-#   5  hal/actor_classes_ov060.cpp:216        src/func_ov060_02111c68.c
+#   5  hal/actor_classes_ov060.cpp:216        src/actors/daKpa_c.cpp
 #      _data_ov066_0211ac68=_data_ov060_0211ac68
 #      -> one -D row carrying both, on the one caller TU (slice_w5e).
-#   6  hal/actor_classes_ov060.cpp:217        src/func_ov060_02112350.c
+#   6  hal/actor_classes_ov060.cpp:217        src/actors/daKpa_c.cpp
 #      _data_ov066_0211acd0=_data_ov060_0211acd0
 #      -> its own -D row (slice_w5e).
 #      4/5/6 are ov060's own bss cells at addresses ov066's mount now names as
@@ -120,7 +120,7 @@
 # what this lane is for.
 #
 # ==== TWO CLPS BLOCKS AND ONE MIS-RECOVERED NAME ===========================
-# src/func_ov066_021166c8.cpp spells THREE symbols nothing in the tree defines,
+# src/actors/Eyerok.cpp spells THREE symbols nothing in the tree defines,
 # and all three are settled off its own literal pool rather than by name:
 #
 #   func_02112cc8            pool 0x02116890 -> 0x02112cc8
@@ -187,38 +187,10 @@ src/func_02048ef4.c
 src/_ZN6EyerokD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN6EyerokD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN6EyerokD0Ev.cpp
-src/func_ov066_0211603c.c
-src/func_ov066_021162e8.c
-src/func_ov066_0211632c.c
-src/func_ov066_02116390.c
-src/func_ov066_021164ec.c
-src/func_ov066_021165cc.c
-src/func_ov066_021166c8.cpp
-src/func_ov066_021168b0.c
-src/func_ov066_021168ec.c
-src/func_ov066_02116a68.c
-src/func_ov066_02116ac4.c
-src/func_ov066_02116b78.c
-src/func_ov066_02116c6c.c
-src/func_ov066_02116d14.cpp
-src/func_ov066_02116db0.c
-src/func_ov066_02117190.c
-src/func_ov066_021171b0.c
-src/func_ov066_021175bc.c
-src/func_ov066_021175e8.c
-src/func_ov066_02117bd0.c
-src/func_ov066_02117bf0.c
-src/func_ov066_02118168.c
-src/func_ov066_02118188.c
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_ov066 host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/Eyerok.cpp
-src/_ZN6Eyerok13InitResourcesEv.cpp
-src/_ZN6Eyerok16OnAimedAtWithEggEv.cpp
-src/func_ov066_0211a2e4.c
-src/func_ov066_0211a35c.c
-src/d_a_iwante.cpp
 src/__sinit_ov066_0211a418.c

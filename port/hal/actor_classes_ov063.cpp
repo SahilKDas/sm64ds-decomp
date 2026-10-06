@@ -296,12 +296,12 @@ extern "C" void port_ov63_bringup(void)
        header block has the ROM pair values). The delta word stays the ROM's
        zero. */
     /* RUN link100, LANE FWD gate 2: MANSIONSTEPS' FOUR CELLS TAKE __fastcall
-       FACES. src/game/actors/daTrsTrap_c/_ZN11daTrsTrap_c8BehaviorEv.cpp
+       FACES. src/game/actors/daTrsTrap_c/d_a_trs_trap.cpp
        dispatches data_ov063_0211ef38 itself now that the host copy in
        port/unmatched/Bbh_PmfDispatch.c is retired, and a matched TU dispatches
        a pointer to member with the receiver in ecx and nothing pushed. The
        four LATER writes (0211ecd8/ece0/ece8/ecf0) feed the piano table, whose
-       dispatchers are src/unnamed/ov063/func_ov063_0211ddac.cpp and
+       dispatchers are src/game/actors/daPiano_c/d_a_piano.cpp and
        _0211ddf4.cpp -- lane PMF2 measured both as TAIL JUMPS, which leave the
        caller's own first argument at [esp+4], so those keep plain cdecl
        bodies. */
@@ -393,7 +393,7 @@ extern "C" void hal_fill_boo_vtable(void)
 // the actor_classes_star.cpp precedent -- NOT the Actor defaults the shared
 // fill would leave.
 //
-// Slot 16 is a HOST THUNK: src/game/actors/daTrsIcon_c/_ZN11daTrsIcon_cD1Ev.cpp is a real MSVC
+// Slot 16 is a HOST THUNK: src/actors/daTrs_c.cpp is a real MSVC
 // destructor (`BigBooIcon::~BigBooIcon() {}` over a virtual base) whose
 // auto-emitted base-dtor call would resolve to an MSVC name that does not
 // exist -- the HauntedChair hc_d1 case. The chain is what its matched D0
@@ -493,7 +493,7 @@ extern "C" void hal_fill_boo_cage_vtable(void)
 // the byte-verified host copy (port/unmatched/MansionSteps_InitResources.c);
 // slot 6 is the PMF-dispatching Behavior host copy (Bbh_PmfDispatch.c); 12
 // is the class's own empty OnPendingDestroy. Slot 16 is a HOST THUNK for the
-// same reason as BigBooIcon's: src/game/actors/daTrsTrap_c/_ZN11daTrsTrap_cD1Ev.cpp is a real MSVC
+// same reason as BigBooIcon's: src/game/actors/daTrsTrap_c/d_a_trs_trap.cpp is a real MSVC
 // destructor. The chain is its matched D0's, minus the Deallocate: restore
 // the table, MovingMeshCollider::~ (+0x15c), Model::~ (+0xd4), ActorD2.
 extern "C" {
@@ -781,7 +781,7 @@ extern "C" void _ZN11dCapEnemy_c12UpdateCapPosERK7Vector3RK10Vector3_16(
 //   213  BookSwitch       0x02114898   daBook_c_classInit_BOOK_SWITCH  _ZTV8BookShot
 //        (the record is UNNAMED in config -- g_profile_BOOK_SWITCH -- and its
 //        factory is the unnamed 0x021127f4, an Enemy ctor + five subobjects
-//        storing _ZTV8BookShot; src/BookSwitch_Spawn.c is a recovered-name
+//        storing _ZTV8BookShot; src/actors/daMoray_c.cpp is a recovered-name
 //        file that is NOT this factory -- it takes a pointer and writes two
 //        fields -- and stays out of the build)
 //   328  BookShotSpawner  0x0211487c   daBookGen_c_classInit  _ZTV15BookShotSpawner
@@ -1041,10 +1041,10 @@ int *_ZN6CoffinD1Ev(void *t);                   /* slot 16, matched .c */
 int *_ZN6CoffinD0Ev(void *t);                   /* slot 17, matched .c */
 void *daObjCasket_c_classInit(void);
 /* the four state bodies the re-seat installs (matched, on the slice) */
-void func_ov071_021223b0(char *c);   /* entry 0 pmf@0 <- src pair 0x02122e74 */
-void func_ov071_021221bc(char *c);   /* entry 0 pmf@8 <- 0x02122e8c */
-void func_ov071_02122194(char *c);   /* entry 1 pmf@0 <- 0x02122e84 */
-void func_ov071_021220c8(char *c);   /* entry 1 pmf@8 <- 0x02122e7c */
+void _ZN13daObjCasket_c12St_Wait_InitEv(char *c);   /* entry 0 pmf@0 <- src pair 0x02122e74 */
+void _ZN13daObjCasket_c12St_Wait_MainEv(char *c);   /* entry 0 pmf@8 <- 0x02122e8c */
+void _ZN13daObjCasket_c15St_StandUp_InitEv(char *c); /* entry 1 pmf@0 <- 0x02122e84 */
+void _ZN13daObjCasket_c15St_StandUp_MainEv(char *c); /* entry 1 pmf@8 <- 0x02122e7c */
 extern unsigned char data_ov071_02122ecc[];
 DSSTATE_BEGIN
 void *_ZTV6Coffin[32];
@@ -1076,12 +1076,12 @@ extern "C" void hal_fill_coffin_vtable(void)
     vt[17] = (void *)cf_d0;
     vt[31] = (void *)ov63_kill;
     /* the 20-byte-entry state-table re-seat (Bbh_PmfDispatch.c addendum 2) */
-    *(void *volatile *)(data_ov071_02122ecc + 0)  = (void *)func_ov071_021223b0;
+    *(void *volatile *)(data_ov071_02122ecc + 0)  = (void *)_ZN13daObjCasket_c12St_Wait_InitEv;
     *(int volatile *)(data_ov071_02122ecc + 4)   = 0;
-    *(void *volatile *)(data_ov071_02122ecc + 8)  = (void *)func_ov071_021221bc;
+    *(void *volatile *)(data_ov071_02122ecc + 8)  = (void *)_ZN13daObjCasket_c12St_Wait_MainEv;
     *(int volatile *)(data_ov071_02122ecc + 12)  = 0;
-    *(void *volatile *)(data_ov071_02122ecc + 20) = (void *)func_ov071_02122194;
+    *(void *volatile *)(data_ov071_02122ecc + 20) = (void *)_ZN13daObjCasket_c15St_StandUp_InitEv;
     *(int volatile *)(data_ov071_02122ecc + 24)  = 0;
-    *(void *volatile *)(data_ov071_02122ecc + 28) = (void *)func_ov071_021220c8;
+    *(void *volatile *)(data_ov071_02122ecc + 28) = (void *)_ZN13daObjCasket_c15St_StandUp_MainEv;
     *(int volatile *)(data_ov071_02122ecc + 32)  = 0;
 }

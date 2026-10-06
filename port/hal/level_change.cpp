@@ -1921,10 +1921,10 @@ extern "C" int port_scene_fade_pending(int *sceneId)
  * both are matched src in this tree:
  *
  *     Scene::SetSceneToSpawn(id, param)   data_02092664 = id
- *         src/_ZN8dScene_c15SetSceneToSpawnEjj.cpp
+ *         src/actors/dScene_c.cpp
  *     Scene::SpawnIfNecessary()           spawn the scene, THEN
  *                                         data_02092664 = 0x187
- *         src/_ZN8dScene_c16SpawnIfNecessaryEv.cpp
+ *         src/actors/dScene_c.cpp
  *
  * THE PORT RUNS THE FIRST HALF AND NOT THE SECOND. It has no spawner for the
  * ov003 scenes -- the long block above this one says why, at length: ov003's

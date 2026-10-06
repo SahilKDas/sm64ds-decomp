@@ -8,7 +8,7 @@
 // header for the full argument; what follows is this class's own evidence,
 // re-derived rather than inherited.
 //
-// src/_ZN16dScMgPachinko2_cD0Ev.cpp is a matched TU and reads, in full:
+// src/actors/dScMgPachinko2_c.cpp is a matched TU and reads, in full:
 //
 //     #include "decl_common.h"
 //     int *_ZN16dScMgPachinko2_cD0Ev(int *t)
@@ -69,7 +69,7 @@
 // slot identity"; the body is a D0 deleting destructor and slot 17 is where
 // the family keeps one.
 //
-// AND THE D2 SIBLING IS THE CROSS-CHECK. src/_ZN16dScMgPachinko2_cD1Ev.cpp, vtable
+// AND THE D2 SIBLING IS THE CROSS-CHECK. src/actors/dScMgPachinko2_c.cpp, vtable
 // slot 16, stores the SAME word and spells it by its real config symbol name
 // (`x[0] = (int)data_ov006_0213dbbc;`), so the resolution of VT here is
 // confirmed by a second matched TU as well as by the pool. That is also why

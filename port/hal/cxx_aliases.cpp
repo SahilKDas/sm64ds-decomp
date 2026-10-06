@@ -191,7 +191,7 @@ int func_01ff98f4(int a, int b)
 int func_01ff99a4(int a, int b)
 { float x, y; memcpy(&x, &a, 4); memcpy(&y, &b, 4); return x > y; }
 /* ---- THE SINGLE-PRECISION ADD/SUB PAIR ---------------------------------
-   run rel0215 lane prop17, first host callers: src/func_ov074_021204c0.c
+   run rel0215 lane prop17, first host callers: src/actors/daKuriKing_c.cpp
    (the Goomboss scale interpolation) calls both, and it is the only TU in
    either line that does.
 
@@ -1019,7 +1019,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    LHS an unresolved row of that link.
 
    THE FIRST ONE IS THE VTABLE, and it is a name bridge and not an address
-   change. main's 3739fdf78 gave src/d_a_obj_path_lift.cpp the imported table
+   change. main's 3739fdf78 gave src/game/actors/daObjPathLift_c.cpp the imported table
    by its Itanium name: `extern int _ZTV15daObjPathLift_c[];` and the store
    `*(int *)actor = (int)&_ZTV15daObjPathLift_c[0];`, addend ZERO, which is the
    correct spelling for a TU that IMPORTS its vtable. Declared in C++ at file
@@ -1211,7 +1211,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    is ov006's code -- while the byte the port needs at that address is ov002's
    Wait State object, emitted by ovdata.py as _data_ov002_02110154. The alias
    below binds the name its ov002 CALLER spells to the ov002 bytes it means.
-   src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp is a real matched TU of ov006's FUNCTION, and it
+   src/actors/dScMgSmartball_c.cpp is a real matched TU of ov006's FUNCTION, and it
    is a different object that happens to carry the same dsd-exported name. The
    queue pairs them by name, which is all a name can do. Linking that TU here
    would not replace this definition; it would collide with it, because in the
@@ -1319,7 +1319,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    link60 lane MG2 seats dScMgCurling_c, so ov006 IS an overlay the port runs
    now, and the real ov006 body at 0x020e3078 is in the link -- as
    port/unmatched/MgCurling_StateDispatch.cpp's host copy of
-   src/func_ov006_020e3078.cpp, which the pointer-to-member wall forced. With a
+   src/actors/dScMgCurling_c.cpp, which the pointer-to-member wall forced. With a
    real definition present the /alternatename went inert and
    port/tools/alternatename_guard.py failed the build on it by name, which is
    exactly the R1/R2 arrival shape that guard exists to catch. Deleting the
@@ -1327,7 +1327,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    because every ov006 caller now wants the ov006 body and every ov002 caller
    spells the ov002 name. port/ov006_player_map.txt section 4 recorded this
    alias as "the shared-window artifact again in a third form" and noted that
-   src/func_ov006_020e3078.cpp was not linked -- that note is now history.
+   src/actors/dScMgCurling_c.cpp was not linked -- that note is now history.
 
    THE ov007 SIBLING STAYS, but now for the two PLAYER TUs ONLY. Those
    (St_HurtWater_Main, St_WaitQuicksand_Main) spell the ov007 name for what is
@@ -1616,7 +1616,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
 #pragma comment(linker, "/alternatename:?G1@@3PAHA=_data_ov002_0210e05c")
 #pragma comment(linker, "/alternatename:_G0=_data_020a0eac")
 /* VT/HEAP, the other two shared-header placeholder names, settled the same
-   way for their ONE linked reader: src/_ZN12dEnemyBase_cD0Ev.cpp (the Enemy base
+   way for their ONE linked reader: src/actors/dEnemyBase_c.cpp (the Enemy base
    table's deleting destructor, seated by hal_fill_enemy_base_vtable). Its
    ROM relocs are the Enemy base vtable ov002 0x021081e4 for the vptr store
    and the 0x020a0eac game heap word for the Memory::Deallocate argument.
@@ -1631,10 +1631,10 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    pool names its own table, so bare VT would have stored the ov002 dEnemyBase_c base
    table into a minigame scene object. All three are exempted by a per-source -D
    in port/CMakeLists.txt onto their own table rather than by a change here, so
-   the row above keeps serving src/_ZN12dEnemyBase_cD0Ev.cpp untouched:
+   the row above keeps serving src/actors/dEnemyBase_c.cpp untouched:
      src/actors/dScMgLuigi_c.cpp  dScMgLuigi_c    -> data_ov006_0213cf10
-     src/_ZN14dScMgCurling_cD0Ev.cpp  dScMgCurling_c  -> data_ov006_0213c304
-     src/_ZN11dScMgCoin_cD0Ev.cpp  dScMgCoin_c     -> data_ov006_0213bf50
+     src/actors/dScMgCurling_c.cpp  dScMgCurling_c  -> data_ov006_0213c304
+     src/actors/dScMgCoin_c.cpp  dScMgCoin_c     -> data_ov006_0213bf50
    HEAP is renamed for none of them: all three pools hold 020A0EAC, which is
    the row below, so that binding is right for every reader it has.
 
@@ -1651,7 +1651,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    now discounts the three ways a TU can reuse a spelling without meaning the
    placeholder -- typedef, struct/union/enum tag, and #define -- and lists them
    as SHADOW rows rather than findings, so `struct VT` in
-   src/func_ov004_020b75e4.c and `#define G1` in src/func_ov007_020be0dc.c are
+   src/actors/dMgState_c.cpp and `#define G1` in src/func_ov007_020be0dc.c are
    no longer reported. What it still cannot see is who reaches the LINKER: it
    reports TUs that are in no target, and it can only ever discuss names it
    finds in source. Use the audit to decide whether a reader is WRONG; use the
@@ -1763,7 +1763,7 @@ extern "C" int _ZN9dBgCh_Gnd10DetectClsnEv(void *self)
    than re-pointed (Andrew's third review of PR #2474).
 
    The evidence, in the order it settles the question:
-     * src/_ZN12dEnemyBase_cC2Ev.cpp is in the slice (port/slice_gate16.txt:233) and
+     * src/actors/dEnemyBase_c.cpp is in the slice (port/slice_gate16.txt:233) and
        the link publishes __ZN12dEnemyBase_cC2Ev from its own object --
        walk_window.map: `0001:00110a20  __ZN12dEnemyBase_cC2Ev  _ZN12dEnemyBase_cC2Ev.cpp.obj`.
        An /alternatename only fires while its LHS is UNDEFINED, so with that
@@ -2290,7 +2290,7 @@ void Platform::KillByMegaChar(Player &player)
    second parameter-type spelling instead of a second declaring TU. */
 #pragma comment(linker, "/alternatename:__ZN5Actor5SpawnEjjRK7Vector3PK10Vector3_16as=__ZN8dActor_c5SpawnEjjRK7Vector3PK10Vector3_16as")
 /* run linkw wave 9, lane w9-harvest: the same shape, arrived by a different
-   road, and the road is the point. src/func_ov071_02120d30.c (harvested from
+   road, and the road is the point. src/actors/daEykn_c.cpp (harvested from
    main, port/slice_w9harvest.txt) calls Actor::UntrackAndSpawnStar spelled
    _ZN5Actor19UntrackAndSpawnStarERajRK7Vector3h -- `h`, unsigned char, for the
    fifth parameter. The port hosts _..._Vector3j (`j`, unsigned int), from
@@ -2395,7 +2395,7 @@ bool Player::TryGrab(dActor_c &actor)
 #pragma comment(linker, "/alternatename:_RockPillar_ModelFile=_data_ov016_02114e24")
 /* gate 194: the ov072_02122cac shape a third time. src/_ZN10HootTheOwl13
    InitResourcesEv.cpp declares data_ov094_02136b40 as `extern void*`
-   OUTSIDE any extern "C" block; src/func_ov094_021359d8.cpp (a state
+   OUTSIDE any extern "C" block; src/actors/daOwl_c.cpp (a state
    handler, plain matched src) declares data_ov094_02136ae8/02136af8 as
    `extern void**` and data_ov094_02136b30 as `extern void*`, also outside
    extern "C". All four are state cells the ov094 per-symbol mount already
@@ -3071,9 +3071,9 @@ DSSTATE_END
 #pragma comment(linker, "/alternatename:?CleanupResources@TtcRotatingCube@@QAEHXZ=?CleanupResources@TtcRotatingCube@@UAEHXZ")
 #pragma comment(linker, "/alternatename:?Behavior@TtcRotatingCube@@QAEHXZ=?Behavior@TtcRotatingCube@@UAEHXZ")
 #pragma comment(linker, "/alternatename:?Render@TtcRotatingCube@@QAEHXZ=?Render@TtcRotatingCube@@UAEHXZ")
-#pragma comment(linker, "/alternatename:?InitResources@TTC_MovingBar@@QAEHXZ=?InitResources@TTC_MovingBar@@UAEHXZ")
-#pragma comment(linker, "/alternatename:?CleanupResources@TTC_MovingBar@@QAEHXZ=?CleanupResources@TTC_MovingBar@@UAEHXZ")
-#pragma comment(linker, "/alternatename:?Render@TTC_MovingBar@@QAEHXZ=?Render@TTC_MovingBar@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?InitResources@daObjCtKaitendai_c@@QAEHXZ=?InitResources@daObjCtKaitendai_c@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?CleanupResources@daObjCtKaitendai_c@@QAEHXZ=?CleanupResources@daObjCtKaitendai_c@@UAEHXZ")
+#pragma comment(linker, "/alternatename:?Render@daObjCtKaitendai_c@@QAEHXZ=?Render@daObjCtKaitendai_c@@UAEHXZ")
 #pragma comment(linker, "/alternatename:?InitResources@TtcRotatingGear@@QAEHXZ=?InitResources@TtcRotatingGear@@UAEHXZ")
 #pragma comment(linker, "/alternatename:?CleanupResources@TtcRotatingGear@@QAEHXZ=?CleanupResources@TtcRotatingGear@@UAEHXZ")
 #pragma comment(linker, "/alternatename:?Render@TtcRotatingGear@@QAEHXZ=?Render@TtcRotatingGear@@UAEHXZ")
@@ -3442,8 +3442,8 @@ DSSTATE_END
 #pragma comment(linker, "/alternatename:_ROOT_HEAP_ARENA_ID=_data_020a0ea4")   /* 0x020a0ea4, os_arena.cpp */
 #pragma comment(linker, "/alternatename:_RotatingClockHand_ModelFile=_data_ov035_02112cb0")   /* 0x02112cb0, ov035_syms.c */
 #pragma comment(linker, "/alternatename:_Submarine_ModelFile=_data_ov026_02113ee4")   /* 0x02113ee4, ov026_syms.c */
-#pragma comment(linker, "/alternatename:_TTC_MovingBar_ClsnFile=_data_ov065_0211d90c")   /* 0x0211d90c, ov065_syms.c */
-#pragma comment(linker, "/alternatename:_TTC_MovingBar_ModelFile=_data_ov065_0211d904")   /* 0x0211d904, ov065_syms.c */
+#pragma comment(linker, "/alternatename:_daObjCtKaitendai_c_ClsnFile=_data_ov065_0211d90c")   /* 0x0211d90c, ov065_syms.c */
+#pragma comment(linker, "/alternatename:_daObjCtKaitendai_c_ModelFile=_data_ov065_0211d904")   /* 0x0211d904, ov065_syms.c */
 #pragma comment(linker, "/alternatename:_daObjBC_Switch_c_ClsnFile=_data_ov002_02110ac4")   /* 0x02110ac4, ov002_data.c */
 #pragma comment(linker, "/alternatename:_daObjBC_Switch_c_ModelFile=_data_ov002_02110acc")   /* 0x02110acc, ov002_data.c */
 #pragma comment(linker, "/alternatename:_daObjIceBoard_c_ClsnFile=_data_ov018_02113c7c")   /* 0x02113c7c, ov018_syms.c */
@@ -3552,7 +3552,7 @@ DSSTATE_END
  * /alternatename does not chain.
  *
  * WHAT REFERENCES THEM: the ROM's own factory for each class, spelled
- * `p[0] = (int)_ZTV10SlidingBox;` in src/d_a_slide_box.c and the like. So
+ * `p[0] = (int)_ZTV10SlidingBox;` in src/actors/daSlide_Box_c.cpp and the like. So
  * the count these close is the ROM's own reference graph reaching the
  * port's table. Those factories spell the table with NO addend, which is
  * the port's vptr address point (table + 0, the VPTR ruling);
@@ -3562,11 +3562,11 @@ DSSTATE_END
 /* ov002 0x0210c2c8, 18 words. hal/sub_actors.cpp defines the storage as
    _ZTV8dMeter_c and says so itself ("vtspan: _ZTV3HUD"): dMeter_c is the
    name the matched constructor writes and _ZTV3HUD the config name.
-   src/d_meter.cpp stores it as the HUD's vptr. */
+   src/actors/dMeter_c.cpp stores it as the HUD's vptr. */
 #pragma comment(linker, "/alternatename:__ZTV3HUD=__ZTV8dMeter_c")
 
 /* ov002 0x0210c1c0, 18 words. Same file, same statement ("vtspan:
-   _ZTV7Minimap"); src/d_map.cpp stores it as the Minimap's vptr. */
+   _ZTV7Minimap"); src/actors/dMap_c.cpp stores it as the Minimap's vptr. */
 #pragma comment(linker, "/alternatename:__ZTV7Minimap=__ZTV6dMap_c")
 
 /* ov002 0x0210b0ec, 31 words. The address's other ROM name is
@@ -3607,7 +3607,7 @@ DSSTATE_END
 
 /* ov015 0x02114650, 32 words. Other ROM name _ZTV14daObjBk_Lift_c, aliased
    onto _ZTV14MovingBarSmall[32] at hal/actor_classes_wf.cpp:294. */
-#pragma comment(linker, "/alternatename:__ZTV9TowerStep=__ZTV14MovingBarSmall")
+#pragma comment(linker, "/alternatename:__ZTV9daObjBk_Lift_c=__ZTV14MovingBarSmall")
 
 /* ov016 0x02114c8c, 32 words. Other ROM name _ZTV13daSlide_Box_c, aliased
    onto _ZTV23FloatOnWaterPlatformJrb[37] at hal/actor_classes_jrb.cpp:223. */
@@ -3731,7 +3731,6 @@ DSSTATE_END
    ("ROM from:0x0208e87c -> 0x02017120 is ModelBase's D1"). The one
    reference left is port/unmatched/ModelFamily_Dtors_HostCopy.c inside
    _ZN11CommonModelD0Ev, which still spells the pre-sync name. */
-#pragma comment(linker, "/alternatename:_data_0208e87c=__ZTV9ModelBase")
 
 /* port_trap36_states is the port's own five-entry pointer-to-member table
    (hal/actor_classes_ov010.cpp:185), defined at C++ LINKAGE, while the TU

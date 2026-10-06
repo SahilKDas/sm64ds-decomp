@@ -39,12 +39,7 @@
 # not an /alternatename, because ov056 is a live target on this board and an
 # alias with an ov056 LHS would be defeated the day ov056 is mounted.
 src/game/actors/d_a_obj_emm_log.cpp
-src/d_a_obj_emm_yuka.c
-src/_ZN14SquarePathLift13InitResourcesEv.cpp
-src/_ZN14SquarePathLift16CleanupResourcesEv.cpp
-src/_ZN14SquarePathLift8BehaviorEv.cpp
-src/_ZN14SquarePathLift6RenderEv.cpp
-src/_ZN14SquarePathLiftD1Ev.cpp
+src/actors/daObjEmmYuka_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN14SquarePathLiftD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN14SquarePathLiftD0Ev.cpp
 src/__sinit_ov052_02111b64.c

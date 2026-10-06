@@ -14,7 +14,7 @@
  * include/private/disp_obj_vtbl.h declares the smartball sub-object's two
  * virtuals as ordinary C++ members. On MSVC an ordinary member is __thiscall,
  * so `p->f1()` puts the receiver in ECX. EVERY OTHER DISPATCH THROUGH THE SAME
- * TWELVE VTABLES IN THIS BINARY IS CDECL: src/_ZN16dScMgSmartball_c8BehaviorEv.cpp, the
+ * TWELVE VTABLES IN THIS BINARY IS CDECL: src/actors/dScMgSmartball_c.cpp, the
  * class's own Behavior, declares `typedef void (*VFunc)(void*)` and makes
  * twelve `(**(VFunc**)o)(o)` calls, which push the receiver. A vtable cannot
  * hold both shapes at once, so the port picks the majority and makes the odd
@@ -50,7 +50,7 @@
  * eight bytes of divergence, four from the vfptr and four from the padding.
  *
  * IT COSTS THE PORT NOTHING, and that is the point of shadowing it rather than
- * fighting it. src/_ZN16dScMgSmartball_c6RenderEv.cpp opens with
+ * fighting it. src/actors/dScMgSmartball_c.cpp opens with
  * `char *g = (char *)this;` and reaches every field it touches as a raw offset
  * off g. `this` is the object address under either ABI, so every one of those
  * offsets is right on the host; not one member of this class is named. The
@@ -79,9 +79,25 @@ struct DispObj {
 #define DSCMGSMARTBALL_C_H
 #include "dScMgBase_c.h"
 struct dScMgSmartball_c : dScMgBase_c {
+    virtual ~dScMgSmartball_c();
+    virtual void OnYoshiTryEat(int arg);        /* slot 18 */
+    virtual int  OnPushed();                    /* slot 25 */
+    virtual int  Virtual7C();                   /* slot 31 */
+    s32  InitResources();                       /* slot  0 */
     void AfterCleanupResources(u32 vfSuccess);  /* slot  5 */
     s32  Behavior();                            /* slot  6 */
     s32  Render();                              /* slot  9 */
+
+    /* Tango's promoted TU now names the four constructor/destructor arrays.
+       Keep their ROM-relative layout in the host shadow while continuing to
+       omit the target-only sizeof assertion. */
+    u8 pad_4660[0x168];
+    u8 mArray1[0x28];
+    u8 pad_47f0[0x64];
+    u8 mArray2[0x80];
+    u8 mArray3[0x80];
+    u8 pad_4954[0x1048];
+    u8 mArray4[0x900];
 };
 
 #endif

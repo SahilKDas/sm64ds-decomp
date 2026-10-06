@@ -99,7 +99,7 @@
 //
 //   src/_ZN6Number6RenderEv.cpp  struct Obj { v0..v4; m(int); }
 //       no destructor -> MSVC counts m at 5, mwcc counts it at 5. Same slot.
-//   src/game/actors/WingFeather/_ZN11WingFeather6RenderEv.cpp      struct Sub { ~Sub(); a; b; c; f4; }
+//   src/game/actors/daFeather_c/daFeather_c.cpp      struct Sub { ~Sub(); a; b; c; f4; }
 //       a VIRTUAL DESTRUCTOR -> MSVC folds D1/D0 into one and counts f4 at 4,
 //       while mwcc counts it at 5. One slot low against the ROM.
 //

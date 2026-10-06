@@ -14,7 +14,7 @@
  * sibling at 0x0213b270 reads "18dScMgTrmpln3DMario_c".  The Marios on the
  * trampoline are their own class with their own state machine.
  *
- * AND IT IS INVISIBLE TO BOTH PRESCRIBED DETECTORS.  src/func_ov006_020c8f20.cpp
+ * AND IT IS INVISIBLE TO BOTH PRESCRIBED DETECTORS.  src/actors/dMgTrmpln2Mario_c.cpp
  * spells the decode in PLAIN INTS --
  *
  *     typedef void (*PMF)(void*);
@@ -46,12 +46,12 @@
  * read off the .data rather than guessed.  Every writer this lane found copies
  * a named mwcc pair or an already-loaded pair:
  *
- *     src/func_ov006_020ca374.c   *(S2*)(o+0x70)   = data_ov006_0213b124
- *     src/func_ov006_020ca2ec.c   *(S8*)(o+0x70)   = data_ov006_0213b134
- *     src/func_ov006_020c9e7c.c   *(Vec2i*)(o+0x70)= data_ov006_0213b16c
- *     src/func_ov006_020c9098.cpp   from data_ov006_0213b114
- *     src/func_ov006_020c9c8c.cpp   from data_ov006_0213b194
- *     src/func_ov006_020c94e0.cpp from data_ov006_0213b1ec
+ *     src/actors/dMgTrmpln2Mario_c.cpp   *(S2*)(o+0x70)   = data_ov006_0213b124
+ *     src/actors/dMgTrmpln2Mario_c.cpp   *(S8*)(o+0x70)   = data_ov006_0213b134
+ *     src/actors/dMgTrmpln2Mario_c.cpp   *(Vec2i*)(o+0x70)= data_ov006_0213b16c
+ *     src/actors/dMgTrmpln2Mario_c.cpp   from data_ov006_0213b114
+ *     src/actors/dMgTrmpln2Mario_c.cpp   from data_ov006_0213b194
+ *     src/actors/dMgTrmpln2Mario_c.cpp from data_ov006_0213b1ec
  *
  * and every one of those symbols sits inside ONE CONTIGUOUS RUN of {code, 0}
  * pairs in ov006's .data, 0x0213b0f4 .. 0x0213b228, read out of
@@ -75,7 +75,7 @@
  *
  * ---- 3. THE STORED PAIR IS NOT REWRITTEN ---------------------------------
  *
- * The seat routes at the DISPATCH SITE.  src/func_ov006_020c94e0.cpp compares
+ * The seat routes at the DISPATCH SITE.  src/actors/dMgTrmpln2Mario_c.cpp compares
  * the stored words by VALUE (`if (s[0] != q[0] || (s[1] != q[1] && ...))`), so
  * writing host addresses over the .data pairs -- the ov085/ov100 treatment --
  * would leave that comparison permanently false while the dispatch itself
@@ -88,7 +88,7 @@
  * (`System* System::New(...);` and `void Animation::Advance();` repeated after
  * the structs that already declare them) are dropped, and the five-line decode
  * is replaced by the routed call.  Every other statement, offset and constant
- * is src's, in src's order.  src/func_ov006_020c8f20.cpp is OUT of
+ * is src's, in src's order.  src/actors/dMgTrmpln2Mario_c.cpp is OUT of
  * port/slice_tte.txt: listing it would be an LNK2005 against this definition.
  * A hostgen MEMBER_REDECL entry
  * for that file would have been the alternative and was tried first; the host
@@ -127,7 +127,7 @@ void func_ov006_020cc9b8(void *o);
 void func_ov006_020ccae0(void *o);
 void func_ov006_020ccd64(void *o);
 
-/* src/func_ov006_020c8f20.cpp's own callees, spelled as that file spells them */
+/* src/actors/dMgTrmpln2Mario_c.cpp's own callees, spelled as that file spells them */
 void func_ov006_020c9024(char *o);
 void func_ov006_020c8ecc(char *o);
 extern int data_ov006_0214059c;
@@ -136,7 +136,7 @@ void func_ov006_020c8f20(char *o);
 
 }  /* extern "C" */
 
-/* The two names src/func_ov006_020c8f20.cpp reaches through local structs.  The
+/* The two names src/actors/dMgTrmpln2Mario_c.cpp reaches through local structs.  The
    Faces file carries the /alternatename rows that make both reachable; here
    they are declared with the same local shapes that file uses so the emitted
    call surface is identical. */

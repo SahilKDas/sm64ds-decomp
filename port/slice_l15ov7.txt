@@ -25,7 +25,7 @@
 # the row flips F -> R, so facegen defines the flat name as a wrapper onto the
 # matched member instead, and the matched TU alone defines the decorated one.
 # Evidence in port/unmatched/Tornado_HostSites.cpp section (3).
-src/_ZN7Tornado8BehaviorEv.cpp
+src/actors/daTor_c.cpp
 # Tornado::State1, ov096 0x02137088, 568 bytes. Old banner: MSVC C2733, the
 # TU's own `extern "C"` declaration against include/decl_common.h:2928's
 # `extern void _ZN7Tornado6State1Ev(void);`. STALE BOTH WAYS: decl_common.h
@@ -34,7 +34,6 @@ src/_ZN7Tornado8BehaviorEv.cpp
 # declares func_ov002_020de328 itself at :7 and calls UpdateSpin as a member at
 # :80 -- the second reason the old banner named. Reached as a member call from
 # the seated Tornado::Behavior, so it needs no face.
-src/_ZN7Tornado6State1Ev.cpp
 #
 # ---- ov007 SCENE 1, the title and file-select route, 2 rows --------------
 # func_ov007_020add3c, ov007 0x020add3c, 216 bytes. Old banner: "the matched

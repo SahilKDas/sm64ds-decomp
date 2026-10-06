@@ -45,7 +45,7 @@
 # The cameraman on the bridge. His Behavior reads the live Camera -- the one
 # gate 13 hosted -- and places himself relative to it, which is why he can be
 # tried at all rather than deferred with the rest of the cutscene actors.
-src/d_a_c_jugem.c
+src/game/actors/d_a_c_jugem.cpp
 # _ZN9LakituBro13InitResourcesEv: HOST COPY at unmatched/TexSeq_Caller_LakituBro.cpp
 # (wired in CMakeLists). Its TextureSequence::Prepare call passes two arguments; the
 # host wrapper reshapes them into a 3-param thiscall and derefs an unwritten third
@@ -55,8 +55,6 @@ src/d_a_c_jugem.c
 # over an incomplete class as the four-word general representation -- the
 # gate-16 case for the third time. Host copy plus the state seat in
 # port/unmatched/LakituBro_Behavior.cpp.
-src/_ZN9LakituBro16CleanupResourcesEv.cpp
-src/_ZN9LakituBro16OnPendingDestroyEv.cpp
 
 # ---- the overlay's own static initialisers --------------------------------
 # Six sinits. Every SharedFilePtr the two classes load through is constructed
@@ -108,34 +106,22 @@ src/__sinit_ov085_0212fdb0.c
 # set save bit re-entered and stuck the caught dialog on a re-talk. Registered in
 # hal/actor_classes.inc (id 229), vtable fill hal/actor_classes.cpp, three faces in
 # hal/method_faces.cpp. Every callee below is a matched TU; no host copy needed.
-src/d_a_obj_mip_key.c
-src/_ZN9RabbitKey13InitResourcesEv.cpp
-src/_ZN9RabbitKey8BehaviorEv.cpp
-# _ZN9RabbitKey6RenderEv is NOT here: the third ov085 render host copy
+src/actors/daObj_Mip_Key_c.cpp
+# _ZN15daObj_Mip_Key_c6RenderEv is NOT here: the third ov085 render host copy
 # (port/unmatched/Ov085_Renders.cpp). Its shadow-struct Model slot-5 dispatch
 # is a cdecl call into the __fastcall mv_render -- garbage `this` in ECX,
 # measured as a frame-1 DEP fault on the spawn-assisted key.
-src/_ZN9RabbitKey16CleanupResourcesEv.cpp
-src/_ZN9RabbitKey16OnPendingDestroyEv.cpp
-src/_ZN9RabbitKeyD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN9RabbitKeyD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9RabbitKeyD0Ev.cpp
 # the state machine: d268 is the PMF dispatcher, d038 the caught entry (save bit +
 # cutscene), cd80 the main (DisplaySaving/StartMinigameMenu/EndTalk), cd0c the
 # talk-teardown, d108 the approach-then-caught, d24c a small setter, d2b8 the
 # shadow/matrix helper, e480 the Kill.
-src/func_ov085_0212cd0c.cpp
-src/func_ov085_0212cd80.c
-src/func_ov085_0212d038.c
-src/func_ov085_0212d108.c
-src/func_ov085_0212d24c.c
 # func_ov085_0212d268 is NOT here: the seat-and-enter's real MSVC
 # pointer-to-member call is the gate-16 case (a PMF over an incomplete class is
 # the four-word general representation, reading sixteen bytes from the ROM's
 # eight-byte pair and dispatching thiscall at cdecl hosts). Host copy with the
 # dispatch hand-rolled: port/unmatched/RabbitKey_StateSeat.cpp (CMakeLists).
-src/func_ov085_0212d2b8.cpp
-src/func_ov085_0212e480.c
 # the save/menu ring the grant reaches: the caught-bit writer and its companion,
 # the minigame-menu entry, and a save-side counter. func_02012790 (the sound this
 # path also calls) is already compiled in slice_gate10.
@@ -149,7 +135,6 @@ src/func_02013944.c
 # state machine twice the rabbit's -- twenty-two bodies, all of them matched.
 # His states are why he is here at all: they call Camera::SetPos and
 # Camera::SetLookAt, so the cameraman drives the real Camera gate 13 hosted.
-src/_ZN9LakituBroD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN9LakituBroD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9LakituBroD0Ev.cpp
 # func_ov085_0212d5dc: HOST COPY at unmatched/Ov085_LakituBro_IntroEnd.cpp.
@@ -158,10 +143,7 @@ src/_ZN9LakituBroD1Ev.cpp
 # r0-passthrough as its four siblings below, and already frozen in
 # tools/aritycheck_plainfunc_baseline.txt. Latent until now because the state is
 # only reachable with the intro bit CLEAR. (run lvled, lane intro-cutscene)
-# src/func_ov085_0212d5dc.cpp
-src/func_ov085_0212d724.c
-src/func_ov085_0212d73c.c
-src/func_ov085_0212d8ec.c
+# src/game/actors/d_a_c_jugem.cpp
 # LakituBro r0-passthrough set: func_ov085_0212d9b8/dd10/e310/e4a4 each call
 # Actor::ClosestPlayer() with no argument (this rode ARM r0). HOST COPIES pass the
 # state body's own receiver at port/unmatched/Ov085_LakituBro_ClosestPlayer.cpp.
@@ -169,26 +151,6 @@ src/func_ov085_0212d8ec.c
 # RETIRED by run link100 wave 15 lane SEAT15B (LINK15 BATCH 1): all four matched
 # sources now PASS the ClosestPlayer receiver, so the host copies had nothing left
 # to work around and Ov085_LakituBro_ClosestPlayer.cpp is deleted.
-src/func_ov085_0212d9b8.c
-src/func_ov085_0212db04.cpp
-src/func_ov085_0212dbdc.c
-src/func_ov085_0212dcfc.c
-src/func_ov085_0212dd10.cpp
-src/func_ov085_0212ddc4.cpp
-src/func_ov085_0212de5c.cpp
-src/func_ov085_0212df84.cpp
-src/func_ov085_0212e078.cpp
-src/func_ov085_0212e180.c
-src/func_ov085_0212e19c.c
-src/func_ov085_0212e2ec.c
-src/func_ov085_0212e310.cpp
-src/func_ov085_0212e4a4.c
-src/func_ov085_0212e59c.c
-src/func_ov085_0212e5ac.c
-src/func_ov085_0212e720.c
-src/func_ov085_0212e728.cpp
-src/func_ov085_0212e778.cpp
-src/func_ov085_0212e858.c
 
 # ---- the engine ring the two classes close over ----------------------------
 # The rabbit's catch path reaches Message and the save block (PrepareTalk

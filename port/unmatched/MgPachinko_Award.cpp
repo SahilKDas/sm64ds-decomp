@@ -60,11 +60,11 @@
  *     020fb8d4  bl   0x20fbb2c
  *
  * One ldrh does two jobs -- the test and the third argument -- which is free on
- * ARM and unspellable in C. src/func_ov006_020fb7e0.c therefore declares
+ * ARM and unspellable in C. src/actors/dScMgPachinko_c.cpp therefore declares
  *
  *     extern void func_ov006_020fbb2c(char *c, int idx);
  *
- * and calls it with two arguments, while src/func_ov006_020fbb2c.c defines
+ * and calls it with two arguments, while src/actors/dScMgPachinko_c.cpp defines
  *
  *     void func_ov006_020fbb2c(char *c, int idx, unsigned short val)
  *
@@ -74,8 +74,8 @@
  * independently and without reading a line of the disassembly:
  *
  *     {"sym":"func_ov006_020fbb2c","def_n":3,
- *      "def_file":"src/func_ov006_020fbb2c.c","def_line":4,"decl_n":2,
- *      "decl_file":"src/func_ov006_020fb7e0.c","decl_line":7,"kind":"DROPS"}
+ *      "def_file":"src/actors/dScMgPachinko_c.cpp","def_line":4,"decl_n":2,
+ *      "decl_file":"src/actors/dScMgPachinko_c.cpp","decl_line":7,"kind":"DROPS"}
  *
  * WHAT IT COST BEFORE THIS FILE, measured rather than reasoned about. The
  * award-delivery self-check in hal/scene_mg.cpp drives both functions on a
@@ -92,7 +92,7 @@
  * ---- THE DELTA FROM src, LINE BY LINE ------------------------------------
  *
  * Per the port/unmatched/MgBase_DeclConflict.cpp precedent, the body below is
- * src/func_ov006_020fb7e0.c verbatim except:
+ * src/actors/dScMgPachinko_c.cpp verbatim except:
  *
  *   1. the declaration of the callee takes the parameters its DEFINITION takes
  *          src:   extern void func_ov006_020fbb2c(char *c, int idx);
@@ -111,11 +111,11 @@
  * touch the display. It delivers the ROM's own number to the ROM's own setter
  * and lets the ROM's own cap decide what to do with it.
  *
- * THIS FILE REPLACES src/func_ov006_020fb7e0.c rather than joining it, and that
+ * THIS FILE REPLACES src/actors/dScMgPachinko_c.cpp rather than joining it, and that
  * TU is out of port/slice_pch.txt for that reason. src/ and include/ are
  * untouched; the byte gate never sees this file.
  *
- * src/func_ov006_020fb7e0.c is NONMATCHING (its own banner says so, div=18), so
+ * src/actors/dScMgPachinko_c.cpp is NONMATCHING (its own banner says so, div=18), so
  * nothing is lost from the matched count by taking it out of the port's build.
  */
 typedef unsigned char u8;

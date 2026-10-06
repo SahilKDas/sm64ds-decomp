@@ -2,7 +2,7 @@
  * RETIRED -- THIS FILE IS NOT IN ANY BUILD. Run link100 wave 15, lane ESP3D,
  * off LINK15 BATCH 3 / lane SEAT15D's out/SEAT15D/bugs.md section 2. The
  * THE DECOMP-SIDE FIX IS ROUTED, NOT TAKEN paragraph below asked for exactly
- * this: src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp now names
+ * this: src/actors/dMg3DEspAnimSet_c.cpp now names
  * data_ov006_02141e9c and data_ov006_02141e74 directly (declared as the real
  * SharedFilePtr type, not through decl_common.h's G0/G1 placeholders), so the
  * LNK2005 this banner describes no longer applies to the args -- it applies
@@ -33,7 +33,7 @@
  *
  * ---- WHAT src SAYS -------------------------------------------------------
  *
- *     extern int G0[];                       // src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp
+ *     extern int G0[];                       // src/actors/dMg3DEspAnimSet_c.cpp
  *     _ZN13SharedFilePtr7ReleaseEv(G0);
  *     _ZN13SharedFilePtr7ReleaseEv(G1);      // G1 comes from decl_common.h
  *     return 1;
@@ -88,7 +88,7 @@
  *
  * ---- THE DELTA FROM src, line by line ------------------------------------
  *
- * The body below is src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp verbatim except:
+ * The body below is src/actors/dMg3DEspAnimSet_c.cpp verbatim except:
  *
  *   1. the `extern int G0[];` declaration is gone and decl_common.h is not
  *      included, so G1 does not arrive either;
@@ -96,7 +96,7 @@
  *
  * Nothing else. Two releases in the ROM's order and `return 1`.
  *
- * src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp is therefore OUT of port/slice_psy.txt: listing it
+ * src/actors/dMg3DEspAnimSet_c.cpp is therefore OUT of port/slice_psy.txt: listing it
  * beside this file would be an LNK2005 on _ZN12dScMg3DEsp_c16CleanupResourcesEv.
  *
  * THE DECOMP-SIDE FIX IS ROUTED, NOT TAKEN. The src TU should name
@@ -105,7 +105,7 @@
  * a byte-gated-tree question this lane does not answer.
  */
 
-/* THE BODY LIVES IN src/_ZN12dScMg3DEsp_c16CleanupResourcesEv.cpp, on
+/* THE BODY LIVES IN src/actors/dMg3DEspAnimSet_c.cpp, on
    port/slice_l15mg.txt, and is reached by the GENERATED REVERSE FACE now
    that port/faces_sync.txt's row for this symbol reads R. It declares
    data_ov006_02141e9c and data_ov006_02141e74 as the real SharedFilePtr type

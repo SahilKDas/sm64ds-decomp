@@ -80,7 +80,7 @@
 // src/actors/dScMgD3DBase_c.cpp declares `extern int func_020beb74[];` and reads
 // it.  There is no func_020beb74 in any config: the address 0x020beb74 is
 // ov004's data_ov004_020beb74, a bss symbol.  This is the same defect class as
-// src/_ZN14dScMgCurling_c13InitResourcesEv.cpp's bare `func_020adc74` (port/mg_fanout_costs.txt
+// src/actors/dScMgCurling_c.cpp's bare `func_020adc74` (port/mg_fanout_costs.txt
 // section 6) and unmatched/MgCoin_Faces.cpp's `func_020beb68` -- a DATA symbol
 // spelled with the func_ prefix, which no linker can be expected to guess.
 //
@@ -112,7 +112,7 @@
 // underscore is MSVC's cdecl decoration, so the right-hand sides are the
 // Itanium names with one more underscore.
 //
-//   src/func_ov006_020c6e4c.cpp calls Animation::LoadFile and ModelAnim::
+//   src/actors/dMg3DHeyhoObjAdapter_c.cpp calls Animation::LoadFile and ModelAnim::
 //   SetAnim as METHODS.  src/_ZN9Animation8LoadFileER13SharedFilePtr.cpp and
 //   src/_ZN9ModelAnim7SetAnimEP8BCA_Filei5Fix12IiEj.c define both, and the
 //   second is already in port/slice_gate7.txt, so nothing new is linked.
@@ -121,7 +121,7 @@
 //   `Scene_AfterRender`, which include/decl_common.h declares as
 //   `void(void*, unsigned int)` and which exists in no config.  The address is
 //   0x0202e398 -- dScMgBase_c's own slot 11 in the base table -- and
-//   src/_ZN8dScene_c11AfterRenderEj.cpp is that body, already in
+//   src/actors/dScene_c.cpp is that body, already in
 //   port/slice_w1l2.txt.  IT IS AN ARM TAIL VENEER, spelled in src as
 //   `void(void)` calling _ZN7fBase_c11AfterRenderEj, which is why the arity
 //   difference is safe rather than the dropped-receiver defect
@@ -210,7 +210,7 @@ int ModelAnimFace::SetAnim(BCA_File *animFile, int flags, int speed,
 // accounting.
 //
 // AMENDED, run mg12 lane PANEL: that body now HAS a src file and is NOT trapped.
-// src/func_ov004_020ae858.cpp is the results panel's label renderer, seated off
+// src/minigames/d_s_mg_base.cpp is the results panel's label renderer, seated off
 // port/slice_mg1.txt; the closure statement above is otherwise unchanged.
 
 /* MSVC emits nothing for a TU that is only pragmas, and an empty object still

@@ -12,22 +12,22 @@
 #include <stdlib.h>
 
 #include "fBase_c.h"
-#include "ArrowSignRight.h"
+#include "daObjYajirusi_c.h"
 #include "dsstate_seg.h"
 
-// The lifecycle definitions are MSVC methods (ArrowSignRight.h/fBase_c.h
+// The lifecycle definitions are MSVC methods (daObjYajirusi_c.h/fBase_c.h
 // real classes); InitResources alone is a C-named free function. Every shim
 // calls QUALIFIED -- never virtual.
-extern "C" int _ZN14ArrowSignRight13InitResourcesEv(char *self);
+extern "C" int _ZN15daObjYajirusi_c13InitResourcesEv(char *self);
 
 static int __fastcall sl_init(void *self, void *)
-{ return _ZN14ArrowSignRight13InitResourcesEv((char *)self); }
+{ return _ZN15daObjYajirusi_c13InitResourcesEv((char *)self); }
 static int __fastcall sl_cleanup(void *self, void *)
-{ return ((ArrowSignRight *)self)->ArrowSignRight::CleanupResources(); }
+{ return ((daObjYajirusi_c *)self)->daObjYajirusi_c::CleanupResources(); }
 static int __fastcall sl_behavior(void *self, void *)
-{ return ((ArrowSignRight *)self)->ArrowSignRight::Behavior(); }
+{ return ((daObjYajirusi_c *)self)->daObjYajirusi_c::Behavior(); }
 static int __fastcall sl_render(void *self, void *)
-{ return ((ArrowSignRight *)self)->ArrowSignRight::Render(); }
+{ return ((daObjYajirusi_c *)self)->daObjYajirusi_c::Render(); }
 static int __fastcall sl_binit(void *self, void *)
 { return ((fBase_c *)self)->fBase_c::BeforeInitResources(); }
 static void __fastcall sl_ainit(void *self, void *, u32 a)
@@ -51,10 +51,10 @@ static int __fastcall sl_heap(void *self, void *)
 
 #define ATRAP(n) \
     static void __fastcall a_trap##n(void *, void *) { \
-        fprintf(stderr, "FATAL: ArrowSignRight vtable slot %d trap\n", n); \
+        fprintf(stderr, "FATAL: daObjYajirusi_c vtable slot %d trap\n", n); \
         abort(); }
 ATRAP(13) ATRAP(14) ATRAP(16) ATRAP(17)
-/* The interaction tail. _ZTV14ArrowSignRight is a 32-slot Platform table in
+/* The interaction tail. _ZTV15daObjYajirusi_c is a 32-slot Platform table in
    the ROM (ov098 0x0213c3d8; the next-symbol bound reads 23 and is wrong),
    and this array was [20], so a tail dispatch read past the end. The registry
    fill in hal/actor_classes_bob_world.cpp writes real bodies over 18..31 for
@@ -63,7 +63,7 @@ ATRAP(13) ATRAP(14) ATRAP(16) ATRAP(17)
 ATRAP(18) ATRAP(19) ATRAP(20) ATRAP(21) ATRAP(22) ATRAP(23) ATRAP(24)
 ATRAP(25) ATRAP(26) ATRAP(27) ATRAP(28) ATRAP(29) ATRAP(30) ATRAP(31)
 
-extern "C" void *_ZTV14ArrowSignRight[32] = {
+extern "C" void *_ZTV15daObjYajirusi_c[32] = {
     (void *)sl_init,     /* 0  InitResources */
     (void *)sl_binit,    /* 1  BeforeInitResources */
     (void *)sl_ainit,    /* 2  AfterInitResources */
@@ -111,7 +111,7 @@ void *data_0208e3a4[31];
 }
 
 // ---- fBase_c::fBase_c() transcription ---------------------------------
-// The ROM ctor is a hand-asm block (src/_ZN7fBase_cC2Ev.cpp); this is its
+// The ROM ctor is a hand-asm block (src/actors/ActorBase.cpp); this is its
 // C transcription, field for field against the disassembly there. The spawn
 // CONTEXT globals it reads (pending actor ID, area byte, the spawn-info
 // pointer table for the two processing-list priorities) are storage here;
@@ -137,7 +137,7 @@ void *data_020a4bb8_storage[512];
 void **data_020a4bb8 = data_020a4bb8_storage;  /* actorID -> SpawnInfo* */
 
 /* PORT_HOST_ABI: the matched TU is an mwccarm `asm` block (ARM hand-asm); MSVC has no inline ARM assembler.
-   src/_ZN7fBase_cC2Ev.cpp is `extern "C" asm void* _ZN7fBase_cC2Ev(void* self)`
+   src/actors/ActorBase.cpp is `extern "C" asm void* _ZN7fBase_cC2Ev(void* self)`
    followed by 70-odd ARM instructions -- an asm-hatch TU, not C. It is a match
    under the asm-primitive policy and it is unbuildable by any host compiler:
    MSVC's __asm accepts x86 only, and the block is register-allocated ARM
@@ -296,7 +296,7 @@ void Memory_Deallocate(void *p, void *heap);
    veneer) and the C++ method Heap::_Destroy (the receiver-bridging face at the
    bottom of hal/lk4_solidheap_seat.cpp). This one exists because the matched
    teardown TU spells the callee by role at C linkage rather than by mangled
-   name: src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp declares
+   name: src/actors/ActorBase.cpp declares
    "void Heap_Destroy(void*);" with the comment "0x0203c74c = Heap::_Destroy"
    beside it, and calls it on line 60 as
    "if (this->unk4C) Heap_Destroy(this->unk4C);".

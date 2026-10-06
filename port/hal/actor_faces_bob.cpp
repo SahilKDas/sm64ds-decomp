@@ -106,7 +106,6 @@ int ShadowModelFace::InitCylinder()
 // ---- 1. the data aliases ---------------------------------------------------
 #pragma comment(linker, "/alternatename:?data_02092138@@3HA=_data_02092138")
 #pragma comment(linker, "/alternatename:?data_ov002_021098e8@@3DA=_data_ov002_021098e8")
-#pragma comment(linker, "/alternatename:?data_ov002_021098ec@@3DA=_data_ov002_021098ec")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d7f4@@3UCLPS_Block@@A=_data_ov002_0210d7f4")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9a8@@3USharedFilePtr@@A=_data_ov002_0210d9a8")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9e8@@3USharedFilePtr@@A=_data_ov002_0210d9e8")
@@ -151,9 +150,9 @@ int ShadowModelFace::InitCylinder()
 #pragma comment(linker, "/alternatename:?data_ov102_0214e18c@@3PADA=_data_ov102_0214e18c")
 #pragma comment(linker, "/alternatename:?data_ov102_0214e18c@@3PAPAXA=_data_ov102_0214e18c")
 
-/* The ROM's own RTTI name for the arrow signs' table; ArrowSignRight's D0
+/* The ROM's own RTTI name for the arrow signs' table; daObjYajirusi_c's D0
    spells it that way. */
-#pragma comment(linker, "/alternatename:__ZTV15daObjYajirusi_c=__ZTV14ArrowSignRight")
+#pragma comment(linker, "/alternatename:__ZTV15daObjYajirusi_c=__ZTV15daObjYajirusi_c")
 
 /* --- linkloop round 4 -------------------------------------------------------
    Two more static members and two more data spellings. Actor::Spawn and

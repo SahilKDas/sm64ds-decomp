@@ -133,9 +133,9 @@
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dScMgBase_cD0Ev.cpp
+#src/minigames/d_s_mg_base.cpp
 
-# 2 unresolved: ?OnAttacked1@QuestionBlock@@UAEHAAUdActor_c@@@Z, __ZN13QuestionBlock11OnAttacked1ER8dActor_c
+# 2 unresolved: ?OnAttacked1@daObjHatenaBlock_c@@UAEHAAUdActor_c@@@Z, __ZN18daObjHatenaBlock_c11OnAttacked1ER8dActor_c
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
 # port/slice_faces2.txt is appended to its targets AFTER the tier-share
 # block, so its row is never deduped against port_slice_shared and the TU
@@ -143,9 +143,9 @@
 # of the shape "X.cpp.obj already defined in X.cpp.obj". The older row is
 # the one kept; lane FACES2 held this one for a compile family that today's
 # main has fixed, so the choice is which row seats it, not whether.
-#src/_ZN13QuestionBlock11OnAttacked1ER8dActor_c.cpp
+#src/actors/daObjHatenaBlock_c.cpp
 
-# 2 unresolved: ?OnHitFromUnderneath@QuestionBlock@@UAEHAAUdActor_c@@@Z, __ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c
+# 2 unresolved: ?OnHitFromUnderneath@daObjHatenaBlock_c@@UAEHAAUdActor_c@@@Z, __ZN18daObjHatenaBlock_c19OnHitFromUnderneathER8dActor_c
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
 # port/slice_faces2.txt is appended to its targets AFTER the tier-share
 # block, so its row is never deduped against port_slice_shared and the TU
@@ -153,7 +153,7 @@
 # of the shape "X.cpp.obj already defined in X.cpp.obj". The older row is
 # the one kept; lane FACES2 held this one for a compile family that today's
 # main has fixed, so the choice is which row seats it, not whether.
-#src/_ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c.cpp
+#src/actors/daObjHatenaBlock_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -175,7 +175,7 @@
 #src/_ZN8dM3dGSphD0Ev.cpp
 
 # 2 unresolved: __ZN15TextureSequenceD1Ev, __ZN9ModelAnimD1Ev
-src/d_a_hanachan.c
+src/actors/daHanachan_c.cpp
 
 # 2 unresolved: __ZN13daObjKi_Ita_c13InitResourcesEv, _daObjKi_Ita_c_classInit
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
@@ -650,10 +650,10 @@ src/_ZN10dFdDummy_c15SetBackwardTimeEj.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN10dScEntry_cD0Ev.cpp
+#src/actors/dScEntry_c.cpp
 
 # 1 unresolved: ?CleanupResources@daKpa2Bg_c@@UAEHXZ
-src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
+src/actors/daKpa2Bg_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -672,7 +672,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN10daKpa2Bg_cD0Ev.cpp
+#src/actors/daKpa2Bg_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -881,7 +881,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dCapEnemy_cD0Ev.cpp
+#src/actors/dCapEnemy_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -900,7 +900,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dCapEnemy_cD2Ev.cpp
+#src/actors/dCapEnemy_c.cpp
 
 # 1 unresolved: ?OnHitFromUnderneath@dScMgBase_c@@UAEHXZ
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
@@ -910,7 +910,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # of the shape "X.cpp.obj already defined in X.cpp.obj". The older row is
 # the one kept; lane FACES2 held this one for a compile family that today's
 # main has fixed, so the choice is which row seats it, not whether.
-#src/_ZN11dScMgBase_c19OnHitFromUnderneathEv.cpp
+#src/minigames/d_s_mg_base.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -929,7 +929,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dScMgBase_cD2Ev.cpp
+#src/minigames/d_s_mg_base.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -948,7 +948,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dScMgCoin_cD0Ev.cpp
+#src/actors/dScMgCoin_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -967,7 +967,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dScMgJump_cD0Ev.cpp
+#src/actors/dScMgJump_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -986,7 +986,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN11dScMiniGm_cD0Ev.cpp
+#src/actors/dScMiniGm_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1005,7 +1005,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12EnemySpawnerD0Ev.cpp
+#src/game/actors/d_a_e_switch.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1157,7 +1157,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dEnemyBase_cD2Ev.cpp
+#src/actors/dEnemyBase_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1176,7 +1176,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dScMg3DEsp_cD0Ev.cpp
+#src/actors/dMg3DEspAnimSet_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1195,7 +1195,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dScMgAmida_cD0Ev.cpp
+#src/actors/dScMgAmida_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1214,7 +1214,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dScMgSlot1_cD0Ev.cpp
+#src/actors/dScMgSlots.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1233,7 +1233,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dScMgSlot3_cD0Ev.cpp
+#src/actors/dScMgSlots.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1252,7 +1252,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN12dScStarSel_cD0Ev.cpp
+#src/actors/dScStarSel_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1271,7 +1271,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN13BasementWaterD0Ev.cpp
+#src/game/actors/d_a_obj_c0_water.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1385,7 +1385,7 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN13QuestionBlockD0Ev.cpp
+#src/actors/daObjHatenaBlock_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1407,13 +1407,11 @@ src/_ZN10daKpa2Bg_c16CleanupResourcesEv.cpp
 #src/_ZN13RacingPenguinD0Ev.cpp
 
 # 1 unresolved: ?InitResources@RollingLogLll@@UAEHXZ
-src/_ZN13RollingLogLll13InitResourcesEv.cpp
+src/game/actors/d_a_obj_fl_maruta.cpp
 
 # 1 unresolved: ?CleanupResources@RollingLogLll@@UAEHXZ
-src/_ZN13RollingLogLll16CleanupResourcesEv.cpp
 
 # 1 unresolved: ?Behavior@RollingLogLll@@UAEHXZ
-src/_ZN13RollingLogLll8BehaviorEv.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1489,7 +1487,7 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN13TTC_MovingBarD0Ev.cpp
+#src/actors/daObjCtKaitendai_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1546,7 +1544,7 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN13dScMgFlower_cD0Ev.cpp
+#src/actors/dScMgFlower_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1565,17 +1563,17 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN13daObjHmBskt_cD0Ev.cpp
+#src/game/actors/d_a_obj_hm_bskt.cpp
 
-# 1 unresolved: __ZN14ArrowSignRight11OnAttacked1ER8dActor_c
+# 1 unresolved: __ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c
 # HELD: MSVC C2561, an int body that ends without a return. mwcc warns
 # (C4716) and leaves whatever is in r0; MSVC refuses the TU. hostgen's
 # FALLS_OFF_RETURN can express it, but the value the ROM actually leaves
 # in r0 on that path has to be read off the ROM body first, one row at a
-# time, so it is a ruling and not plumbing. ArrowSignRight::OnAttacked1
-#src/_ZN14ArrowSignRight11OnAttacked1ER8dActor_c.cpp
+# time, so it is a ruling and not plumbing. daObjYajirusi_c::OnAttacked1
+#src/actors/daObjYajirusi_c.cpp
 
-# 1 unresolved: __ZN14ArrowSignRight4KillEv
+# 1 unresolved: __ZN15daObjYajirusi_c4KillEv
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
 # port/slice_faces2.txt is appended to its targets AFTER the tier-share
 # block, so its row is never deduped against port_slice_shared and the TU
@@ -1583,7 +1581,7 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # of the shape "X.cpp.obj already defined in X.cpp.obj". The older row is
 # the one kept; lane FACES2 held this one for a compile family that today's
 # main has fixed, so the choice is which row seats it, not whether.
-#src/_ZN14ArrowSignRight4KillEv.cpp
+#src/_ZN15daObjYajirusi_c4KillEv.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1602,7 +1600,7 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN14ArrowSignRightD0Ev.cpp
+#src/_ZN15daObjYajirusi_cD0Ev.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1640,13 +1638,12 @@ src/_ZN13RollingLogLll8BehaviorEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN14EnemySwitchTagD0Ev.cpp
+#src/game/actors/d_a_e_switch.cpp
 
 # 1 unresolved: ?CleanupResources@KnockDownPlank@@UAEHXZ
-src/_ZN14KnockDownPlank16CleanupResourcesEv.cpp
+src/game/actors/d_a_obj_bk_dossunbar.cpp
 
 # 1 unresolved: ?Render@KnockDownPlank@@UAEHXZ
-src/_ZN14KnockDownPlank6RenderEv.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1798,7 +1795,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN14dScMgBomroom_cD0Ev.cpp
+#src/actors/dScMgBomroom_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -1817,7 +1814,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN14dScMgCurling_cD0Ev.cpp
+#src/actors/dScMgCurling_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -2007,7 +2004,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN15dScMgHanachan_cD0Ev.cpp
+#src/actors/dScMgHanachan_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -2026,7 +2023,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN15dScMgSnowball_cD0Ev.cpp
+#src/actors/dScMgSnowball_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -2102,7 +2099,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN16dScMgSmartball_cD0Ev.cpp
+#src/actors/dScMgSmartball_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -2178,7 +2175,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN17daObjWlPolelift_cD0Ev.cpp
+#src/game/actors/d_a_obj_wl_polelift.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -2558,7 +2555,7 @@ src/_ZN14KnockDownPlank6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN5KoopaD0Ev.cpp
+#src/game/actors/d_a_nknk.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -3210,7 +3207,7 @@ src/_ZN7dWipe_c8SetToEndEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN7daKrb_cD0Ev.cpp
+#src/actors/daKrb_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -3229,7 +3226,7 @@ src/_ZN7dWipe_c8SetToEndEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN7fBase_cD0Ev.cpp
+#src/actors/ActorBase.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -3501,7 +3498,7 @@ src/_ZN8dActor_c21AfterCleanupResourcesEj.cpp
 #src/_ZN8dCcPos_cD0Ev.cpp
 
 # 1 unresolved: ?AfterInitResources@dScene_c@@UAEXI@Z
-src/_ZN8dScene_c18AfterInitResourcesEj.cpp
+src/actors/dScene_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -3921,30 +3918,10 @@ src/_ZN8dScene_c18AfterInitResourcesEj.cpp
 # ask what the object DEFINES, not what the source says.
 #src/_ZN9TinyWaterD0Ev.cpp
 
-# 1 unresolved: ?CleanupResources@TowerStep@@UAEHXZ
-src/_ZN9TowerStep16CleanupResourcesEv.cpp
+# 1 unresolved: ?CleanupResources@daObjBk_Lift_c@@UAEHXZ
+src/actors/daObjBk_Lift_c.cpp
 
-# 1 unresolved: ?Render@TowerStep@@UAEHXZ
-src/_ZN9TowerStep6RenderEv.cpp
-
-# HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
-# FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
-# seated for, and 209 of them collided. src/_ZN<Cls>D0Ev.cpp compiles to
-# ??1Cls@@ and ??_GCls@@ -- the non-deleting destructor and the scalar
-# deleting one -- and never to _ZN<Cls>D0Ev, which is the name the link asks
-# for. Worse, its sibling src/_ZN<Cls>D1Ev.cpp compiles to the SAME ??1, so
-# the two are one LNK2005 per class (lane FACES1's bugs.md section 4 recorded
-# this shape for FaderWipe before the sync; it is every pair, not one).
-# The flat D0 name is closed by a generated D FACE out of port/faces_sync.txt
-# instead, and the flat D1 by a reverse face, so these rows are redundant as
-# well as colliding.
-#
-# HOW THEY GOT ON THE LIST: the candidate scan asked which uncompiled TU
-# CARRIES a wall symbol's token, and a per-function structor TU carries its
-# own symbol in its `// @symbol` header. That is a true statement about the
-# text and a false one about what MSVC emits. A scan for this shape should
-# ask what the object DEFINES, not what the source says.
-#src/_ZN9TowerStepD0Ev.cpp
+# 1 unresolved: ?Render@daObjBk_Lift_c@@UAEHXZ
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -3963,7 +3940,26 @@ src/_ZN9TowerStep6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN9TowerStepD1Ev.cpp
+#src/actors/daObjBk_Lift_c.cpp
+
+# HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
+# FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
+# seated for, and 209 of them collided. src/_ZN<Cls>D0Ev.cpp compiles to
+# ??1Cls@@ and ??_GCls@@ -- the non-deleting destructor and the scalar
+# deleting one -- and never to _ZN<Cls>D0Ev, which is the name the link asks
+# for. Worse, its sibling src/_ZN<Cls>D1Ev.cpp compiles to the SAME ??1, so
+# the two are one LNK2005 per class (lane FACES1's bugs.md section 4 recorded
+# this shape for FaderWipe before the sync; it is every pair, not one).
+# The flat D0 name is closed by a generated D FACE out of port/faces_sync.txt
+# instead, and the flat D1 by a reverse face, so these rows are redundant as
+# well as colliding.
+#
+# HOW THEY GOT ON THE LIST: the candidate scan asked which uncompiled TU
+# CARRIES a wall symbol's token, and a per-function structor TU carries its
+# own symbol in its `// @symbol` header. That is a true statement about the
+# text and a false one about what MSVC emits. A scan for this shape should
+# ask what the object DEFINES, not what the source says.
+#src/actors/daObjBk_Lift_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -4077,7 +4073,7 @@ src/_ZN9TowerStep6RenderEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/_ZN9dScDSMT_cD0Ev.cpp
+#src/actors/dScDSMT_c.cpp
 
 # 1 unresolved: _daBgSnmBdy_c_classInit
 # RETIRED at SYNC6: this TU is already named by an older slice list, and
@@ -4172,7 +4168,7 @@ src/func_0205f77c.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/game/actors/WingFeather/_ZN11WingFeatherD0Ev.cpp
+#src/game/actors/daFeather_c/daFeather_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -4194,7 +4190,7 @@ src/func_0205f77c.cpp
 #src/game/actors/daObjTh_Fall_Block_c/_ZN12FallBlockBbhD0Ev.cpp
 
 # 1 unresolved: ?CleanupResources@MadPiano@@UAEHXZ
-src/game/actors/daPiano_c/_ZN8MadPiano16CleanupResourcesEv.cpp
+src/game/actors/daPiano_c/d_a_piano.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -4232,7 +4228,7 @@ src/game/actors/daPiano_c/_ZN8MadPiano16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/game/actors/daTBasket_c/_ZN11daTBasket_cD0Ev.cpp
+#src/actors/daTrs_c.cpp
 
 # HELD, and the whole family with it: A STRUCTOR TU DOES NOT DEFINE ITS OWN
 # FLAT ROM NAME UNDER MSVC, so seating one never closed the row it was
@@ -4251,4 +4247,4 @@ src/game/actors/daPiano_c/_ZN8MadPiano16CleanupResourcesEv.cpp
 # own symbol in its `// @symbol` header. That is a true statement about the
 # text and a false one about what MSVC emits. A scan for this shape should
 # ask what the object DEFINES, not what the source says.
-#src/game/actors/daTrs_c/_ZN7daTrs_cD0Ev.cpp
+#src/actors/daTrs_c.cpp

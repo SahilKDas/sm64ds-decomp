@@ -104,7 +104,7 @@ src/actors/daMky_c.cpp
 #   src/func_ov002_020e3e00.cpp     _func_ov002_020e3e00
 #
 # THREE MORE WERE TRIED HERE AND BELONG SOMEWHERE ELSE, and the build is what
-# said so. src/func_ov006_0211ea70.c, src/func_ov006_0211f9fc.c and
+# said so. src/actors/dScMgTeresa_c.cpp, src/actors/dScMgTeresa_c.cpp and
 # src/func_ov074_02121800.c are ALREADY on slices (slice_boo.txt line 426,
 # slice_ov074.txt line 232 and their siblings) and already compiled -- but with
 # PROPERTIES LANGUAGE CXX, because each carries the decomp's //cpp marker. So

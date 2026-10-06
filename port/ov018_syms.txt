@@ -46,7 +46,7 @@ g_profile_PENGUIN_MOTHER:0x1c
 #                                    stores _ZTV14daObjSm_Lift_c then
 #                                    OVERWRITES with _ZTV10dBgActor_c, the
 #                                    196-speller SHARED PLACEHOLDER (the
-#                                    ShipUp/RockPillar gate-188 shape) -- NOT
+#                                    daObjKi_Fune_c/RockPillar gate-188 shape) -- NOT
 #                                    compiled, chain spelled in the fill.
 #  17  D0               0x021111e4  own (_ZN7SkiLiftD0Ev) -- SAME shape:
 #                                    stores VT0 then VT1 (decl_common.h's

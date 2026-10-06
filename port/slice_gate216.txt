@@ -80,8 +80,7 @@ src/_ZN8dActor_c11AfterRenderEj.cpp
 # source in port/CMakeLists.txt from each body's own literal pool -- read out
 # of the relocations inside each function's span, not from the recovery's
 # names. G0 is the game heap (data_020a0eac) in the three deleting halves.
-src/_ZN13daObjDorifu_cD1Ev.cpp
-src/_ZN13daObjDorifu_cD0Ev.cpp
+src/actors/daObjDorifu_c.cpp
 src/_ZN16daObjKaitendai_cD1Ev.cpp
 src/_ZN16daObjKaitendai_cD0Ev.cpp
 src/_ZN13daObjKuruma_cD1Ev.cpp
@@ -158,10 +157,10 @@ src/actors/daOts_c.cpp
 # slots keep the host thunks.
 src/game/actors/d_a_obj_c0_switch.cpp
 src/game/actors/d_a_obj_clock_huriko.cpp
-src/_ZN10RockPillarD1Ev.cpp
+src/actors/daObjKi_Hasira_c.cpp
 src/game/actors/d_a_pg_mthr.cpp
 src/game/actors/d_a_star_gate.cpp
-src/_ZN14UnchainedChompD1Ev.cpp
+src/actors/daWanwan2_c.cpp
 #
 # ---- NOT IN THIS GATE, and why, so the rows stop reading as work -----------
 #
@@ -184,7 +183,7 @@ src/_ZN14UnchainedChompD1Ev.cpp
 #   shadow hunks, and those three tables are on func_02017278's live critical
 #   path rather than being abstract intermediates. Proposal, not a seat.
 # * Every remaining Render/Behavior row the sweep turns up (Snufit, Swoop,
-#   Dorrie, MontyMole, Amp, FlameChomp, Bully, Koopa, ShipUp, Wiggler, ...).
+#   Dorrie, MontyMole, Amp, FlameChomp, Bully, Koopa, daObjKi_Fune_c, Wiggler, ...).
 #   Those slots are served by HOST COPIES, not traps, and the copies exist for
 #   the ModelAnim slot-5 collision (port/unmatched/W19_Slot5_Renders.cpp) or a
 #   pointer-to-member dispatch. Linking them would re-introduce a measured

@@ -474,7 +474,7 @@ def tag_only(name, code):
     C keeps tag names in their own namespace, so `struct VT { ... }` and the
     placeholder object VT can coexist in one TU -- but a TU that only ever
     writes `struct VT` never references the object, and reporting it is a false
-    finding. src/func_ov004_020b75e4.c and its two siblings are exactly that:
+    finding. src/actors/dMgState_c.cpp and its two siblings are exactly that:
     they declare `struct VT` for a vtable shape and were reported as MISMATCH
     rows against the VT binding for as long as this tool has run, while their
     objects carry no undefined _VT at all.
@@ -724,7 +724,7 @@ def main():
         # wrong pointer in the shipping build today. Run mg6 lane VTF lost a
         # defect in the gap between those two: the VT section prints nineteen
         # MISMATCH rows and exactly one of them was live and unrepaired
-        # (src/_ZN11dScMgCoin_cD0Ev.cpp, dScMgCoin_c's slot 17). Burying it in
+        # (src/actors/dScMgCoin_c.cpp, dScMgCoin_c's slot 17). Burying it in
         # nineteen is the same as not reporting it, so it gets its own list.
         for r in mismatched:
             if r[0] in linked:

@@ -27,9 +27,8 @@
 # the factory: ActorBase::operator new(0x98), the ActorBase ctor, the three
 # vptr writes the ROM makes in order and the two +0x13 flag bits. It already
 # spells data_ov003_020b179c and _ZTV8dScene_c by name, so it needs no rename.
-src/d_s_game_over.cpp
-# slot 0  InitResources
 src/actors/dScGameOver_c.cpp
+# slot 0  InitResources
 # slot 3  CleanupResources
 # slot 6  Behavior
 # slot 9  Render

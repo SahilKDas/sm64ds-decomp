@@ -18,16 +18,16 @@
 # is how a player is meant to open one.
 #
 # WHAT THE ROM'S SLOT 28 DOES, read off the overlay's own table.
-# _ZTV13QuestionBlock is ov102 0x0214e47c; the reloc at 0x0214e47c + 28*4 =
+# _ZTV18daObjHatenaBlock_c is ov102 0x0214e47c; the reloc at 0x0214e47c + 28*4 =
 # 0x0214e4ec lands on 0x021496a4 (config/arm9/overlays/ov102/relocs.txt).
-# That body (src/_ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c.cpp) is:
+# That body (src/actors/daObjHatenaBlock_c.cpp) is:
 #     if (state == 1) return;              /* already bouncing, ignore */
 #     vel.y = -0x8000; ...   = 0x1e000;    /* the block's own recoil */
 #     if (func_ov102_02149078(c)) return;  /* refused: see below */
 #     self[0x3f2] = arg[8];                /* WHICH character hit it */
 #     func_ov102_02149da8(c, 1);           /* enter state 1 -- the bounce */
-# func_ov102_02149da8 is already hosted (unmatched/QuestionBlock_States.cpp)
-# and state 1's main is already hosted (unmatched/QuestionBlock_BounceDispatch
+# func_ov102_02149da8 is already hosted (unmatched/daObjHatenaBlock_c_States.cpp)
+# and state 1's main is already hosted (unmatched/daObjHatenaBlock_c_BounceDispatch
 # .cpp, gate 180), which is the whole rest of the opening. The byte at
 # +0x3f2 that this slot writes is exactly the `ch` that
 # func_ov102_021498e0 reads back to pick the content row, so dropping this
@@ -43,11 +43,7 @@
 # be stuck at a dead object.
 #
 # ---- the five slot bodies -------------------------------------------------
-src/_ZN13QuestionBlock19OnHitFromUnderneathER8dActor_c.cpp
-src/_ZN13QuestionBlock15OnHitByMegaCharER6Player.cpp
-src/_ZN13QuestionBlock8OnKickedER8dActor_c.cpp
-src/_ZN13QuestionBlock11OnAttacked1ER8dActor_c.cpp
-src/_ZN13QuestionBlock15OnGroundPoundedER8dActor_c.cpp
+src/actors/daObjHatenaBlock_c.cpp
 
 # ---- transitive closure ----------------------------------------------------
 # func_ov102_02149078 is the shared refusal test all five consult: on level
@@ -60,4 +56,4 @@ src/_ZN13QuestionBlock15OnGroundPoundedER8dActor_c.cpp
 # func_ov102_02149078: r0-passthrough. Calls Actor::ClosestPlayer() with no
 # argument (this rode ARM r0). HOST COPY passes `self` explicitly at
 # port/unmatched/Actor_ClosestPlayer_OverlayReaders.cpp. Byte-locked src unchanged.
-# src/func_ov102_02149078.c
+# src/actors/daObjHatenaBlock_c.cpp

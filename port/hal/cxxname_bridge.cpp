@@ -128,7 +128,7 @@ extern "C" {
 /* ACTOR::DROPSHADOWSCALEXYZ IS GONE FROM THIS FILE, and what stood here was
    `... (void *, void *, void *, int, int, int, unsigned) {}` -- an empty body,
    not a bridge. Nine linked callers reached it and got nothing: SignPost and
-   ArrowSignRight's Behavior methods and seven ov functions, all of them in
+   daObjYajirusi_c's Behavior methods and seven ov functions, all of them in
    walk_window.map, all of them asking for a shadow every frame they ran.
 
    HOW OFTEN, counted rather than assumed, because a swap nothing calls is not
@@ -152,10 +152,10 @@ extern "C" {
    compile this TU but do NOT carry SLICE_W1L3_SOURCES, and deleting the stub
    broke all three the same way:
 
-     _ZN14ArrowSignRight8BehaviorEv.cpp.obj : error LNK2019: unresolved
+     _ZN15daObjYajirusi_c8BehaviorEv.cpp.obj : error LNK2019: unresolved
      external symbol __ZN5Actor18DropShadowScaleXYZER11ShadowModelR9Matrix4x3
      5Fix12IiES5_S5_j referenced in function "public: int __thiscall
-     ArrowSignRight::Behavior(void)"
+     daObjYajirusi_c::Behavior(void)"
 
    walk_window, walk_window_hires and smoke_player carry the slice and link
    the real body, which wins over an /alternatename. This is the same shape as
@@ -328,11 +328,11 @@ DSSTATE_END
    one-argument binding this line used to carry was the level-change heap fault.
 
    THE CALLER THAT ACTUALLY LINKS, named precisely. `Memory_Deallocate` is the
-   placeholder src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp spells for the last
+   placeholder src/actors/ActorBase.cpp spells for the last
    statement of the actor teardown, but that src TU is not what the binary
    compiles. What links is hostgen's --extern-data rewrite of it, generated
    from GATE9_SYMS in port/CMakeLists.txt into
-   build/host-src/src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp, which keeps
+   build/host-src/src/actors/ActorBase.cpp, which keeps
    the call below verbatim and only rehomes the three role-named engine globals
    onto the HAL. (While lane w6-B ran, the caller was a third file --
    port/unmatched/ActorBase_AfterCleanupResources.cpp, the hand-written host

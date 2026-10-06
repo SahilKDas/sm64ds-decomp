@@ -116,12 +116,6 @@ src/__sinit_ov047_0211181c.c
 # _ZN17daObjKurumajiku_c8BehaviorEv and func_ov002_020b6c54 call and neither of those was in
 # the build until the eighth line above put them there. Two rounds, both
 # measured, neither guessed.
-src/_ZN17daObjKurumajiku_c8BehaviorEv.cpp
-src/_ZN17daObjKurumajiku_c6RenderEv.cpp
-src/func_ov002_020b6ac8.cpp
+src/actors/daObjKurumajiku_c.cpp
 src/func_ov002_020b6c54.c
-src/_ZN13daObjKuruma_c8BehaviorEv.cpp
-src/_ZN13daObjKuruma_c6RenderEv.cpp
-src/func_ov002_020b68b0.cpp
-src/func_ov002_020b6958.c
-src/func_ov002_020b6a80.c
+src/actors/daObjKuruma_c.cpp

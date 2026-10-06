@@ -1,6 +1,6 @@
 # Assessment: reusing `cybervisi0n/pokeplatinum@pc_port` + the libntr suite for an SM64DS PC port
 
-*Status: research + plan, not yet actioned. Slots into [`roadmap.md`](roadmap.md)
+*Status: research + plan, not yet actioned. Slots into [`notes/roadmap.md`](../../notes/roadmap.md)
 Phases 2–3 (LIFT / PORT). Investigated 2026-08-01; revised after adversarial review.*
 
 ---
@@ -123,7 +123,7 @@ two sample files. Measured over the whole tree:
 - **3 files** — `func_0204af3c.c`, `func_ov007_020c1448.c`, `func_ov007_020ca86c.c` —
   define *any* named `G3_`/`GX_`/`G2_` inline. Not "overwhelmingly." Three.
 - The norm is a bare store, sometimes not even volatile:
-  `*(volatile int *)0x4000440 = 2;` (`src/func_ov006_020d09e0.c:9`),
+  `*(volatile int *)0x4000440 = 2;` (func_ov006_020d09e0 in `src/actors/unit020cd744.cpp`),
   `src/func_ov080_02125fd0.c:16`.
 
 So "the decomp has incidentally done most of the API-recovery a port needs" was the

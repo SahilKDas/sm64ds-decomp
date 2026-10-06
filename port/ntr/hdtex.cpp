@@ -82,6 +82,7 @@
 #include <cstring>
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -224,6 +225,7 @@ int g_log;
 char g_pack_dir[1024];
 std::string *g_dump_dir;
 std::unordered_set<uint64_t> *g_names;   // the pack's PNG names
+std::unordered_map<uint64_t, std::string> *g_registered; // Lua pack paths
 std::unordered_set<uint64_t> *g_dumped;  // names already written this run
 HdTexStats g_stats;
 
@@ -389,7 +391,25 @@ int hdtex_enabled(void) { return g_enabled; }
 
 const char *hdtex_pack_dir(void) { return g_pack_dir; }
 
-bool hdtex_wants_work(void) { return (g_pack_indexed | g_dump_on) != 0; }
+bool hdtex_wants_work(void)
+{
+    return (g_pack_indexed | g_dump_on) != 0 ||
+           (g_registered && !g_registered->empty());
+}
+
+void hdtex_register(uint64_t name, const char *png_path)
+{
+    if (!png_path || !*png_path) return;
+    if (!g_registered)
+        g_registered = new std::unordered_map<uint64_t, std::string>();
+    (*g_registered)[name] = png_path;
+    g_enabled = 1;
+}
+
+void hdtex_clear_registered(void)
+{
+    if (g_registered) g_registered->clear();
+}
 
 // THE PARKED EDITION'S NAME, kept for one reason: the dump's index carries it
 // beside the port's own, so anyone holding a pack built for that edition can
@@ -582,16 +602,27 @@ void hdtex_dump(uint64_t name, int width, int height, const uint32_t *argb)
 int hdtex_lookup(uint64_t name, int width, int height,
                  std::vector<uint32_t> &out)
 {
-    if (!g_pack_indexed || width <= 0 || height <= 0) return 0;
-    if (g_names->find(name) == g_names->end()) {
+    if (width <= 0 || height <= 0) return 0;
+    const std::string *registered_path = nullptr;
+    if (g_registered) {
+        const auto registered = g_registered->find(name);
+        if (registered != g_registered->end())
+            registered_path = &registered->second;
+    }
+    const bool direct = registered_path != nullptr;
+    if (!direct && (!g_pack_indexed || g_names->find(name) == g_names->end())) {
         // THE COMMON CASE, and it is one hash-set lookup with no file I/O.
         ++g_stats.missing;
         return 0;
     }
 
     char path[1200];
-    std::snprintf(path, sizeof path, "%s/%016llx.png", g_pack_dir,
-                  static_cast<unsigned long long>(name));
+    if (direct) {
+        std::snprintf(path, sizeof path, "%s", registered_path->c_str());
+    } else {
+        std::snprintf(path, sizeof path, "%s/%016llx.png", g_pack_dir,
+                      static_cast<unsigned long long>(name));
+    }
 
     const double t0 = now_ms();
     int pw = 0, ph = 0, comp = 0;

@@ -3349,7 +3349,7 @@ def selftest():
             "map defines 32535 symbols\n"
             "\n"
             "=== COMPILE FAILURES (1) ===\n"
-            "   src/_ZN14dScMgCurling_c8BehaviorEv.cpp\n"
+            "   src/actors/dScMgCurling_c.cpp\n"
             "        error C2440: cannot convert\n"
             "\n"
             "=== UNRESOLVED after this slice: 2 "

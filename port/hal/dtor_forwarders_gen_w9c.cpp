@@ -50,7 +50,7 @@
 #include "ModelAnim.h"
 #include "TextureSequence.h"
 #include "TextureTransformer.h"
-#include "TowerStep.h"
+#include "daObjBk_Lift_c.h"
 #include "dCapEnemy_c.h"
 #include "dScMgSnowball_c.h"
 #include "daObjFl_Fall_Block_c.h"
@@ -127,7 +127,7 @@ extern "C" void _ZN15TextureSequenceD0Ev(void *self)
 extern "C" void _ZN15TextureSequenceD1Ev(void *self)
 { ((TextureSequence *)self)->TextureSequence::~TextureSequence(); }
 
-/* ROM 0x0212573c _ZN15dScMgSnowball_cD0Ev -- batch 5, ~dScMgSnowball_c(), defined out of line by src/_ZN15dScMgSnowball_cD1Ev.cpp plus _ZN6Memory10DeallocateEPvP4Heap */
+/* ROM 0x0212573c _ZN15dScMgSnowball_cD0Ev -- batch 5, ~dScMgSnowball_c(), defined out of line by src/actors/dScMgSnowball_c.cpp plus _ZN6Memory10DeallocateEPvP4Heap */
 extern "C" void _ZN15dScMgSnowball_cD0Ev(void *self)
 { ((dScMgSnowball_c *)self)->dScMgSnowball_c::~dScMgSnowball_c(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
 
@@ -151,13 +151,13 @@ extern "C" void _ZN9ModelAnimD1Ev(void *self)
 extern "C" void _ZN9ModelAnimD2Ev(void *self)
 { ((ModelAnim *)self)->ModelAnim::~ModelAnim(); }
 
-/* ROM 0x021122dc _ZN9TowerStepD0Ev -- batch 5, ~TowerStep(), defined out of line by src/_ZN9TowerStepD1Ev.cpp plus _ZN6Memory10DeallocateEPvP4Heap */
-extern "C" void _ZN9TowerStepD0Ev(void *self)
-{ ((TowerStep *)self)->TowerStep::~TowerStep(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
+/* ROM 0x021122dc _ZN14daObjBk_Lift_cD0Ev -- batch 5, ~daObjBk_Lift_c(), defined out of line by src/actors/daObjBk_Lift_c.cpp plus _ZN6Memory10DeallocateEPvP4Heap */
+extern "C" void _ZN14daObjBk_Lift_cD0Ev(void *self)
+{ ((daObjBk_Lift_c *)self)->daObjBk_Lift_c::~daObjBk_Lift_c(); _ZN6Memory10DeallocateEPvP4Heap(self, GAME_HEAP_PTR); }
 
-/* ROM 0x02112290 _ZN9TowerStepD1Ev -- batch 5, ~TowerStep(), defined out of line by src/_ZN9TowerStepD1Ev.cpp */
-extern "C" void _ZN9TowerStepD1Ev(void *self)
-{ ((TowerStep *)self)->TowerStep::~TowerStep(); }
+/* ROM 0x02112290 _ZN14daObjBk_Lift_cD1Ev -- batch 5, ~daObjBk_Lift_c(), defined out of line by src/actors/daObjBk_Lift_c.cpp */
+extern "C" void _ZN14daObjBk_Lift_cD1Ev(void *self)
+{ ((daObjBk_Lift_c *)self)->daObjBk_Lift_c::~daObjBk_Lift_c(); }
 
 /* ODR-USE ONLY, no ROM name. The wall wants ??1daSanbo_c@@UAE@XZ,
    which hal/dtor_faces_cpp.cpp's hal_cppd1_daSanbo_c calls off a ROM vtable slot. daSanbo_c's

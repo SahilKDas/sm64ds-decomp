@@ -23,14 +23,14 @@
  *
  *   func_ov006_020d27dc   0xe48 = 3656 bytes, the largest single hole in any
  *       seated minigame. config/arm9/overlays/ov006/symbols.txt names it;
- *       delinks.txt runs `src/func_ov006_020d25fc.c .text start:0x020d25fc
+ *       delinks.txt runs `src/actors/dScMgAmida_c.cpp .text start:0x020d25fc
  *       end:0x020d27dc` and the next block starts elsewhere, so the 0xe48
  *       bytes from 0x020d27dc are covered by nothing. ONE caller in the whole
  *       overlay: `from:0x020d4d78 kind:arm_call to:0x020d27dc`, which is inside
  *       vtable slot 6, the Behavior.
  *
  *   func_ov006_020d36a4   0x4fc. Same shape -- named, `end:0x020d36a4` is where
- *       src/func_ov006_020d3668.cpp's block stops, and no block resumes until
+ *       src/actors/dScMgAmida_c.cpp's block stops, and no block resumes until
  *       past it. TWO callers: `from:0x020d3da0` (inside func_ov006_020d3ba0,
  *       which vtable slot 0 and vtable slot 18 both call as their last act) and
  *       `from:0x020d4bd4` (inside slot 6). So this one is reached on the INIT
@@ -58,8 +58,8 @@
  *                   020d3b84  bx  lr
  *               likewise.
  *
- * and both decompiled callers agree: src/_ZN12dScMgAmida_c8BehaviorEv.cpp declares both as
- * `void f(char *c)` and src/func_ov006_020d3ba0.cpp independently declares
+ * and both decompiled callers agree: src/actors/dScMgAmida_c.cpp declares both as
+ * `void f(char *c)` and src/actors/dScMgAmida_c.cpp independently declares
  * 020d36a4 as `void func_ov006_020d36a4(void *sb)`. This file repeats those
  * declarations rather than inventing one. A trap that returned a value would be
  * asserting something the ROM does not say; these assert only that they were
@@ -127,11 +127,11 @@ extern "C" {
  * set), and then initialises the four walkers. The tail is what identifies the
  * whole class: it writes each walker's start X as LANE[i] * 64 + 32, which is
  * 32, 96, 160 and 224 -- exactly the four rail coordinates 0x20, 0x60, 0xa0 and
- * 0xe0 that src/func_ov006_020d3ba0.cpp draws its vertical lines at through the
+ * 0xe0 that src/actors/dScMgAmida_c.cpp draws its vertical lines at through the
  * ov004 rasteriser this lane also seated. The board and the walkers agree on
  * where the ladder is, and neither half was read from the other.
  *
- * The symbol comes from port/slice_s371.txt. src/func_ov006_020d36a4.cpp is
+ * The symbol comes from port/slice_s371.txt. src/actors/dScMgAmida_c.cpp is
  * NONMATCHING at two instructions and its banner names the exact idiom.
  */
 
@@ -156,7 +156,7 @@ extern "C" {
  * `end:0x020ae5c4` and no block resumes over it, and no src file defines it in
  * either extension anywhere in src/.
  *
- * THREE OF THIS CLASS's TUs CALL IT -- src/func_ov006_020d1ba0.cpp (seven sites),
+ * THREE OF THIS CLASS's TUs CALL IT -- src/actors/dScMgAmida_c.cpp (seven sites),
  * _020d2580.c and _020d3ba0.c -- and all three declare it identically:
  *
  *     int func_ov004_020ae5c4(void *a, int b, int c, int d, int e, int f, int g);
@@ -173,7 +173,7 @@ extern "C" {
  * returns ten offset matches, and EIGHT of them are inside this body, each with
  * one word pushed before a `blx` -- five arguments to slot 34 -- while
  * hal/scene_mg.cpp's shared mb_v34 thunk is declared (void *, void *) and calls
- * the five-parameter src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp with one argument.
+ * the five-parameter src/minigames/d_s_mg_base.cpp with one argument.
  *
  * THE OTHER TWO MATCHES ARE NOT DISPATCHES, and an earlier version of this
  * comment treated them as a second dispatcher. 0x020ce2a4 and 0x020ce318, in

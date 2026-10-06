@@ -105,8 +105,8 @@ data_ov025_02112ce8 data_ov025_02112d08
 # the ones the ROM means. Five distinct addresses, every one read off a pool
 # word rather than off a name:
 #
-#   0x02112c88   src/func_ov066_021166c8.cpp        pool 0x021168a0
-#   0x02112cc8   src/func_ov066_021166c8.cpp        pool 0x02116890
+#   0x02112c88   src/actors/Eyerok.cpp        pool 0x021168a0
+#   0x02112cc8   src/actors/Eyerok.cpp        pool 0x02116890
 #   0x02112c08   _ZN6Eyerok13InitResourcesEv.cpp, func_ov066_02116db0.c,
 #                func_ov066_021175e8.c, func_ov066_02117bf0.c,
 #                func_ov066_02118188.c    pools 0x0211a2c0/17160/175e8-.../18498

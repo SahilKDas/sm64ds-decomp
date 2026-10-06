@@ -218,9 +218,8 @@
 # listings is the plain _func_ovNNN_XXXXXXXX.
 #
 # ---- THE THIRTEEN ---------------------------------------------------------
-src/func_ov002_020b9704.cpp
-src/func_ov002_020b9750.cpp
-src/func_ov002_020efa54.cpp
+src/actors/daObjPowerUpItem_c.cpp
+src/actors/dPathLiftActor_c.cpp
 # HELD AGAIN at SYNC6, and NOT for a compile family: this TU compiles on the
 # host now (main #2663/#2669), but seating it duplicates _daWanwan_c_classInit
 # against port/unmatched/ChainChomp_Spawn_hostcopy.cpp, which is a FACTORY host
@@ -234,14 +233,10 @@ src/func_ov002_020efa54.cpp
 # dispatch change that no tree can capture until it links. So the TU waits; it
 # is a sixth row for that list, not a compile-family quarantine.
 #src/game/actors/d_a_wanwan.cpp
-src/func_ov034_021125b8.cpp
-src/func_ov034_02112604.cpp
-src/unnamed/ov063/func_ov063_0211ddac.cpp
-src/unnamed/ov063/func_ov063_0211ddf4.cpp
-src/func_ov071_021223c8.cpp
-src/func_ov071_02122414.cpp
-src/_ZN4Toad8SetStateEi.cpp
-src/_ZN4Toad8RunStateEv.cpp
+src/actors/daHanachan_c.cpp
+src/game/actors/daPiano_c/d_a_piano.cpp
+src/actors/daObjCasket_c.cpp
+src/game/actors/d_a_kinopio.cpp
 #
 # ---- GATE 2: ONE OF THE FIVE OPEN-CODED ROWS ------------------------------
 #
@@ -307,4 +302,4 @@ src/_ZN4Toad8RunStateEv.cpp
 #       unmatched/MgFlower_SubDispatch.cpp, is a four-case address switch with a
 #       loud unhandled path, which is the right shape for what it is.
 #
-src/_ZN4Bird8BehaviorEv.cpp
+src/game/actors/d_a_s_bird.cpp

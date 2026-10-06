@@ -35,14 +35,7 @@ src/actors/Player.cpp
 # these are the states they call and the two arm9/ov002 helpers they reach that
 # no earlier gate linked. func_ov002_020ba4d8/020ba520 are EXCLUDED from
 # slice_gate33 -- see the note there.
-src/func_ov002_020ba3fc.cpp
-src/func_ov002_020ba3a8.c
-src/func_ov002_020ba4c0.c
-src/func_ov002_020ba2d0.c
-src/func_ov002_020ba2ac.c
-src/func_ov002_020ba1ac.c
-src/func_ov002_020ba0f8.cpp
-src/func_ov002_020ba0bc.c
+src/actors/daObjSwitch_c.cpp
 src/func_02012310.c
 src/func_ov002_020e7104.c
 
@@ -53,13 +46,6 @@ src/func_ov002_020e7104.c
 # helpers they reach that no earlier gate linked. The particle/collision/Actor
 # closure and the FS/decompress path are already host-provided (the ntr layer
 # and earlier gates), so nothing below descends into them.
-src/func_ov100_02142b90.c
-src/func_ov100_02142918.cpp
-src/func_ov100_021424c0.c
-src/func_ov100_0214272c.cpp
-src/func_ov100_02141fb0.cpp
-src/func_ov100_02142130.cpp
-src/func_ov100_02142264.cpp
-src/func_ov100_0214233c.cpp
+src/actors/daIbl_c.cpp
 src/func_ov002_020ad660.cpp
 src/func_02012694.cpp

@@ -94,5 +94,5 @@ src/_ZN5Stage6RenderEv.cpp
 src/func_020391f0.c
 src/_ZN5Stage9RenderFogEv.cpp
 src/_ZN3G3X11SetFogTableEPv.cpp
-src/func_ov002_020f1c20.c
+src/actors/daMugenBGM_c.cpp
 src/_ZN5Stage12RenderNumberEhiibi.cpp

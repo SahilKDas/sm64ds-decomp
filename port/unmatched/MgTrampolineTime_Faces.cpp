@@ -16,7 +16,7 @@
  *
  * ---- 1. THE THIRTEEN SharedFilePtr ROWS ----------------------------------
  *
- * src/func_ov006_020ccfc8.cpp is the ELEMENT DESTRUCTOR of the four
+ * src/actors/dMgTrmpln2Mario_c.cpp is the ELEMENT DESTRUCTOR of the four
  * dMgTrmpln3DMario_c records at this+0x500c (port/slice_tti.txt section 8).
  * It is a //cpp TU that declares thirteen of ov006's SharedFilePtr .bss
  * objects as `extern SharedFilePtr data_ov006_...;`, so each mangles as
@@ -62,7 +62,7 @@
  * with a different name.  Each was resolved from the literal pool rather than
  * from the spelling.
  *
- *   _ZTV18dMgTrmpln3DMario_c   src/func_ov006_020cd12c.c's element constructor
+ *   _ZTV18dMgTrmpln3DMario_c   src/actors/dMgTrmpln2Mario_c.cpp's element constructor
  *       writes it into word 0 of each record.  The pool word at 0x020cd154
  *       reads 0x0213b2c4 (config: `from:0x020cd154 kind:load to:0x0213b2c4`),
  *       so the vtable IS data_ov006_0213b2c4 and the name is the class's, taken
@@ -218,7 +218,7 @@
 #pragma comment(linker, "/alternatename:__ZTV18dMgTrmpln3DMario_c=_data_ov006_0213b2c4")
 #pragma comment(linker, "/alternatename:_func_020beb74=_data_ov004_020beb74")
 #pragma comment(linker, "/alternatename:_Scene_AfterRender=__ZN8dScene_c11AfterRenderEj")
-/* src/func_ov006_020d0b2c.cpp spells Model::LoadTextureToVram as a free
+/* src/actors/unit020cd744.cpp spells Model::LoadTextureToVram as a free
    function in a Model namespace, so MSVC mangles the CALL as
    ?LoadTextureToVram@Model@@YAHPADI@Z while the body the port already links
    (src/_ZN5Model17LoadTextureToVramEPcj.cpp, wired by port/slice_gate4b.txt)
@@ -238,7 +238,7 @@
 
 /* ---- 5. TWO C++ SPELLINGS THAT NEED A SHIM RATHER THAN AN ALIAS -------
 
-   ModelAnim::SetAnim.  src/func_ov006_020cb528.cpp and _020cb690.cpp call it
+   ModelAnim::SetAnim.  src/actors/dMgTrmpln2Mario_c.cpp and _020cb690.cpp call it
    as a METHOD on a shadow class of their own, so MSVC wants
    ?SetAnim@ModelAnim@@QAEXPAXHHI@Z -- __thiscall, receiver in ecx.  The
    definition the port links is
@@ -253,7 +253,7 @@
    no clash.
 
    Model::LoadTextureToVram is the opposite case and DOES take an alias.
-   src/func_ov006_020d0b2c.cpp spells it as a free function at namespace
+   src/actors/unit020cd744.cpp spells it as a free function at namespace
    scope (?LoadTextureToVram@Model@@YAHPADI@Z, __cdecl) while
    include/Model.h declares it a STATIC member and
    src/_ZN5Model17LoadTextureToVramEPcj.cpp defines it

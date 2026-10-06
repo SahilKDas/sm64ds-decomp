@@ -97,18 +97,18 @@
 # calls the flat name): they join lane FWD's in port/hal/fwd_forwarders.cpp.
 # MantaRay, Shark and Skeeter define the flat extern "C" name themselves.
 # ===========================================================================
-src/_ZN7Skeeter8BehaviorEv.cpp
-src/_ZN10CheepCheep8BehaviorEv.cpp
-src/_ZN8MantaRay8BehaviorEv.cpp
-src/_ZN5Shark8BehaviorEv.cpp
-src/_ZN9JetStream8BehaviorEv.cpp
-src/_ZN10LavaBubble8BehaviorEv.cpp
-src/_ZN9WaterRing8BehaviorEv.cpp
+src/actors/daMenbo_c.cpp
+src/actors/daPukupuku_c.cpp
+src/actors/daManta_c.cpp
+src/actors/daShark_c.cpp
+src/actors/daWater_Hakidasi_c.cpp
+src/actors/daBbl_c.cpp
+src/actors/daWater_Ring_c.cpp
 src/actors/daYurei_Mucho_c.cpp
-src/_ZN5Swoop8BehaviorEv.cpp
-src/_ZN12WaterSuction8BehaviorEv.cpp
-src/_ZN9Whirlpool8BehaviorEv.cpp
-src/_ZN6Bullet8BehaviorEv.cpp
+src/actors/daBasabasa_c.cpp
+src/actors/daWater_Suikomi_c.cpp
+src/actors/daWater_Tatumaki_c.cpp
+src/actors/daPropeller_Heyho_Fire_c.cpp
 
 # ---- gate 2: THE REMAINING NINE OBJECT-FIELD ROWS, ONE PER OVERLAY --------
 #
@@ -166,19 +166,19 @@ src/_ZN6Bullet8BehaviorEv.cpp
 #
 # Five of the eight need a forwarder; Chuckya, Eyerok and ChiefChilly define the
 # flat extern "C" name themselves.
-src/_ZN7Chuckya8BehaviorEv.cpp
+src/game/actors/d_a_holhei.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_ov066 host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/Eyerok.cpp
-src/_ZN11ChiefChilly8BehaviorEv.cpp
-src/_ZN7HeaveHo8BehaviorEv.cpp
+src/actors/daKing_Donketu_c.cpp
+src/actors/daPopoi_c.cpp
 src/actors/daBombking_c.cpp
-src/_ZN9LakituBro8BehaviorEv.cpp
-src/_ZN6Fwoosh8BehaviorEv.cpp
-src/_ZN14UnchainedChomp8BehaviorEv.cpp
+src/game/actors/d_a_c_jugem.cpp
+src/game/actors/d_a_hyuhyu.cpp
+src/actors/daWanwan2_c.cpp
 
 # ---- gate 3: THE FOUR ov006 FIELD-HELD ROWS -------------------------------
 #
@@ -204,8 +204,8 @@ src/_ZN14UnchainedChomp8BehaviorEv.cpp
 # reference into the run says which is which: SIX are loaded by the class's OWN
 # CODE and are exactly this field's records, the other 22 by
 # __sinit_ov006_02130a08 alone. THREE of the six hold code word 0x020e7fac and
-# two of those three are BY-VALUE SENTINELS (src/_ZN15dMg3DEspModel_c8BehaviorEv.cpp reads
-# 0x0213c704, src/_ZN15dMg3DEspModel_c6RenderEv.cpp reads 0x0213c744, and that TU is in
+# two of those three are BY-VALUE SENTINELS (src/actors/dMg3DEspAnimSet_c.cpp reads
+# 0x0213c704, src/actors/dMg3DEspAnimSet_c.cpp reads 0x0213c744, and that TU is in
 # the link through port/slice_fold2.txt), so this row is ONE FACE PER CODE WORD:
 # four faces, six records, and every comparison keeps comparing one host address
 # against itself.
@@ -230,7 +230,7 @@ src/_ZN14UnchainedChomp8BehaviorEv.cpp
 # symbol; taking it instead would put the defect back. The generated copy is in
 # this slice's target set, so the bodies still arrive.
 #src/minigames/d_s_mg_jump2.cpp
-src/_ZN11dScMgJump_c8BehaviorEv.cpp
+src/actors/dScMgJump_c.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): this row is the raw
 # consolidated TU. slice_tte.txt's TTE_HOSTGEN_SRCS substitutes a hostgen'd copy of
 # the WHOLE TU so its geometry register writes reach the geometry engine instead of
@@ -238,4 +238,4 @@ src/_ZN11dScMgJump_c8BehaviorEv.cpp
 # symbol; taking it instead would put the defect back. The generated copy is in
 # this slice's target set, so the bodies still arrive.
 #src/minigames/d_s_mg_trampoline2.cpp
-src/_ZN15dMg3DEspModel_c8BehaviorEv.cpp
+src/actors/dMg3DEspAnimSet_c.cpp

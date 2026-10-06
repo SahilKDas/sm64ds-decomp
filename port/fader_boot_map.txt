@@ -490,7 +490,7 @@ forward is one commit.
       mg_init +0xc                  hal/scene_mg.cpp   (slot 0)
       func_0204335c / func_020433b8 / func_02043098 / Scene::SpawnIfNecessary
 
-    src/func_ov004_020adc74.c is the one-line hop between InitResources and
+    src/minigames/d_s_mg_base.cpp is the one-line hop between InitResources and
     func_020182bc, and it is in the caller set for _ZN14dScMgCurling_c13InitResourcesEv.
 
 THE MECHANISM, read out of the src rather than guessed. func_0205d714 is the

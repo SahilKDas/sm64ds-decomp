@@ -528,7 +528,7 @@ extern "C" void port_scene_flower_hits(void)
  * become a different function the day somebody transcribes the body.
  */
 /* Run mg5, lane INTEG: the petal-array layout was recovered on branch
-   decomp/yoshi-petal as src/func_ov006_0212a764.cpp (NONMATCHING regperm floor)
+   decomp/yoshi-petal as src/actors/dScMgFlower_c.cpp (NONMATCHING regperm floor)
    and is now sliced in port/slice_flw.txt, so the trap that stood in for it is
    gone and the real body lays out the petals. The counter is kept because the
    census above prints port_mg_flower_trap_hits(); it now stays 0, the honest
@@ -566,18 +566,18 @@ extern "C" unsigned port_mg_flower_trap_hits(void) { return g_flw_trap_hits; }
  * were read off the link, not derived.
  *
  * GROUP B -- A FUNCTION DECLARED AS DATA, ONE ROW.
- * src/func_ov006_020c3e70.cpp:9 declares `extern void* func_ov006_020c3e54;`
+ * src/actors/unit020bfec0.cpp:9 declares `extern void* func_ov006_020c3e54;`
  * outside extern "C" and passes `&func_ov006_020c3e54` to __cxa_vec_cleanup as the
  * element destructor. The declaration's TYPE is wrong and its ADDRESS is
  * right: taking the address of that "variable" is taking the function's entry
  * point, which is what the ROM's literal pool holds. Its sibling
- * src/func_ov006_020c3f54.cpp declares the same symbol as a function and needs
+ * src/actors/unit020bfec0.cpp declares the same symbol as a function and needs
  * no row, which is what identifies this as a spelling rather than a body.
  *
  * GROUP C -- FIVE ov004 GLOBALS SPELLED func_*, AND ONE SPELLED ov000.
  *     func_020bc86c  func_020bc898  func_020bc8a4  func_020bc8a8
  *         include/decl_common.h:1358..1367 declares all four `extern int`,
- *         and src/_ZN13dScMgFlower_c13InitResourcesEv.cpp (InitResources) assigns 0xc0, 0xa0,
+ *         and src/actors/dScMgFlower_c.cpp (InitResources) assigns 0xc0, 0xa0,
  *         0xa0 and 0x40 into them. The ROM stores those four constants into
  *         0x020bc86c, 0x020bc898, 0x020bc8a4 and 0x020bc8a8 -- read out of the
  *         disassembly at 0x0212b6f8..0x0212b720 -- and all four are
@@ -598,12 +598,12 @@ extern "C" unsigned port_mg_flower_trap_hits(void) { return g_flw_trap_hits; }
  * aliases.
  *
  * GROUP D -- TWO ov006/arm9 FUNCTIONS UNDER A SHORTER NAME.
- *     func_020c3adc   src/func_ov006_020c3bc8.c:1 declares
+ *     func_020c3adc   src/actors/unit020bfec0.cpp:1 declares
  *                     `extern void func_020c3adc(void *);` -- ov006's own
  *                     func_ov006_020c3adc, one block away in the same file's
  *                     own overlay. The same defect port/mg_fanout_costs.txt
  *                     section 6d records for src/_ZN14dScMgCurling_c13InitResourcesEv.c.
- *     func_02012754   src/_ZN13dScMgFlower_c8BehaviorEv.cpp calls it nine times.
+ *     func_02012754   src/actors/dScMgFlower_c.cpp calls it nine times.
  *                     config/arm9/symbols.txt:382 names 0x02012754
  *                     _ZN5Sound12PlayBank2_2DEj, and the matched TU
  *                     src/_ZN5Sound12PlayBank2_2DEj.cpp is ALREADY in the
@@ -617,9 +617,3 @@ extern "C" unsigned port_mg_flower_trap_hits(void) { return g_flw_trap_hits; }
 #pragma comment(linker, "/alternatename:?func_ov006_020c3e54@@3PAXA=_func_ov006_020c3e54")
 #pragma comment(linker, "/alternatename:_func_020c3adc=_func_ov006_020c3adc")
 #pragma comment(linker, "/alternatename:_func_02012754=__ZN5Sound12PlayBank2_2DEj")
-#pragma comment(linker, "/alternatename:_func_020bc86c=_data_ov004_020bc86c")
-#pragma comment(linker, "/alternatename:_func_020bc898=_data_ov004_020bc898")
-#pragma comment(linker, "/alternatename:_func_020bc8a4=_data_ov004_020bc8a4")
-#pragma comment(linker, "/alternatename:_func_020bc8a8=_data_ov004_020bc8a8")
-#pragma comment(linker, "/alternatename:_func_020beb6c=_data_ov004_020beb6c")
-#pragma comment(linker, "/alternatename:_data_ov000_020beb74=_data_ov004_020beb74")

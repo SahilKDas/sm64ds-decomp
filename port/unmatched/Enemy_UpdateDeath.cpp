@@ -1,4 +1,4 @@
-/* HOST COPY of src/_ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr.cpp -- the mwcc
+/* HOST COPY of src/actors/dEnemyBase_c.cpp -- the mwcc
  * pointer-to-member dispatch, for the eighth time in this port and the first
  * one that belongs to a BASE class rather than to a single actor.
  *
@@ -93,13 +93,13 @@ typedef int (*PortEnemyDeathFn)(void *, void *);
    and both dispatch a real pointer-to-member, which MSVC emits as
    `call <reg>` with the receiver in ECX and the arguments PUSHED:
 
-     src/_ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr.cpp
+     src/actors/dEnemyBase_c.cpp
          push DWORD PTR _clsn$[ebp]
          mov  ecx, <table 0210dbc0>[eax*8-4]     the adjust word
          mov  eax, <table 0210dbc0>[eax*8-8]     the code word (index-1 folded
                                                   into the displacement)
          add  ecx, ebx  /  call eax
-     src/func_ov002_020aea30.cpp   (a //cpp-marked .c, compiled as C++)
+     src/actors/dEnemyBase_c.cpp   (a //cpp-marked .c, compiled as C++)
          push DWORD PTR _b$[ebp]  /  push DWORD PTR _a$[ebp]
          mov  ecx, <table 0210db80>[edx*8-4]
          mov  eax, <table 0210db80>[edx*8-8]
@@ -230,9 +230,9 @@ extern "C" void port_enemy_death_states_seat(void)
 
 /* BOTH HOST COPIES RETIRED (run link100, lane PMFB2).
    func_ov002_020aea30 and _ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr are on
-   port/slice_pmfb2.txt and compile from src/func_ov002_020aea30.cpp (a
+   port/slice_pmfb2.txt and compile from src/actors/dEnemyBase_c.cpp (a
    //cpp-marked .c, given LANGUAGE CXX in CMake block R10a) and
-   src/_ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr.cpp. Both define the Itanium C
+   src/actors/dEnemyBase_c.cpp. Both define the Itanium C
    name themselves, so neither needs a face for its own symbol.
 
    MEASURED FOR THAT LANE, both ways round:

@@ -77,9 +77,9 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 #include "dActor_c.h"
 #include "dtor_faces_cpp.h"
 #include "fBase_c.h"
-#include "Lakitu.h"
-#include "Spiny.h"
-#include "HeaveHo.h"
+#include "daJgm_c.h"
+#include "daTgz_c.h"
+#include "daPopoi_c.h"
 
 extern "C" {
 
@@ -163,11 +163,11 @@ extern unsigned char g_profile_POPOI[];
 // ============================================================================
 extern "C" {
 /* Lakitu's ten handler bodies (five {enter,tick} states). */
-int func_ov077_02124698(void *); int func_ov077_021243c0(void *);
-int func_ov077_021241ac(void *); int func_ov077_02123fcc(void *);
-int func_ov077_021242f0(void *); int func_ov077_02124118(void *);
-int func_ov077_02124038(void *); int func_ov077_02124394(void *);
-int func_ov077_021244d4(void *); int func_ov077_02124564(void *);
+int _ZN7daJgm_c15EnterHoverStateEv(void *); int _ZN7daJgm_c16UpdateThrowStateEv(void *);
+int _ZN7daJgm_c14EnterSpitStateEv(void *); int _ZN7daJgm_c15UpdateFallStateEv(void *);
+int _ZN7daJgm_c21UpdateYoshiMouthStateEv(void *); int _ZN7daJgm_c15UpdateSpitStateEv(void *);
+int _ZN7daJgm_c14EnterFallStateEv(void *); int _ZN7daJgm_c20EnterYoshiMouthStateEv(void *);
+int _ZN7daJgm_c15EnterThrowStateEv(void *); int _ZN7daJgm_c16UpdateHoverStateEv(void *);
 /* Spiny's twelve (six states). */
 int func_ov077_021258dc(void *); int func_ov077_02125a54(void *);
 int func_ov077_02125908(void *); int func_ov077_02125480(void *);
@@ -256,16 +256,16 @@ static void __fastcall pmfb7_ov077_021269a8(void *self, void *dead_edx)
 const Ov077Seat g_ov077_seats[] = {
     /* Lakitu, 0x021277e0..0x02127830, copied into data_ov077_02127bc4[0..9]
        by __sinit_ov077_02127240. */
-    {data_ov077_021277e0, 0x02124698, func_ov077_02124698, "lakitu/021277e0"},
-    {data_ov077_021277e8, 0x021243c0, func_ov077_021243c0, "lakitu/021277e8"},
-    {data_ov077_021277f0, 0x021241ac, func_ov077_021241ac, "lakitu/021277f0"},
-    {data_ov077_021277f8, 0x02123fcc, func_ov077_02123fcc, "lakitu/021277f8"},
-    {data_ov077_02127800, 0x021242f0, func_ov077_021242f0, "lakitu/02127800"},
-    {data_ov077_02127808, 0x02124118, func_ov077_02124118, "lakitu/02127808"},
-    {data_ov077_02127810, 0x02124038, func_ov077_02124038, "lakitu/02127810"},
-    {data_ov077_02127818, 0x02124394, func_ov077_02124394, "lakitu/02127818"},
-    {data_ov077_02127820, 0x021244d4, func_ov077_021244d4, "lakitu/02127820"},
-    {data_ov077_02127828, 0x02124564, func_ov077_02124564, "lakitu/02127828"},
+    {data_ov077_021277e0, 0x02124698, _ZN7daJgm_c15EnterHoverStateEv, "lakitu/021277e0"},
+    {data_ov077_021277e8, 0x021243c0, _ZN7daJgm_c16UpdateThrowStateEv, "lakitu/021277e8"},
+    {data_ov077_021277f0, 0x021241ac, _ZN7daJgm_c14EnterSpitStateEv, "lakitu/021277f0"},
+    {data_ov077_021277f8, 0x02123fcc, _ZN7daJgm_c15UpdateFallStateEv, "lakitu/021277f8"},
+    {data_ov077_02127800, 0x021242f0, _ZN7daJgm_c21UpdateYoshiMouthStateEv, "lakitu/02127800"},
+    {data_ov077_02127808, 0x02124118, _ZN7daJgm_c15UpdateSpitStateEv, "lakitu/02127808"},
+    {data_ov077_02127810, 0x02124038, _ZN7daJgm_c14EnterFallStateEv, "lakitu/02127810"},
+    {data_ov077_02127818, 0x02124394, _ZN7daJgm_c20EnterYoshiMouthStateEv, "lakitu/02127818"},
+    {data_ov077_02127820, 0x021244d4, _ZN7daJgm_c15EnterThrowStateEv, "lakitu/02127820"},
+    {data_ov077_02127828, 0x02124564, _ZN7daJgm_c16UpdateHoverStateEv, "lakitu/02127828"},
     /* Spiny, 0x021278e8..0x02127948, copied into data_ov077_02127c28 (the
        0x60-byte array this lane had to pin -- see port/ov077_syms.txt) by
        __sinit_ov077_0212749c. */
@@ -557,10 +557,10 @@ extern "C" void hal_fill_heave_ho_vtable(void)
  * index the ROM passed in r1, which crashed all four LAKITU levels on this
  * seat's first boot. That file carries the ROM evidence for the value. */
 extern "C" int _ZN6Lakitu8BehaviorEv(void *self)
-{ return ((Lakitu *)self)->Lakitu::Behavior(); }
+{ return ((daJgm_c *)self)->daJgm_c::Behavior(); }
 extern "C" int _ZN5Spiny13InitResourcesEv(void *self)
-{ return ((Spiny *)self)->Spiny::InitResources(); }
+{ return ((daTgz_c *)self)->daTgz_c::InitResources(); }
 extern "C" int _ZN5Spiny8BehaviorEv(void *self)
-{ return ((Spiny *)self)->Spiny::Behavior(); }
+{ return ((daTgz_c *)self)->daTgz_c::Behavior(); }
 extern "C" int _ZN7HeaveHo13InitResourcesEv(void *self)
-{ return ((HeaveHo *)self)->HeaveHo::InitResources(); }
+{ return ((daPopoi_c *)self)->daPopoi_c::InitResources(); }

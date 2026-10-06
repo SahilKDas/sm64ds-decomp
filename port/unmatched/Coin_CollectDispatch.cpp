@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov002_020b19dc.c -- the coin's collect dispatch.
+/* HOST COPY of src/actors/daCoin_c.cpp -- the coin's collect dispatch.
  *
  * WHY A HOST COPY (the calling-convention seam):
  *
@@ -36,7 +36,7 @@
  * OnTurnIntoEgg) already passes two arguments in its matched C, so it is
  * correct as-is and is left untouched.
  *
- * src/func_ov002_020b19dc.c is dropped from slice_gate33.txt in favour of this
+ * src/actors/daCoin_c.cpp is dropped from slice_gate33.txt in favour of this
  * file; the byte-locked source is unchanged.
  */
 

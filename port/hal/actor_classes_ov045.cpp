@@ -184,6 +184,7 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 
 #include "dActor_c.h"
 #include "fBase_c.h"
+#include "daObjKm2_Nobiru_c.h"
 
 extern "C" {
 /* the arm9 shared half */
@@ -513,11 +514,7 @@ extern "C" void hal_fill_pole_lift_vtable(void)
 // only class in the cast that overrides it; slot 3 is a host thunk and slot 16 a
 // host chain, both for the reasons in this file's header.
 extern "C" {
-int _ZN17ExtendingPlatform13InitResourcesEv(void *self);        /* slot 0  */
-int _ZN17ExtendingPlatform8BehaviorEv(char *self);              /* slot 6, extern-C .cpp */
-int _ZN17ExtendingPlatform6RenderEv(void *self);                /* slot 9  */
-void _ZN17ExtendingPlatform16OnPendingDestroyEv(void);          /* slot 12 */
-int *_ZN17ExtendingPlatformD0Ev(int *self);                     /* slot 17 */
+int *_ZN17daObjKm2_Nobiru_cD0Ev(int *self);                    /* slot 17 */
 void *daObjKm2_Nobiru_c_classInit(void);
 /* what ep_clean and ep_d1 need to spell out by hand */
 int _ZN4dBgW9IsEnabledEv(void *self);
@@ -527,13 +524,12 @@ void *_ZN14dBgW_KcMbgSclYD1Ev(void *self);
 void _ZN5ModelD1Ev(void *self);
 void *_ZN8dActor_cD2Ev(void *self);
 DSSTATE_BEGIN
-void *_ZTV17ExtendingPlatform[31];
+void *_ZTV17daObjKm2_Nobiru_c[31];
 DSSTATE_END
 }
 /* nobiru = the one that stretches; the D0 restores the table by this name */
-#pragma comment(linker, "/alternatename:__ZTV17daObjKm2_Nobiru_c=__ZTV17ExtendingPlatform")
 static int __fastcall ep_init(void *s, void *)
-{ return _ZN17ExtendingPlatform13InitResourcesEv(s); }
+{ return ((daObjKm2_Nobiru_c *)s)->daObjKm2_Nobiru_c::InitResources(); }
 /* slot 3, HOST THUNK, not the matched TU. src/_ZN17ExtendingPlatform16CleanupResourcesEv
    .cpp spells its two SharedFilePtrs G0/G1, which hal/cxx_aliases.cpp has bound
    to SignPost's ov002 pointers; linking it would Release those live. relocs.txt
@@ -553,23 +549,23 @@ static int __fastcall ep_clean(void *s, void *)
     return 1;
 }
 static int __fastcall ep_behavior(void *s, void *)
-{ return _ZN17ExtendingPlatform8BehaviorEv((char *)s); }
+{ return ((daObjKm2_Nobiru_c *)s)->daObjKm2_Nobiru_c::Behavior(); }
 static int __fastcall ep_render(void *s, void *)
 { port_actor_render_probe("EXTENDING_PLATFORM", (char *)s + 0xd8);
-  return _ZN17ExtendingPlatform6RenderEv(s); }
+  return ((daObjKm2_Nobiru_c *)s)->daObjKm2_Nobiru_c::Render(); }
 static int __fastcall ep_pdes(void *s, void *)
-{ (void)s; _ZN17ExtendingPlatform16OnPendingDestroyEv(); return 0; }
+{ ((daObjKm2_Nobiru_c *)s)->daObjKm2_Nobiru_c::OnPendingDestroy(); return 0; }
 /* slot 16, HOST CHAIN: src/_ZN17ExtendingPlatformD1Ev.cpp is a real MSVC destructor over
    structs local to that TU, so there is no C name to call. The chain is the one
    its D0 sibling spells and relocs.txt confirms at 0x02111854/5c/64/74. */
 /* slot 16 is the matched src D1 through hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP);
    the transcribed thunk that stood here (ep_d1) spelled the same chain by hand. */
 static int __fastcall ep_d0(void *s, void *)
-{ return (int)(size_t)_ZN17ExtendingPlatformD0Ev((int *)s); }
+{ return (int)(size_t)_ZN17daObjKm2_Nobiru_cD0Ev((int *)s); }
 extern "C" void hal_fill_extending_platform_vtable(void)
 {
     port_ov45_bringup();
-    void *volatile *vt = (void *volatile *)_ZTV17ExtendingPlatform;
+    void *volatile *vt = (void *volatile *)_ZTV17daObjKm2_Nobiru_c;
     ov45_fill_shared(vt);
     vt[0]  = (void *)ep_init;
     vt[3]  = (void *)ep_clean;
@@ -611,8 +607,6 @@ DSSTATE_END
    the alias that used to give it that name has a defined left side and is
    removed (alternatename_guard refuses exactly that shape). */
 /* The two ov002 veneer targets are spelled unprefixed in the ov045 bodies. */
-#pragma comment(linker, "/alternatename:_func_020b6584=_func_ov002_020b6584")
-#pragma comment(linker, "/alternatename:_func_020b6424=_func_ov002_020b6424")
 extern "C" void *port_factory_floating_floor_bfs(void)
 {
     void *p = daObjKm2_Ukishima_c_classInit();
@@ -696,8 +690,6 @@ DSSTATE_END
    base-table spelling _ZTV10dBgActor_c and the D0's G0 heap word are already
    defined port-wide (hal/actor_classes.cpp, hal/cxx_aliases.cpp). */
 /* The two ov002 veneer targets, spelled unprefixed in the 141 bodies. */
-#pragma comment(linker, "/alternatename:_func_020b6244=_func_ov002_020b6244")
-#pragma comment(linker, "/alternatename:_func_020b60fc=_func_ov002_020b60fc")
 /* The factory ends on `p[0] = Gura; p[0] = VT1;` -- base store then the
    zeroed placeholder, trap (F). The wrapper reseats the ROM's final value. */
 extern "C" void *port_factory_tilting_platform_bfs(void)
@@ -836,20 +828,15 @@ extern "C" void hal_fill_fall_block_bfs_vtable(void)
 // which on that object is mGrowing, so ModelBase::SetFile ran on a byte field
 // and faulted on a null vtable pointer. That is run link100's boot sweep level
 // 37.
-#include "ExtendingPlatform.h"
-#include "FireSeaElevator.h"
-#include "PoleLift.h"
+#include "daObjKm2_Agaru_c.h"
+#include "daObjKm2_Ami_Bou_c.h"
 extern "C" {
 int _ZN8PoleLift13InitResourcesEv(void *self)
-{ return ((PoleLift *)self)->PoleLift::InitResources(); }
+{ return ((daObjKm2_Ami_Bou_c *)self)->daObjKm2_Ami_Bou_c::InitResources(); }
 int _ZN8PoleLift16CleanupResourcesEv(void *self)
-{ return ((PoleLift *)self)->PoleLift::CleanupResources(); }
+{ return ((daObjKm2_Ami_Bou_c *)self)->daObjKm2_Ami_Bou_c::CleanupResources(); }
 int _ZN8PoleLift8BehaviorEv(void *self)
-{ return ((PoleLift *)self)->PoleLift::Behavior(); }
+{ return ((daObjKm2_Ami_Bou_c *)self)->daObjKm2_Ami_Bou_c::Behavior(); }
 int _ZN8PoleLift6RenderEv(void *self)
-{ return ((PoleLift *)self)->PoleLift::Render(); }
-int _ZN17ExtendingPlatform13InitResourcesEv(void *self)
-{ return ((ExtendingPlatform *)self)->ExtendingPlatform::InitResources(); }
-int _ZN17ExtendingPlatform6RenderEv(void *self)
-{ return ((ExtendingPlatform *)self)->ExtendingPlatform::Render(); }
+{ return ((daObjKm2_Ami_Bou_c *)self)->daObjKm2_Ami_Bou_c::Render(); }
 }

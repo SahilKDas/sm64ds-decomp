@@ -28,18 +28,18 @@
 #   slice_ppp.txt:291   "RETIRED at ALIAS2 (wave 8, the main -> port sync): main
 #                        folded this body into src/actors/dScMgPanel_c.cpp ...
 #                        the per-function leftover here was the second
-#                        definition (LNK2005)."          #src/func_ov006_02106168.cpp
+#                        definition (LNK2005)."          #src/actors/dScMgPanel_c.cpp
 #   slice_ppp.txt:279   the same for src/func_ov006_02106ca4.c, table 02142840
 #   slice_tte.txt:725   the same for #src/func_ov006_02123428.c
-#   slice_tte.txt:730   the same for #src/func_ov006_02123938.c
+#   slice_tte.txt:730   the same for #src/minigames/d_s_mg_trampoline2.cpp
 #   slice_wig.txt:417   "HELD, run link100 lane HOSTGEN2: main's consolidated TU
 #                        above defines func_ov006_020ec4dc as well, and taking
-#                        both is a duplicate symbol."     #src/func_ov006_020ec4dc.c
+#                        both is a duplicate symbol."     #src/actors/dScMgHanachan_c.cpp
 #   slice_s75.txt:311   the same for #src/func_ov006_020e513c.c, and that file is
 #                        additionally the port's OWN NONMATCHING decompile of the
 #                        address while the matched tree's body is the one to keep
 #   slice_box.txt:508   func_ov006_0211bc8c "THE FLOOR IS RETIRED" -- it is
-#                        src/func_ov006_0211bc8c.cpp now, and dScMgSound_c.cpp
+#                        src/actors/dScMgSound_c.cpp now, and dScMgSound_c.cpp
 #                        carries the body into the link
 #
 # This is memory note sm64ds-port-exists-on-main-dup exactly: EXISTS-on-main is
@@ -57,7 +57,7 @@
 #       statement after the pointer-to-member dispatch, so the ROM's edge is
 #       live; MSVC inlined the body into Behavior and /OPT:REF then dropped the
 #       standalone COMDAT, which is why the flat name is the one member of the
-#       group missing from the map. Seating src/func_ov006_02123938.c beside the
+#       group missing from the map. Seating src/minigames/d_s_mg_trampoline2.cpp beside the
 #       TU that defines it is the same LNK2005 as the six above, and slice_tte
 #       already ruled it so. Nothing to seat; the body runs today.
 #
@@ -102,10 +102,10 @@
 # found five others stale tonight: main matched the function since. PR #2352
 # (86a6e696d, "Match three more ov006 minigame functions: the Coin cup touch
 # test, the pen drag handler and the Coin cursor sprite") landed
-# src/func_ov006_020e1854.c, and this tree carries the delink block for it:
+# src/actors/dScMgCurling_c.cpp, and this tree carries the delink block for it:
 #
 #   config/arm9/overlays/ov006/delinks.txt:1785
-#       src/func_ov006_020e1854.c:
+#       src/actors/dScMgCurling_c.cpp:
 #           .text start:0x020e1854 end:0x020e1b54
 #
 # 0x020e1b54 - 0x020e1854 = 0x300, which is rows.tsv's own size for the row.
@@ -145,7 +145,7 @@
 # with the bridge rather than being lost; nothing else in the tree referenced
 # port_mg_curling_st_020e1854_entries.
 #
-# THE LINK WAVE IS EMPTY. src/func_ov006_020e1854.c declares seven externals and
+# THE LINK WAVE IS EMPTY. src/actors/dScMgCurling_c.cpp declares seven externals and
 # every one is in the pre-seat map: data_020a0e40 (actor_vtables.cpp.obj),
 # data_020a0de8, data_020a0dea, data_020a0deb (auto_bss.cpp.obj),
 # _ZN4cstd4sqrtEy, _ZN4cstd5atan2E5Fix12IiES1_ and func_02012718 (each its own
@@ -157,4 +157,4 @@
 # headless proof can exercise the dispatch. The seat is taken on the byte-for-
 # byte arm of the rule, and a click-driven play proof of Slots Shot's curling
 # scene with Tango present is OWED and named in this lane's report.
-src/func_ov006_020e1854.c
+src/actors/dScMgCurling_c.cpp

@@ -66,11 +66,11 @@
 #
 # ---- THE ROM'S OWN REFERENCE GRAPH REACHES EVERY ROW ----------------------
 #
-#   func_ov080_02125104  <- src/func_ov080_0212513c.c (the state seat itself)
+#   func_ov080_02125104  <- src/actors/daBttBk_c.cpp (the state seat itself)
 #   _ZN13PrincessPeach17CallStateBehaviorEv  <- src/_ZN13PrincessPeach8BehaviorEv.cpp
 #   _ZN13PrincessPeach13CallStateInitEv  <- src/_ZN13PrincessPeach8SetStateEi.cpp
 #   func_ov085_0212d268  <- src/_ZN9RabbitKey13InitResourcesEv.cpp,
-#                           src/func_ov085_0212d108.c
+#                           src/actors/daObj_Mip_Key_c.cpp
 #   func_ov094_02136188  <- src/_ZN10HootTheOwl13InitResourcesEv.cpp and
 #                           seven more ov094 state bodies
 #   KingBobOmb_SetState  <- src/actors/daBombking_c.cpp and
@@ -155,11 +155,10 @@
 # a different lane's decision), so the row is named and left.
 #
 # ---- THE SIX --------------------------------------------------------------
-src/func_ov080_02125104.cpp
-src/_ZN13PrincessPeach17CallStateBehaviorEv.cpp
-src/_ZN13PrincessPeach13CallStateInitEv.cpp
-src/func_ov085_0212d268.cpp
-src/func_ov094_02136188.cpp
+src/actors/daBttBk_c.cpp
+src/actors/daPeach_c.cpp
+src/actors/daObj_Mip_Key_c.cpp
+src/actors/daOwl_c.cpp
 src/actors/daBombking_c.cpp
 
 # ---- BATCH 2: THE INDEXED-TABLE FAMILY, AND IT WAS A NAME ALL ALONG -------
@@ -238,7 +237,7 @@ src/actors/daBombking_c.cpp
 #   SignPost's dispatchers tested `(unsigned)i >= 5` and ABORTED. The ROM does
 #       not test. Because it aborts, every green battery this port has run is
 #       proof the test never fires, so removing it removes nothing live.
-#   QuestionBlock's port_qblock_pmf tested `idx >= 3` and ABORTED, with a
+#   daObjHatenaBlock_c's port_qblock_pmf tested `idx >= 3` and ABORTED, with a
 #       comment saying the ROM does not. Same proof, same conclusion; the
 #       helper goes with the two bodies it served.
 #   TreasureChest's pair tested `if (fn)` and SILENTLY SKIPPED the dispatch.
@@ -264,7 +263,7 @@ src/actors/daBombking_c.cpp
 #       port_buddy_call and the goomba half stay
 #   unmatched/Crate_StateDispatch.cpp         the two dispatchers; the
 #       fourteen-record seat stays
-#   unmatched/QuestionBlock_States.cpp        the two dispatchers and
+#   unmatched/daObjHatenaBlock_c_States.cpp        the two dispatchers and
 #       port_qblock_pmf; the seat stays
 #
 # THE ONE THAT DOES NOT COME: YOSHI_EGG (func_ov002_020ed63c, _020ed684).
@@ -283,16 +282,10 @@ src/actors/daBombking_c.cpp
 # what held YoshiEgg back, and adding a second directive would change nothing.
 #
 # ---- THE FOURTEEN ---------------------------------------------------------
-src/func_ov002_020ba4d8.cpp
-src/func_ov002_020ba520.cpp
-src/func_ov002_020bbd5c.cpp
-src/func_ov002_020bbda4.cpp
-src/_ZN13TreasureChest8SetStateEi.cpp
-src/_ZN13TreasureChest17CallStateBehaviorEv.cpp
-src/actors/Goomboss.cpp
-src/func_ov084_0212c960.cpp
-src/func_ov084_0212c9a8.cpp
-src/Crate_SetState.cpp
-src/func_ov098_02138b70.cpp
-src/func_ov102_02149da8.cpp
-src/func_ov102_02149df0.cpp
+src/actors/daObjSwitch_c.cpp
+src/actors/daObjTatefuda_c.cpp
+src/actors/daObjTbox_c.cpp
+src/actors/daKuriKing_c.cpp
+src/game/actors/d_a_red_bombhei.cpp
+src/actors/daObjBlockS_c.cpp
+src/actors/daObjHatenaBlock_c.cpp

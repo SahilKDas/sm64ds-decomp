@@ -118,7 +118,7 @@ port_scene_after_behavior, port_scene_after_render and
 port_scene_on_heap_created, which dispatch STRAIGHT TO EACH VENEER'S TARGET
 with both arguments. Slots 2, 8 and 11 of the Stage table take those three
 faces. The corresponding src veneer TUs must NOT be seated: measured, the only
-thing src/_ZN8dScene_c18AfterInitResourcesEj.cpp still wants is the C name
+thing src/actors/dScene_c.cpp still wants is the C name
 __ZN7dBase_c18AfterInitResourcesEj, so it is one line from "linking" --
 and linking it would install a `void f(void)` that reads the receiver and the
 vfSuccess code off a stack nobody pushed. It stays out on purpose.
@@ -439,7 +439,7 @@ and it is not dropped by /OPT:REF.
 
 NINETEEN OF THE THIRTY-THREE gate-36 lines are in that state, not sixteen. An
 earlier version of this paragraph listed fifteen besides InitResources and
-missed src/LoadArchive.c and src/func_ov001_020ab2e4.c; the full set is now
+missed src/LoadArchive.c and src/actors/dCapIcon_c.cpp; the full set is now
 computed rather than typed, by intersecting the slice with the object names in
 build.ninja:
 
@@ -955,7 +955,7 @@ THE CHAIN, end to end, every link read out of src/ or port/hal/:
 
   1. Seated slot 7 runs Scene::BeforeBehavior on the Stage EVERY FRAME. That
      function carries two ActorBase::MarkForDestruction(self) calls.
-  2. src/_ZN7fBase_c18MarkForDestructionEv.cpp is not deferred bookkeeping.
+  2. src/actors/ActorBase.cpp is not deferred bookkeeping.
      It sets shouldBeKilled and then calls OnPendingDestroy() straight through
      the vptr -- slot 12. So either edge landed on st_trap and aborted.
   3. EDGE A IS DEAD. It is gated on data_0209f1e0, and no linked TU writes
@@ -2572,7 +2572,7 @@ for the end of a declaration AFTER counting the depth of the character it was
 looking at, so an INLINE body's opening `{` incremented the counter instead of
 terminating the declaration, and every virtual after the first inline one in
 that class became invisible. It hid exactly one row --
-src/game/actors/WingFeather/_ZN11WingFeather6RenderEv.cpp's `struct Sub`, `virtual ~Sub() {}` then four
+src/game/actors/daFeather_c/daFeather_c.cpp's `struct Sub`, `virtual ~Sub() {}` then four
 more -- and what found it was cross-checking the dispatch census against the
 sweep: five dispatching TUs also spell a virtual destructor and only four of
 them were in the list. A sweep is only as good as the thing that contradicts it.

@@ -208,7 +208,6 @@ OV65_TRAP(13) OV65_TRAP(14) OV65_TRAP(17)
 #pragma comment(linker, "/alternatename:?data_ov065_0211d720@@3HA=_data_ov065_0211d720")
 #pragma comment(linker, "/alternatename:?data_ov065_0211d720@@3USharedFilePtr@@A=_data_ov065_0211d720")
 #pragma comment(linker, "/alternatename:?data_ov075_0211d608@@3USharedFilePtr@@A=_data_ov065_0211d608")
-#pragma comment(linker, "/alternatename:?data_ov075_0211d610@@3USharedFilePtr@@A=_data_ov065_0211d610")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9c0@@3HA=_data_ov002_0210d9c0")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9c0@@3UG@@A=_data_ov002_0210d9c0")
 #pragma comment(linker, "/alternatename:?data_ov002_0210d9c0@@3USharedFilePtr@@A=_data_ov002_0210d9c0")
@@ -449,11 +448,11 @@ DSSTATE_BEGIN
 void *_ZTV5Swoop[31];
 DSSTATE_END
 }
-#include "Swoop.h"
+#include "daBasabasa_c.h"
 /* basabasa = the flapping; SwoopD0 restores the table by this spelling */
 #pragma comment(linker, "/alternatename:__ZTV12daBasabasa_c=__ZTV5Swoop")
 static int __fastcall sw_init(void *s, void *)
-{ return ((Swoop *)s)->Swoop::InitResources(); }
+{ return ((daBasabasa_c *)s)->daBasabasa_c::InitResources(); }
 static int __fastcall sw_clean(void *s, void *)
 { (void)s; return _ZN5Swoop16CleanupResourcesEv(); }
 static int __fastcall sw_behavior(void *s, void *)
@@ -465,7 +464,7 @@ static int __fastcall sw_behavior(void *s, void *)
    0x02117af0, recorded as _ZN5Swoop6RenderEv kind:function(arm,size=0x74). */
 static int __fastcall sw_render(void *s, void *)
 { port_actor_render_probe("SWOOP", (char *)s + 0x300);
-  return ((Swoop *)s)->Swoop::Render(); }
+  return ((daBasabasa_c *)s)->daBasabasa_c::Render(); }
 static int __fastcall sw_pdes(void *s, void *)
 { (void)s; _ZN5Swoop16OnPendingDestroyEv(); return 0; }
 static int __fastcall sw_d1(void *s, void *)
@@ -513,11 +512,11 @@ DSSTATE_BEGIN
 void *_ZTV6Dorrie[31];
 DSSTATE_END
 }
-#include "Dorrie.h"
+#include "daDossy_c.h"
 static int __fastcall do_init(void *s, void *)
-{ return ((Dorrie *)s)->Dorrie::InitResources(); }
+{ return ((daDossy_c *)s)->daDossy_c::InitResources(); }
 static int __fastcall do_clean(void *s, void *)
-{ return ((Dorrie *)s)->Dorrie::CleanupResources(); }
+{ return ((daDossy_c *)s)->daDossy_c::CleanupResources(); }
 static int __fastcall do_behavior(void *s, void *)
 { return _ZN6Dorrie8BehaviorEv(s); }
 /* GATE 230: the matched Render is back, the same reading as SNUFIT above,
@@ -526,7 +525,7 @@ static int __fastcall do_behavior(void *s, void *)
    _ZN6Dorrie6RenderEv kind:function(arm,size=0x28). */
 static int __fastcall do_render(void *s, void *)
 { port_actor_render_probe("DORRIE", (char *)s + 0xec);
-  return ((Dorrie *)s)->Dorrie::Render(); }
+  return ((daDossy_c *)s)->daDossy_c::Render(); }
 static int __fastcall do_d1(void *s, void *)
 { return (int)(size_t)_ZN6DorrieD1Ev(s); }
 static int __fastcall do_d0(void *s, void *)
@@ -623,22 +622,22 @@ DSSTATE_BEGIN
 void *_ZTV12WorkElevator[32];
 DSSTATE_END
 }
-#include "WorkElevator.h"
+#include "daObjCvNewsLift_c.h"
 /* the shared-window race: daObjCvNewsLift_c_classInit spells its own-table store
    func_ov075_0211478c; ov021's config names that address _ZTV12WorkElevator.
-   PORT_HOST_ABI: shared-window name race -- src/func_ov075_0211478c.c is
+   PORT_HOST_ABI: shared-window name race -- src/actors/dEntObj_c.cpp is
    ov075's OWN body at the same window address (a different overlay's image),
    and linking it here would hand WorkElevator VS-mode code for a vtable. */
 #pragma comment(linker, "/alternatename:_func_ov075_0211478c=__ZTV12WorkElevator")
 static int __fastcall we_init(void *s, void *)
 { return _ZN12WorkElevator13InitResourcesEv((char *)s); }
 static int __fastcall we_clean(void *s, void *)
-{ return ((WorkElevator *)s)->WorkElevator::CleanupResources(); }
+{ return ((daObjCvNewsLift_c *)s)->daObjCvNewsLift_c::CleanupResources(); }
 static int __fastcall we_behavior(void *s, void *)
 { return _ZN12WorkElevator8BehaviorEv(s); }
 static int __fastcall we_render(void *s, void *)
 { port_actor_render_probe("WORK_ELEVATOR", (char *)s + 0x320);
-  return ((WorkElevator *)s)->WorkElevator::Render(); }
+  return ((daObjCvNewsLift_c *)s)->daObjCvNewsLift_c::Render(); }
 static int __fastcall we_d1(void *s, void *)
 { return (int)(size_t)_ZN12WorkElevatorD1Ev(s); }
 static int __fastcall we_d0(void *s, void *)
@@ -676,18 +675,18 @@ DSSTATE_BEGIN
 void *_ZTV11RollingRock[31];
 DSSTATE_END
 }
-#include "RollingRock.h"
+#include "daGrock_c.h"
 /* grock = the rock; RollingRockD0 restores the table by this spelling */
 #pragma comment(linker, "/alternatename:__ZTV9daGrock_c=__ZTV11RollingRock")
 static int __fastcall rr_init(void *s, void *)
-{ return ((RollingRock *)s)->RollingRock::InitResources(); }
+{ return ((daGrock_c *)s)->daGrock_c::InitResources(); }
 static int __fastcall rr_clean(void *s, void *)
 { (void)s; return _ZN11RollingRock16CleanupResourcesEv(); }
 static int __fastcall rr_behavior(void *s, void *)
 { return _ZN11RollingRock8BehaviorEv((char *)s); }
 static int __fastcall rr_render(void *s, void *)
 { port_actor_render_probe("ROLLING_ROCK", (char *)s + 0x110);
-  return ((RollingRock *)s)->RollingRock::Render(); }
+  return ((daGrock_c *)s)->daGrock_c::Render(); }
 static int __fastcall rr_d1(void *s, void *)
 { return (int)(size_t)_ZN11RollingRockD1Ev((int *)s); }
 static int __fastcall rr_d0(void *s, void *)
@@ -826,8 +825,8 @@ extern "C" void hal_fill_shutter_hmc_vtable(void)
 // ---- 4. THE METHOD FACES DECLARE THEIR OWN CLASSES ------------------------
 // Five of the seven classes have real C++ method bodies, and the obvious route
 // -- include their generated headers -- does not work uniformly:
-// include/TTC_MovingBar.h declares InitResources/CleanupResources/Render and
-// NOT Behavior, while src/_ZN13TTC_MovingBar8BehaviorEv.cpp declares its own
+// include/daObjCtKaitendai_c.h declares InitResources/CleanupResources/Render and
+// NOT Behavior, while src/actors/daObjCtKaitendai_c.cpp declares its own
 // local class carrying only Behavior. MSVC decorates a member by name,
 // signature and calling convention and not by layout, so a local declaration
 // here produces the identical ?Method@Class@@QAEHXZ the definition emits --
@@ -846,7 +845,7 @@ class TtcRotatingCube      { public: int InitResources(); int CleanupResources()
                                      int Behavior(); int Render(); };
 class TtcConveyorBeltLarge { public: int InitResources(); int CleanupResources();
                                      int Behavior(); int Render(); };
-class TTC_MovingBar        { public: int InitResources(); int CleanupResources();
+class daObjCtKaitendai_c        { public: int InitResources(); int CleanupResources();
                                      int Behavior(); int Render(); };
 class TtcRotatingGear      { public: int InitResources(); int CleanupResources();
                                      int Render(); };
@@ -887,7 +886,7 @@ int _ZN15TtcRotatingGear8BehaviorEv(char *c);        /* 0x0211b8f8, slot 6  */
 /* every destructor is a .c body taking and returning int* */
 int *_ZN15TtcRotatingCubeD1Ev(int *t);          int *_ZN15TtcRotatingCubeD0Ev(int *t);
 int *_ZN16daObjCtMecha04_cD1Ev(int *t);     int *_ZN16daObjCtMecha04_cD0Ev(int *t);
-int *_ZN13TTC_MovingBarD1Ev(int *t);            int *_ZN13TTC_MovingBarD0Ev(int *t);
+int *_ZN18daObjCtKaitendai_cD1Ev(int *t);            int *_ZN18daObjCtKaitendai_cD0Ev(int *t);
 int *_ZN15TtcRotatingGearD1Ev(int *t);          int *_ZN15TtcRotatingGearD0Ev(int *t);
 int *_ZN14TTC_MovingBeamD1Ev(int *t);           int *_ZN14TTC_MovingBeamD0Ev(int *t);
 
@@ -948,7 +947,7 @@ void hal_fill_platform_vtable(void);
    RTTI name, because dsd never produced a Ttc spelling for either table. */
 #pragma comment(linker, "/alternatename:__ZTV15TtcRotatingCube=__ZTV20daObjCtRotateBlock_c")
 #pragma comment(linker, "/alternatename:__ZTV20TtcConveyorBeltLarge=__ZTV16daObjCtMecha04_c")
-#pragma comment(linker, "/alternatename:__ZTV13TTC_MovingBar=__ZTV18daObjCtKaitendai_c")
+#pragma comment(linker, "/alternatename:__ZTV13daObjCtKaitendai_c=__ZTV18daObjCtKaitendai_c")
 #pragma comment(linker, "/alternatename:__ZTV15TtcRotatingGear=__ZTV16daObjCtMecha08_c")
 #pragma comment(linker, "/alternatename:__ZTV14TtcMovingCubeA=__ZTV16daObjCtMecha09_c")
 /* Ids 110 and 113 the other way round: their arrays carry the CONFIG name (see
@@ -1039,10 +1038,6 @@ void hal_fill_platform_vtable(void);
  * question and not a type one at this layer.
  */
 /* the four .text-pool CLPS blocks -> ov035's per-symbol mount */
-#pragma comment(linker, "/alternatename:?func_02112118@@3UCLPS_Block@@A=_data_ov035_02112118")
-#pragma comment(linker, "/alternatename:_func_02112198=_data_ov035_02112198")
-#pragma comment(linker, "/alternatename:_func_021121b8=_data_ov035_021121b8")
-#pragma comment(linker, "/alternatename:_func_02112258=_data_ov035_02112258")
 /* decorated free-function spellings -> the one C name each body defines */
 #pragma comment(linker, "/alternatename:?_ZN11ShadowModel10InitCuboidEv@@YAXPAX@Z=__ZN11ShadowModel10InitCuboidEv")
 #pragma comment(linker, "/alternatename:?_ZN7dBgW_Kc8LoadFileER13SharedFilePtr@@YAPAUKCL_File@@AAUSharedFilePtr@@@Z=__ZN7dBgW_Kc8LoadFileER13SharedFilePtr")
@@ -1128,7 +1123,7 @@ int RaycastGround::SetObjAndPos(const Vector3 &v, dActor_c *a)
  * port/unmatched/Seats2_NameBridges.cpp, so ?Behavior@TTC_MovingBeam@@QAEHXZ has been on
  * the walk_window link since the reconciliation. The face outlived its own reason and the
  * vtable fill below still called it; slot 6 now goes to the matched body by member call,
- * the TTC_MovingBar shape this file's section 4 comment describes.
+ * the daObjCtKaitendai_c shape this file's section 4 comment describes.
  *
  * The battery's LEVEL_SKIPS row for level 27 went with it: that table's own rule is that
  * a skip must not outlive its bug. */
@@ -1268,20 +1263,20 @@ extern "C" void hal_fill_ct_mecha05_vtable(void)
 }
 
 /* ids 114 TTC_ROTATING_GEAR / 115 TTC_ROTATING_TRIANGLE -- 0x0211d3b4.
-   dsd spells these bodies _ZN13TTC_MovingBar*, which is id 113's NAME. */
+   dsd spells these bodies _ZN18daObjCtKaitendai_c*, which is id 113's NAME. */
 static int __fastcall kai_init(void *s, void *)
-{ return ((TTC_MovingBar *)s)->TTC_MovingBar::InitResources(); }
+{ return ((daObjCtKaitendai_c *)s)->daObjCtKaitendai_c::InitResources(); }
 static int __fastcall kai_clean(void *s, void *)
-{ return ((TTC_MovingBar *)s)->TTC_MovingBar::CleanupResources(); }
+{ return ((daObjCtKaitendai_c *)s)->daObjCtKaitendai_c::CleanupResources(); }
 static int __fastcall kai_behavior(void *s, void *)
-{ return ((TTC_MovingBar *)s)->TTC_MovingBar::Behavior(); }
+{ return ((daObjCtKaitendai_c *)s)->daObjCtKaitendai_c::Behavior(); }
 static int __fastcall kai_render(void *s, void *)
 { port_actor_render_probe("TTC_ROTATING_GEAR", (char *)s + 0xd4);
-  return ((TTC_MovingBar *)s)->TTC_MovingBar::Render(); }
+  return ((daObjCtKaitendai_c *)s)->daObjCtKaitendai_c::Render(); }
 static int __fastcall kai_d1(void *s, void *)
-{ return (int)(size_t)_ZN13TTC_MovingBarD1Ev((int *)s); }
+{ return (int)(size_t)_ZN18daObjCtKaitendai_cD1Ev((int *)s); }
 static int __fastcall kai_d0(void *s, void *)
-{ return (int)(size_t)_ZN13TTC_MovingBarD0Ev((int *)s); }
+{ return (int)(size_t)_ZN18daObjCtKaitendai_cD0Ev((int *)s); }
 extern "C" void hal_fill_ct_kaitendai_vtable(void)
 {
     ttc_bringup();

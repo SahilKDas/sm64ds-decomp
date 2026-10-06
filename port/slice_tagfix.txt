@@ -93,8 +93,4 @@
 # Every line below byte-matches at 2004/b56 with --strict-relocs against
 # extracted/overlays/overlay_0002.bin based at 0x020ad660.
 #
-src/_ZN10BrickBlock11GetSpawnPosER7Vector3RS_.cpp
-src/_ZN10BrickBlock15SpawnKoopaShellEv.cpp
-src/_ZN10BrickBlock17SpawnMegaMushroomEv.cpp
-src/_ZN10BrickBlock18SpawnOneUpMushroomEv.cpp
-src/_ZN10BrickBlock15SpawnSilverStarEv.cpp
+src/actors/daObjBlockItemTag_c.cpp

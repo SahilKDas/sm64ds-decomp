@@ -312,7 +312,6 @@ int _ZN8daKpFr_c13OnYoshiTryEatEv(void);                    /* FlameChompFire sl
    copied: func_02015bcc IS _ZN9Animation8FinishedEv (arm9 symbols.txt names
    the address; the matched method TU and hal/player_bridges.cpp's C bridge
    are both in the link already). The ov070 TUs spell it by address. */
-#pragma comment(linker, "/alternatename:_func_02015bcc=__ZN9Animation8FinishedEv")
 
 // ---- the trap (the ov45 pattern, ov070's spelling) -------------------------
 static void ov70_trap_report(void *self, int slot)

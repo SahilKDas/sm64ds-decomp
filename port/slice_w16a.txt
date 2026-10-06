@@ -77,5 +77,4 @@
 # 8 and its span 0x021142c4..0x02114344 is exactly 32 slots.
 
 src/game/actors/daObjFl_Fall_Block_c.cpp
-src/d_a_obj_fl_fall_block.c
 src/__sinit_ov022_02112fe4.c

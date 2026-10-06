@@ -9,7 +9,7 @@
  *
  * IT IS ALSO FILED UNDER A WRONG RECOVERED NAME, which is why it takes a
  * second to recognise. config/arm9/overlays/ov006/delinks.txt in this tree
- * gives 0x02110154 the file src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp; the decomp's main has
+ * gives 0x02110154 the file src/actors/dScMgSmartball_c.cpp; the decomp's main has
  * since renamed the same block _ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp.
  * Nothing about the body is Player's. The rename is a byte-gated-tree job and
  * is ROUTED, not taken here.
@@ -23,7 +23,7 @@
  *     ...                               (the zero pass over r4's own fields)
  *
  * 0x02114738 is cMgSmartball_object_c's own RestoreInitial, the base's copy,
- * and src/_ZN21cMgSmartball_object_c14RestoreInitialEv.cpp defines it `void _ZN21cMgSmartball_object_c14RestoreInitialEv(int *p)`
+ * and src/actors/dScMgSmartball_c.cpp defines it `void _ZN21cMgSmartball_object_c14RestoreInitialEv(int *p)`
  * -- it reads [p+0x18]/[p+0x1c] and stores them to [p+8]/[p+0xc]. So the
  * argument is not decorative: dropped, the callee reads whatever the host left
  * at [esp+4] and STORES THROUGH IT. A wild write, not a wild read, so no fault
@@ -31,9 +31,9 @@
  *
  * THE SOURCE PAIR, verbatim from the tree:
  *
- *     src/_ZN21cMgSmartball_object_c14RestoreInitialEv.cpp:1        void _ZN21cMgSmartball_object_c14RestoreInitialEv(int *p)
- *     src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp:3      void data_ov034_02114738(void);
- *     src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp:15     data_ov034_02114738();
+ *     src/actors/dScMgSmartball_c.cpp:1        void _ZN21cMgSmartball_object_c14RestoreInitialEv(int *p)
+ *     src/actors/dScMgSmartball_c.cpp:3      void data_ov034_02114738(void);
+ *     src/actors/dScMgSmartball_c.cpp:15     data_ov034_02114738();
  *
  * and there are TWO defects in those three lines, not one. Besides the dropped
  * argument, the callee is spelled data_ov034_02114738 -- an ov034 DATA name for
@@ -45,9 +45,9 @@
  *
  * SO THE ANSWER IS THE HOST COPY AND NOT A FACE, exactly as section 6's remedy
  * says: the caller verbatim with the argument placed, and src is left alone.
- * src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp is off port/slice_smb.txt so the link has one
+ * src/actors/dScMgSmartball_c.cpp is off port/slice_smb.txt so the link has one
  * definition of the name, the same split MgSmartball_Slot18.cpp makes for
- * src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp.
+ * src/actors/dScMgSmartball_c.cpp.
  *
  * THE NAME IS NOT KEPT, AND THAT IS THE THIRD DEFECT AT THIS ADDRESS.
  * The first draft of this file defined the flat name _ZN19cMgSmartball_slot_c14RestoreInitialEv, on
@@ -73,7 +73,7 @@
  * keeping the tree's spelling would have been the wrong move, and nothing
  * short of the guard would have said so.
  *
- * THE FIELD LAYOUT BELOW IS src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp's OWN, character for
+ * THE FIELD LAYOUT BELOW IS src/actors/dScMgSmartball_c.cpp's OWN, character for
  * character. Nothing here is re-derived and nothing is improved; the only edit
  * is the argument on the call.
  */

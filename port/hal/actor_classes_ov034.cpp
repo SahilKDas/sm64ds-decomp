@@ -137,7 +137,7 @@ void port_ov034_syms_patch(void);
    destructor chain nodes and the twenty-two state pmfs. */
 void __sinit_ov034_021138ec(void);
 
-/* what port_factory_wiggler spells by hand (src/d_a_hanachan.c is held out --
+/* what port_factory_wiggler spells by hand (src/actors/daHanachan_c.cpp is held out --
    it rides the ROM's r0 through into Enemy::C2, the ChiefChilly shape) */
 void *_ZN7fBase_cnwEj(unsigned int sz);
 void _ZN12dEnemyBase_cC2Ev(void *self);
@@ -166,17 +166,17 @@ int _ZN7Wiggler6RenderEv(void *self);             /* slot 9,  HOST COPY */
 int _ZN7Wiggler8BehaviorEv(void *self);           /* slot 6,  src/ */
 
 /* the twenty-two state handlers, {enter, tick} per state */
-void func_ov034_02112484(void *c); void func_ov034_02112348(void *c);
-void func_ov034_02112330(void *c); void func_ov034_02112284(void *c);
-void func_ov034_02112270(void *c); void func_ov034_021120ac(void *c);
-void func_ov034_02112020(void *c); void func_ov034_02111e68(void *c);
-void func_ov034_02111e4c(void *c); void func_ov034_02111c48(void *c);
-void func_ov034_02111bb0(void *c); void func_ov034_02111a64(void *c);
-void func_ov034_02111a0c(void *c); void func_ov034_021119ac(void *c);
-void func_ov034_02111974(void *c); void func_ov034_02111788(void *c);
-void func_ov034_02111720(void *c); void func_ov034_021115cc(void *c);
-void func_ov034_021115c0(void *c); void func_ov034_02111588(void *c);
-void func_ov034_02111520(void *c); void func_ov034_021113d4(void *c);
+void _ZN12daHanachan_c17StateDemoWaitInitEv(void *c); void _ZN12daHanachan_c17StateDemoWaitMainEv(void *c);
+void _ZN12daHanachan_c17StateDemoCallInitEv(void *c); void _ZN12daHanachan_c17StateDemoCallMainEv(void *c);
+void _ZN12daHanachan_c17StateMoveStopInitEv(void *c); void _ZN12daHanachan_c17StateMoveStopMainEv(void *c);
+void _ZN12daHanachan_c18StateMoveStartInitEv(void *c); void _ZN12daHanachan_c18StateMoveStartMainEv(void *c);
+void _ZN12daHanachan_c13StateMoveInitEv(void *c); void _ZN12daHanachan_c13StateMoveMainEv(void *c);
+void _ZN12daHanachan_c15StateDamageInitEv(void *c); void _ZN12daHanachan_c15StateDamageMainEv(void *c);
+void _ZN12daHanachan_c19StateDamageTalkInitEv(void *c); void _ZN12daHanachan_c19StateDamageTalkMainEv(void *c);
+void _ZN12daHanachan_c13StateDeadInitEv(void *c); void _ZN12daHanachan_c13StateDeadMainEv(void *c);
+void _ZN12daHanachan_c19StateDamageStopInitEv(void *c); void _ZN12daHanachan_c19StateDamageStopMainEv(void *c);
+void _ZN12daHanachan_c19StateDamageWaitInitEv(void *c); void _ZN12daHanachan_c19StateDamageWaitMainEv(void *c);
+void _ZN12daHanachan_c20StateDamageStartInitEv(void *c); void _ZN12daHanachan_c20StateDamageStartMainEv(void *c);
 
 /* the host vtable, excluded from the mount */
 DSSTATE_BEGIN
@@ -262,7 +262,7 @@ extern "C" char port_ov015_kdp_clsn_files[];
      src/_ZN8dActor_c9UpdatePosEP5dCc_c.cpp        `(struct Actor *, struct CylinderClsn *)`
      src/_ZNK10dBgCh_Actr10IsOnGroundEv.cpp           `(const struct WithMeshClsn *)`
      src/_ZNK10dBgCh_Actr13JustHitGroundEv.cpp        `(const struct WithMeshClsn *)`
-     src/_ZN12dEnemyBase_c12UpdateWMClsnER10dBgCh_Actrj.cpp `(struct Enemy *, struct WithMeshClsn *, u32)`
+     src/actors/dEnemyBase_c.cpp `(struct Enemy *, struct WithMeshClsn *, u32)`
    The two CylinderClsn ones are REAL C++ METHODS in src (`CylinderClsn::Clear`
    and `::Update`, which MSVC mangles and calls __thiscall), so the C name the
    ROM uses is not theirs -- it is the cdecl FACE in hal/method_faces.cpp:125
@@ -290,7 +290,7 @@ int _ZN7Wiggler13InitResourcesEv(void *self)
 // ============================================================================
 // THE FACTORY, SPELLED BY HAND -- the ChiefChilly r0 ride-through
 // ============================================================================
-/* src/d_a_hanachan.c is HELD OUT of the slice. It calls `func_020aed98();`
+/* src/actors/daHanachan_c.cpp is HELD OUT of the slice. It calls `func_020aed98();`
    with NO ARGUMENT because in the ROM the object operator new just returned is
    still in r0 when Enemy::C2 is entered:
        021136b0 bl 0x02043444   ActorBase::operator new(0x8e8)
@@ -299,7 +299,7 @@ int _ZN7Wiggler13InitResourcesEv(void *self)
    mwcc reproduced that, so the TU is byte-faithful and unusable under cdecl --
    and the name it spells, func_020aed98, is an arm9-style spelling of an ov002
    symbol that exists nowhere in the link. Exactly the shape
-   port/slice_w12.txt holds src/d_a_king_donketu.cpp out for, and this is that
+   port/slice_w12.txt holds src/actors/daKing_Donketu_c.cpp out for, and this is that
    lane's remedy: the ROM's own sequence with the receiver spelled, every
    offset, count and stride read from the disassembly at 0x021136a4. The
    allocation size 0x8e8 is the ROM's own literal pool word at 0x021137d4. */
@@ -429,17 +429,17 @@ static const struct {
     unsigned enter_rom, tick_rom;
     PortWigglerFn enter_host, tick_host;
 } g_wiggler_states[11] = {
-    { "DEMOWAIT",     0x02112484, 0x02112348, func_ov034_02112484, func_ov034_02112348 },
-    { "DEMOCALL",     0x02112330, 0x02112284, func_ov034_02112330, func_ov034_02112284 },
-    { "MOVE_STOP",    0x02112270, 0x021120ac, func_ov034_02112270, func_ov034_021120ac },
-    { "MOVE_START",   0x02112020, 0x02111e68, func_ov034_02112020, func_ov034_02111e68 },
-    { "MOVE",         0x02111e4c, 0x02111c48, func_ov034_02111e4c, func_ov034_02111c48 },
-    { "DAMAGE",       0x02111bb0, 0x02111a64, func_ov034_02111bb0, func_ov034_02111a64 },
-    { "DAMAGETALK",   0x02111a0c, 0x021119ac, func_ov034_02111a0c, func_ov034_021119ac },
-    { "DEAD",         0x02111974, 0x02111788, func_ov034_02111974, func_ov034_02111788 },
-    { "DAMAGE_STOP",  0x02111720, 0x021115cc, func_ov034_02111720, func_ov034_021115cc },
-    { "DAMAGE_WAIT",  0x021115c0, 0x02111588, func_ov034_021115c0, func_ov034_02111588 },
-    { "DAMAGE_START", 0x02111520, 0x021113d4, func_ov034_02111520, func_ov034_021113d4 },
+    { "DEMOWAIT", 0x02112484, 0x02112348, _ZN12daHanachan_c17StateDemoWaitInitEv, _ZN12daHanachan_c17StateDemoWaitMainEv },
+    { "DEMOCALL", 0x02112330, 0x02112284, _ZN12daHanachan_c17StateDemoCallInitEv, _ZN12daHanachan_c17StateDemoCallMainEv },
+    { "MOVE_STOP", 0x02112270, 0x021120ac, _ZN12daHanachan_c17StateMoveStopInitEv, _ZN12daHanachan_c17StateMoveStopMainEv },
+    { "MOVE_START", 0x02112020, 0x02111e68, _ZN12daHanachan_c18StateMoveStartInitEv, _ZN12daHanachan_c18StateMoveStartMainEv },
+    { "MOVE", 0x02111e4c, 0x02111c48, _ZN12daHanachan_c13StateMoveInitEv, _ZN12daHanachan_c13StateMoveMainEv },
+    { "DAMAGE", 0x02111bb0, 0x02111a64, _ZN12daHanachan_c15StateDamageInitEv, _ZN12daHanachan_c15StateDamageMainEv },
+    { "DAMAGETALK", 0x02111a0c, 0x021119ac, _ZN12daHanachan_c19StateDamageTalkInitEv, _ZN12daHanachan_c19StateDamageTalkMainEv },
+    { "DEAD", 0x02111974, 0x02111788, _ZN12daHanachan_c13StateDeadInitEv, _ZN12daHanachan_c13StateDeadMainEv },
+    { "DAMAGE_STOP", 0x02111720, 0x021115cc, _ZN12daHanachan_c19StateDamageStopInitEv, _ZN12daHanachan_c19StateDamageStopMainEv },
+    { "DAMAGE_WAIT", 0x021115c0, 0x02111588, _ZN12daHanachan_c19StateDamageWaitInitEv, _ZN12daHanachan_c19StateDamageWaitMainEv },
+    { "DAMAGE_START", 0x02111520, 0x021113d4, _ZN12daHanachan_c20StateDamageStartInitEv, _ZN12daHanachan_c20StateDamageStartMainEv },
 };
 
 extern "C" void port_wiggler_states_seat(void)

@@ -5,7 +5,7 @@
 // remaining.md section B verbatim.
 //
 // ??0fBase_c@@QAE@XZ is referenced by src/_ZN8dActor_cC1Ev.cpp (on this batch)
-// and by src/_ZN11dScMgBase_cC2Ev.cpp, both real C++ constructors, which is
+// and by src/minigames/d_s_mg_base.cpp, both real C++ constructors, which is
 // why they call the base constructor by its decorated name.
 //
 // port/hal/link21_rows.cpp:100-166 carries the whole ruling for why the answer

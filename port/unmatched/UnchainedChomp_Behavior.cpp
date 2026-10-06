@@ -1,5 +1,5 @@
 /* HOST COPIES of src/_ZN14UnchainedChomp8BehaviorEv.cpp (the per-frame body)
- * and src/func_ov100_02143b18.cpp (the InitResources-time installer both share
+ * and src/actors/daWanwan2_c.cpp (the InitResources-time installer both share
  * the +0x668 Holder with), plus the seat for the two {function, delta} statics
  * they dispatch. The gate-16 pointer-to-member case again -- the simplest table
  * of the four ov100 classes carry: a single Holder* at +0x668 rather than an
@@ -252,11 +252,11 @@ static int port_chomp_call(const PortPmf *p, void *self)
     return f(adj, 0);
 }
 
-/* HOST COPY of src/func_ov100_02143b18.cpp: seat the Holder at +0x668 and run
+/* HOST COPY of src/actors/daWanwan2_c.cpp: seat the Holder at +0x668 and run
    its word-0 (lo) pointer-to-member immediately, the InitResources-time call. */
 
 /* func_ov100_02143b18 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov100_02143b18.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daWanwan2_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.

@@ -53,7 +53,7 @@ struct SharedFilePtr {
 };
 void SharedFilePtr::LoadFile() { _ZN13SharedFilePtr8LoadFileEv(this); }
 /* Release is a C-form definition in src (a .c file), but the cleanup paths
-   main rewrote as real methods -- ArrowSignRight's, the water's, the net's --
+   main rewrote as real methods -- daObjYajirusi_c's, the water's, the net's --
    reach it through include/SharedFilePtr.h as a method. Same direction as
    LoadFile above. */
 /* RETIRED at ALIAS2 (wave 8, the main -> port sync): main defines

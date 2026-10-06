@@ -20,28 +20,11 @@
 # port/unmatched/HUD_InitResources.cpp, the hand copy that carried both by
 # hand, is retired. See status/HUDINITRES.md.
 
-src/d_meter.cpp
+src/actors/dMeter_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN3HUDD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN3HUDD0Ev.cpp
-src/_ZN3HUDD1Ev.cpp
-src/_ZN3HUD16CleanupResourcesEv.cpp
-src/_ZN3HUD16OnPendingDestroyEv.cpp
-src/_ZN3HUD8BehaviorEv.cpp
-src/_ZN3HUD6RenderEv.cpp
 
 # the render leaves
-src/_ZN3HUD15CalculateDigitsEt.cpp
-src/_ZN3HUD15RenderCoinCountEv.cpp
-src/_ZN3HUD15RenderLifeCountEv.cpp
-src/_ZN3HUD15RenderStarCountEv.cpp
-src/_ZN3HUD15RenderTimeTimerEv.cpp
-src/_ZN3HUD17RenderHealthMeterEv.cpp
-src/_ZN3HUD17RenderSilverStarsEv.cpp
-src/_ZN3HUD14RenderRedCoinsEv.cpp
-src/_ZN3HUD19RenderCameraButtonsEv.cpp
-src/_ZN3HUD13RenderVsTimerEv.cpp
-src/_ZN3HUD13UpdateVsTimerEv.cpp
-src/_ZN3HUD17UpdateHealthMeterEv.cpp
 
 # Stage::RenderVsModeCountdown -- the VS start-of-round READY? / red 3-2-1 /
 # START draw. Not a HUD leaf, but it rides here because it emits through the

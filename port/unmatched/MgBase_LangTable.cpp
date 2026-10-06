@@ -10,7 +10,7 @@
 //     FAULT c0000005 at _func_ov004_020b2cb8+0x3ce accessing 0x00000065
 //     eax 00000065
 //
-// 0x65 is 101, and 101 is a literal in src/func_ov004_020b2cb8.c.
+// 0x65 is 101, and 101 is a literal in src/actors/unit020b2c84.cpp.
 //
 // ---- WHAT THE SRC SAYS AND WHAT THE ROM SAYS ------------------------------
 //

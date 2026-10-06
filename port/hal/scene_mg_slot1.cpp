@@ -461,7 +461,7 @@ extern "C" void port_scene_fill_slot1(void)
    factory, but the forwarder is kept anyway for the reason title_spawn,
    port_mg_curling_spawn and port_mg_flower_spawn are: it gives the seat one
    place to observe the object without the registry table growing a column.
-   THE FACTORY NEEDS NO DISPLACEMENT RULING. src/d_s_mg_slot1.cpp calls
+   THE FACTORY NEEDS NO DISPLACEMENT RULING. src/minigames/d_s_mg_slot1.cpp calls
    _ZN11dScMgBase_cC2Ev(p) WITH the pointer, where dScMgCup_c's factory calls
    the same base constructor with none and rides r0 through; the ROM agrees --
    `movs r4, r0` leaves r0 holding p across the call at 0x0210d6cc. */

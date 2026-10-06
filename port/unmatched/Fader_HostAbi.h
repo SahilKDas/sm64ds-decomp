@@ -1,5 +1,5 @@
 /* PORT_HOST_ABI. The fader hierarchy, force-included ahead of
- * src/_ZN8dScene_c9SetFadersEP15FaderBrightness.cpp so that translation unit
+ * src/actors/dScene_c.cpp so that translation unit
  * dispatches the ROM's vtable slots instead of MSVC's. Nothing in src/ or
  * include/ changes. Run link100, lane CRASH2.
  *
@@ -43,7 +43,7 @@
  * ones aiming at slot 5 (IsAtStart, landing on SetForwardTime) and slot 4
  * (SetForwardTime, landing on SetBackwardTime). SetFaders is the one such site
  * on the boot path, and it is also the only translation unit left that reaches
- * a fader through the real C++ class at all -- src/_ZN8dScene_c14BeforeBehaviorEv.cpp
+ * a fader through the real C++ class at all -- src/actors/dScene_c.cpp
  * already declares a file-local explicit-slot `FaderVTable` of cdecl function
  * pointers for exactly this reason, and says so in its own header comment.
  *

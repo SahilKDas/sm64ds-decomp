@@ -13,8 +13,8 @@
 # WHAT CHANGED. The main -> port sync brought in sources that PASS the receiver.
 # Re-read at 8ddff3187, one file at a time, before this file was written:
 #
-#   src/func_ov060_02111f08.c:21                (arg0)
-#   src/unnamed/ov063/func_ov063_02117650.c:17  (self)
+#   src/actors/daKpa_c.cpp:21                (arg0)
+#   src/actors/daTrs_c.cpp:17  (self)
 #
 # Both declare `_ZN8dActor_c13ClosestPlayerEv(void *thiz)` and pass their own
 # first parameter, which is exactly the value the ROM leaves in r0. Neither
@@ -31,12 +31,12 @@
 #
 # The four sibling rows of this batch that already had a commented row in an
 # existing manifest were uncommented there instead of being duplicated here:
-# src/func_ov085_0212d9b8.c, 0212dd10.cpp, 0212e310.cpp and 0212e4a4.c in
-# port/slice_gate18.txt, and src/func_ov094_02136024.cpp in
+# src/game/actors/d_a_c_jugem.cpp, 0212dd10.cpp, 0212e310.cpp and 0212e4a4.c in
+# port/slice_gate18.txt, and src/actors/daOwl_c.cpp in
 # port/slice_gate194.txt.
 
-src/func_ov060_02111f08.c
-src/unnamed/ov063/func_ov063_02117650.c
+src/actors/daKpa_c.cpp
+src/actors/daTrs_c.cpp
 
 # SUB-BATCH 2, the three arm9 members. These are not the overlay shape: the
 # sources are REAL C++ members against include/dActor_c.h (`Player *ClosestPlayer();`

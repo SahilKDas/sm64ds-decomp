@@ -1,7 +1,7 @@
-/* HOST COPY of src/func_ov098_0213b9d8.cpp -- the WATER_BOMB's state-0 body
+/* HOST COPY of src/actors/daWbm_c.cpp -- the WATER_BOMB's state-0 body
  * (the fire state that spawns a bomb toward the nearest player).
  *
- * src/func_ov098_0213b9d8.cpp is byte-matched with mwccarm, and it is declared
+ * src/actors/daWbm_c.cpp is byte-matched with mwccarm, and it is declared
  * int-returning while its body uses mwccarm's bare `return;` on every early
  * exit and falls off the end. mwccarm accepts that (r0 carries whatever); MSVC's
  * C++ front end rejects it (C2561, "'func_ov098_0213b9d8': function must return
@@ -15,7 +15,7 @@
  * fall-through r0) are dead at the only call site. This is the Cannon_Behavior /
  * Coin_Behavior "HOST COPY" idiom -- a matched function transcribed because MSVC
  * will not take the mwccarm form verbatim, with nothing about the effect
- * changed. Delete this and put src/func_ov098_0213b9d8.cpp back in the slice the
+ * changed. Delete this and put src/actors/daWbm_c.cpp back in the slice the
  * moment its return type is reconciled.
  */
 #include "types.h"
@@ -24,7 +24,7 @@
 struct Vector3_16;
 struct dActor_c;
 /* Actor::ClosestPlayer() is a __thiscall method in the ROM: `this` rides in a
- * register, and src/func_ov098_0213b9d8.cpp declares it (void) because the
+ * register, and src/actors/daWbm_c.cpp declares it (void) because the
  * decompiler could drop the implicit self. The host definition
  * (src/_ZN8dActor_c13ClosestPlayerEv.cpp) is a cdecl free function that reads its
  * self argument off the STACK (`(char*)c + 0x5c`), so the self MUST be passed

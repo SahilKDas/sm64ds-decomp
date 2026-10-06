@@ -528,7 +528,7 @@ W2SeatDtorHeads g_w2_seat_dtor_heads;
 //        measurement rather than a change of mind. All three matched bodies
 //        are ARM tail-call veneers that rely on the receiver riding through in
 //        r0:
-//          src/_ZN8dScene_c18AfterInitResourcesEj.cpp
+//          src/actors/dScene_c.cpp
 //            extern "C" void _ZN7dBase_c18AfterInitResourcesEj(void);
 //            void _ZN8dScene_c18AfterInitResourcesEj(void) { <callee>(); }
 //        and the same shape for Scene::AfterBehavior and Scene::AfterRender.
@@ -580,7 +580,7 @@ W2SeatDtorHeads g_w2_seat_dtor_heads;
 //            _data_02092660  @ 0x00826ee1
 //              (_ZN8dScene_c21AfterCleanupResourcesEj.cpp.obj)
 //
-//        src/_ZN8dScene_c21AfterCleanupResourcesEj.cpp does not merely reference
+//        src/actors/dScene_c.cpp does not merely reference
 //        data_02092660, it DEFINES it (`extern "C" { unsigned char
 //        data_02092660; }` at namespace scope in a .cpp is a definition, not a
 //        tentative one), so the global lands in ordinary .bss and a restore

@@ -357,6 +357,9 @@ struct SyncPlayerV1 {
     // it -- a versus match is one shared level -- but carries it so one wire
     // format serves both modes. u16 for room; ids are 0..51 today.
     unsigned short level_id;
+    // v5: stable pack character identity. Runtime numeric IDs are deliberately
+    // absent: peers may enable the same packs in a different order.
+    unsigned long long character_key_hash;
 };
 struct SyncMsgV1 {
     unsigned       magic;     // kSyncMagic -- framing, never changes
@@ -395,7 +398,7 @@ enum : unsigned { kSyncMagic = 0x314e5953u };
 // already when a tag bump unframed the whole channel (247 sent, 0 received).
 // Both sides ship together; a mismatched peer is recognised, counted, dropped
 // loudly.
-enum : unsigned { kSyncVersion = 4u };
+enum : unsigned { kSyncVersion = 5u };
 enum : unsigned char { kFlagLive = 1, kFlagGrounded = 2, kFlagTeleport = 4 };
 enum : int { kSyncBufBytes = 256 };
 
@@ -551,6 +554,16 @@ bool     g_peer_present[kCommsMaxPlayers];
 // per-slot (not a whole-session mode) precisely so the two treatments can
 // coexist in one level: some peers are party members, some are ghosts.
 bool     g_peer_party[kCommsMaxPlayers];
+unsigned long long g_pack_character_hashes[252];
+int g_pack_character_count;
+unsigned long long g_selected_pack_character_hash;
+
+bool has_pack_character(unsigned long long hash)
+{
+    for (int i = 0; i < g_pack_character_count; ++i)
+        if (g_pack_character_hashes[i] == hash) return true;
+    return false;
+}
 
 // Item 2's sender-side velocity sample: the local body's position last frame,
 // differenced each frame. Seeded on first sight so the first frame's
@@ -886,6 +899,7 @@ void sync_send_own() {
        own level. data_0209f2f8 is signed (levels 0..51); widen through int so a
        hypothetical negative id does not sign-extend into the u16. */
     e->level_id = (unsigned short)(int)data_0209f2f8;
+    e->character_key_hash = g_selected_pack_character_hash;
 
     const int len = (int)sizeof(SyncMsgV1) + (int)sizeof(SyncPlayerV1);
     if (t->send_aux(buf, len) == len) {
@@ -969,6 +983,7 @@ void apply_snapshot(const unsigned char *buf, int n) {
     }
 
     const SyncPlayerV1 *e = (const SyncPlayerV1 *)(buf + sizeof(SyncMsgV1));
+    static unsigned long long rejected_hash[kCommsMaxPlayers];
     for (int i = 0; i < (int)m->count; ++i, ++e) {
         const int slot = e->slot;
         if (slot < 0 || slot >= kCommsMaxPlayers) continue;
@@ -979,6 +994,17 @@ void apply_snapshot(const unsigned char *buf, int n) {
                authority it does not have; counted so rungSY2 can assert the
                count stays zero rather than trusting the skip silently. */
             ++g_stats.own_claims;
+            continue;
+        }
+        if (e->character_key_hash && !has_pack_character(e->character_key_hash)) {
+            if (rejected_hash[slot] != e->character_key_hash) {
+                rejected_hash[slot] = e->character_key_hash;
+                std::fprintf(stderr,
+                    "[sync] rejected slot %d character selection: peer uses "
+                    "pack character %016llx, which is not installed locally\n",
+                    slot, e->character_key_hash);
+            }
+            ++g_stats.dropped;
             continue;
         }
         void *a = data_0209f394[slot];
@@ -1190,6 +1216,7 @@ extern "C" void port_adventure_probe_apply_lvl(int slot, int x, int y, int z,
        port_adventure_probe_apply below) passes our own level so the ghost is
        same-level and visible, exactly as the M1 assert expects. */
     e->level_id = (unsigned short)level;
+    e->character_key_hash = 0;
     apply_snapshot(buf, (int)(sizeof(SyncMsgV1) + sizeof(SyncPlayerV1)));
 }
 
@@ -1229,6 +1256,16 @@ bool peer_visible(int slot) {
     return true;
 }
 }  // namespace
+
+extern "C" void port_sync_set_pack_characters(
+    const unsigned long long *hashes, int count, unsigned long long selected)
+{
+    if (count < 0) count = 0;
+    if (count > 252) count = 252;
+    g_pack_character_count = count;
+    for (int i = 0; i < count; ++i) g_pack_character_hashes[i] = hashes[i];
+    g_selected_pack_character_hash = selected;
+}
 
 // The extern "C" face the other host TUs gate on (walk_window's render loop,
 // player_bridges' hold, nametag.h's tag). Same predicate, one authority.

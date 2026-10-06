@@ -114,6 +114,5 @@
 /* hal/bob_enemy_bridges.cpp:440 */
 #pragma comment(linker, "/alternatename:?IDENTITY_MATRIX4X3@@3UMatrix4x3@@A=_data_02082128")
 /* hal/cxx_aliases.cpp:3684 */
-#pragma comment(linker, "/alternatename:_data_0208e87c=__ZTV9ModelBase")
 /* cstd::abs is not repeated here: the verbatim block above already
    carries hal/cxx_aliases.cpp:3287, which is the same row. */

@@ -309,7 +309,7 @@ Measured with SM64DS_PPU_AUDIT, 300 headless frames, both engines:
 
 SO THE IDLE MEASUREMENT IS NOT THE SCENE. 374's shells and reflections are drawn
 by src/func_ov006_020e1c68 through RenderOamBothScreens, and
-src/RenderOamBothScreens.cpp submits EVERY entry to both engines -- the sub
+src/minigames/d_s_mg_base.cpp submits EVERY entry to both engines -- the sub
 engine at y, the top engine at y + 0xc0 + G. At idle 374's shells sit low enough
 that the top copies are culled by OAM::Render's own "y + h < 0" test, which is
 why engine A reads 0 mode-1 entries over 300 idle frames. Drive a shot and they
@@ -758,7 +758,7 @@ SM64DS_OBJBG_OFF=1: f380 1708 px, f450 4908 px, f560 1720 px -- and the black
 field is IDENTICAL in both arms. The rule does not touch it. The trace says the
 march is running: t374 top=3 sub=2, all forty bombs at state 6 substate 4.
 
-1. THE BOMBS ARE OBJ, ON BOTH ENGINES. src/func_ov004_020afdd0.cpp is the
+1. THE BOMBS ARE OBJ, ON BOTH ENGINES. src/minigames/d_s_mg_base.cpp is the
    framework plotter -- OAM::Render at y + 0xc0 + G for the top engine and
    OAM::RenderSub at y for the bottom, the RenderOamBothScreens shape.
 
@@ -788,7 +788,7 @@ march is running: t374 top=3 sub=2, all forty bombs at state 6 substate 4.
    NOT taken here: that file is not this lane's.
 
 3. THE BLACK FIELD IS BG2 SCROLLING OFF, AND THE ROM DRIVES IT.
-   src/func_ov006_020d5b10.c state 1 does `+0x62dc += 0x3000` per frame and
+   src/actors/dScMgBomroom_c.cpp state 1 does `+0x62dc += 0x3000` per frame and
    `SetBg2Offset(0, +0x62dc >> 12)`, up to 0xc0 = 192, then clamps. BG2CNT 0x9411
    is a 32x64 map -- 256x512 px -- whose content ENDS at map row 191. Read off
    the strip probe across the whole ramp:

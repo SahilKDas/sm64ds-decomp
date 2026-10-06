@@ -1,7 +1,7 @@
 // GATE 188: the four host vtables for Jolly Roger Bay's own overlay (ov016,
 // data/stage/kaizoku_irie, base 0x021111a0) mover classes -- UNAGI (242, an
 // Enemy), SHIP_UP (57), ROCK_PILLAR (58) and FLOAT_ON_WATER_PLATFORM_JRB (60,
-// all Platforms). SHIP_DOWN (56) shares _ZTV6ShipUp; SLIDING_BOX (313) shares
+// all Platforms). SHIP_DOWN (56) shares _ZTV14daObjKi_Fune_c; SLIDING_BOX (313) shares
 // _ZTV23FloatOnWaterPlatformJrb.
 //
 // Same law as hal/actor_classes_ov064.cpp (gate 177) and its gate-178 sibling:
@@ -14,7 +14,7 @@
 //
 // ---- THE VTABLES STAY OUT OF THE MOUNT -------------------------------------
 //
-// _ZTV5Unagi (0x02114958, 31 words), _ZTV6ShipUp (0x02114a3c, 32), the RockPillar
+// _ZTV5Unagi (0x02114958, 31 words), _ZTV14daObjKi_Fune_c (0x02114a3c, 32), the RockPillar
 // table _ZTV10RockPillar (0x02114b00, 32) and _ZTV23FloatOnWaterPlatformJrb ==
 // _ZTV13daSlide_Box_c (0x02114c8c, 37; an RTTI alias, one table two names) each
 // carry the vtable signature (+4 relocates to Actor::BeforeInitResources, arm9
@@ -27,10 +27,10 @@
 //
 // ---- SLOT MAPS, read off ov016's relocs (word = (addr - base)/4) -----------
 //
-// _ZTV6ShipUp (Platform, 32): 0 Init 0x0211283c, 3 Cleanup 0x021126f0, 6 Behavior
+// _ZTV14daObjKi_Fune_c (Platform, 32): 0 Init 0x0211283c, 3 Cleanup 0x021126f0, 6 Behavior
 //   0x0211276c, 9 Render 0x02112744 (slot-5 collision -> host copy), 14 D1
 //   0x0211260c, 15 D0 0x02112650, 31 Kill 0x020ee55c. D1/D0 ARE at 14/15, NOT
-//   16/17 -- ShipUp is the daObjKi_Fune_c base shape, a different layout from the
+//   16/17 -- daObjKi_Fune_c is the daObjKi_Fune_c base shape, a different layout from the
 //   Enemy-derived RotatingFirebar (16/17). The ROM word indices are authoritative.
 //
 // _ZTV10RockPillar (RockPillar, Platform, 32): 0 Init _ZN10RockPillar13InitResourcesEv, 3
@@ -61,7 +61,7 @@
 // are NOT in the slice; the host thunks below run the matched chain with the
 // derived table stored once and the placeholder elided:
 //
-//   ShipUp D1 (0x0211260c) / D0 (0x02112650): store _ZTV14daObjKi_Fune_c then
+//   daObjKi_Fune_c D1 (0x0211260c) / D0 (0x02112650): store _ZTV14daObjKi_Fune_c then
 //     OVERWRITE with _ZTV10dBgActor_c (placeholder) -> HOST THUNKS. Chain:
 //     MovingMeshCollider +0x124, Model +0xd4, Actor D2; D0 also Deallocate.
 //   RockPillar D1 (_ZN10RockPillarD1Ev) / D0 (_ZN10RockPillarD0Ev): store
@@ -81,7 +81,7 @@
 //
 // ---- FACTORIES -------------------------------------------------------------
 //
-// daObjKi_Fune_c_classInit_KI_FUNE_UP / daObjKi_Fune_c_classInit_KI_FUNE install _ZTV6ShipUp directly (last vptr write),
+// daObjKi_Fune_c_classInit_KI_FUNE_UP / daObjKi_Fune_c_classInit_KI_FUNE install _ZTV14daObjKi_Fune_c directly (last vptr write),
 // daObjKi_Hasira_c_classInit installs _ZTV10RockPillar, daSlide_Box_c_classInit installs
 // _ZTV23FloatOnWaterPlatformJrb, daMoray_c_classInit installs _ZTV5Unagi -- so those need
 // NO reseat wrapper. daObjKi_Ita_c_classInit's LAST vptr write is VT1 (the
@@ -91,7 +91,7 @@
 //
 // ---- RENDER COLLISION ------------------------------------------------------
 //
-// All three Platform Renders (ShipUp/RockPillar/FloatOnWater) dispatch the Model
+// All three Platform Renders (daObjKi_Fune_c/RockPillar/FloatOnWater) dispatch the Model
 // at +0xd4 through a ROM-order six-virtual local shadow (slot 5) -- the
 // Whomp/RotatingFirebar collision -- so they are host copies in
 // port/unmatched/Jrb_Renders.cpp and out of slice_gate188.txt. Unagi's Render is
@@ -154,13 +154,13 @@ void *daMoray_c_classInit(void);                             /* installs _ZTV5Un
 
 /* ---- SHIP_UP (57) own bodies. Init/Cleanup/Behavior are real methods, faced
    below; Render is the host copy; D1/D0 are host thunks. ------------------- */
-int _ZN6ShipUp13InitResourcesEv(void *self);         /* slot 0, faced */
-int *_ZN6ShipUpD1Ev(int *self);                      /* slot 16, .c, DTOR-PAIRS seat (0x0211260c) */
-int *_ZN6ShipUpD0Ev(int *self);                      /* slot 17, .c, DTOR-PAIRS seat (0x02112650) */
-int _ZN6ShipUp16CleanupResourcesEv(void *self);      /* slot 3, faced */
-int _ZN6ShipUp8BehaviorEv(void *self);               /* slot 6, faced */
-int _ZN6ShipUp6RenderEv(void *self);                 /* slot 9, HOST COPY */
-void *daObjKi_Fune_c_classInit_KI_FUNE_UP(void);                            /* installs _ZTV6ShipUp itself */
+int _ZN14daObjKi_Fune_c13InitResourcesEv(void *self);         /* slot 0, faced */
+int *_ZN14daObjKi_Fune_cD1Ev(int *self);                      /* slot 16, .c, DTOR-PAIRS seat (0x0211260c) */
+int *_ZN14daObjKi_Fune_cD0Ev(int *self);                      /* slot 17, .c, DTOR-PAIRS seat (0x02112650) */
+int _ZN14daObjKi_Fune_c16CleanupResourcesEv(void *self);      /* slot 3, faced */
+int _ZN14daObjKi_Fune_c8BehaviorEv(void *self);               /* slot 6, faced */
+int _ZN14daObjKi_Fune_c6RenderEv(void *self);                 /* slot 9, HOST COPY */
+void *daObjKi_Fune_c_classInit_KI_FUNE_UP(void);                            /* installs _ZTV14daObjKi_Fune_c itself */
 
 /* ---- ROCK_PILLAR (58) own bodies (all func_ov016_* C linkage) ------------- */
 int _ZN10RockPillar13InitResourcesEv(void *self);   /* slot 0, Init */
@@ -206,7 +206,7 @@ void _ZN10dBgActor_c4KillEv(void *self);       /* slot 31, Platform's own */
    montymole reading). _ZTV10RockPillar is RockPillar's UNNAMED table -- not
    in decl_common.h, so it is declared here too, an int[] host array. */
 int _ZTV5Unagi[31];
-int _ZTV6ShipUp[32];
+int _ZTV14daObjKi_Fune_c[32];
 int _ZTV23FloatOnWaterPlatformJrb[37];   /* id 313 SlidingBox (derived) */
 DSSTATE_BEGIN
 int _ZTV10RockPillar[32];             /* id 58 RockPillar (daObjKi_Hasira_c) */
@@ -223,9 +223,9 @@ DSSTATE_END
      daObjKi_Ita_c_classInit's transient write and _ZN13daObjKi_Ita_cD1Ev/f44).
    Each RTTI name aliases to its OWN host array, not to the other. */
 #pragma comment(linker, "/alternatename:__ZTV13daSlide_Box_c=__ZTV23FloatOnWaterPlatformJrb")
-/* ShipUp's D1/D0 spell their table by its RTTI name; the ROM store relocates
-   to ov016 0x02114a3c, _ZTV6ShipUp (the host array above). */
-#pragma comment(linker, "/alternatename:__ZTV14daObjKi_Fune_c=__ZTV6ShipUp")
+/* daObjKi_Fune_c's D1/D0 spell their table by its RTTI name; the ROM store relocates
+   to ov016 0x02114a3c, _ZTV14daObjKi_Fune_c (the host array above). */
+#pragma comment(linker, "/alternatename:__ZTV14daObjKi_Fune_c=__ZTV14daObjKi_Fune_c")
 
 // ---- the trap --------------------------------------------------------------
 static void jrb_trap_report(void *self, int slot)
@@ -371,14 +371,14 @@ extern "C" void hal_fill_unagi_vtable(void)
 // SHIP_UP (57) -- a Platform, 32 slots. D1/D0 at ROM words 14/15.
 // ============================================================================
 static int __fastcall shu_init(void *s, void *)
-{ return _ZN6ShipUp13InitResourcesEv(s); }
+{ return _ZN14daObjKi_Fune_c13InitResourcesEv(s); }
 static int __fastcall shu_clean(void *s, void *)
-{ return _ZN6ShipUp16CleanupResourcesEv(s); }
+{ return _ZN14daObjKi_Fune_c16CleanupResourcesEv(s); }
 static int __fastcall shu_behavior(void *s, void *)
-{ return _ZN6ShipUp8BehaviorEv(s); }
+{ return _ZN14daObjKi_Fune_c8BehaviorEv(s); }
 static int __fastcall shu_render(void *s, void *)
 { port_actor_render_probe("SHIP_UP", (char *)s + 0xd4);
-  return _ZN6ShipUp6RenderEv(s); }                        /* HOST COPY (slot-5) */
+  return _ZN14daObjKi_Fune_c6RenderEv(s); }                        /* HOST COPY (slot-5) */
 static int __fastcall shu_kill(void *s, void *)
 { _ZN10dBgActor_c4KillEv(s); return 0; }                     /* slot 31 */
 /* D1/D0 (DTOR-PAIRS seat): the matched flat-C pair behind ecx->arg
@@ -389,13 +389,13 @@ static int __fastcall shu_kill(void *s, void *)
    (hal/lk2_platform_dtor_seat.cpp), and the first store is this class's own
    table by its RTTI name, aliased onto the host array above. */
 static int __fastcall shu_d1(void *s, void *)
-{ return (int)(size_t)_ZN6ShipUpD1Ev((int *)s); }
+{ return (int)(size_t)_ZN14daObjKi_Fune_cD1Ev((int *)s); }
 static int __fastcall shu_d0(void *s, void *)
-{ return (int)(size_t)_ZN6ShipUpD0Ev((int *)s); }
+{ return (int)(size_t)_ZN14daObjKi_Fune_cD0Ev((int *)s); }
 
 extern "C" void hal_fill_ship_up_vtable(void)
 {
-    void **vt = (void **)_ZTV6ShipUp;
+    void **vt = (void **)_ZTV14daObjKi_Fune_c;
     hal_fill_platform_vtable();
     jrb_fill_shared_0_30(vt);
     vt[0]  = (void *)shu_init;
@@ -423,7 +423,7 @@ static int __fastcall rkp_kill(void *s, void *)
 { _ZN10dBgActor_c4KillEv(s); return 0; }                     /* slot 31 */
 /* D1/D0 host thunks: _ZN10RockPillarD1Ev (D1) / _ZN10RockPillarD0Ev (D0) store
    _ZTV16daObjKi_Hasira_c / VT0 then _ZTV10dBgActor_c / VT1 (placeholders), so
-   they are dropped from the slice. Same chain as ShipUp. */
+   they are dropped from the slice. Same chain as daObjKi_Fune_c. */
 /* SLOT 16 IS THE MATCHED TU NOW, run link100 lane TAIL. The note above names
    the blocker as the two PLACEHOLDERS, and a per-source -D is what removes a
    placeholder: the relocations inside _ZN10RockPillarD1Ev's own span say which
@@ -585,22 +585,22 @@ extern "C" void *port_factory_float_on_water_jrb(void)
 
 // ---- method faces ----------------------------------------------------------
 // The C-named references the vtables take onto the real MSVC methods against
-// include/. ShipUp's Init/Cleanup/Behavior, FloatOnWater's Init/Cleanup and
+// include/. daObjKi_Fune_c's Init/Cleanup/Behavior, FloatOnWater's Init/Cleanup and
 // Unagi's Init are `Class::Method` .cpp definitions (MSVC mangles them off the
 // Itanium name), so face them here. FloatOnWater's Behavior, Unagi's Cleanup/
 // OnPendingDestroy/Render and every RockPillar func_ body are already C-linkage
-// bodies -- no face. The three collided Renders (ShipUp/FloatOnWater/RockPillar)
+// bodies -- no face. The three collided Renders (daObjKi_Fune_c/FloatOnWater/RockPillar)
 // are host copies in port/unmatched/Jrb_Renders.cpp -- declared, not faced here.
-#include "ShipUp.h"
+#include "daObjKi_Fune_c.h"
 #include "SlidingBox.h"
 #include "Unagi.h"
 extern "C" {
-int _ZN6ShipUp13InitResourcesEv(void *self)
-{ return ((ShipUp *)self)->ShipUp::InitResources(); }
-int _ZN6ShipUp16CleanupResourcesEv(void *self)
-{ return ((ShipUp *)self)->ShipUp::CleanupResources(); }
-int _ZN6ShipUp8BehaviorEv(void *self)
-{ return ((ShipUp *)self)->ShipUp::Behavior(); }
+int _ZN14daObjKi_Fune_c13InitResourcesEv(void *self)
+{ return ((daObjKi_Fune_c *)self)->daObjKi_Fune_c::InitResources(); }
+int _ZN14daObjKi_Fune_c16CleanupResourcesEv(void *self)
+{ return ((daObjKi_Fune_c *)self)->daObjKi_Fune_c::CleanupResources(); }
+int _ZN14daObjKi_Fune_c8BehaviorEv(void *self)
+{ return ((daObjKi_Fune_c *)self)->daObjKi_Fune_c::Behavior(); }
 int _ZN10SlidingBox13InitResourcesEv(void *self)
 { return ((SlidingBox *)self)->SlidingBox::InitResources(); }
 int _ZN10SlidingBox16CleanupResourcesEv(void *self)

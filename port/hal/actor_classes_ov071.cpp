@@ -100,7 +100,7 @@
 //     ov071 name with no src/ TU at all, on either this branch or main.
 //     port/unmatched/MrI_StateMains.cpp, with the derivation. It used to be
 //     two: func_ov071_02120d30 (0x3dc) was hosted alongside it until run
-//     linkw wave 9 (lane w9-harvest) found src/func_ov071_02120d30.c on
+//     linkw wave 9 (lane w9-harvest) found src/actors/daEykn_c.cpp on
 //     main (PR #1474, 8ec808874) -- a TU this branch, 626 commits behind,
 //     could not see. It is a slice line now (port/slice_w9harvest.txt).
 //   the two state dispatchers -- func_ov071_021215c0 (MAIN, record+8) and
@@ -227,7 +227,7 @@ int _ZTV14MrI_Projectile[31];
 #pragma comment(linker, "/alternatename:__ZTV8daEyBm_c=__ZTV14MrI_Projectile")
 
 /* NAME RACE RESOLVED BY ADDRESS (the shared-window rule, and the same disease
-   the sibling fill records for data_ov073_02122f88). src/func_ov071_021209c8.cpp
+   the sibling fill records for data_ov073_02122f88). src/actors/daEykn_c.cpp
    spells its texture-sequence SharedFilePtr `data_ov074_02123038`, but the load
    site's own relocation settles it: config/arm9/overlays/ov071/relocs.txt has
        from:0x02120a1c kind:load to:0x02123038 module:overlay(71)
@@ -247,7 +247,7 @@ int _ZTV14MrI_Projectile[31];
    GOOMBOSS's cell: silently, with no link error and no byte-gate signal, the
    Coffin/Spindrift shape. port/tools/alternatename_guard.py catches it at the
    link. The routing moved to the guard's own remedy, a per-source -D on the
-   ONE reader (src/func_ov071_021209c8.cpp) in port/CMakeLists.txt beside the
+   ONE reader (src/actors/daEykn_c.cpp) in port/CMakeLists.txt beside the
    ov074 slice block. Nothing about ov071 changes; what changes is that the
    binding no longer depends on a name staying undefined somewhere else. */
 

@@ -137,7 +137,7 @@
 // The one member pointer anywhere near this class is the +0x4f38 sub-object's
 // FIELD-held one, and it is already host-copied family-wide in
 // port/unmatched/MgMemory2_FieldPmf.cpp.  Nothing here re-copies it, and
-// nothing here rewrites the stored pair -- src/func_ov006_020c0f0c.c, which
+// nothing here rewrites the stored pair -- src/actors/unit020bfec0.cpp, which
 // this class's state 1 calls, asks "is this slot idle" BY VALUE against the
 // sentinels data_ov006_0213acb0 and _0213aca8, so a seat that wrote host
 // addresses over the pair would leave that test permanently false.
@@ -245,7 +245,7 @@ extern unsigned char data_ov006_0213ac58[];
 
 /* the persistent minigame record this class's level is READ FROM and WRITTEN
    BACK TO.  Nothing new is defined here: the storage is hal/level_boot.cpp's
-   .dsstate$savblk0004 and the index function is src/func_ov004_020adc3c.c. */
+   .dsstate$savblk0004 and the index function is src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int  func_ov004_020adc3c(void *c);            /* (self->field_8 >> 8) & 0xff */

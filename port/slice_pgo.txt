@@ -343,7 +343,7 @@
 #     port/unmatched/MgFlower_Slot2.cpp. This is the fifth lane to call it.
 #   src/minigames/d_s_mg_single3_d_base.cpp    slot 33 of the middle base. Its last two stores
 #     reach LIGHT_COLOR at 0x040004cc, so it builds from the FLW hostgen'd copy.
-#   src/func_ov006_020c1804.cpp  the local-shadow-class model draw this class's
+#   src/actors/unit020bfec0.cpp  the local-shadow-class model draw this class's
 #     Render reaches at this+0x4f38. Host-copied by run mg6 lane MEM as
 #     port/unmatched/MgMemory2_ModelRender_020c1804.cpp; this class meets the
 #     SAME defect through the SAME body, which is the fan-out dividend section
@@ -365,7 +365,7 @@
 # 43 external call targets leaving this code block, 38 already have a src TU in
 # a seated slice, two (__cxa_vec_cleanup 0x0207328c and __cxa_vec_ctor 0x020733a8)
 # are compiler-runtime helpers with a config symbol and no src TU in any module
-# that the host already defines, one (src/func_ov006_020c1804.cpp) is the host
+# that the host already defines, one (src/actors/unit020bfec0.cpp) is the host
 # copy named above, and two (src/LoadFile.c at 0x0201816c and
 # src/DecompressLZ16.c at 0x0205a754) are already satisfied by host definitions
 # in hal/level_boot.cpp and hal/fs.cpp.

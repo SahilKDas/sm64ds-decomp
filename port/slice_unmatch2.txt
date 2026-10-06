@@ -42,7 +42,7 @@
 src/actors/daPgDfdr_c.cpp
 
 # ---- 2. YOSHI_EGG (ov002), +2 ---------------------------------------------
-# src/func_ov002_020ed63c.cpp (the state setter) and src/func_ov002_020ed684.cpp
+# src/actors/daYegg_c.cpp (the state setter) and src/actors/daYegg_c.cpp
 # (the per-frame main half) are the indexed-table family PMF3 landed fourteen
 # of. Same measurement, same tail jump, the ROM's 16-byte element (`shl edx,4`)
 # and the ROM's two pairs at [edx]/[edx+4] and [edx+8]/[edx+12]. Their name
@@ -68,8 +68,7 @@ src/actors/daPgDfdr_c.cpp
 # through a one-line face that prints it and calls the body, so the line, the
 # fields and the SM64DS_EGG_TRACE knob are unchanged. The four ENTER-half
 # records take the body directly.
-src/func_ov002_020ed63c.cpp
-src/func_ov002_020ed684.cpp
+src/actors/daYegg_c.cpp
 
 # ---- 3. THE PAINTING (ov080), +3 ------------------------------------------
 # daPicGate_c's three per-mode dispatchers. The old host copy's header said
@@ -99,6 +98,4 @@ src/func_ov002_020ed684.cpp
 # REFERRER: _ZTV11Painting slots 0/6/9 (InitResources, Behavior, Render) --
 # the three rows SEAT3's census records as PMF EXCEPTION for ov080
 # (_ZTV8Painting slots 0, 6 and 9).
-src/_ZN8Painting13InitResourcesEv.cpp
-src/_ZN8Painting8BehaviorEv.cpp
-src/_ZN8Painting6RenderEv.cpp
+src/actors/daPicGate_c.cpp

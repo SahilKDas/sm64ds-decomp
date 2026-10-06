@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov055_021112c4.cpp -- the ENTER half of MirrorLuigi's
+/* HOST COPY of src/actors/daLuigi_c.cpp -- the ENTER half of MirrorLuigi's
  * one-cell pointer-to-member state machine (id 195, ov055, level 47, RTTI
  * 9daLuigi_c). Run rel0215, lane cast-sweep2.
  *
@@ -49,7 +49,7 @@
  * class; MSVC's PMF representation there does not reproduce the ROM's
  * {function, delta} pair.
  */
-/* HOST COPY RETIRED, run link100 lane PMFB8 gate 1. src/func_ov055_021112c4.cpp
+/* HOST COPY RETIRED, run link100 lane PMFB8 gate 1. src/actors/daLuigi_c.cpp
    dispatches the cell itself now. The banner above was written before block R8's
    /vmg /vmm landed: MSVC's pointer to member over the incomplete class IS the
    ROM's eight-byte {function, delta} pair today, and the emitted dispatch reads

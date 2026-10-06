@@ -3,7 +3,7 @@
  * scratch matrix, then the four car matrices at +0x33c (0x50 stride) from
  * the offset table data_ov021_02114a20 and the yaw table data_ov021_02114740.
  *
- * Transcribed line for line from src/func_ov021_02111434.c. The ONE change:
+ * Transcribed line for line from src/actors/daObjCvNewsLift_c.cpp. The ONE change:
  * the matched TU ends in a two-instruction mwcc `asm` veneer
  * (`ands r0, r0, #1; bx lr` -- a laundering lever the byte gate needed), and
  * MSVC has no mwcc asm. The veneer IS `x & 1`; the copy spells it that way.

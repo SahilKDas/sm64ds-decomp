@@ -20,15 +20,15 @@
  * delinks.txt rather than a name-shaped lookup miss:
  *
  *   _ZN16dScMgSmartball_c13InitResourcesEv   VTABLE SLOT 0, InitResources.
- *       The delink list runs `src/_ZN16dScMgSmartball_c9Virtual7CEv.cpp .text start:0x02118ae4
- *       end:0x02118b70` and then jumps to `src/_ZN16dScMgSmartball_c21AfterCleanupResourcesEj.cpp .text
+ *       The delink list runs `src/actors/dScMgSmartball_c.cpp .text start:0x02118ae4
+ *       end:0x02118b70` and then jumps to `src/actors/dScMgSmartball_c.cpp .text
  *       start:0x0211944c`. The 0x8dc bytes between are this body and nothing
  *       covers them. config/arm9/overlays/ov006/symbols.txt does not name the
  *       address at all.
  *
  *   _ZN16dScMgSmartball_c6RenderEv   VTABLE SLOT 9, Render.
- *       Same shape: `src/func_ov006_02115b0c.c .text start:0x02115b0c
- *       end:0x021173c8` then `src/_ZN16dScMgSmartball_c8BehaviorEv.cpp .text
+ *       Same shape: `src/actors/dScMgSmartball_c.cpp .text start:0x02115b0c
+ *       end:0x021173c8` then `src/actors/dScMgSmartball_c.cpp .text
  *       start:0x02118488`. The 0x10c0 bytes between are this body.
  *
  *   func_ov006_02114800   NOT a vtable slot, which is why the cost table's
@@ -39,14 +39,14 @@
  *       named symbol is not a decompiled body. It is reached from five call
  *       sites in ov006 (0x0210f7d8, 0x0210f804, 0x0210f848, 0x02111604,
  *       0x02111e6c); the one inside this class's closure is 0x02111e6c, in
- *       src/func_ov006_02111e48.c, so the trap is what keeps that slice line
+ *       src/actors/dScMgSmartball_c.cpp, so the trap is what keeps that slice line
  *       linkable.
  *
  * THE SIGNATURES ARE READ OUT OF THE ROM AND OUT OF THE CALLERS, NOT CHOSEN.
  *
  *   func_ov006_02114800 is declared `void func_ov006_02114800(int a, void *p,
- *   int c)` by BOTH of its decompiled callers, src/func_ov006_02111e48.c:1 and
- *   src/func_ov006_021115cc.c:1. This file repeats that declaration rather
+ *   int c)` by BOTH of its decompiled callers, src/actors/dScMgSmartball_c.cpp:1 and
+ *   src/actors/dScMgSmartball_c.cpp:1. This file repeats that declaration rather
  *   than inventing one.
  *
  *   The two vtable bodies take `self` in r0 and return 1. Both facts are
@@ -132,7 +132,7 @@ unsigned port_mg_smartball_trap_mask(void)
    onto the forwarder: the shape port/unmatched/MgPachinko_Faces.cpp section 3
    established for dScMgPachinko_c::InitResources. The forwarder and both
    rulings live in MgSmartball_Faces.cpp; the body is
-   src/_ZN16dScMgSmartball_c6RenderEv.cpp, brought across from origin/main by
+   src/actors/dScMgSmartball_c.cpp, brought across from origin/main by
    address.
 
    THE FILE STAYS, and smb_trap() with it, for two reasons that are not
@@ -154,9 +154,9 @@ unsigned port_mg_smartball_trap_mask(void)
  *   config/arm9/overlays/ov006/symbols.txt:1527 names it --
  *     `func_ov006_02115248 kind:function(arm,size=0x238) addr:0x02115248`
  *   and no delink block covers it. The list runs
- *     `src/func_ov006_02115150.c .text start:0x02115150 end:0x02115248`
+ *     `src/actors/dScMgSmartball_c.cpp .text start:0x02115150 end:0x02115248`
  *   and then jumps to
- *     `src/func_ov006_02115480.c .text start:0x02115480 end:0x02115598`.
+ *     `src/actors/dScMgSmartball_c.cpp .text start:0x02115480 end:0x02115598`.
  *   The 0x238 bytes between are this body.
  *
  * NOT AVAILABLE ON main EITHER, which is the check that decides trap versus
@@ -166,7 +166,7 @@ unsigned port_mg_smartball_trap_mask(void)
  * address, so there is nothing to bring.
  *
  * THE SIGNATURE IS READ OUT OF THE ROM AND OUT OF THE CALLER, not chosen.
- * src/func_ov006_02111b90.c:5 declares it
+ * src/actors/dScMgSmartball_c.cpp:5 declares it
  *
  *     extern void func_ov006_02115248(int a, int* p);
  *
@@ -195,11 +195,11 @@ unsigned port_mg_smartball_trap_mask(void)
  *
  * IT WAS TAKEN, AND THIS TRAP IS RETIRED (run link100 wave 14, lane SHADOWS3).
  * PR #2351 (a47bdc18a, "Match the ov006 Smartball ball spawn") split the delink
- * hole and banked src/func_ov006_02115248.cpp; it is on
+ * hole and banked src/actors/dScMgSmartball_c.cpp; it is on
  * port/slice_shadows3.txt now and this trap is gone. The signature this note
  * measured off the single call site and the single epilogue -- r0 live, one
  * stacked pointer, nothing writing r0 on the way out -- is what the matched TU
  * carries, spelled (dScMgSmartball_c *self, int *origin), and under C linkage
- * the one call site in src/func_ov006_02111b90.c needs no change. */
+ * the one call site in src/actors/dScMgSmartball_c.cpp needs no change. */
 
 }  /* extern "C" */

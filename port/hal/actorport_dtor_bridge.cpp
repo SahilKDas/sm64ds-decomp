@@ -48,7 +48,7 @@ extern "C" void __fastcall actorport_dtor_slot_trap(void *self, void *unused)
  * THROUGH THAT COMPILER TABLE. It does. Level 20's 1-Up mushroom is a real C++
  * class in src/actors/da1up_c.cpp and its objects carry MSVC's own
  * ??_7da1up_c@@6B@ from construction, so the one slot-16 dispatcher in the
- * image -- src/_ZN7fBase_c21AfterCleanupResourcesEj.cpp's this->~fBase_c() --
+ * image -- src/actors/ActorBase.cpp's this->~fBase_c() --
  * reads that table. Measured under cdb on the shipped artifact, at the
  * first-chance fault:
  *
@@ -166,12 +166,12 @@ ACTORPORT_D16(PyramidLift)
 ACTORPORT_D16(PyramidStep)
 ACTORPORT_D16(PyramidTag)
 ACTORPORT_D16(PyramidTop)
-/* QuestionBlock has NO ??1QuestionBlock@@QAE@XZ anywhere in the link (the same
+/* daObjHatenaBlock_c has NO ??1daObjHatenaBlock_c@@QAE@XZ anywhere in the link (the same
    missing right-hand side alternatename_guard already lists for its folded
-   ??1QuestionBlock@@UAE@XZ row). Its alias below is therefore dead either way,
+   ??1daObjHatenaBlock_c@@UAE@XZ row). Its alias below is therefore dead either way,
    and a thunk here would be the one reference that turns a dead alias into an
    unresolved external. Left exactly as it was. */
-/* ACTORPORT_D16(QuestionBlock) -- no destructor body to forward to */
+/* ACTORPORT_D16(daObjHatenaBlock_c) -- no destructor body to forward to */
 ACTORPORT_D16(RabbitKey)
 ACTORPORT_D16(RacingPenguin)
 ACTORPORT_D16(RecRoomCupboard)
@@ -194,12 +194,12 @@ ACTORPORT_D16(Spiny)
 ACTORPORT_D16(Stage)
 ACTORPORT_D16(StarMarker)
 ACTORPORT_D16(Swoop)
-ACTORPORT_D16(TTC_MovingBar)
+ACTORPORT_D16(daObjCtKaitendai_c)
 ACTORPORT_D16(TTC_MovingBeam)
 ACTORPORT_D16(TinyWater)
 ACTORPORT_D16(Toad)
 ACTORPORT_D16(Tornado)
-ACTORPORT_D16(TowerStep)
+ACTORPORT_D16(daObjBk_Lift_c)
 ACTORPORT_D16(ToxBox)
 ACTORPORT_D16(TreasureChest)
 ACTORPORT_D16(TtcRotatingCube)
@@ -466,7 +466,7 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:??1PyramidStep@@UAE@XZ=??1PyramidStep@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1PyramidTag@@UAE@XZ=??1PyramidTag@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1PyramidTop@@UAE@XZ=??1PyramidTop@@QAE@XZ")
-/* QuestionBlock: no D1 body in the link (see the note at line 169); the ??1
+/* daObjHatenaBlock_c: no D1 body in the link (see the note at line 169); the ??1
    alias was dead and read as a defeated row by alternatename_guard; removed
    by lane QBALIAS 2026-09-17. */
 #pragma comment(linker, "/alternatename:??1RabbitKey@@UAE@XZ=??1RabbitKey@@QAE@XZ")
@@ -485,7 +485,7 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:??1Scuttlebug@@UAE@XZ=??1Scuttlebug@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1SeesawBob@@UAE@XZ=??1SeesawBob@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Shark@@UAE@XZ=??1Shark@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1ShipUp@@UAE@XZ=??1ShipUp@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1daObjKi_Fune_c@@UAE@XZ=??1daObjKi_Fune_c@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Skeeter@@UAE@XZ=??1Skeeter@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1SkiLift@@UAE@XZ=??1SkiLift@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1SlidingBox@@UAE@XZ=??1SlidingBox@@QAE@XZ")
@@ -505,7 +505,7 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:??1Stump@@UAE@XZ=??1Stump@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Submarine@@UAE@XZ=??1Submarine@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Swoop@@UAE@XZ=??1Swoop@@QAE@XZ")
-#pragma comment(linker, "/alternatename:??1TTC_MovingBar@@UAE@XZ=??1TTC_MovingBar@@QAE@XZ")
+#pragma comment(linker, "/alternatename:??1daObjCtKaitendai_c@@UAE@XZ=??1daObjCtKaitendai_c@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1TTC_MovingBeam@@UAE@XZ=??1TTC_MovingBeam@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1Thwomp@@UAE@XZ=??1Thwomp@@QAE@XZ")
 #pragma comment(linker, "/alternatename:??1TinyCover@@UAE@XZ=??1TinyCover@@QAE@XZ")
@@ -843,8 +843,8 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:@actorport_d16t_PyramidTop@8=??1PyramidTop@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@PyramidTop@@UAEXXZ=@actorport_d16_PyramidTop@12")
 #pragma comment(linker, "/alternatename:?Destructor0@PyramidTop@@UAEXXZ=@actorport_dtor_slot_trap@8")
-#pragma comment(linker, "/alternatename:?Destructor1@QuestionBlock@@UAEXXZ=??1QuestionBlock@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?Destructor0@QuestionBlock@@UAEXXZ=@actorport_dtor_slot_trap@8")
+#pragma comment(linker, "/alternatename:?Destructor1@daObjHatenaBlock_c@@UAEXXZ=??1daObjHatenaBlock_c@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?Destructor0@daObjHatenaBlock_c@@UAEXXZ=@actorport_dtor_slot_trap@8")
 #pragma comment(linker, "/alternatename:@actorport_d16t_RabbitKey@8=??1RabbitKey@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@RabbitKey@@UAEXXZ=@actorport_d16_RabbitKey@12")
 #pragma comment(linker, "/alternatename:?Destructor0@RabbitKey@@UAEXXZ=@actorport_dtor_slot_trap@8")
@@ -911,9 +911,9 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:@actorport_d16t_Swoop@8=??1Swoop@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@Swoop@@UAEXXZ=@actorport_d16_Swoop@12")
 #pragma comment(linker, "/alternatename:?Destructor0@Swoop@@UAEXXZ=@actorport_dtor_slot_trap@8")
-#pragma comment(linker, "/alternatename:@actorport_d16t_TTC_MovingBar@8=??1TTC_MovingBar@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?Destructor1@TTC_MovingBar@@UAEXXZ=@actorport_d16_TTC_MovingBar@12")
-#pragma comment(linker, "/alternatename:?Destructor0@TTC_MovingBar@@UAEXXZ=@actorport_dtor_slot_trap@8")
+#pragma comment(linker, "/alternatename:@actorport_d16t_daObjCtKaitendai_c@8=??1daObjCtKaitendai_c@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?Destructor1@daObjCtKaitendai_c@@UAEXXZ=@actorport_d16_daObjCtKaitendai_c@12")
+#pragma comment(linker, "/alternatename:?Destructor0@daObjCtKaitendai_c@@UAEXXZ=@actorport_dtor_slot_trap@8")
 #pragma comment(linker, "/alternatename:@actorport_d16t_TTC_MovingBeam@8=??1TTC_MovingBeam@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@TTC_MovingBeam@@UAEXXZ=@actorport_d16_TTC_MovingBeam@12")
 #pragma comment(linker, "/alternatename:?Destructor0@TTC_MovingBeam@@UAEXXZ=@actorport_dtor_slot_trap@8")
@@ -926,9 +926,9 @@ ACTORPORT_D16(fBase_c)
 #pragma comment(linker, "/alternatename:@actorport_d16t_Tornado@8=??1Tornado@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@Tornado@@UAEXXZ=@actorport_d16_Tornado@12")
 #pragma comment(linker, "/alternatename:?Destructor0@Tornado@@UAEXXZ=@actorport_dtor_slot_trap@8")
-#pragma comment(linker, "/alternatename:@actorport_d16t_TowerStep@8=??1TowerStep@@QAE@XZ")
-#pragma comment(linker, "/alternatename:?Destructor1@TowerStep@@UAEXXZ=@actorport_d16_TowerStep@12")
-#pragma comment(linker, "/alternatename:?Destructor0@TowerStep@@UAEXXZ=@actorport_dtor_slot_trap@8")
+#pragma comment(linker, "/alternatename:@actorport_d16t_daObjBk_Lift_c@8=??1daObjBk_Lift_c@@QAE@XZ")
+#pragma comment(linker, "/alternatename:?Destructor1@daObjBk_Lift_c@@UAEXXZ=@actorport_d16_daObjBk_Lift_c@12")
+#pragma comment(linker, "/alternatename:?Destructor0@daObjBk_Lift_c@@UAEXXZ=@actorport_dtor_slot_trap@8")
 #pragma comment(linker, "/alternatename:@actorport_d16t_ToxBox@8=??1ToxBox@@QAE@XZ")
 #pragma comment(linker, "/alternatename:?Destructor1@ToxBox@@UAEXXZ=@actorport_d16_ToxBox@12")
 #pragma comment(linker, "/alternatename:?Destructor0@ToxBox@@UAEXXZ=@actorport_dtor_slot_trap@8")

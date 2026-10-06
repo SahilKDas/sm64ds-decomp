@@ -227,7 +227,7 @@ data_ov002_0210d8d4:0x20
 # but that symbol is ALREADY a real host array, hal/actor_vtables.cpp's own
 # `void *data_ov002_021081e4[20]` (Enemy's base vtable). No mount row here;
 # mounting it too would double-define the same C symbol.
-g_profile_POWER_UP_ITEM _ZTV11PowerFlower g_profile_MUGEN_BGM _ZTV8MugenBgm
+g_profile_POWER_UP_ITEM _ZTV18daObjPowerUpItem_c g_profile_MUGEN_BGM _ZTV12daMugenBGM_c
 gPFlowerOpenModelFile gPFlowerCloseModelFile data_ov002_02110af0 data_ov002_02110af4 data_ov002_02110af8
 data_ov002_0210af2c
 # run linkw wave 2 / lane w2-e: the animation-step table func_ov002_020c2fec
@@ -440,7 +440,7 @@ g_profile_OBJ_NUMBER:0x1c g_profile_FEATHER:0x1c
 # (the gate-200 _ZTV9PushBlock shape). data_ov002_02100320/334/348 are the
 # three five-word particle tables func_ov002_020f8b24 indexes by the
 # fireball's variant byte (+0x36d); sizes pin to the next symbols (0x14 each).
-g_profile_FPAKUN_BALL:0x1c _ZTV8Fireball:0x7c
+g_profile_FPAKUN_BALL:0x1c _ZTV12daFPknBall_c:0x7c
 data_ov002_02100320 data_ov002_02100334 data_ov002_02100348
 #
 # ---- gate 210: BUBBLE (291) --------------------------------------------------

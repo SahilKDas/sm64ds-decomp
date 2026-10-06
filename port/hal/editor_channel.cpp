@@ -208,7 +208,7 @@ void LoadLevelNoReturn(int level, unsigned entrance, unsigned star,
                        unsigned reason);
 int port_level_is_mounted(int level);
 int port_actor_live_count(void);        /* hal/level_change.cpp, cross-check */
-/* The ROM's own "kill this actor", src/_ZN7fBase_c18MarkForDestructionEv.cpp,
+/* The ROM's own "kill this actor", src/actors/ActorBase.cpp,
    declared for host callers exactly as hal/level_change.cpp:127 declares it.
    Idempotent and self-guarding; it marks +0x0f and runs OnPendingDestroy, and
    the game's own cleanup phase frees the object on a later frame. Nothing here
@@ -524,7 +524,7 @@ void exec_objrot(const Cmd &c)
  *   actorID  ActorBase+0x0c. Already what exec_objlist reports.
  *
  *   param    ActorBase+0x08. src/func_02043180.c stores Spawn's `param1`
- *            (r2) to data_020a4b60, and src/_ZN7fBase_cC2Ev.cpp loads that
+ *            (r2) to data_020a4b60, and src/actors/ActorBase.cpp loads that
  *            global and does `str r2, [r4, #8]`. Copied 32 bits wide with no
  *            mask, shift or merge anywhere on that path -- see OFF_ACTOR_PARAM.
  *            THE TWO EXCEPTIONS ARE HANDLED BELOW; they are real.
@@ -558,7 +558,7 @@ void exec_objrot(const Cmd &c)
  * objrot and accept that it may not move a baked actor.
  *
  * THE KILL is fBase_c::MarkForDestruction, the ROM's own
- * (src/_ZN7fBase_c18MarkForDestructionEv.cpp), declared for host callers at
+ * (src/actors/ActorBase.cpp), declared for host callers at
  * hal/level_change.cpp:127. It is idempotent and self-guarding: it returns
  * early if shouldBeKilled is already set or aliveState is 2. Nothing here
  * frees an actor by hand -- marking sets +0x0f, and the game's own cleanup
@@ -610,7 +610,7 @@ void exec_objrespawn(const Cmd &c)
     int yaw = c.has_rot ? c.ry
                         : *(const short *)(o + OFF_ACTOR_ANGLE + 2);
 
-    /* GOOMBA EDITS ITS OWN PARAM. src/_ZN7daKrb_c13InitResourcesEv.cpp:59-60
+    /* GOOMBA EDITS ITS OWN PARAM. src/actors/daKrb_c.cpp:59-60
        does `*(int *)(c + 8) &= 0xf0ff` under a condition, so the word read
        back above is the MASKED one and not what the goomba was spawned with.
        The respawn still works and still produces a goomba; what it cannot

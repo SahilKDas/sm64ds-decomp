@@ -3,7 +3,7 @@
 //
 // ---- 1. ONE ALIAS, AND IT IS THE ORDINARY KIND ---------------------------
 //
-// src/func_ov006_021295ac.cpp -- this class's constructor, the body that
+// src/actors/dScMgSnowball_c.cpp -- this class's constructor, the body that
 // resolves the vtable section 3 of port/mg_fanout_costs.txt left blank -- is a
 // //cpp TU and declares both tables as
 //
@@ -53,9 +53,9 @@
 // section 17, so the stubs and their counter accessor are GONE from this file
 // rather than left beside the real bodies where both could define the symbol:
 //
-//   func_ov006_02125f68   0x9e0  -> src/func_ov006_02125f68.cpp
-//   func_ov006_02126ee4   0xacc  -> src/func_ov006_02126ee4.cpp
-//   func_ov006_02126b4c   0x398  -> src/func_ov006_02126b4c.c
+//   func_ov006_02125f68   0x9e0  -> src/actors/dScMgSnowball_c.cpp
+//   func_ov006_02126ee4   0xacc  -> src/actors/dScMgSnowball_c.cpp
+//   func_ov006_02126b4c   0x398  -> src/actors/dScMgSnowball_c.cpp
 //
 // ONE OF THE THREE MATCHES and the other two are honest seats that carry their
 // measured residual in their own banners: func_ov006_02126ee4 matches at

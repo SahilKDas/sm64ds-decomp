@@ -40,7 +40,7 @@
 # below. The function stays named here because it is still unmatched code.
 
 # ---- the seven own vtable slots plus their closure (28 funcs) --------------
-src/_ZN8PaintingD1Ev.cpp
+src/_ZN11daPicGate_cD1Ev.cpp
 # _ZN8PaintingD0Ev.c (D0, slot 17) is EXCLUDED: its recovered src spells the
 # vtable and heap through decl_common's generic VT/HEAP externs, which would
 # collide across classes. hal/actor_classes_painting.cpp hosts the deleting
@@ -60,14 +60,7 @@ src/func_ov080_02125f00.c
 src/func_ov080_02125fd0.c
 src/func_ov080_02126120.c
 src/func_ov080_02126124.c
-src/func_ov080_021264ec.c
-src/func_ov080_021265ec.c
-src/func_ov080_0212677c.c
-src/func_ov080_021269b8.c
-src/func_ov080_02126a54.c
-src/_ZN8Painting16CleanupResourcesEv.cpp
-src/_ZN8Painting16OnPendingDestroyEv.cpp
-src/d_a_pic_gate.c
+src/actors/daPicGate_c.cpp
 
 # ---- two shared Actor tail methods the painting inherits (slots 19, 29) ----
 # The painting overrides neither, so its vtable slots 19/29 hold the base

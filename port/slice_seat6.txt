@@ -72,7 +72,7 @@
 #             onto the cdecl body (the Klepto c0000005)
 #   retires   port/unmatched/UnchainedChomp_Behavior.cpp (InitResources body
 #             cut; its Spawn and Behavior bodies and the PMF seat all stay)
-src/_ZN14UnchainedChomp13InitResourcesEv.cpp
+src/actors/daWanwan2_c.cpp
 #
 # MantaRay::InitResources (ov090) OK -- family F, the same missing decoration
 #   referrer  _ZTV8MantaRay[0] @ 0213423c = 02132e38   (overlay_0090.bin, base 02131ec0)
@@ -83,7 +83,7 @@ src/_ZN14UnchainedChomp13InitResourcesEv.cpp
 #   retires   port/unmatched/MantaRay_HostSites.cpp (InitResources body cut;
 #             its Render, its state setter and its Behavior stay, each with its
 #             own separate reason)
-src/_ZN8MantaRay13InitResourcesEv.cpp
+src/actors/daManta_c.cpp
 #
 # func_ov074_021222e0 (ov074) OK -- family E, and the reason is DEAD TWICE OVER
 #   referrer  config/arm9/overlays/ov074/relocs.txt
@@ -122,10 +122,10 @@ src/func_ov074_021222e0.cpp
 #
 # --- VIRTUAL_CALL, eight rows: the raw vtable read respelled -----------------
 #
-# _ZN9RabbitKey6RenderEv (ov085)
+# _ZN15daObj_Mip_Key_c6RenderEv (ov085)
 #   referrer  _ZTV9RabbitKey[9] @ 021301fc = 0212d39c   (overlay_0085.bin, base 02129020)
 #             vtable-4 @ 021301d4 -> typeinfo 02130194 -> name "15daObj_Mip_Key_c"
-#   record    _ZN9RabbitKey6RenderEv kind:function(arm,size=0x50) addr:0x0212d39c   (overlays/ov085/symbols.txt:84)
+#   record    _ZN15daObj_Mip_Key_c6RenderEv kind:function(arm,size=0x50) addr:0x0212d39c   (overlays/ov085/symbols.txt:84)
 #   dispatch  0212d3c8  add r0,r4,#0x110 / ldr r2,[r0] / mov r1,#0 /
 #                       ldr r2,[r2,#0x14] / blx r2       Model at +0x110, slot 5
 #   patch     the shadow's `void (*fn14)(void*, int)` call becomes a call
@@ -186,12 +186,12 @@ src/func_ov074_021222e0.cpp
 #             was outside its files; the call site needs no reshaping at all.
 #   retires   port/unmatched/MgShared4f38_ShadowFader_020c2924.cpp
 #
-# _ZN14ArrowSignRight11OnAttacked1ER8dActor_c (ov098), ArrowSignRight::OnAttacked1
-#   referrer  _ZTV15daObjYajirusi_c (= _ZTV14ArrowSignRight) @ 0213c3d8, word 22
+# _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c (ov098), daObjYajirusi_c::OnAttacked1
+#   referrer  _ZTV15daObjYajirusi_c (= _ZTV15daObjYajirusi_c) @ 0213c3d8, word 22
 #             config/arm9/overlays/ov098/relocs.txt
 #             from:0x0213c430 kind:load to:0x02137d40 module:overlay(98)
 #             (0x0213c430 - 0x0213c3d8 = 0x58 = word 22)
-#   record    _ZN14ArrowSignRight11OnAttacked1ER8dActor_c kind:function(arm,size=0x40) addr:0x02137d40   (overlays/ov098/symbols.txt:5)
+#   record    _ZN15daObjYajirusi_c11OnAttacked1ER8dActor_c kind:function(arm,size=0x40) addr:0x02137d40   (overlays/ov098/symbols.txt:5)
 #   dispatch  02137d68  ldr r1,[r0] / ldr r1,[r1,#0x7c] / blx r1
 #                       byte +0x7c = word 31, Kill, no argument, r0 = this
 #   patch     word 31 __fastcall(c, 0). FACEF called the fix decomp-side

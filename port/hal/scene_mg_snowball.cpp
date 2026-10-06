@@ -260,7 +260,7 @@ void     port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 
 /* The persistent per-minigame save record this class's param points at.
    Nothing new is defined here: the storage is hal/level_boot.cpp's
-   .dsstate$savblk0004 and the index function is src/func_ov004_020adc3c.c. */
+   .dsstate$savblk0004 and the index function is src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 int  func_ov004_020adc3c(void *c);            /* (self->field_8 >> 8) & 0xff */
 
@@ -682,7 +682,7 @@ extern "C" void port_scene_snowball_hits(void)
                         "nonzero over %d row(s) x 16 column(s), %u distinct "
                         "tile id(s); %u snowball slot(s) and %u scenery slot(s) "
                         "in use. The three CLOSURE floors are retired and "
-                        "seated (src/func_ov006_02125f68.cpp, _02126ee4.cpp, "
+                        "seated (src/actors/dScMgSnowball_c.cpp, _02126ee4.cpp, "
                         "_02126b4c.c); a zero here would mean the layout ran "
                         "and wrote nothing\n",
                         tiles, n * 16, n, kinds, balls, scen);

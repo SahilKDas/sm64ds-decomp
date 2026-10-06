@@ -280,8 +280,8 @@
 # link, and add exactly what LNK2019 names. It closed in THREE waves and asked
 # for FOUR symbols in total -- two ordinary /alternatename rows (both in
 # port/unmatched/MgBSC_Faces.cpp) and two slice lines
-# (src/func_ov004_020b5c18.cpp, which func_ov004_020b5ed0 calls, and
-# src/func_ov004_020b6324.c, which slot 21 tail-jumps to). That is section 14's
+# (src/actors/unit020b4aa4.cpp, which func_ov004_020b5ed0 calls, and
+# src/actors/unit020b4aa4.cpp, which slot 21 tail-jumps to). That is section 14's
 # "budget ONE wave plus its own alias row", near enough.
 #
 # THE COUNT IS CHECKED AGAINST THE HEADLINE RATHER THAN TRUSTED. port/tools/
@@ -307,7 +307,5 @@
 # absolute paths, so nothing is compiled twice.
 
 src/minigames/d_s_mg_bsc.cpp
-src/func_ov004_020b0a38.c
-src/func_ov004_020b5c18.cpp
-src/func_ov004_020b5ed0.c
-src/func_ov004_020b6324.c
+src/minigames/d_s_mg_base.cpp
+src/actors/unit020b4aa4.cpp

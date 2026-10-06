@@ -29,7 +29,7 @@
  *
  * IT IS A HOLE, NOT A LOOKUP MISS. config/arm9/overlays/ov080/delinks.txt runs
  *     src/func_ov080_02126124.c   .text start:0x02126124 end:0x021261f4
- *     src/func_ov080_021264ec.c   .text start:0x021264ec end:0x021265ec
+ *     src/actors/daPicGate_c.cpp   .text start:0x021264ec end:0x021265ec
  * and the 0x2f8 bytes between them are covered by nothing. There is no C in
  * src/ and no draft in nearmiss/db.jsonl. config/arm9/overlays/ov080/
  * symbols.txt:65 does name it --

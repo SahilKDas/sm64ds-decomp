@@ -69,7 +69,7 @@
 // ---------------------------------------------------------------------------
 // AND ONE C-NAME FACE, for the same reason lane FACEF needed four of them.
 //
-// src/_ZN9RabbitKey6RenderEv.cpp recovered as a REAL C++ METHOD against
+// src/actors/daObj_Mip_Key_c.cpp recovered as a REAL C++ METHOD against
 // include/RabbitKey.h, so the only symbol it puts in the map is MSVC's own
 // mangling ?Render@RabbitKey@@QAEHXZ. The seat that fills the ROM's vtable
 // word -- hal/actor_classes.cpp:1679, `vt[9] = rk_render` -- calls the ROM's
@@ -77,7 +77,7 @@
 // define. The face supplies that name and nothing else; the ROM vtable word,
 // the seat and the call are all untouched. This is exactly the arrangement
 // lane FACEF shipped in hal/except_faces.cpp for Goomboss::Render,
-// ShipUp::Render, FloatOnWaterPlatformJrb::Render and Player::BlowAway, and
+// daObjKi_Fune_c::Render, FloatOnWaterPlatformJrb::Render and Player::BlowAway, and
 // the gate-1b LINK is what named it here rather than a reading.
 //
 // It is a FACE, not a shadow: it forwards with a qualified call, so the map
@@ -88,7 +88,7 @@
 
 #include "RabbitKey.h"
 
-extern "C" int _ZN9RabbitKey6RenderEv(void *self)
+extern "C" int _ZN15daObj_Mip_Key_c6RenderEv(void *self)
 {
     return ((RabbitKey *)self)->RabbitKey::Render();
 }

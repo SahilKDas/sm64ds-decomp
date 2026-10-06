@@ -301,8 +301,8 @@
 #
 # ONE STALE COMMENT worth recording and NOT edited here, because the file is
 # matched arm9 territory and a comment change there is not this lane's to
-# make. src/_ZN7fBase_c13AfterBehaviorEj.cpp and
-# src/_ZN7fBase_c11AfterRenderEj.cpp both say "Base ActorBase does nothing;
+# make. src/actors/ActorBase.cpp and
+# src/actors/ActorBase.cpp both say "Base ActorBase does nothing;
 # leaf classes override." The first clause is right. The second is wrong for
 # this game: count 1 above shows no leaf class overrides either slot in any of
 # the 288 tables. Harmless as a comment, misleading if a later reader treats it

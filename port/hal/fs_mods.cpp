@@ -90,6 +90,7 @@
 #include "vs_palette_gen.h"
 #include "vs_char_palette_gen.h"
 #include "vs_char_groups.h"
+#include "resource_pack.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -237,6 +238,16 @@ u8 *file_load(const char *path, u32 *len_out)
     out = decompress_maybe(raw, fsize, len_out);
     free(raw);
     return out;
+}
+
+u8 *pack_file_load(const std::string &path, u32 *len_out)
+{
+    if (path.empty()) return 0;
+    if (path.size() > 2 && path[1] == ':')
+        return file_load(path.c_str(), len_out);
+    char full[4096];
+    snprintf(full, sizeof full, "%s/%s", mods_root(), path.c_str());
+    return file_load(full, len_out);
 }
 
 /* A catalog file's decompressed bytes, malloc'd, or 0. Kept separate from
@@ -2876,6 +2887,40 @@ u32 yoshi_rows16_filter(unsigned fileID, u8 **data, u32 size)
     return nsize;
 }
 
+u32 selected_character_asset_filter(unsigned fileID, u8 **data, u32 size)
+{
+    const sm64ds::packs::Character *item = sm64ds::packs::selected_character();
+    if (!item || item->key.empty()) return size;
+
+    const int base = item->base_character & 3;
+    const std::string *replacement = 0;
+    if (fileID == resolve_file_by_name(PC_FILES[base][0]))
+        replacement = &item->body_model;
+    else if (fileID == resolve_file_by_name(PC_FILES[base][1]))
+        replacement = &item->head_cap_model;
+    else if (fileID == resolve_file_by_name(PC_FILES[base][2]))
+        replacement = &item->head_no_cap_model;
+    if (!replacement || replacement->empty()) return size;
+
+    u32 replacement_size = 0;
+    u8 *replacement_data = pack_file_load(*replacement, &replacement_size);
+    if (!replacement_data) {
+        static std::string reported;
+        if (reported != *replacement) {
+            reported = *replacement;
+            fprintf(stderr, "[resource-pack] %s is missing; %s keeps the %s model\n",
+                    replacement->c_str(), item->name.c_str(), PC_WHO[base]);
+        }
+        return size;
+    }
+    free(*data);
+    *data = replacement_data;
+    fprintf(stderr, "[resource-pack] %s replaces %s (%u bytes)\n",
+            item->key.c_str(), PC_FILES[base][replacement == &item->body_model ? 0 :
+                replacement == &item->head_cap_model ? 1 : 2], replacement_size);
+    return replacement_size;
+}
+
 /* The installed filter is a chain, each mod deciding for itself whether the
    file is its business. Loves Me first because it can REPLACE the buffer;
    the palette patches then edit whatever bytes are actually being served.
@@ -2886,6 +2931,7 @@ u32 yoshi_rows16_filter(unsigned fileID, u8 **data, u32 size)
    what everyone looks like, so nothing on one player's disk may overrule it. */
 u32 mod_filter(unsigned fileID, u8 **data, u32 size)
 {
+    size = selected_character_asset_filter(fileID, data, size);
     size = lovesme_filter(fileID, data, size);
     size = palette_filter(fileID, data, size);
     size = character_palette_filter(fileID, data, size);

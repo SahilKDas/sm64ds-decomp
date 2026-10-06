@@ -3,7 +3,7 @@
 //
 // ---- WHY THIS IS A HOST COPY AND NOT A SLICE LINE -------------------------
 //
-// src/_ZN15dScMgPachinko_cD0Ev.cpp is a matched TU and reads, in full:
+// src/actors/dScMgPachinko_c.cpp is a matched TU and reads, in full:
 //
 //     #include "decl_common.h"
 //     int *_ZN15dScMgPachinko_cD0Ev(int *t)
@@ -56,7 +56,7 @@
 // and is routed rather than taken.
 //
 // THE SAME DEFECT IS LIVE ON CURLING'S SEAT TODAY and this lane did not fix it,
-// because it is another lane's file. src/_ZN14dScMgCurling_cD0Ev.cpp is
+// because it is another lane's file. src/actors/dScMgCurling_c.cpp is
 // dScMgCurling_c's slot 17, is byte-for-byte the same four statements, IS in
 // port/slice_mg1.txt line 151, and has no per-source -D in port/CMakeLists.txt.
 // Its own ROM pool holds 0x0213c304 (curling's table). So on a scene 374 boot

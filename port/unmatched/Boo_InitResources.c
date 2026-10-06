@@ -1,6 +1,6 @@
 /* HOST COPY of _ZN7daTrs_c13InitResourcesEv (ov063 0x0211b9bc, 0x9a0 bytes),
  * vtable slot 0 of _ZTV7daTrs_c -- a FAITHFUL MIRROR of the matched TU
- * src/game/actors/daTrs_c/_ZN7daTrs_c13InitResourcesEv.cpp with exactly ONE line changed:
+ * src/actors/daTrs_c.cpp with exactly ONE line changed:
  * the K&R-style `extern int _ZN8dActor_c13ClosestPlayerEv();` declaration is
  * reprototyped to the one-argument form. Both of the TU's call sites ALREADY
  * pass the receiver (`ClosestPlayerEv(c)` -- the OverlayReaders registry

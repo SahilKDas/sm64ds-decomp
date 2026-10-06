@@ -15,18 +15,10 @@
 # daFPknBall_c::OnYoshiTryEat, which is what it is) and byte-matches under
 # tools/match.py with strict relocs; ruled REAL_DECOMP in
 # tools/inferred_stub_adjudicated.txt before seating.
-src/d_a_f_pkn_ball.c
-src/_ZN8Fireball13InitResourcesEv.cpp
-src/_ZN8Fireball8BehaviorEv.cpp
-src/_ZN8Fireball6RenderEv.cpp
-src/_ZN8FireballD1Ev.cpp
+src/actors/daFPknBall_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN8FireballD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8FireballD0Ev.cpp
-src/_ZN8Fireball13OnYoshiTryEatEv.cpp
 # Behavior's three helpers
-src/func_ov002_020f8b24.c
-src/func_ov002_020f88ec.c
-src/func_ov002_020f897c.c
 #
 # ---- BOWSER_SHOCKWAVES (281, ov060) ---------------------------------------
 # _ZTV16BowserShockwaves / _ZTV9daFRing_c 0x0211ab54, 31 slots, hosted as an
@@ -38,10 +30,7 @@ src/func_ov002_020f897c.c
 # unmatched/Ov060_Renders.cpp. InitResources' two BMA spellings func_021115e4/
 # f4 are the level-overlay window, aliased onto the ov046 per-symbol mount.
 src/d_a_f_ring.c
-src/_ZN16BowserShockwaves13InitResourcesEv.cpp
-src/_ZN16BowserShockwaves16CleanupResourcesEv.cpp
-src/_ZN16BowserShockwaves8BehaviorEv.cpp
-src/_ZN16BowserShockwavesD1Ev.cpp
+src/actors/daFRing_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN16BowserShockwavesD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN16BowserShockwavesD0Ev.cpp
 #
@@ -88,28 +77,6 @@ src/game/actors/d_a_obj_abuku.cpp
 # func_ov002_020ed0d4 (state 0 main) carries dsd's misname daWarpkun_c::Kill;
 # match.py strict-reloc byte match, ruled REAL_DECOMP in
 # tools/inferred_stub_adjudicated.txt before this seat.
-src/d_a_yegg.c
-src/_ZN8YoshiEgg13InitResourcesEv.cpp
-src/_ZN8YoshiEgg16CleanupResourcesEv.cpp
-src/_ZN8YoshiEgg8BehaviorEv.cpp
-src/_ZN8YoshiEggD1Ev.cpp
+src/actors/daYegg_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN8YoshiEggD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8YoshiEggD0Ev.cpp
-src/func_ov002_020ec654.c
-src/func_ov002_020ec670.c
-src/func_ov002_020ec938.cpp
-src/func_ov002_020ec978.c
-src/func_ov002_020ec9c4.c
-src/func_ov002_020ecad4.c
-src/func_ov002_020ecb0c.c
-src/func_ov002_020ecd18.cpp
-src/func_ov002_020ecf94.c
-src/func_ov002_020ecfc8.c
-src/func_ov002_020ed0d4.c
-src/func_ov002_020ed5b0.c
-src/func_ov002_020ed6cc.c
-src/func_ov002_020ed738.cpp
-src/func_ov002_020ed7f8.c
-src/func_ov002_020ed998.cpp
-src/func_ov002_020edb3c.cpp
-src/func_ov002_020eddc4.c

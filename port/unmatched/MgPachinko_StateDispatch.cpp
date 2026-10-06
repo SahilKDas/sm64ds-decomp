@@ -58,7 +58,7 @@
 // three ROM bodies is a second lane's work and not this seat's.
 //
 // 0x020fc718 IS NOT A FLOOR and is treated as the ordinary slice line it is.
-// src/func_ov006_020fc718.c exists; only the delinks join misses it. It is in
+// src/actors/dScMgPachinko_c.cpp exists; only the delinks join misses it. It is in
 // port/slice_pch.txt and this switch calls it by its real symbol.
 //
 // ---- WHY ALL FIVE DISPATCHERS ARE HOSTED, AND THE SPLIT INSIDE THE FIVE ----
@@ -333,7 +333,7 @@ extern "C" void port_mg_pachinko_state_counts(unsigned *hits, unsigned *missing)
 // too, so both tables take one-argument faces.
 //
 // ONE /alternatename: ?data_ov006_0214266c@@3PAP8C@@AEXH@ZA, read off the object
-// with dumpbin /symbols. src/func_ov006_020fad34.cpp declares its table inside
+// with dumpbin /symbols. src/actors/dScMgPachinko_c.cpp declares its table inside
 // extern "C" and needs none.
 #pragma comment(linker, "/alternatename:?data_ov006_0214266c@@3PAP8C@@AEXH@ZA=_data_ov006_0214266c")
 

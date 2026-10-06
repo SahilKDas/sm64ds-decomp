@@ -278,7 +278,7 @@
 # that column was RIGHT -- it is computed over VTABLE slots and this floor was
 # a STATE, which is the reason the axis could not see it.
 #
-# IT IS NOW src/func_ov006_0211bc8c.cpp. Byte match on mwccarm 2004/b56, all
+# IT IS NOW src/actors/dScMgSound_c.cpp. Byte match on mwccarm 2004/b56, all
 # FOURTEEN relocation destinations checked against ov006's relocs.txt (eleven
 # arm_calls and three pool loads), and a delink block covering exactly
 # 0x0211bc8c..0x0211bf44. The instruction arithmetic: 165 instructions
@@ -423,7 +423,7 @@
 # that "a trap-shaped floor HIDES its callees from static closure":
 #
 #     src/actors/dScMgSound_c.cpp   called ONLY from 0x0211bd88
-#     src/func_ov006_020c2300.c   called ONLY from 0x0211bf10
+#     src/actors/unit020bfec0.cpp   called ONLY from 0x0211bf10
 #
 # and both of those addresses are inside func_ov006_0211bc8c. The closure walk
 # reached them through the ROM's relocations, but on the host the only caller
@@ -501,42 +501,27 @@
 #   src/actors/dScMgSound_c.cpp  src/actors/dScMgSound_c.cpp
 #   src/actors/dScMgSound_c.cpp  src/actors/dScMgSound_c.cpp
 #   src/actors/dScMgSound_c.cpp                                PMF, C++ linkage
-#   src/func_ov006_020c2b8c.cpp                                FIELD pmf
+#   src/actors/unit020bfec0.cpp                                FIELD pmf
 # HOST-COPIED (mg9 lane BOX), port/unmatched/MgSound_ShadowSlot35.cpp:
 #   src/actors/dScMgSound_c.cpp    -- and it is a delinks JOIN MISS as well, so
 #   it never appeared in the closure listing either way.
 # THE FLOOR IS RETIRED (run mg10 lane F367): func_ov006_0211bc8c is now
-#   src/func_ov006_0211bc8c.cpp, listed below in address order, byte-matched
+#   src/actors/dScMgSound_c.cpp, listed below in address order, byte-matched
 #   and delinked. It is the only line this run adds.
 src/actors/dScMgSound_c.cpp
-src/func_ov006_020c225c.c
-src/func_ov006_020c2290.c
-src/func_ov006_020c22d8.c
-src/func_ov006_020c2300.c
-src/func_ov006_020c23a8.cpp
-src/func_ov006_020c2440.cpp
-src/func_ov006_020c24e4.cpp
-src/func_ov006_020c2594.c
-src/func_ov006_020c263c.c
-src/func_ov006_020c2664.c
-src/func_ov006_020c26f4.c
-src/func_ov006_020c271c.c
-src/func_ov006_020c27c4.cpp
-src/func_ov006_020c2848.cpp
-# HOST-COPIED (mg9 lane BOX): src/func_ov006_020c2924.cpp -- a RECEIVER
+src/actors/unit020bfec0.cpp
+# HOST-COPIED (mg9 lane BOX): src/actors/unit020bfec0.cpp -- a RECEIVER
 #   DROP at a host C++ virtual. It reads the installed fader's vtable
 #   through `int (**vt)(void*)` and calls vt[6](obj), which is __cdecl
 #   with the object PUSHED, against HalFaderWipe::IsAtEnd, which is
 #   __thiscall and reads ecx. The stack balances, so nothing faults and
 #   neither abicheck nor aritycheck can see it; the answer is garbage and
 #   it gates seven stores. Its own sibling one line earlier,
-#   src/func_ov006_020c2848.cpp, spells the SAME call on the SAME object
+#   src/actors/unit020bfec0.cpp, spells the SAME call on the SAME object
 #   at the SAME byte correctly, with a seven-virtual shadow class, and the
 #   host copy borrows that spelling. See
 #   port/unmatched/MgShared4f38_ShadowFader_020c2924.cpp.
-src/func_ov006_020c2984.c
-src/func_ov006_020c2994.c
-# HOST-COPIED (mg9 lane BOX): src/func_ov006_020c29dc.cpp -- the sub-object's
+# HOST-COPIED (mg9 lane BOX): src/actors/unit020bfec0.cpp -- the sub-object's
 #   per-frame model draw, and the SAME PAIR of defects run mg6 lane MEM
 #   recorded for 020c1804 and run mg5 lane Y3D for 020c3bf4: a local shadow
 #   class calling ROM vtable byte +0x14 at TWO sites, which on the host's
@@ -545,12 +530,8 @@ src/func_ov006_020c2994.c
 #   that need the geometry proxy. A NO_RENDER boot cannot see either -- this
 #   one was found by port/tools/battery.py, which renders. See
 #   port/unmatched/MgShared4f38_ModelRender_020c29dc.cpp.
-src/func_ov006_020c2be8.c
-src/func_ov006_020c3050.c
-src/func_ov006_020c3288.c
-src/func_ov006_020c33dc.c
 # RETIRED at SLICE1: body now in src/actors/dScMgSound_c.cpp. main consolidation put this body in the class TU, which the build already compiles, so the per-function leftover is a second definition.
-#src/func_ov006_0211bc8c.cpp
+#src/actors/dScMgSound_c.cpp
 
 # ---- ov004: the delta over what the framework already builds --------------
 #
@@ -559,8 +540,8 @@ src/func_ov006_020c33dc.c
 # (InitResources) and sets two ov004 globals; 020b2574 is on the HUD path
 # slot 33 reaches. port/slice_mga361.txt lists both, and that file is in NO
 # target, so this seat is the first to build them.
-src/func_ov004_020b2574.c
-src/func_ov004_020b6808.c
+src/minigames/d_s_mg_base.cpp
+src/actors/dMgState_c.cpp
 
 # ---- WAVE 2: the one arm9 line the closure listing did not print ----------
 #
@@ -568,7 +549,7 @@ src/func_ov004_020b6808.c
 # is right for 827 of the 828 blocks this closure reaches: those TUs are
 # already compiled into the build and come back through /OPT:REF the moment
 # ov006 references them. func_02012174 is the one that is not, and the LINK is
-# what found it -- one LNK2019 from src/func_ov006_020c2300.c plus two LNK2001
+# what found it -- one LNK2019 from src/actors/unit020bfec0.cpp plus two LNK2001
 # rows from _020c2594 and _020c271c, which is section 10's "link.exe emits
 # LNK2019 once per SYMBOL and LNK2001 for every further object" shape read
 # correctly rather than as three symbols. src/func_02012174.c exists and is

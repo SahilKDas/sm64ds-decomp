@@ -40,7 +40,7 @@
  *
  * THE SECOND HALF OF THAT IS NO LONGER TRUE ON THIS TREE, and this class is
  * why.  func_ov004_020ae5c4 is not a floor any more: hal/scene_mg_faces.cpp's
- * own header records it as a REAL DECOMPILATION (src/func_ov004_020ae5c4.cpp, a
+ * own header records it as a REAL DECOMPILATION (src/minigames/d_s_mg_base.cpp, a
  * Bresenham line walk that stamps slot 34 at every lattice point).  And THIS
  * class calls it from two places:
  *
@@ -54,10 +54,10 @@
  * of it stands and is what this file's thunk depends on.
  *
  * THE ARITY IS THE SAME FIVE, re-derived rather than carried.  Every slot-34
- * dispatch in src/func_ov004_020ae5c4.cpp is `ldr Rd,[r0] / ldr Rd,[Rd,#0x88] /
+ * dispatch in src/minigames/d_s_mg_base.cpp is `ldr Rd,[r0] / ldr Rd,[Rd,#0x88] /
  * blx Rd` with r1, r2, r3 loaded and one word stored at [sp] first -- 0x88/4 =
  * 34 -- so five arguments arrive: the receiver, the two walked coordinates, the
- * caller's `val` and its `n`.  src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp (the BASE's own brush)
+ * caller's `val` and its `n`.  src/minigames/d_s_mg_base.cpp (the BASE's own brush)
  * declares the same five and hal/scene_mg.cpp's mb_v34 forwards all five.
  * hal/scene_mg_trampoline.cpp's tti_v34 has the same shape for the same reason.
  *

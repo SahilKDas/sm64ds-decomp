@@ -280,7 +280,7 @@ static int __fastcall am_v31(void *, void *)
    free. Every slot-34 dispatch site in either overlay image passes FIVE
    arguments -- r0..r3 plus one pushed word -- and all EIGHT of them are inside
    func_ov004_020ae5c4, each doing `str r7,[sp]` before
-   `ldr r4,[r4,#0x88]; blx r4`. src/_ZN11dScMgBase_c9Virtual88Eiiii.cpp, the BASE's own
+   `ldr r4,[r4,#0x88]; blx r4`. src/minigames/d_s_mg_base.cpp, the BASE's own
    slot-34 body, declares five parameters to match. This class's override reads
    only four of them (mov r6,r0 / mov r5,r1 / mov r4,r2 / mov r8,r3, and src
    declares four), so the fifth is dropped here on purpose and the parameter
@@ -458,7 +458,7 @@ extern "C" void port_scene_fill_amida(void)
    calling _ZN11dScMgBase_cC2Ev with NO argument, which on the host reads
    whatever is at [esp+4] and then writes three vtable words through it. This
    factory does `movs r4,r0` and then `bl 0x020b2adc` with the object still in
-   r0 at 0x020d598c, and src/d_s_mg_amida.cpp spells the argument. */
+   r0 at 0x020d598c, and src/actors/dScMgAmida_c.cpp spells the argument. */
 static void *g_am_self;
 
 extern "C" void *port_mg_amida_spawn(void)
@@ -605,7 +605,7 @@ extern "C" void port_scene_amida_hits(void)
  * and the ov006 / arm9 mount's plain C symbol cannot satisfy it. The ADDRESS
  * is the same either way, no storage is involved, and an alias is exact.
  *
- * ROW 1 and 2 -- THE STYLUS RECORD, from src/func_ov006_020d1958.cpp, which
+ * ROW 1 and 2 -- THE STYLUS RECORD, from src/actors/dScMgAmida_c.cpp, which
  * declares `extern unsigned char data_020a0dea[][4];` and reads
  * data_020a0dea[slot][0]. That is an ARRAY of 4-byte records, not a pointer,
  * and MSVC spells an unknown-bound array of unsigned char[4] as @@3PAY03EA.
@@ -618,7 +618,7 @@ extern "C" void port_scene_amida_hits(void)
  * port/tools/alternatename_guard.py counts pragmas per LHS, and two spellings
  * of one symbol from two different declarations are two rows by construction.
  *
- * ROW 3 -- G2S::GetBG0CharPtr. src/func_ov006_020d3624.cpp, _020d3668.cpp and
+ * ROW 3 -- G2S::GetBG0CharPtr. src/actors/dScMgAmida_c.cpp, _020d3668.cpp and
  * the host copy of _020d3ba0 all declare it inside `namespace G2S`, so MSVC
  * emits ?GetBG0CharPtr@G2S@@YAPADXZ. The Y and the A in that mangling say
  * __cdecl FREE FUNCTION IN A NAMESPACE, not a method -- which is section 10
@@ -628,7 +628,7 @@ extern "C" void port_scene_amida_hits(void)
  * correct and no argument-landing face is owed.
  *
  * ROW 4 -- data_ov006_0213b8b8, AND THIS IS THE ONE THAT LOOKS LIKE THE WALL.
- * src/func_ov006_020d3ba0.cpp declares `typedef struct { int a; int b; } Pair;`
+ * src/actors/dScMgAmida_c.cpp declares `typedef struct { int a; int b; } Pair;`
  * and `extern Pair data_ov006_0213b8b8[11]`, which mangles @@3PAUPair@@A --
  * the exact array-of-struct spelling that slipped both of facegen's guards on
  * curling's state table. IT IS NOT A MEMBER-POINTER TABLE and there are two
@@ -649,7 +649,7 @@ extern "C" void port_scene_amida_hits(void)
  *
  * ROW 5 -- data_ov006_0213b880, the BY-VALUE struct spelling @@3UBuf14@@A that
  * facegen does refuse. Same treatment and the same two witnesses:
- * src/_ZN12dScMgAmida_c6RenderEv.cpp declares `typedef struct { int v[14]; } Buf14;`
+ * src/actors/dScMgAmida_c.cpp declares `typedef struct { int v[14]; } Buf14;`
  * and copies it whole into a local, the fourteen words read
  * {2,1,1,1,2,2,2,2,2,2,2,1,1,1}, and no relocation lands anywhere in
  * 0x0213b880..0x0213b8b4. Fourteen ints are 56 bytes on both machines.

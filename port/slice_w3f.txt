@@ -126,12 +126,7 @@
 # that sinit runs, the same seat TOAD's four and the RABBIT_KEY's four take.
 #
 # ---- WHAT LINKS -----------------------------------------------------------
-src/d_a_peach.c
-src/_ZN13PrincessPeach13InitResourcesEv.cpp
-src/_ZN13PrincessPeach16CleanupResourcesEv.cpp
-src/_ZN13PrincessPeach16OnPendingDestroyEv.cpp
-src/_ZN13PrincessPeach6RenderEv.cpp
-src/_ZN13PrincessPeachD0Ev.cpp
+src/actors/daPeach_c.cpp
 # Render is the LINKABLE half of the wave-19 split, unlike Behavior above: the
 # ROM calls _ZN5Model6RenderEPK7Vector3 NON-virtually (`add r0,r0,#0xd4 /
 # mov r1,#0 / bl 0x02016b78` at 0x0212a508) and the matched TU spells exactly
@@ -150,19 +145,6 @@ src/_ZN13PrincessPeachD0Ev.cpp
 #             MSVC refuses. relocs.txt names both callers and both discard it.
 # hostgen.py's HEADER_SHADOW and FALLS_OFF_RETURN tables are the reclaim
 # route for both; that file's header carries the derivation.
-src/func_ov085_02129f8c.c
-src/_ZN13PrincessPeach11UpdateModelEv.cpp
-src/_ZN13PrincessPeach10InitState0Ev.cpp
-src/_ZN13PrincessPeach6State0Ev.cpp
-src/_ZN13PrincessPeach6State2Ev.cpp
-src/_ZN13PrincessPeach10InitState2Ev.cpp
-src/_ZN13PrincessPeach10InitState4Ev.cpp
-src/_ZN13PrincessPeach6State1Ev.cpp
-src/_ZN13PrincessPeach6State3Ev.cpp
-src/_ZN13PrincessPeach10InitState1Ev.cpp
-src/_ZN13PrincessPeach10InitState3Ev.cpp
-src/_ZN13PrincessPeach6State4Ev.cpp
-src/_ZN13PrincessPeach8SetStateEi.cpp
 #
 # LANGUAGE: the fifteen .c files above were swept comment-stripped for C++
 # tokens and carry none, so none needs LANGUAGE CXX. The six .cpp files carry

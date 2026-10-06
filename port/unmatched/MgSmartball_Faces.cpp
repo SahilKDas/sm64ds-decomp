@@ -30,7 +30,7 @@
  *    src/, and eleven port/hal files already call it under that name. Nothing
  *    is being converted: an alias here changes a name and not a convention.
  *
- *    WHY THE SYMBOL APPEARS AT ALL. src/_ZN16dScMgSmartball_cD0Ev.cpp is one of the
+ *    WHY THE SYMBOL APPEARS AT ALL. src/actors/dScMgSmartball_c.cpp is one of the
  *    ".cpp with a recovered header" bodies and it declares the callee as real
  *    C++ -- `namespace Memory { void Deallocate(void*, Heap*); }` -- so MSVC
  *    emits the namespace-qualified mangle where every C-spelled caller emits
@@ -51,14 +51,14 @@
  *    THE REFUSAL IS RIGHT AND THE ANSWER IS "MOUNT IT", not "host it", and the
  *    difference is the whole ruling. These are not missing storage. They are
  *    the SAME name-spelling defect port/mg_fanout_costs.txt section 6 records
- *    as its fourth, smaller item -- "src/_ZN14dScMgCurling_c13InitResourcesEv.cpp spells ov004's
+ *    as its fourth, smaller item -- "src/actors/dScMgCurling_c.cpp spells ov004's
  *    func_ov004_020adc74 as bare func_020adc74, a name that exists in no
  *    config" -- in its data form:
  *
  *      include/decl_common.h:1357   extern int func_020bc864;
  *      include/decl_common.h:1362   extern int func_020bc888;
- *      src/_ZN16dScMgSmartball_c8BehaviorEv.cpp:161  func_020bc888 = 0x80;
- *      src/_ZN16dScMgSmartball_c8BehaviorEv.cpp:162  func_020bc864 = -0x30;
+ *      src/actors/dScMgSmartball_c.cpp:161  func_020bc888 = 0x80;
+ *      src/actors/dScMgSmartball_c.cpp:162  func_020bc864 = -0x30;
  *
  *    Both are DATA and both live in ov004: config/arm9/overlays/ov004/
  *    symbols.txt names them data_ov004_020bc864 and data_ov004_020bc888, and
@@ -92,7 +92,7 @@
  *    TU's, which is all an alias needs.
  *
  *    THE DECOMP-SIDE FIX IS ROUTED, NOT TAKEN: include/decl_common.h should
- *    spell both as data_ov004_* and src/_ZN16dScMgSmartball_c8BehaviorEv.cpp should follow.
+ *    spell both as data_ov004_* and src/actors/dScMgSmartball_c.cpp should follow.
  *    That is a byte-gated-tree change and this file leaves src/ and include/
  *    alone.
  */
@@ -106,7 +106,7 @@
 
 /* 4. Run mg5, lane INTEG. dScMgSmartball_c::InitResources (vtable slot 0) was
  * recovered on branch decomp/smb-bodies as the plain-C body
- * src/_ZN16dScMgSmartball_c13InitResourcesEv.cpp (NONMATCHING, the flagged weak
+ * src/actors/dScMgSmartball_c.cpp (NONMATCHING, the flagged weak
  * point). hal/scene_mg.cpp's slot-0 dispatch calls it by its ROM address name
  * _ZN16dScMgSmartball_c13InitResourcesEv, so the flat name is aliased onto the mangled one. Both
  * sides are __cdecl taking one pointer and returning s32 -- exactly the
@@ -138,7 +138,7 @@
  *
  * ---- 5a. dScMgSmartball_c::Render, vtable slot 9, 0x021173c8 -------------
  *
- * src/_ZN16dScMgSmartball_c6RenderEv.cpp is main's MATCHED body, brought
+ * src/actors/dScMgSmartball_c.cpp is main's MATCHED body, brought
  * across by address. It is NOT given a delink block in this tree and that is
  * deliberate rather than an oversight: it includes include/dScMgSmartball_c.h,
  * which derives from dScMgBase_c, and this tree's dScMgBase_c is the old flat

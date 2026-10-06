@@ -108,8 +108,8 @@
 # THE TWO SIBLING SHADOW CLASSES IN THIS SLICE ARE NOT DEFECTS, and the
 # distinction is the whole rule -- a sweep that flags every shadow gets it
 # wrong (MgMemory2_ShadowSlot_020c06dc.cpp's own closing paragraph):
-#   src/_ZN13daObjHmBskt_c6RenderEv.cpp  (UkikiCage's Render, ROM slot 9) and
-#   src/_ZN13daObjMaruta_c6RenderEv.cpp  (RollingLogTtm's Render, ROM slot 9)
+#   src/game/actors/d_a_obj_hm_bskt.cpp  (UkikiCage's Render, ROM slot 9) and
+#   src/game/actors/d_a_obj_maruta.cpp  (RollingLogTtm's Render, ROM slot 9)
 # both model a plain Model with a SIX-virtual shadow and call `m(0)`, index 5.
 # hal/cxxname_bridge.cpp:511 DUAL-FILLS `_ZTV5Model[5] = mv_render` for exactly
 # this, so index 5 on the host is Render too and the shadow's numbering is
@@ -190,34 +190,20 @@
 # all recorded this; it is recorded a fourth time here because the failure it
 # produces names the symbols and not the cause.
 
-src/_ZN13daObjHmBskt_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN13daObjHmBskt_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN13daObjHmBskt_cD0Ev.cpp
-src/func_ov030_0211124c.cpp
-src/_ZN13daObjHmBskt_c16CleanupResourcesEv.cpp
-src/_ZN13daObjHmBskt_c6RenderEv.cpp
-src/_ZN13daObjHmBskt_c8BehaviorEv.cpp
-src/_ZN13daObjHmBskt_c13InitResourcesEv.cpp
-src/d_a_obj_hm_bskt.c
+src/game/actors/d_a_obj_hm_bskt.cpp
+# RETIRED at SLICE1: body now in src/game/actors/d_a_obj_hm_bskt.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/game/actors/d_a_obj_hm_bskt.cpp
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): MSVC
 # refuses main's shape for this TU (C2556 and C2371, one free function
 # declared with two different return types in one TU). It is a decomp-side
 # item, not a port one: see runs/link100/out/SYNC5/decomp_side.md. The row
 # returns when main lands the fix.
 #src/actors/daMky_c.cpp
-src/d_a_obj_hm_maruta.c
-src/d_a_mky_monkey_star.c
-src/d_a_mky_monkey_thief.c
+src/actors/daObjHmMaruta_c.cpp
+src/actors/daMky_c.cpp
 src/__sinit_ov030_0211484c.c
 src/__sinit_ov030_021148b8.c
 src/__sinit_ov030_02114924.c
-src/_ZN13daObjMaruta_c6RenderEv.cpp
-src/_ZN13daObjMaruta_c15OnHitByMegaCharER6Player.cpp
-src/func_ov080_021270dc.c
-src/func_ov080_0212714c.c
-src/func_ov080_021274ac.c
+src/game/actors/d_a_obj_maruta.cpp
 src/func_02038ea4.cpp
 src/func_02037f44.c
-src/func_ov080_02127094.c
-src/func_ov080_02127658.c
-src/func_ov080_0212758c.c

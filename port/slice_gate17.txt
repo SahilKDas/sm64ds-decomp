@@ -24,20 +24,15 @@
 # (-3941,254,4257) and (5401,377,584). A four-state bird: its Behavior
 # dispatches data_ov009_02113c48, four {function, delta} pairs the sinit
 # copies out of the overlay's own statics. Host copy, see port/unmatched/.
-src/d_a_s_bird.c
-src/_ZN4Bird13InitResourcesEv.cpp
+src/game/actors/d_a_s_bird.cpp
 # RETIRED at SLICE1: body now in src/_ZN4BirdD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN4BirdD0Ev.cpp
-src/_ZN4Bird16CleanupResourcesEv.cpp
-src/_ZN4Bird16OnPendingDestroyEv.cpp
 src/func_ov009_02111224.c
 src/func_ov009_02111234.cpp
 # func_ov009_0211145c is NOT here. It is the Bird's state 2 and it is a
 # NONMATCHING asm hatch -- an mwcc `asm { }` block, not C, so MSVC cannot
 # compile it at all. The state is seated with a named trap in
 # hal/ov009_boot.cpp; if a bird ever enters it the walk says which.
-src/func_ov009_021115d8.c
-src/func_ov009_021116ec.cpp
 
 # ---- CASTLE_WATER (actor 338, ov009), x1 ----------------------------------
 # The moat. One instance at the origin. InitResources loads a BMD with a

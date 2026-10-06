@@ -1,10 +1,10 @@
 /* HOST COPIES of four overlay bodies that each call Actor::ClosestPlayer() with
  * NO argument and rely on `this` riding ARM r0:
  *
- *     [src/func_ov084_02129cf4.c RETIRED at SEAT15B -- the src passes `c`]
+ *     [src/actors/daKrb_c.cpp RETIRED at SEAT15B -- the src passes `c`]
  *     src/actors/daPkn_c.cpp    (ov084 range cache;       receiver `r4`)
- *     [src/func_ov094_02136024.cpp RETIRED at SEAT15B -- the src passes `c`]
- *     src/func_ov102_02149078.c    (ov102 refusal test;      receiver `self`)
+ *     [src/actors/daOwl_c.cpp RETIRED at SEAT15B -- the src passes `c`]
+ *     src/actors/daObjHatenaBlock_c.cpp    (ov102 refusal test;      receiver `self`)
  *
  * THE r0-PASSTHROUGH SEAM -- identical to Actor_ClosestPlayerWrappers.cpp: each
  * body's own `this` is its first parameter (the ROM's r0), and it calls
@@ -43,17 +43,17 @@
  * known raw readers.
  *
  *   src/game/actors/d_a_pg_mthr.cpp                 (ov018, calls ClosestPlayer() no arg)
- *   src/func_ov020_02111fc4.cpp               (ov020, calls ClosestPlayer() no arg)
+ *   src/game/actors/d_a_book.cpp               (ov020, calls ClosestPlayer() no arg)
  *   [RETIRED, run rel0215 wave 2 lane cast-sweep2: ov032 is hosted now and this
  *    reader went live. Host copy in port/unmatched/Bubba_ChaseGate.cpp; the src
  *    TU is out of port/slice_sweep2_ov032.txt.]
  *   src/game/actors/d_a_bakubaku.cpp                 (ov032, HOSTED -- Bubba_ChaseGate.cpp)
- *   [src/func_ov060_02111f08.c SEATED at SEAT15B -- the src passes `arg0`]
+ *   [src/actors/daKpa_c.cpp SEATED at SEAT15B -- the src passes `arg0`]
  *   src/actors/Eyerok.cpp               (ov066, calls ClosestPlayer() no arg)
- *   src/unnamed/ov063/func_ov063_02117650.c   (ov063, calls ClosestPlayer() no arg)
+ *   src/actors/daTrs_c.cpp   (ov063, calls ClosestPlayer() no arg)
  *   src/_ZN8dActor_c23HorzAngleToCPlayerOrAngEv.cpp (Actor::HorzAngleToCPlayerOrAng, no arg;
  *                                              already noted in-slice as "in no slice")
- *   src/game/actors/daTrs_c/_ZN7daTrs_c13InitResourcesEv.cpp (Boo::InitResources: its two call sites
+ *   src/actors/daTrs_c.cpp (Boo::InitResources: its two call sites
  *                                              already pass c, so it is safe on the host
  *                                              as written, but its extern is declared
  *                                              zero-arg style; keep the c argument if the
@@ -66,7 +66,7 @@ extern "C" void *_ZN8dActor_c13ClosestPlayerEv(void *self);
 
 /* ---- func_ov084_02129cf4 -- RETIRED, the matched TU has the seat ---------- */
 /* Run link100 wave 15 lane SEAT15B. LINK15 read this row as "owner carries a
- * non-stale reason" and it was wrong: src/func_ov084_02129cf4.c:16 passes the
+ * non-stale reason" and it was wrong: src/actors/daKrb_c.cpp:16 passes the
  * ClosestPlayer receiver itself (`(c)`), exactly like the seven rows of BATCH 1.
  * The src row is uncommented in port/slice_gate32.txt. func_ov084_0212f204 below
  * KEEPS its copy: its matched body lives in src/actors/daPkn_c.cpp, a whole-class
@@ -103,7 +103,7 @@ extern "C" void func_ov084_0212f204(char* r4)
 }
 
 /* ---- func_ov094_02136024 -- RETIRED, the matched TU has the seat --------- */
-/* Run link100 wave 15 lane SEAT15B (LINK15 BATCH 1). src/func_ov094_02136024.cpp
+/* Run link100 wave 15 lane SEAT15B (LINK15 BATCH 1). src/actors/daOwl_c.cpp
  * passes the ClosestPlayer receiver itself now (src:17, `(c)`), so this copy had
  * nothing left to work around. The src row is uncommented in
  * port/slice_gate194.txt and the body below is gone. */
@@ -130,7 +130,7 @@ extern "C" int func_ov102_02149078(void *self)
 }
 
 /* ---- func_ov060_02111f08 -- RETIRED, the matched TU has the seat --------- */
-/* Run link100 wave 15 lane SEAT15B (LINK15 BATCH 1). src/func_ov060_02111f08.c
+/* Run link100 wave 15 lane SEAT15B (LINK15 BATCH 1). src/actors/daKpa_c.cpp
  * passes the ClosestPlayer receiver itself now (src:21, `(arg0)`), so this copy
  * had nothing left to work around. The src row is on port/slice_l15cp.txt and the
  * body below is gone. */

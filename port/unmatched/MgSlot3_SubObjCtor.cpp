@@ -7,7 +7,7 @@
  * header is the derivation. Repeating the measurement rather than citing it,
  * because the constants are this body's own:
  *
- *     src/func_ov006_020c221c.c opens `extern int g0[], g1[];` and passes each
+ *     src/actors/unit020bfec0.cpp opens `extern int g0[], g1[];` and passes each
  *     by name:
  *
  *         func_02017acc(t, g0);
@@ -47,7 +47,7 @@
  * function's last instruction at 0x020c2250 and the next symbol at 0x020c225c,
  * so there is nothing else they could be.
  *
- * THE DELTA FROM src, line by line. The body below is src/func_ov006_020c221c.c
+ * THE DELTA FROM src, line by line. The body below is src/actors/unit020bfec0.cpp
  * verbatim except:
  *
  *   1. the `extern int g0[], g1[];` declaration is gone
@@ -57,7 +57,7 @@
  * +0xa8 and the return of `t` are src's, unchanged, and every one is confirmed
  * against the disassembly above.
  *
- * IT DEFINES func_ov006_020c221c, so src/func_ov006_020c221c.c is OUT of
+ * IT DEFINES func_ov006_020c221c, so src/actors/unit020bfec0.cpp is OUT of
  * port/slice_mug.txt -- listing both would be an LNK2005. That is the one
  * linked function this repair costs.
  *

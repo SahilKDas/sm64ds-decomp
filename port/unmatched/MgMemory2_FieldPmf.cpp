@@ -25,7 +25,7 @@
 // lane swept its whole 869-file closure (runs/mg6/out/MEM/pmf_sweep_16b.txt)
 // and found fourteen `::*` TUs: the six ov006 ones the handover named, seven
 // ov004 ones MG1/MG2/BASESET already host-copied, and ONE THAT NO LANE HAD
-// SEEN -- src/func_ov004_020b52fc.cpp, section 4 below.
+// SEEN -- src/actors/unit020b4aa4.cpp, section 4 below.
 //
 // ---- 2. func_ov006_020c19d0, THE MODEL SUB-OBJECT'S TICK -------------------
 //
@@ -50,7 +50,7 @@
 //     ldreq r1,[r4]
 //     blx   r1
 //
-// which is src/func_ov006_020c19d0.cpp's `if (*(int*)c != 0) (o->*(o->pmf))();`
+// which is src/actors/unit020bfec0.cpp's `if (*(int*)c != 0) (o->*(o->pmf))();`
 // instruction for instruction.  The pair is at offset 0 of the sub-object, so
 // nothing after it moves and this one is a wrong-decode only.
 //
@@ -78,7 +78,7 @@
 // ov085/ov100 kind -- write HOST addresses over the .data source pairs before
 // the constructor copies them -- would leave that comparison permanently false
 // while the dispatch itself looked fine.  port/mg_fanout_costs.txt section 4
-// derives the same rule from src/func_ov006_020c3b80.c on the flower's
+// derives the same rule from src/actors/unit020bfec0.cpp on the flower's
 // sub-object.  The stored pair keeps the ROM's own words here.
 //
 // ---- 4. func_ov004_020b52fc IS A FIND, NOT AN INHERITANCE ------------------
@@ -92,7 +92,7 @@
 //       -> func_ov004_020b65e4
 //            -> for i in 0..0x13: func_ov004_020b52fc(&data_ov004_020bfa34[i*0x24])
 //
-// src/func_ov004_020b52fc.cpp is six lines, `struct C { PMF pmf; };
+// src/actors/unit020b4aa4.cpp is six lines, `struct C { PMF pmf; };
 // (c->*(c->pmf))();`, and it is NOT in unmatched/MgBase_StateSetter.cpp's
 // eighty-address universe: that file bounds ov004's TABLE member pointers, and
 // this one is a field of a .bss record array.  Neither func_ov004_020b65e4 nor
@@ -166,7 +166,7 @@
    its own because neither is a header. */
 struct MgPmf { unsigned code; int adj; };
 
-/* src/func_ov006_020c07e8.cpp's own Vector3, kept so the two Vec3_HorzAngle
+/* src/actors/unit020bfec0.cpp's own Vector3, kept so the two Vec3_HorzAngle
    arguments are the shapes that file passes. */
 struct MemVector3 { int x, y, z; };
 
@@ -208,7 +208,7 @@ extern short data_ov006_0212b89c[];
    gate 3 seats that row and the host copy is gone, so the record is declared
    ONCE, below, as the MgPmf the seat writes -- two spellings of one symbol in
    one TU do not compile and the seat's is the one that is still read. */
-/* src/func_ov006_020c07e8.cpp declares data_ov006_0212b890 OUTSIDE its
+/* src/actors/unit020bfec0.cpp declares data_ov006_0212b890 OUTSIDE its
    extern "C" block, so it mangles as a C++ global and the ov006 mount's plain C
    definition does not satisfy it. With the host copy retired the reference that
    needed the C-linkage declaration is gone too, and what remains is the matched
@@ -222,7 +222,7 @@ void func_ov006_020c07e8(void *x);
 // ---- THE MODEL SUB-OBJECT'S +0x00 SEAT, run link100 lane MGWRITER ----------
 //
 // WHAT THIS REPLACES. func_ov006_020c19d0's host copy stood below and handed
-// the field's DS code word to mem2_field_try. It is src/func_ov006_020c19d0.cpp
+// the field's DS code word to mem2_field_try. It is src/actors/unit020bfec0.cpp
 // again, on port/slice_mgwriter.txt, because the ELEVEN .data pairs that can
 // ever reach the +0x00 field now hold host addresses installed at boot.
 //
@@ -234,13 +234,13 @@ void func_ov006_020c07e8(void *x);
 // eleven pairs below are not installs at all; they are the by-value sentinels
 // the class asks "is this slot idle" against:
 //
-//   data_ov006_0213ac58  src/func_ov006_020c1718.c   returns "idle" when the
+//   data_ov006_0213ac58  src/actors/unit020bfec0.cpp   returns "idle" when the
 //                        stored pair equals it (states 2, 5 and 7 of
 //                        dScMgCard_c gate on this, and hal/scene_mg_card.cpp
 //                        prints the same test as its census line)
-//   data_ov006_0213ac90  src/func_ov006_020c16b4.c   the same test one caller over
-//   data_ov006_0213acb0  src/func_ov006_020c0f0c.c   the first arm of its answer
-//   data_ov006_0213aca8  src/func_ov006_020c0f0c.c   the second arm
+//   data_ov006_0213ac90  src/actors/unit020bfec0.cpp   the same test one caller over
+//   data_ov006_0213acb0  src/actors/unit020bfec0.cpp   the first arm of its answer
+//   data_ov006_0213aca8  src/actors/unit020bfec0.cpp   the second arm
 //
 // Every one of the four holds the SAME code word as an install in the same
 // group (0x020c1760 twice, 0x020c11c0, 0x020c0f9c), so seating BOTH SIDES with
@@ -273,8 +273,8 @@ void func_ov006_020c07e8(void *x);
 //          installs  ac48 ac50 ac60 ac80 ac98 aca0 acb8
 //          sentinels ac58 ac90 aca8 acb0
 //   +0xb4  func_ov006_020c07e8's field, FOUR pairs, TWO code words
-//          (0x020c0264, _0364): ac68 (src/func_ov006_020c057c.cpp), ac70
-//          (src/func_ov006_020c0304.c), ac88 (src/func_ov006_020c0264.cpp) and
+//          (0x020c0264, _0364): ac68 (src/actors/unit020bfec0.cpp), ac70
+//          (src/actors/unit020bfec0.cpp), ac88 (src/actors/unit020bfec0.cpp) and
 //          the sentinel ac78 that body reads itself
 //
 // The two code-word sets are DISJOINT, so seating one half cannot hand the
@@ -319,7 +319,7 @@ void func_ov006_020c07e8(void *x);
 #pragma comment(linker, "/alternatename:?data_ov006_0212b89c@@3PAFA=_data_ov006_0212b89c")
 
 /* AND ONE MORE, run link100 lane PMFB8 gate 3, for the same reason one symbol
-   over. src/func_ov006_020c07e8.cpp declares `extern Vector3
+   over. src/actors/unit020bfec0.cpp declares `extern Vector3
    data_ov006_0212b890;` outside its extern "C" block, so MSVC spells the
    reference ?data_ov006_0212b890@@3UVector3@@A while the ov006 mount defines
    the plain C name. Read off that TU's own /FAsc EXTRN list before the link
@@ -358,7 +358,7 @@ static void __fastcall m4f38_020c14bc(void *self, void *) { ++g_m4f38_hits; func
 static void __fastcall m4f38_020c1760(void *self, void *) { ++g_m4f38_hits; func_ov006_020c1760(); }
 
 /* ---- RUN link100 LANE PMFB8 GATE 3: THE +0xb4 HALF'S TWO FACES -----------
- * src/func_ov006_020c07e8.cpp is in the link now (port/slice_pmfb8.txt, with
+ * src/actors/unit020bfec0.cpp is in the link now (port/slice_pmfb8.txt, with
  * /Zp4 on that one source) and dispatches this field itself. Its emitted side
  * is `mov eax,[esi] / test eax,eax / mov ecx,[esi+4] / add ecx,esi / call eax`
  * -- receiver in ecx, ARITY ZERO -- the same shape the eleven above answer, so
@@ -445,7 +445,7 @@ static int mem2_field_try(void *self, unsigned code)
     case 0x020b5288u: func_ov004_020b5288(c); return 1;
     /* THE OV006 ARMS ARE GONE, run link100 lane PMFB8 gate 3. Lane MGWRITER
        took the +0x00 field's seven; this gate takes the +0xb4 field's two.
-       src/func_ov006_020c07e8.cpp dispatches that field itself now and its four
+       src/actors/unit020bfec0.cpp dispatches that field itself now and its four
        records hold host faces, so no path can present 0x020c0264 or 0x020c0364
        here again. What is left is ov004's ten records, whose eight code words
        are disjoint from both ov006 sets. */
@@ -479,7 +479,7 @@ extern "C" void port_mg_memory2_field_counts(unsigned *calls, unsigned *hits)
 // rather than a PMF field) and the dispatch site.  Where anything else moved it
 // is stated on the line.
 
-/* src/func_ov004_020b52fc.cpp, section 4.  Its whole body is the dispatch, so
+/* src/actors/unit020b4aa4.cpp, section 4.  Its whole body is the dispatch, so
    the host copy is the dispatch and nothing else.  The record pointer IS the
    object the pair belongs to, so `this` is the argument unchanged -- the ROM's
    `mov r0,r2` with a zero adjustment is exactly r0. */
@@ -491,12 +491,12 @@ extern "C" void func_ov004_020b52fc(void *c)
 }
 
 /* func_ov006_020c19d0 IS GONE, run link100 lane MGWRITER: its host copy is
-   src/func_ov006_020c19d0.cpp again, on port/slice_mgwriter.txt. The seat block
+   src/actors/unit020bfec0.cpp again, on port/slice_mgwriter.txt. The seat block
    above is the derivation. Its callee below is unchanged and still hosted, and
    the matched TU calls it by the same C name on c+0xdc, exactly as the src
    spells it. */
 
-/* src/func_ov006_020c07e8.cpp, section 3.  The struct below is that file's own,
+/* src/actors/unit020bfec0.cpp, section 3.  The struct below is that file's own,
    with `PMF pmf` replaced by `MgPmf pmf` -- which is what makes the pads it
    spells (`0xc8 - 0xb4 - 8`) true again, and therefore what puts v0c8, a0ea,
    a0f0 and a0f4 back at the offsets the file asserts.  Nothing else in the
@@ -516,7 +516,7 @@ struct MemModelC {
 
 /* HOST COPY RETIRED, run link100 lane PMFB8 gate 3, and the counted-run
    instrument that made it admissible went with it.
-   src/func_ov006_020c07e8.cpp is in the link (port/slice_pmfb8.txt, /Zp4 on
+   src/actors/unit020bfec0.cpp is in the link (port/slice_pmfb8.txt, /Zp4 on
    that one source) and reads its own +0xb4 pair. The four records hold the two
    faces seated above, including the by-value sentinel 0213ac78, so the idle
    test at the end of that body keeps comparing one host address against

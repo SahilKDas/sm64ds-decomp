@@ -2,7 +2,7 @@
  *
  * NOT THE MAIN MENU. dScMB_c is the DS DOWNLOAD PLAY boot scene: the screen a
  * cartridge-less DS shows while it pulls the multiboot image, and the ROM's
- * OTHER first scene. src/_ZN8dScene_c18PrepareToSpawnBootEv.cpp is the whole of
+ * OTHER first scene. src/actors/dScene_c.cpp is the whole of
  * that decision and it is two lines --
  *
  *     if (func_0203d9b4()) data_02092664 = 0;      /- dScBoot_c,  id 0
@@ -229,7 +229,7 @@ extern "C" void port_scene_mb_report(void)
                 g_mb_hits[0], g_mb_hits[3], g_mb_hits[6], g_mb_hits[9],
                 g_mb_hits[12], g_mb_hits[16], g_mb_hits[17]);
     /* Scene::StartSceneFade parks the requested id in data_02092664
-       (src/_ZN8dScene_c14StartSceneFadeEjjt.cpp -> Scene::SetSceneToSpawn), so this
+       (src/actors/dScene_c.cpp -> Scene::SetSceneToSpawn), so this
        word IS the hand-off request. At boot the harness leaves it at the id it
        spawned this scene with; 6 means the download conversation reached its
        end and asked for the VS entry menu. */

@@ -10,7 +10,7 @@
 #
 # ---- 1. THE TWO CLASSES ARE A FORK, NOT A SEQUENCE -------------------------
 #
-# src/_ZN8dScene_c18PrepareToSpawnBootEv.cpp is the whole decision:
+# src/actors/dScene_c.cpp is the whole decision:
 #
 #     if (func_0203d9b4()) data_02092664 = 0;      -> dScBoot_c, id 0
 #     else                 data_02092664 = 0x168;  -> dScMB_c,   id 360

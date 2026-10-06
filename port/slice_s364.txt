@@ -12,7 +12,7 @@
 #                  the whole overlay; the word before it is 0x0210d6b8. That
 #                  is section 3's mechanical derivation and it reproduces the
 #                  address-shaped name that section already carries for 0x16c.
-#   factory        0x0210d6b8  0x88 bytes, src/d_s_mg_slot1.cpp
+#   factory        0x0210d6b8  0x88 bytes, src/minigames/d_s_mg_slot1.cpp
 #   vtable         0x0213eb40  named by the factory's own load relocation,
 #                  relocs.txt from:0x0213e560 is the SpawnInfo's factory word
 #                  and the factory stores 0x0213eb40 into [this] at 0x0210d6e0
@@ -46,8 +46,8 @@
 #   the FACTORY (0x0210d6b8) stores 0x0213eb40 into [this] and stores NO second
 #   scene table over it -- one `str r2,[r4]` at 0x0210d6e0 and nothing else
 #   into offset 0;
-#   slot 16 (src/_ZN12dScMgSlot1_cD1Ev.cpp) and slot 17
-#   (src/_ZN12dScMgSlot1_cD0Ev.cpp) each write 0x0213eb40 back and then call
+#   slot 16 (src/actors/dScMgSlots.cpp) and slot 17
+#   (src/actors/dScMgSlots.cpp) each write 0x0213eb40 back and then call
 #   _ZN11dScMgBase_cD2Ev, with no intermediate table in between.
 #
 # 0x169, 0x16b and 0x186 all needed a third table under dScMgSingle3DBase_c.
@@ -128,7 +128,7 @@
 # IT IS A THREE-REEL SLOT MACHINE WITH A BET ICON, and the ROM says so four
 # more times:
 #
-#   src/_ZN12dScMgSlot1_c6RenderEv.cpp (slot 9, Render) loops i<3 over reels, indexes a
+#   src/actors/dScMgSlots.cpp (slot 9, Render) loops i<3 over reels, indexes a
 #     strip by (position + 0x46c0) with a 0x15 = 21 stride and wraps with
 #     `if (pos < 0) pos += 0x15`;
 #   data_ov006_0213e63c is three {x, y} pairs, {0x38,0x78} {0x80,0x78}
@@ -282,7 +282,7 @@
 # second one is section 13's module/name trap wearing a different hat. Slot 9's
 # body 0x0210c6c0 has NO func_ov006_0210c6c0.c -- its config symbol is
 # _ZN12dScMgSlot1_c6RenderEv, a mangled C++ name that is almost certainly wrong for what
-# the body does, and its src file is src/_ZN12dScMgSlot1_c6RenderEv.cpp. It is present,
+# the body does, and its src file is src/actors/dScMgSlots.cpp. It is present,
 # matched and delinked. nosrc is 1, not 2.
 #
 # WHAT THE FLOOR IS, disassembled rather than guessed at (alignment confirmed
@@ -305,12 +305,12 @@
 #     at or past 0x02130000, and the only hits in the class's code range are
 #     the two vtables, the SpawnInfo and the sub-object table;
 #   * a `::*` sweep over all 23 TUs is CLEAN, and the one `>> 1`-shaped hit in
-#     src/_ZN12dScMgSlot1_c6RenderEv.cpp is a `>> 12` fixed-point shift, not the
+#     src/actors/dScMgSlots.cpp is a `>> 12` fixed-point shift, not the
 #     open-coded Itanium sequence section 4's FLW amendment describes;
 #   * stategen has no constructor of this class's to read. __sinit_ov006_
 #     02132894 DOES build an 8-slot table, data_ov006_02142bdc, out of pairs
 #     that sit in the address neighbourhood -- and it is NOT this class's.
-#     src/_ZN12dScMgSlot3_c8BehaviorEv.cpp dispatches it, and 0x0210bcb0 is a slot of
+#     src/actors/dScMgSlots.cpp dispatches it, and 0x0210bcb0 is a slot of
 #     _ZTV12dScMgSlot3_c, which is id 0x16d's vtable. ATTRIBUTING BY THE SINIT
 #     ALONE WOULD HAVE OVER-ATTRIBUTED, which is section 9's warning firing on
 #     a different pair of classes than the one it was written about.
@@ -368,7 +368,7 @@
 #
 # The factory writes it (`str r2,[ip]` at 0x0210d6f4 with ip = this+0x4660) and
 # both destructors unwrite it. AND IT IS DISPATCHED FROM A BODY THE SEAT DOES
-# NOT TRAP: src/_ZN12dScMgSlot1_c6RenderEv.cpp, vtable slot 9, the Render, ends with
+# NOT TRAP: src/actors/dScMgSlots.cpp, vtable slot 9, the Render, ends with
 #
 #     ((UnkVtbl*)(t + 0x4660))->Virtual4();
 #
@@ -385,7 +385,7 @@
 #     calls m48(3), which is offset 0x48 = slot 18 = this class's own
 #     0x0210c674. The ROM at 0x0210d61c..0x0210d628 is
 #     `ldr r2,[r0]; mov r1,#3; ldr r2,[r2,#0x48]; blx r2` -- the same slot.
-#   src/_ZN12dScMgSlot1_c6RenderEv.cpp's 2-virtual `struct UnkVtbl` over the betIcon
+#   src/actors/dScMgSlots.cpp's 2-virtual `struct UnkVtbl` over the betIcon
 #     sub-object calls Virtual4, offset 4 = slot 1 = 0x0210c374.
 #
 # Neither is a shadow over a HOST C++ vtable, which is the case section 13 says
@@ -503,28 +503,9 @@
 # byte-identity across three frame counts WITHIN ONE BUILD, which the section
 # move cannot touch.
 
-src/_ZN12dScMgSlot1_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN12dScMgSlot1_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dScMgSlot1_cD0Ev.cpp
-src/func_ov006_0210c180.c
-src/func_ov006_0210c1a8.c
-src/func_ov006_0210c208.c
-src/func_ov006_0210c218.c
-src/func_ov006_0210c234.c
-src/func_ov006_0210c278.c
-src/func_ov006_0210c2b0.c
-src/func_ov006_0210c2c0.c
-src/func_ov006_0210c2d4.c
-src/func_ov006_0210c354.c
-src/_ZN12dScMgSlot1_c9betIcon_c6RenderEv.cpp
-src/_ZN12dScMgSlot1_c9betIcon_c8BehaviorEv.cpp
-src/func_ov006_0210c478.c
-src/_ZN12dScMgSlot1_c19OnHitFromUnderneathEv.cpp
-src/_ZN12dScMgSlot1_c15OnHitByMegaCharEv.cpp
-src/func_ov006_0210c500.c
-src/func_ov006_0210c638.c
-src/_ZN12dScMgSlot1_c13OnYoshiTryEatEi.cpp
-src/_ZN12dScMgSlot1_c6RenderEv.cpp
-src/func_ov006_0210c9e0.cpp
+src/actors/dScMgSlots.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgSlots.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgSlots.cpp
+src/_ZN12dScMgSlot1_c8BehaviorEv.cpp
 src/_ZN12dScMgSlot1_c13InitResourcesEv.cpp
-src/d_s_mg_slot1.cpp
+src/minigames/d_s_mg_slot1.cpp

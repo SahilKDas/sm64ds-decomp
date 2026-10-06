@@ -1,7 +1,7 @@
 /* THREE ROM BODIES THAT ARE IN THE BINARY UNDER THE WRONG SPELLING.
  * Run link100, lane HOSTGEN4.
  *
- * THE SHAPE. src/func_ov006_0211ea70.c, src/func_ov006_0211f9fc.c and
+ * THE SHAPE. src/actors/dScMgTeresa_c.cpp, src/actors/dScMgTeresa_c.cpp and
  * src/func_ov074_02121800.c each carry the decomp's `//cpp` marker, so
  * port/CMakeLists.txt compiles them with PROPERTIES LANGUAGE CXX -- lines 7650,
  * 13304 and their siblings -- and each is on a slice already (slice_boo.txt
@@ -32,11 +32,11 @@
  * caller cleans the stack on both sides. And the arity matches at every site,
  * read off the declarations rather than the mangle:
  *
- *   func_ov006_0211ea70  definition src/func_ov006_0211ea70.c:7  (char *, int)
- *                        caller     src/func_ov006_0211f1a4.c:2  (char *, int)
- *   func_ov006_0211f9fc  definition src/func_ov006_0211f9fc.c:11 (int)
- *                        callers    src/func_ov006_0211fe78.c:3  (char *)
- *                                   src/func_ov006_02120008.c:3  (char *)
+ *   func_ov006_0211ea70  definition src/actors/dScMgTeresa_c.cpp:7  (char *, int)
+ *                        caller     src/actors/dScMgTeresa_c.cpp:2  (char *, int)
+ *   func_ov006_0211f9fc  definition src/actors/dScMgTeresa_c.cpp:11 (int)
+ *                        callers    src/actors/dScMgTeresa_c.cpp:3  (char *)
+ *                                   src/actors/dScMgTeresa_c.cpp:3  (char *)
  *   func_ov074_02121800  definition src/func_ov074_02121800.c:7  (char *)
  *                        caller     src/_ZN8Goomboss8BehaviorEv.cpp:111 (char *)
  *

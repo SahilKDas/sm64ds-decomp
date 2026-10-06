@@ -109,7 +109,7 @@ extern PortPmf data_ov064_0211c944[];   /* the record it switches to */
    port/slice_pmfb7.txt and runs/link100/out/PMFB7/. */
 
 /* func_ov064_02119ecc IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov064_02119ecc.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
+   src/actors/daWater_Ring_c.cpp back on port/slice_pmf2.txt (batch 2): with /vmg /vmm
    global MSVC's pointer-to-member IS the ROM's 8-byte {function, delta}
    pair, the matched TU compiles to the same tail jump this body was, and
    the seat in this file aborts the binary on a nonzero delta so the two
@@ -122,7 +122,7 @@ extern PortPmf data_ov064_0211c944[];   /* the record it switches to */
 extern "C" int func_ov064_02119ecc(void *cv, void *pv);
 
 /* PORT_HOST_ABI: displaced by a decl_common.h redeclaration (see 1b in this
-   file's header), not by an ABI fault of its own. src/func_ov064_02119afc.cpp
+   file's header), not by an ABI fault of its own. src/actors/daWater_Ring_c.cpp
    verbatim, including the two gotos and the sign-bit test the matched TU
    spells as `(x >> 16) & 1`; only the declarations moved. */
 extern "C" void func_ov064_02119afc(char *c)

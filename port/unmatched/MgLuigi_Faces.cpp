@@ -96,7 +96,7 @@
  *
  * IT IS ON THIS CLASS'S RENDER PATH, and that is the honest cost of the trap
  * rather than a footnote. dScMgLuigi_c slot 9 (_ZN12dScMgLuigi_c6RenderEv) opens with
- * func_ov004_020b1e34(c, 0xe0, 0x14, 1), and src/func_ov004_020b1e34.c is a
+ * func_ov004_020b1e34(c, 0xe0, 0x14, 1), and src/minigames/d_s_mg_base.cpp is a
  * two-line veneer -- `ldr r1,[r0,#0xb4]; b func_ov004_020b0e84` in the ROM --
  * whose whole body is a call to this. So the first thing this class's Render
  * does is enter a trap.
@@ -105,7 +105,7 @@
  * because it is invisible to the byte gate and would be a real defect the day
  * a body lands. The ROM sets r1, r2 and r3 at the call site (mov r1,#0xe0; mov
  * r2,#0x14; mov r3,#1 at 0x020f33c8..0x020f33d0), the veneer overwrites r1 and
- * rides r2 and r3 through, and src/func_ov004_020b1e34.c declares one
+ * rides r2 and r3 through, and src/minigames/d_s_mg_base.cpp declares one
  * parameter and calls func_ov004_020b0e84(a, a->b4) with two. So 0xe0, 0x14
  * and 1 reach the ROM's body and do not reach the host's. Nothing in the tree
  * diagnoses that. This lane does not repair it: src/ is read-only here and the
@@ -117,7 +117,7 @@
  * the call site's stack is right whatever happens inside. */
 
 /* Run mg5, lane INTEG: func_ov004_020b0e84 (the "Wanted!" score HUD, 0x66c) was
-   copied across from origin/main as src/func_ov004_020b0e84.cpp with its Obj
+   copied across from origin/main as src/minigames/d_s_mg_base.cpp with its Obj
    vtable header include/private/ov004_obj_vtbl.h, and is now in
    port/slice_lui.txt, so the trap that stood in on dScMgLuigi_c's Render path is
    gone and the real body runs. The veneer func_ov004_020b1e34 still drops the

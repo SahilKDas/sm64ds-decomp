@@ -315,7 +315,7 @@ struct HalFaderWipe {
        AND __cdecl, WITH THE RECEIVER ON THE STACK. These two slots are the
        fifth class of the shape 0ec379b94 and 19a71216e retired on the sibling
        tables, and the reasoning is 19a71216e's word for word. The one call site
-       these two slots have is src/_ZN8dScene_c14BeforeBehaviorEv.cpp, whose
+       these two slots have is src/actors/dScene_c.cpp, whose
        banner says why it cannot go through the real class and keep matching: it
        reaches the installed fader through a file-local FaderVTable of PLAIN
        FUNCTION POINTERS with an explicit first parameter,
@@ -773,14 +773,14 @@ int port_fader_blend_state_sub(int *evy, int *toWhite)
  *                                          slice title -- it is not a banner)
  *   src/_ZN7Minimap6RenderEv.cpp   & 8
  *   src/_ZN3HUD15RenderStarCountEv.cpp     & 0x18   (see THE STAR COUNT below)
- *   src/func_ov004_020b6430.c      & 0x10  the minigame name plate
+ *   src/actors/unit020b4aa4.cpp      & 0x10  the minigame name plate
  *   src/_ZN5Stage20RenderBouncingArrowsEv.cpp  & 0x10 and & 8 (two sites)
  *   src/_ZN7Message6UpdateEv.cpp   & (0x10 / data_0208ee44)   the text cursor
  *                                          (four sites)
- *   src/_ZN12dScStarSel_c6RenderEv.cpp    * 0x300 fed to a Y rotation
+ *   src/actors/dScStarSel_c.cpp    * 0x300 fed to a Y rotation
  *   src/actors/dScMgD3DBase_c.cpp   & 1
  *   src/minigames/d_s_mg_single3_d_base.cpp    & 1     dScMgFlower_c::BeforeBehavior
- *   src/func_ov006_020cf820.c      & 1     Trampoline Terror's countdown
+ *   src/actors/unit020cd744.cpp      & 1     Trampoline Terror's countdown
  *
  * NOT LINKED, and listed so the next reader does not re-add them:
  * src/func_020326ac.c (four sites), src/func_ov002_020f20f4.c and

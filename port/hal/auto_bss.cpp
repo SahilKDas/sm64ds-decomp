@@ -503,9 +503,9 @@ char data_0209fc64[kPortMaxPlayers];
    called the ROM's own reset. kind:bss, so zero is the boot value. */
 int data_0209cef0;
 /* wave 3 lane b: the slot the Scene head chain clears.
-   Scene::ResetFadersAndSound (src/_ZN8dScene_c19ResetFadersAndSoundEv.cpp) writes
+   Scene::ResetFadersAndSound (src/actors/dScene_c.cpp) writes
    `data_0209f1e4 = 0` right after Scene::SetFaders installs the brightness
-   fader, and Scene::BeforeBehavior (src/_ZN8dScene_c14BeforeBehaviorEv.cpp) is
+   fader, and Scene::BeforeBehavior (src/actors/dScene_c.cpp) is
    the reader: on zero it parks &data_0209f5d0 here, and func_0202345c loads
    it back and walks it as a `void **`. So the slot holds a POINTER, and null
    is both the boot value and the value the reset writes, which is what makes
@@ -576,7 +576,7 @@ unsigned char data_0209b300[4];
    data_0209b304 is the menu's PAGE flag: _ZN11dScMiniGm_c8BehaviorEv sets it to 0 or 1
    as the two dwell counters expire, and func_ov005_020c0378 branches its whole
    hit test on it -- 0 is the six-cell grid (3 columns x 2 rows), 1 is the
-   three-cell strip. src/_ZN11dScMiniGm_c13InitResourcesEv.cpp reads it during InitResources.
+   three-cell strip. src/actors/dScMiniGm_c.cpp reads it during InitResources.
    Sits beside data_0209b300 and data_0209b2fc above because it IS the next
    word of that run; the ROM spacing is contiguous.
 
@@ -584,7 +584,7 @@ unsigned char data_0209b300[4];
    spell it (func_02019ac4 gates its work on it, func_02030aa4 and
    func_02023498 write it), so it is not an ov005 invention -- ov005 is just
    the first spelling of it that reaches this link. _ZN11dScMiniGm_c13InitResourcesEv sets it
-   to 1 at the tail of InitResources and src/func_ov005_020bff4c.cpp clears it
+   to 1 at the tail of InitResources and src/actors/dScMiniGm_c.cpp clears it
    on the way out, which is the menu declaring itself open and then closed.
    Every TU in the tree spells it `unsigned char`, which this serves. */
 unsigned char data_0209b304[4];

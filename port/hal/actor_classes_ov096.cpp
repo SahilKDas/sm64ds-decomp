@@ -528,7 +528,7 @@ extern "C" void hal_fill_tornado_vtable(void)
 // two Renders differ.
 // ============================================================================
 #include "daSanbo_c.h"
-#include "Tornado.h"
+#include "daTor_c.h"
 extern "C" int _ZN9daSanbo_c13InitResourcesEv(void *self)
 { return ((daSanbo_c *)self)->daSanbo_c::InitResources(); }
 extern "C" int _ZN9daSanbo_c16CleanupResourcesEv(void *self)

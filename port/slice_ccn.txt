@@ -87,43 +87,20 @@
 
 # ---- ov006: dScMgCoin_c's own closure --------------------------------------
 src/d_s_mg_coin.cpp
-src/_ZN11dScMgCoin_cD1Ev.cpp
-# RETIRED at SLICE1: body now in src/_ZN11dScMgCoin_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN11dScMgCoin_cD0Ev.cpp
+src/actors/dScMgCoin_c.cpp
+# RETIRED at SLICE1: body now in src/actors/dScMgCoin_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
+#src/actors/dScMgCoin_c.cpp
 # Run mg5, lane INTEG: the sixth callee of slot 9 (Render), recovered on branch
 # decomp/coin-render (NONMATCHING div=7). It had no source when the comment
-# above was written; it now has src/func_ov006_020dbe9c.c and a delink block, so
+# above was written; it now has src/actors/dScMgCoin_c.cpp and a delink block, so
 # the trap in port/unmatched/MgCoin_Faces.cpp is removed and the real body links.
-src/func_ov006_020dbe9c.c
-src/actors/dScMgCoin_c.cpp
 # HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_021417c8, arity 1, SILENT (Entry declared inside extern "C")
 # HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_021417e8, arity 1, SILENT (Entry declared inside extern "C")
-src/func_ov006_020dd0e0.c
-# HOST-COPIED (CCN): src/func_ov006_020dd2cc.cpp -- table data_ov006_021417b0, arity 1, link-visible as ?..@@3PAUEntry@@A
-src/func_ov006_020dd334.c
-src/func_ov006_020dd4b0.c
-src/func_ov006_020dd594.c
-src/func_ov006_020dd658.c
-src/func_ov006_020dd7bc.c
-src/func_ov006_020dd7c0.c
-src/func_ov006_020dd880.cpp
-src/func_ov006_020dda94.c
-src/func_ov006_020ddca0.c
-src/func_ov006_020ddcf8.c
-# HOST-COPIED (CCN): src/func_ov006_020ddd6c.cpp -- table data_ov006_02141840, arity 1, SILENT (extern "C" Entry)
-src/func_ov006_020dde28.c
-src/func_ov006_020ddeb0.cpp
-src/func_ov006_020ddf9c.c
-src/func_ov006_020de0e0.cpp
-src/func_ov006_020de1d4.c
-# HOST-COPIED (CCN): src/func_ov006_020de26c.cpp -- table data_ov006_02141840, arity 1, link-visible; ALSO state slot 3 of 02141810
-# HOST-COPIED (CCN): src/func_ov006_020de440.cpp -- table data_ov006_02141840, arity 1, link-visible; ALSO state slot 2 of 02141810
-src/func_ov006_020de584.c
-src/func_ov006_020de5ac.c
-src/_ZN11dScMgCoin_c13OnYoshiTryEatEi.cpp
-src/_ZN11dScMgCoin_c6RenderEv.cpp
-# HOST-COPIED (CCN): src/_ZN11dScMgCoin_c8BehaviorEv.cpp -- table data_ov006_02141810, arity 0, link-visible; VTABLE SLOT 6, Behavior
-src/_ZN11dScMgCoin_c13InitResourcesEv.cpp
+# HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_021417b0, arity 1, link-visible as ?..@@3PAUEntry@@A
+# HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_02141840, arity 1, SILENT (extern "C" Entry)
+# HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_02141840, arity 1, link-visible; ALSO state slot 3 of 02141810
+# HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_02141840, arity 1, link-visible; ALSO state slot 2 of 02141810
+# HOST-COPIED (CCN): src/actors/dScMgCoin_c.cpp -- table data_ov006_02141810, arity 0, link-visible; VTABLE SLOT 6, Behavior
 
 # ---- ov004: the five the coin closure reaches that slice_mg1.txt does not ---
 # The framework half is slice_mg1.txt's and is not repeated. These five are
@@ -135,17 +112,12 @@ src/_ZN11dScMgCoin_c13InitResourcesEv.cpp
 #     _ZN11dScMgBase_c14BeforeBehaviorEv  host copy, port/unmatched/MgBase_Slot7.cpp
 #     _ZN10dMgState_c8SetStateEi  the framework's own PMF state setter, a named trap
 #                          in port/hal/scene_mg_faces.cpp
-src/func_ov004_020adf70.c
-src/func_ov004_020adfc4.c
-src/func_ov004_020b023c.cpp
-src/func_ov004_020b0380.cpp
-src/func_ov004_020b1de8.c
+src/minigames/d_s_mg_base.cpp
 
 # ---- ov001: two more of ov004's touch layer --------------------------------
 # slice_mg1.txt took four ov001 bodies (TouchArea_Update and three siblings);
 # this class reaches two more of the same layer.
-src/_ZN9dThIcon_c6RenderEv.cpp
-src/_ZN9dThIcon_c8BehaviorEv.cpp
+src/actors/dThIcon_c.cpp
 
 # ---- SECOND WAVE: one arm9 TU the first link named ------------------------
 # src/func_020127a4.c is a matched arm9 body (0x48) that three of this class's

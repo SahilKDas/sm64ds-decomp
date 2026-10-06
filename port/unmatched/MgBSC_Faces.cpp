@@ -17,8 +17,8 @@
 //
 // THE FIRST LINK OF THIS SEAT ASKED FOR EXACTLY THREE SYMBOLS AND THIS IS THE
 // ONLY ONE THAT IS A FACE. The other two were ordinary slice lines the closure
-// walk had classified as already-covered -- src/func_ov004_020b5c18.cpp, which
-// func_ov004_020b5ed0 calls, and src/func_ov004_020b6324.c, which slot 21 tail-
+// walk had classified as already-covered -- src/actors/unit020b4aa4.cpp, which
+// func_ov004_020b5ed0 calls, and src/actors/unit020b4aa4.cpp, which slot 21 tail-
 // jumps to. Both are now in port/slice_lky.txt. Section 14's "budget ONE wave
 // plus its own alias row" held: one wave, one alias.
 //
@@ -40,7 +40,7 @@
 // ---- A SECOND ALIAS, AND IT IS ov004's RATHER THAN THIS CLASS'S ----------
 //
 // The wave that closed the three above asked for one more, and the shape is
-// identical: src/func_ov004_020b5c18.cpp is a //cpp TU declaring
+// identical: src/actors/unit020b4aa4.cpp is a //cpp TU declaring
 // `extern int data_ov004_020bfa14;`, so the reference mangles as
 // ?data_ov004_020bfa14@@3HA against the mount's plain _data_ov004_020bfa14.
 // link.exe even prints the hint itself ("symbols that are defined and could

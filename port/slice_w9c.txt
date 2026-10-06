@@ -37,6 +37,4 @@
 # constructor, then a single `p[0] = _ZTV17SlidingPlatformWf` by a REAL name
 # rather than the zeroed VT1 placeholder -- so the registry calls each matched
 # Spawn directly.
-src/d_a_obj_simple_lift_km1_deru.c
-src/d_a_obj_simple_lift_km3_deru01.c
-src/d_a_obj_simple_lift_km3_deru02.c
+src/actors/daObjSimpleLift_c.cpp

@@ -184,11 +184,11 @@ void port_pathlift_states_seat(void);
 /* ov002, the base */
 int _ZN16dPathLiftActor_cD1Ev(void *self);                  /* base slot 16 */
 int _ZN16dPathLiftActor_cD0Ev(void *self);                  /* base slot 17 */
-void func_ov002_020efa54(void *self, int state);   /* HOST COPY, installer */
+void _ZN16dPathLiftActor_c8SetStateEi(void *self, int state); /* HOST COPY, installer */
 void _ZN16dPathLiftActor_c12BaseBehaviorEv(void *self);     /* HOST COPY, tick      */
-void func_ov002_020efaf0(void *self);              /* the REAL base init   */
-void func_ov002_020efc74(void *self);              /* Render's base half   */
-void func_ov002_020efcf4(void *self);              /* Behavior's base half */
+void _ZN16dPathLiftActor_c17BaseInitResourcesEv(void *self); /* the REAL base init   */
+void _ZN16dPathLiftActor_c16RenderPathModelsEv(void *self);  /* Render's base half   */
+void _ZN16dPathLiftActor_c16UpdatePathModelsEv(void *self);  /* Behavior's base half */
 /* ov100, the leaf */
 int _ZN15daObjPathLift_c13InitResourcesEv(void *self);               /* slot 0  */
 int _ZN15daObjPathLift_c16CleanupResourcesEv(void *self);               /* slot 3  */
@@ -210,7 +210,7 @@ DSSTATE_END
 }
 
 /* Both tables are named by TU declarations that sit OUTSIDE extern "C" --
-   src/d_a_obj_path_lift.cpp spells `extern void* data_ov002_0210af70;` and
+   src/game/actors/daObjPathLift_c.cpp spells `extern void* data_ov002_0210af70;` and
    `extern void* data_ov100_0214857c;` as plain C++ objects and takes their
    ADDRESS -- so MSVC mangles the type into the name. Bind the decorated
    spellings onto the one C-named array each (the ?data_020a0e68@@3UMtx43@@A
@@ -223,7 +223,6 @@ DSSTATE_END
    it is the recovered source's own shorthand, not a window race -- so a
    C-name alias onto the ov002 body is the right bridge, and it is a free
    function (@@YA-class) so the alias is legal. */
-#pragma comment(linker, "/alternatename:_func_020efaf0=_func_ov002_020efaf0")
 /* Two more decorated-data spellings, same rule: the recovered TUs declare
    mounted storage outside extern "C" and MSVC mangles the type in. Both
    addresses are ov002's own mount rows (data_ov002_0210d9f0 has been mounted
@@ -357,7 +356,7 @@ static int __fastcall pl_kill(void *s, void *)
    SAME word (0x020eff18), so both get the same thunk.
 
    THE THIRD PARAMETER IS THE POP, NOT A VALUE. The dispatch site is
-   src/func_ov002_020eff90.cpp, `b->m(x)` over a 33-virtual class, which MSVC
+   src/actors/dPathLiftActor_c.cpp, `b->m(x)` over a 33-virtual class, which MSVC
    emits as thiscall with the argument PUSHED and no caller cleanup:
 
        mov  ecx,dword ptr [ebp+0Ch]      ; this

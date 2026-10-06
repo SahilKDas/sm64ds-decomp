@@ -215,7 +215,7 @@ for arm9 .text at these addresses arm9_dec.bin is the one that reads.)
 --------------------------
 
 _ZTV5Stage slot 7 is Scene::BeforeBehavior, the ROM's own matched body
-(src/_ZN8dScene_c14BeforeBehaviorEv.cpp), dispatched on the Stage every frame
+(src/actors/dScene_c.cpp), dispatched on the Stage every frame
 since lane L4 put the Stage on the behaviour list. It contains:
 
     if (data_02092664 != 0x187) {
@@ -289,14 +289,14 @@ and one puts it back. The pair that matter here are both matched src in this
 tree:
 
     Scene::SetSceneToSpawn(id, param)   data_02092664 = id
-        src/_ZN8dScene_c15SetSceneToSpawnEjj.cpp
+        src/actors/dScene_c.cpp
     Scene::SpawnIfNecessary()           spawn the scene, THEN
                                         data_02092664 = 0x187
-        src/_ZN8dScene_c16SpawnIfNecessaryEv.cpp
+        src/actors/dScene_c.cpp
 
 THE THIRD WRITER, named because it is a live tripwire for whoever slices in the
 boot spine. Scene::PrepareToSpawnBoot (0x0202e300,
-src/_ZN8dScene_c18PrepareToSpawnBootEv.cpp) also writes data_02092664 -- to 0 or to
+src/actors/dScene_c.cpp) also writes data_02092664 -- to 0 or to
 0x168, never to the sentinel -- and clears data_02092660 with it. It is
 UNREACHABLE TODAY: its only caller is func_0201a054 (src/func_0201a054.c:75),
 which is on the unsliced boot spine, and neither symbol appears in

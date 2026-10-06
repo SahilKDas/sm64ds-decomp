@@ -61,7 +61,6 @@
  * it assembles to the same `bl 0x0211235c` either way, which is exactly why
  * no byte gate ever caught this); the crossing is reported decomp-side.
  */
-#include "SkiLift.h"
 #include "Animation.h"
 #include "daPgMthr_c.h"
 /* SYNC4: include/SkiLift.h used to carry MOTHER PENGUIN's layout under the

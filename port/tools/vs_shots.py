@@ -49,7 +49,7 @@ WORK = os.path.join(ROOT, "build", "vs_shots")
 MAP_LEVEL = {0: 51, 1: 43, 2: 29, 3: 42}
 
 # The render probe in hal/actor_classes.cpp:902 names a class by the string its
-# vtable veneer passes, and EXCLAMATION_BLOCK_VS shares _ZTV13QuestionBlock with
+# vtable veneer passes, and EXCLAMATION_BLOCK_VS shares _ZTV18daObjHatenaBlock_c with
 # the plain block, so its line reads QUESTION_BLOCK. On maps 2 and 4 that is not
 # ambiguous: id 21 EXCLAMATION_BLOCK is star group 1 and never loads at filter
 # 2, so the only question-block-family actor in a match is id 22.

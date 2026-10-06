@@ -90,7 +90,7 @@ src/actors/daDgr_c.cpp
 # absorbed range), which port/slice_w3e_ov025.txt:87 already compile, so the
 # symbols this row seated now come from there and the per-function file is gone
 # from main's tree.
-#src/d_a_dgr.c
+#src/actors/daDgr_c.cpp
 
 # ---- GRINDEL (162), table 0x02113850 --------------------------------------
 src/actors/daDkk_c.cpp
@@ -98,10 +98,10 @@ src/actors/daDkk_c.cpp
 # this body into src/actors/daDkk_c.cpp (ov025 delinks, .text 0x02111cf4..0x02111d40, one
 # absorbed range), which port/slice_w3e_ov025.txt's daDkk_c.cpp row already compiles, so the symbols this row seated
 # now come from there and the per-function file is gone from main's tree.
-#src/d_a_dkk.c
+#src/actors/daDkk_c.cpp
 
 # ---- PYRAMID_STEP (87)'s slot 3, reclaimed from wave 15's host thunk -------
-src/_ZN11PyramidStep16CleanupResourcesEv.cpp
+src/actors/daObjDpBrock_c.cpp
 
 # ---- the two static initialisers these classes need ------------------------
 # ov025 has four; wave 15 runs two (87's and 88's). These are the other two:

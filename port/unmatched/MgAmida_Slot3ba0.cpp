@@ -1,6 +1,6 @@
 /* ==========================================================================
  * RETIRED -- THIS FILE IS NOT IN ANY BUILD. Run link100 wave 15, lane SEAT15D,
- * LINK15 BATCH 3. The one token is in src/ now: src/func_ov006_020d3ba0.cpp:34
+ * LINK15 BATCH 3. The one token is in src/ now: src/actors/dScMgAmida_c.cpp:34
  * reads `extern int data_0209d4b8;`, so the arm9 RNG seed has exactly one
  * definition again and it is hal/scene_mg_faces.cpp's. main went further than
  * the token while it was there: it dropped the NONMATCHING banner this copy
@@ -17,7 +17,7 @@
  * ==========================================================================
  */
 
-/* HOST COPY of src/func_ov006_020d3ba0.cpp, dScMgAmida_c (actor id 0x173,
+/* HOST COPY of src/actors/dScMgAmida_c.cpp, dScMgAmida_c (actor id 0x173,
  * scene 371). Run mg9, lane S371.
  *
  * ONE TOKEN CHANGED, and it is the word `extern`. Line 37 of the src TU reads
@@ -36,7 +36,7 @@
  * DSSTATE_BEGIN, sized by ROM SPAN rather than by field width, so it is one of
  * the hosted DS globals the save-state layout and the selftest BMP gate both
  * depend on the position of. A copy of that word living in an ov006 object
- * file would be a SECOND RNG seed: src/_ZN12dScMgAmida_c8BehaviorEv.cpp (this class's own
+ * file would be a SECOND RNG seed: src/actors/dScMgAmida_c.cpp (this class's own
  * Behavior) declares the same symbol `extern int` and calls
  * RandomIntInternal(&data_0209d4b8) against it, so the two TUs of one class
  * would have advanced different seeds and nothing would have said so.
@@ -62,7 +62,7 @@
  * writes a bare `void* data_ov006_0213ac24;` and collides with the mount --
  * and its rule is the one followed here: "the host copy is the src body
  * verbatim with `extern` added". THE DECOMP-SIDE ONE-TOKEN FIX IS ROUTED, NOT
- * TAKEN: src/func_ov006_020d3ba0.cpp should read `extern int data_0209d4b8;`,
+ * TAKEN: src/actors/dScMgAmida_c.cpp should read `extern int data_0209d4b8;`,
  * and whether that still builds under mwccarm is a byte-gated-tree question.
  * The TU is bannered NONMATCHING already, so nothing here is at risk of
  * silently un-matching a matched body.
@@ -71,12 +71,12 @@
  * can reproduce it byte for byte:
  *
  *     sed -e '1d' -e 's/^int data_0209d4b8;$/extern int data_0209d4b8;/' \
- *         src/func_ov006_020d3ba0.cpp
+ *         src/actors/dScMgAmida_c.cpp
  *
  * (the `1d` drops the `//cpp` marker line). Everything below this comment is
  * the src TU unchanged, banner included.
  */
 
-/* THE BODY LIVES IN src/func_ov006_020d3ba0.cpp, on port/slice_l15mg.txt. The
+/* THE BODY LIVES IN src/actors/dScMgAmida_c.cpp, on port/slice_l15mg.txt. The
    sed recipe the banner above gives no longer reproduces this file from it,
    and that is the point: src/ moved past the one token. */

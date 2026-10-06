@@ -134,7 +134,7 @@
 //
 // ---- 6. SLOT 32 TAKES NO RECEIVER, AND THAT IS THE ROM's DOING ------------
 //
-// src/_ZN12dScMgSlot3_c9Virtual80Ev.cpp declares `void _ZN12dScMgSlot3_c9Virtual80Ev(void)` and
+// src/actors/dScMgSlots.cpp declares `void _ZN12dScMgSlot3_c9Virtual80Ev(void)` and
 // the disassembly agrees: the body's first use of r0 is `mov r0,#0` at
 // 0x0210aa68, feeding SetBg1Offset(0,0). It never reads the incoming r0. This
 // is the ROM ride-through and NOT the dropped-receiver defect class -- there
@@ -204,7 +204,7 @@
 //
 //   - THE CLASS'S ONE FLOOR IS RETIRED (run mg12, lane MAM). State 2 of
 //     data_ov006_02142bdc is 0x0210adac, the face-evaluation step after the
-//     third reel stops; it now has a byte-matched src/func_ov006_0210adac.c and
+//     third reel stops; it now has a byte-matched src/actors/dScMgSlots.cpp and
 //     the dispatcher calls it. port/unmatched/MgSlot3_StateDispatch.cpp
 //     section 3 has the derivation and what changed. The former floor counter
 //     in the census below reads 0 for a structural reason now.
@@ -258,7 +258,7 @@ void  _ZN19dScMgSingle3DBase_c9Virtual84Ev(char *c);                     /* slot
 
 /* dScMgSlot3_c's own nine. Slot 6 is the HOST COPY in
    port/unmatched/MgSlot3_StateDispatch.cpp -- same symbol, so
-   src/_ZN12dScMgSlot3_c8BehaviorEv.cpp is out of port/slice_mug.txt. */
+   src/actors/dScMgSlots.cpp is out of port/slice_mug.txt. */
 int   _ZN12dScMgSlot3_c13InitResourcesEv(void *c);           /* slot  0 InitResources */
 int   _ZN12dScMgSlot3_c8BehaviorEv(char *c);           /* slot  6 Behavior, host copy */
 int   _ZN12dScMgSlot3_c6RenderEv(char *c);           /* slot  9 Render        */
@@ -283,7 +283,7 @@ void  port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 /* The persistent minigame record this class's board progress is READ FROM and
    WRITTEN BACK TO. Nothing new is defined here: the storage is
    hal/level_boot.cpp's .dsstate$savblk0004 and the index function is
-   src/func_ov004_020adc3c.c. */
+   src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int   func_ov004_020adc3c(void *c);           /* (self->field_8 >> 8) & 0xff */
@@ -675,22 +675,22 @@ extern "C" void port_scene_slot3_hits(void)
  * the same address, and mwcc's eight-byte member-pointer pair against MSVC's
  * four-byte one is the case where they do not.
  *
- * ?_ZTV12dScMgSlot3_c@@3PAXA. src/_ZN12dScMgSlot3_cD1Ev.cpp (slot 16, the D2)
+ * ?_ZTV12dScMgSlot3_c@@3PAXA. src/actors/dScMgSlots.cpp (slot 16, the D2)
  * declares `extern void* _ZTV12dScMgSlot3_c;` outside its extern "C" block
  * and stores its ADDRESS into the object's first word. Its D0 sibling
- * src/_ZN12dScMgSlot3_cD0Ev.cpp declares the same table inside extern "C" and
+ * src/actors/dScMgSlots.cpp declares the same table inside extern "C" and
  * needs no row, which is the two spellings of one table sitting three lines
  * apart in the same class. The right-hand side is the ov006 mount's own
  * definition of the vtable this seat fills.
  *
- * ?GetBG1ScrPtr@G2@@SAPAXXZ. src/_ZN12dScMgSlot3_c9Virtual80Ev.cpp (slot 32) declares a
+ * ?GetBG1ScrPtr@G2@@SAPAXXZ. src/actors/dScMgSlots.cpp (slot 32) declares a
  * local `struct G2 { static void* GetBG1ScrPtr(); };` to spell the arm9 static,
  * so MSVC mangles the call while the port defines the Itanium name at C
  * linkage. The double underscore on the right is the same shape
  * hal/actor_faces_bob.cpp's Model::LoadFile row and eight others in
  * hal/actor_classes_*.cpp use.
  *
- * NO ROW IS OWED FOR _ZTV19dScMgSingle3DBase_c: src/_ZN12dScMgSlot3_cD1Ev.cpp declares
+ * NO ROW IS OWED FOR _ZTV19dScMgSingle3DBase_c: src/actors/dScMgSlots.cpp declares
  * it the same way, and hal/scene_mg_flower.cpp already carries
  * ?_ZTV19dScMgSingle3DBase_c@@3HA while port/unmatched/MgMemory2_Faces.cpp carries
  * ?_ZTV19dScMgSingle3DBase_c@@3PAXA. A second /alternatename for the same LHS is

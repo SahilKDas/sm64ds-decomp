@@ -546,9 +546,9 @@ extern "C" unsigned int _ZN4Heap11ResizeToFitEv(void *thiz)
 
    THE VENEER HAS TWO KINDS OF CALLER, and only one of them was broken:
 
-     src/_ZN7fBase_c9Virtual34Ejj.cpp  spells the flat C name and PUSHES the
+     src/actors/ActorBase.cpp  spells the flat C name and PUSHES the
          heap, at :50, :78, :100, :106 and :111. Broken.
-     src/_ZN7fBase_c9Virtual38Ejj.cpp  spells `h->_Destroy()`, a __thiscall
+     src/actors/ActorBase.cpp  spells `h->_Destroy()`, a __thiscall
          METHOD call on ?_Destroy@Heap@@QAEXXZ, receiver in ECX and nothing
          pushed, at :44. CORRECT TODAY, purely because the veneer is a bare
          jmp that leaves ECX alone.

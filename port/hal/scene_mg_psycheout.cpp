@@ -38,10 +38,10 @@
 //   writes _ZTV19dScMgSingle3DBase_c into o[0], constructs the Particle::SysTracker
 //   at +0x471c, then writes _ZTV12dScMg3DEsp_c over it.
 //
-//   THE DESTRUCTORS.  src/_ZN12dScMg3DEsp_cD0Ev.cpp (slot 17, D0) unwinds in the
+//   THE DESTRUCTORS.  src/actors/dMg3DEspAnimSet_c.cpp (slot 17, D0) unwinds in the
 //   opposite order -- 0x0213c8c4, the four sub-objects, 0x0213e448,
 //   ~SysTracker, _ZN11dScMgBase_cD2Ev, Memory::Deallocate -- and
-//   src/_ZN12dScMg3DEsp_cD1Ev.cpp (slot 16, D2) does the same without the
+//   src/actors/dMg3DEspAnimSet_c.cpp (slot 16, D2) does the same without the
 //   Deallocate.
 //
 // Six of the fourteen overrides (slots 2, 5, 7, 10, 26 and 33) are therefore
@@ -100,7 +100,7 @@
 // so __fastcall cleans four bytes.  Every seated class's slot-18 body ignores
 // its r1.
 //
-// THIS ONE DOES NOT.  src/_ZN12dScMg3DEsp_c13OnYoshiTryEatEi.cpp takes (char *c, int a) and the
+// THIS ONE DOES NOT.  src/actors/dMg3DEspAnimSet_c.cpp takes (char *c, int a) and the
 // ROM says so at 0x020e9c2c:
 //
 //     020e9c20  push {r4,r5,lr} / sub sp,sp,#0xc
@@ -126,7 +126,7 @@
 // ---- 6. THE TWO SHADOW-CLASS MODEL DISPATCHES ARE SAFE, AND THAT IS -------
 //         MEASURED RATHER THAN ASSUMED
 //
-// src/_ZN12dScMg3DEsp_c6RenderEv.cpp (slot 9, Render) draws through
+// src/actors/dMg3DEspAnimSet_c.cpp (slot 9, Render) draws through
 // `((Obj *)(c + 0x4f38))->vcall(0)` and the same at +0x4f88, where Obj is a
 // local six-virtual shadow -- the construct hal/scene_mg_memory2.cpp section
 // "THE SHADOW-CLASS TEST" rules on.  That ruling is: a shadow over the MOUNTED
@@ -229,7 +229,7 @@ void     port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 
 /* the persistent minigame record, for the reason hal/scene_mg_memory2.cpp
    names: nothing new is defined here, the storage is hal/level_boot.cpp's
-   .dsstate$savblk0004 and the index function is src/func_ov004_020adc3c.c. */
+   .dsstate$savblk0004 and the index function is src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int  func_ov004_020adc3c(void *c);            /* (self->field_8 >> 8) & 0xff */

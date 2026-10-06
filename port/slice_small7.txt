@@ -42,11 +42,11 @@
 #   021115b4  e5801098  STR  r1, [r0, #0x98]
 #   021115b8  e3a00001  MOV  r0, #1
 #   021115bc  e12fff1e  BX   lr
-# src/BookSwitch_Spawn.c is that body statement for statement, and
+# src/actors/daMoray_c.cpp is that body statement for statement, and
 # port/unmatched/Unagi_StateDispatch.cpp's unagi_state_arrive was a hand
 # transcription of the same seven instructions (it dropped only the return
 # value, which the dispatch discards). A true stand-in, so the host copy
 # retires and the matched TU takes the seat. The ROM's own reference is the
 # record at BookSwitch_SpawnInfo (0x02114898), whose fn word holds 0x021115a4
 # and which the seat checks against the mount before it rewrites it.
-src/BookSwitch_Spawn.c
+src/actors/daMoray_c.cpp

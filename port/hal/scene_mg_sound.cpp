@@ -45,7 +45,7 @@
 //   and it stays BSS (zeroed) because that is its DS boot value.
 //
 //   UNSEEDED. The only writer of the record is the Rec Room overlay ov005
-//   (src/func_ov005_020c0378.cpp:96-107), which copies a 0x34-byte row out of
+//   (src/actors/dScMiniGm_c.cpp:96-107), which copies a 0x34-byte row out of
 //   data_ov005_020c24d8 for the minigame the player picked and THEN launches
 //   the minigame scene. ov005 is in no slice and no mount, so a direct
 //   SM64DS_SCENE=374 boot never runs it: music id and enable read zero, enable
@@ -167,7 +167,7 @@ extern "C" int IsMinigameActorID(unsigned id);   /* src/IsMinigameActorID.c */
 // the row's own +0x04 word. Scene::StartSceneFade hands it to
 // Scene::SetSceneToSpawn(id, param) and the spine lands it on the actor at +8.
 //
-// dScMgBase_c's constructor (src/_ZN11dScMgBase_cC2Ev.cpp) is what unpacks it:
+// dScMgBase_c's constructor (src/minigames/d_s_mg_base.cpp) is what unpacks it:
 //
 //     *(short*)(self+0x465e) = data_ov004_020bc070[(*(u32*)(self+8) >> 0x10) & 0xff];
 //     *(int*)(self+8)        = *(u32*)(self+8) & 0xffff;
@@ -183,7 +183,7 @@ extern "C" int IsMinigameActorID(unsigned id);   /* src/IsMinigameActorID.c */
 //                            dealing 16, 18 or 20 cards.
 //     (param >> 16) & 0xff   the row of data_ov004_020bc070, the minigame's
 //                            name-text id, read back at +0x465e by
-//                            src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp.
+//                            src/minigames/d_s_mg_base.cpp.
 //
 // hal/scene_boot.cpp used to pass 0 here, so every minigame in the port shared
 // save record 0 and every one of them asked for name text index 0. Memory

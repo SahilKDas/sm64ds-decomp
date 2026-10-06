@@ -38,4 +38,4 @@
 # absorbed range), which port/slice_gate16.txt:196 and port/slice_pmfb2.txt:193 already compile, so the
 # symbols this row seated now come from there and the per-function file is gone
 # from main's tree.
-#src/d_a_1up_scaleup_kinoko.c
+#src/actors/da1up_c.cpp

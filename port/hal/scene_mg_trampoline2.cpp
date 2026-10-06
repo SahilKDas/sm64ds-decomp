@@ -240,7 +240,7 @@ extern unsigned char g_profile_MG_TRAMPOLINE2[];
 
    Three tables, written in constructor order by the three-deep chain
    func_ov006_020cd72c -> func_ov006_020cd6f4 -> the element ctor
-   (src/_ZN6Player29TryExitCharacterDoorWithIntroEv.cpp, misnamed):
+   (src/actors/dMgTrmpln2Mario_c.cpp, misnamed):
 
      0x0213b3c4  slot 4 = 0x020cd720, slot 11 = 0x020cd6d8   base-base
      0x0213b3e0  slot 4 = 0x020cd6d8                         base
@@ -321,7 +321,7 @@ void     port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 
 /* the persistent minigame record this class's row is keyed to.  Nothing new is
    defined here: the storage is hal/level_boot.cpp's .dsstate$savblk0004 and the
-   index function is src/func_ov004_020adc3c.c. */
+   index function is src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int  func_ov004_020adc3c(void *c);            /* (self->field_8 >> 8) & 0xff */

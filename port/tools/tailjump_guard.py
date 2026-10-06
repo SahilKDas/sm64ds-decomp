@@ -407,7 +407,7 @@ CLASS_C = tuple(
         # every frame.
         {'frame': 'func_ov006_020e285c',
          'callee': 'func_ov006_020e20bc',
-         'tu': 'src/func_ov006_020e285c.c',
+         'tu': 'src/actors/dScMgCurling_c.cpp',
          'note':
              'The curling collision veneer. Its callee is the face in '
              'hal/scene_mg_faces.cpp, which forwards to the transcription; '

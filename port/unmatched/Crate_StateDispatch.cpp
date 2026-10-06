@@ -64,8 +64,8 @@ extern PortPmf data_ov098_0213c4a8[], data_ov098_0213c488[],
     data_ov098_0213c460[], data_ov098_0213c4c0[], data_ov098_0213c4b8[];
 }  /* extern "C" */
 
-/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/Crate_SetState.cpp and
-   src/func_ov098_02138b70.cpp are on port/slice_pmf3.txt (run link100 lane
+/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/actors/daObjBlockS_c.cpp and
+   src/actors/daObjBlockS_c.cpp are on port/slice_pmf3.txt (run link100 lane
    PMF3): /vmg /vmm makes the pointer-to-member the ROM's 8-byte record, the
    fourteen-record table strides 0x10, and both bodies TAIL JUMP. The mangled
    reference to the table is bridged in port/hal/pmf3_aliases.cpp. The seat

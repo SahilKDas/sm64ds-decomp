@@ -28,7 +28,7 @@
 //     from:0x020e3850 kind:load to:0x0213c304 module:overlay(6)
 // where 0x020e3850 is inside dScMgCurling_c_classInit (0x020e3820, 0x34 bytes).
 //
-// func_020adc74. src/_ZN14dScMgCurling_c13InitResourcesEv.cpp (InitResources) spells its callee
+// func_020adc74. src/actors/dScMgCurling_c.cpp (InitResources) spells its callee
 // with no overlay in the name, and no arm9 symbol exists at 0x020adc74. The
 // reloc reads module:overlays(3,4), and ov003 can never be co-resident with
 // ov006 while ov004 always is -- func_0201a798 loads the pair together -- so
@@ -84,7 +84,7 @@
 //
 // ---- 4. THE mwcc POINTER-TO-MEMBER TU, WHICH IS THE WALL -------------------
 //
-// src/_ZN10dMgState_c8SetStateEi.cpp is EXCLUDED from the slice and trapped here
+// src/actors/dMgState_c.cpp is EXCLUDED from the slice and trapped here
 // instead, and it is the single most important thing in this file because it is
 // where the minigame seat stops.
 //
@@ -129,7 +129,7 @@
 // port/unmatched/MgBase_StateSetter.cpp, which carries the derivation: the
 // twenty globals with their code words and relocation rows, the ROM
 // disassembly of the table build and the dispatch, and the object layout the
-// offsets force. src/_ZN10dMgState_c8SetStateEi.cpp stays off every slice.
+// offsets force. src/actors/dMgState_c.cpp stays off every slice.
 //
 // READ THE SECTION ABOVE FOR WHAT THE TRAP COST RATHER THAN FOR WHAT TO DO.
 // "A minigame whose framework reaches this function does not run past it" was
@@ -263,7 +263,7 @@ DSSTATE_END
  * extracted/overlays/overlay_0004.bin at (addr - 0x020ad660):
  *
  *   data_ov004_020bc27c   00000380 00000300 00000340
- *     THREE PLAIN INTS. src/func_ov004_020b3278.cpp spells it
+ *     THREE PLAIN INTS. src/actors/unit020b2c84.cpp spells it
  *     `struct S3 { int v[3]; }` and reads tmp.v[i] as an int argument. Not a
  *     pair table; twelve bytes that mean the same twelve bytes on both ABIs.
  *     ALIAS IS CORRECT.
@@ -273,8 +273,8 @@ DSSTATE_END
  *     word inside ov004's .text (0x020ad660..0x020b944c) and the adjustment
  *     zero -- and the refusal was right to stop on them. The alias is still
  *     the correct answer, and THE TEST IS WHAT THE CONSUMER SPELLS, NOT WHAT
- *     THE CONSUMER DOES. src/func_ov004_020b7cd0.cpp and
- *     src/func_ov004_020b72d4.cpp each declare `struct Pair { int a; int b; }`
+ *     THE CONSUMER DOES. src/actors/dMgState_c.cpp and
+ *     src/actors/dMgState_c.cpp each declare `struct Pair { int a; int b; }`
  *     and store .a and .b into the object's own eight-byte state field at
  *     +8/+0xc. That struct is eight bytes on MSVC and eight in the ROM, so the
  *     copy lands exactly the ROM's two words and the alias is sound. The DS
@@ -304,7 +304,7 @@ DSSTATE_END
  * The struct-typed refusal does not catch it either, because it tests for
  * the by-value spelling @@3U and an array of that struct is spelled @@3PAU.
  * NO ALIAS IS WRITTEN FOR IT ANYWHERE. Its one consumer,
- * src/_ZN14dScMgCurling_c8BehaviorEv.cpp, is host-copied in
+ * src/actors/dScMgCurling_c.cpp, is host-copied in
  * unmatched/MgCurling_StateDispatch.cpp, so after that host copy the symbol
  * is referenced by nothing and an alias for it would be a dead directive.
  *
@@ -428,7 +428,7 @@ DSSTATE_END
  * port/slice_scene1.txt -- and if there were one it would be the wrong
  * target anyway. AN ALIAS CANNOT CHANGE A CALLING CONVENTION, and this is
  * that rule's other half: the caller is __thiscall with an argument, and
- * src/_ZN8dScene_c18AfterInitResourcesEj.cpp is a `void f(void)` transcription
+ * src/actors/dScene_c.cpp is a `void f(void)` transcription
  * of a 0xc-byte ARM tail-call veneer (ldr ip,[pc]; bx ip; .word 0x2013ef4)
  * whose arguments ride through in r0/r1. On the host it would drop both.
  *
@@ -475,8 +475,8 @@ extern "C" unsigned port_mg_trap_hits(void) { return g_mg_trap_hits; }
  *
  * The seat above draws the three buttons. Whether the player can USE them is a
  * different claim and it needs a different number, because the two halves of
- * the panel live in different files: src/func_ov004_020ae858.cpp DRAWS off
- * self+0x4646, and src/func_ov004_020aeb24.cpp (matched, untouched) is the
+ * the panel live in different files: src/minigames/d_s_mg_base.cpp DRAWS off
+ * self+0x4646, and src/minigames/d_s_mg_base.cpp (matched, untouched) is the
  * STYLUS HIT TEST that WRITES it -- it boxes the stylus point against the three
  * button centres and on a hit stores the button's index there and 0x10 at
  * +0x4644. So +0x4646 moving from -1 to 0/1/2 is the hit test accepting a tap,
@@ -509,7 +509,7 @@ extern "C" unsigned port_mg_trap_hits(void) { return g_mg_trap_hits; }
  * `if (func_ov004_020b8f78(c + 0xf4) != 0) return;`, and that callee was
  * DEFINED returning u8 while this one caller declares it int. MSVC writes AL
  * and leaves EAX's top 24 bits stale, so the test read 0xFFFFFF00 and took the
- * early return on all 300 frames. src/func_ov004_020b8f78.cpp now returns int,
+ * early return on all 300 frames. src/actors/dMgPsOpt_c.cpp now returns int,
  * which mwccarm compiles to the same `ldrb r0` and which leaves the function
  * MATCHED at 2004/b56 and the 1.2 trio. Measured after: the buttons slide to
  * (128,48) (128,96) (128,144) over sixteen frames, OAM engine B goes 0 placed
@@ -584,7 +584,7 @@ void port_mg_hud_scaled_number_020b2220(int x, int y, int num, int a3, int a4,
  * discards it, which is why nothing ever caught it. include/decl_common.h is
  * corrected in the same commit.
  *
- * IT IS A REAL DECOMPILATION, honestly NONMATCHING. src/func_ov004_020ae858.cpp
+ * IT IS A REAL DECOMPILATION, honestly NONMATCHING. src/minigames/d_s_mg_base.cpp
  * differs in 10 of 118 words at mwccarm 2004/b56, the closest of all 25 installed
  * builds, on the base-materialization/addressing floor; every reloc and the whole
  * literal pool are identical and its banner carries the measurement. The symbol
@@ -607,7 +607,7 @@ void port_mg_hud_scaled_number_020b2220(int x, int y, int num, int a3, int a4,
  * symbol. That reasoning was right and it is why this single line is simply
  * deleted rather than moved.
  *
- * IT IS A REAL DECOMPILATION. src/func_ov004_020ae5c4.cpp is a Bresenham walk
+ * IT IS A REAL DECOMPILATION. src/minigames/d_s_mg_base.cpp is a Bresenham walk
  * from (x0,y0) to (x1,y1) that stamps vtable slot 34 at every lattice point it
  * visits, and the symbol comes from port/slice_mg1.txt. The seven parameters
  * lane BOO derived off the prologue were correct and the new body spells the
@@ -626,12 +626,12 @@ void port_mg_hud_scaled_number_020b2220(int x, int y, int num, int a3, int a4,
  * func_ov004_020b1710 IS NOT A TRAP ANY MORE, and it was the minigame HUD's
  * value drawer. The trap took (void *) and returned int where the ROM takes
  * four arguments and returns void, so the x, the y and the number the six
- * matched call sites in src/func_ov004_020b14f0.c pass were all sitting on
+ * matched call sites in src/minigames/d_s_mg_base.cpp pass were all sitting on
  * the stack with nothing reading them -- the same defect class as
  * func_ov004_020b2220 below, found the same way: a 3000-frame boot of scene
  * 369 under SM64DS_FAULTS_FATAL=1 entered this one 5657 times.
  *
- * IT IS A REAL DECOMPILATION, not a host copy. src/func_ov004_020b1710.c
+ * IT IS A REAL DECOMPILATION, not a host copy. src/minigames/d_s_mg_base.cpp
  * byte-matches at mwccarm 1.2/base, 1.2/sp2 and 1.2/sp2p3 and carries its own
  * delink block in config/arm9/overlays/ov004/delinks.txt, so there is nothing
  * to route to and no port_ name to spell: the symbol comes from
@@ -697,7 +697,7 @@ void func_ov004_020b2220(int x, int y, int num, int a3, int a4,
  *
  * THE SIGNATURES CHANGED WITH THE SEAT, and that is not cosmetic. The traps
  * took (void *) and the ROM takes (self, idx): the matched callers
- * src/func_ov006_020e2c08.c and src/func_ov006_020e2868.c both declare and
+ * src/actors/dScMgCurling_c.cpp and src/actors/dScMgCurling_c.cpp both declare and
  * pass two arguments, so the second was already on the stack and the trap
  * simply never looked at it. A body that ignored it would collide shell 0
  * every time.
@@ -712,7 +712,7 @@ void func_ov004_020b2220(int x, int y, int num, int a3, int a4,
  * link100 wave 14, lane SHADOWS3). The paragraph above is exact about why the
  * host transcription was written -- "neither address has a delink block ... and
  * neither has a src TU" -- and that is no longer true of 0x020e1dc8: PR #2328
- * (ba6e1eef3) matched it, src/func_ov006_020e1dc8.cpp is on
+ * (ba6e1eef3) matched it, src/actors/dScMgCurling_c.cpp is on
  * port/slice_shadows3.txt, and this forwarder is gone. The seat changes nothing
  * about the signature the note above insists on: the matched TU is
  * (dScMgCurling_c *self, int idx), the two arguments the callers already pass.
@@ -793,11 +793,11 @@ int func_0202e78c(void *)
  * here ... The decomp has no body for 0x020e1854" was exactly true when lane
  * CT1 wrote it. The decomp has one now: PR #2352 (86a6e696d, "Match three more
  * ov006 minigame functions: the Coin cup touch test, the pen drag handler and
- * the Coin cursor sprite") landed src/func_ov006_020e1854.c, and this tree
+ * the Coin cursor sprite") landed src/actors/dScMgCurling_c.cpp, and this tree
  * carries its delink block --
  *
  *     config/arm9/overlays/ov006/delinks.txt:1785
- *         src/func_ov006_020e1854.c:  .text start:0x020e1854 end:0x020e1b54
+ *         src/actors/dScMgCurling_c.cpp:  .text start:0x020e1854 end:0x020e1b54
  *
  * which is 0x300 bytes, the size the address has always had here. The file
  * carries no NONMATCHING banner. It is on port/slice_mg7.txt and
@@ -842,7 +842,7 @@ int func_0202e78c(void *)
 
 extern "C" {
 
-void func_ov006_020e1854(void *arg);          /* src/func_ov006_020e1854.c */
+void func_ov006_020e1854(void *arg);          /* src/actors/dScMgCurling_c.cpp */
 
 static unsigned g_curling_st_020e1854_entries;
 
@@ -867,7 +867,7 @@ void port_mg_curling_st_020e1854(char *c)
         std::fprintf(stderr,
                      "  [scene] dScMgCurling_c STATE 0x020e1854 ENTERED "
                      "(func_ov006_020e1854, the ROM's matched TU, "
-                     "src/func_ov006_020e1854.c)\n");
+                     "src/actors/dScMgCurling_c.cpp)\n");
         std::fflush(stderr);
     }
 

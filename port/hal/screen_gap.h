@@ -74,7 +74,7 @@ int hal_screen_gap_raw(void);
  * the real body returns, and that placement is the whole safety argument. A
  * minigame's InitResources is where its G is set (Bob-omb Squad's setter call
  * is the last statement before the field writes at the tail of
- * src/_ZN15dScMgPachinko_c13InitResourcesEv.cpp), so writing zero any earlier
+ * src/actors/dScMgPachinko_c.cpp), so writing zero any earlier
  * is overwritten and writing it later leaves a window in which something can
  * bake a coordinate off the old value. hal/screen_gap.cpp carries the audit of
  * every G reader that is linked into this program and which of them cache.

@@ -455,7 +455,7 @@ SCENE_SKIPS = {
     #
     # The row named it a model/animation seam question and left NOT MEASURED
     # whether the ModelAnim at +0xd18 ever received a file. It had one; the
-    # null was never the object. src/func_ov006_020c3bf4.cpp calls that virtual
+    # null was never the object. src/actors/unit020bfec0.cpp calls that virtual
     # through a LOCAL SHADOW CLASS, so its `f5(0)` is the ROM's vtable byte
     # +0x14 -- the sixth Itanium word, which on Model and ModelAnim alike is
     # Render(scale). MSVC folds the D1/D0 pair into one slot, so on the host
@@ -515,8 +515,8 @@ SCENE_BLOCKED = {
     #
     # The ROM at 0x020ad8c4 does `ldr r0,[r0]` off data_ov004_020beb68 and then
     # `bl 0x20adc3c` without touching r0, so one register does the null test
-    # and carries the argument. src/func_ov004_020ad8b8.c declares the callee
-    # (void) and calls it with none; src/func_ov004_020adc3c.c takes void* and
+    # and carries the argument. src/minigames/d_s_mg_base.cpp declares the callee
+    # (void) and calls it with none; src/minigames/d_s_mg_base.cpp takes void* and
     # reads c+8 first statement, so on the host it read [esp+4], which held 1.
     #
     # RETIRED BY THE FIX SECTION 6 PRESCRIBES, not by a workaround and not by a

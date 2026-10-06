@@ -40,20 +40,11 @@
 # mounted symbol in hal/actor_classes_bullet.cpp. The vtable fill
 # hal_fill_bullet_vtable and the method faces are in hal/actor_classes_bullet.cpp;
 # the registry row is in hal/actor_classes.inc.
-src/d_a_propeller_heyho_fire.c
-src/_ZN6Bullet13InitResourcesEv.cpp
-src/_ZN6Bullet6RenderEv.cpp
-src/_ZN6Bullet16CleanupResourcesEv.cpp
-src/_ZN6Bullet16OnPendingDestroyEv.cpp
+src/actors/daPropeller_Heyho_Fire_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN6BulletD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN6BulletD0Ev.cpp
-src/_ZN6BulletD1Ev.cpp
 # the two matched state handlers the class dispatches through (reached only via
 # the seated descriptor, so no link edge names them):
-src/func_ov002_020fed18.c
-src/func_ov002_020fec94.c
 # the main handler's target-check helper (fec94 calls it once mMovingCylinderClsn
 # reports a hit target):
-src/func_ov002_020feb50.cpp
 # Behavior's matrix/shadow step:
-src/func_ov002_020fed7c.c

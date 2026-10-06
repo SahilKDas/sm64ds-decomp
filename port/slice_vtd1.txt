@@ -73,4 +73,4 @@
 #       ACTORPORT ruling (Destructor1 = the class's own complete-object
 #       destructor, Destructor0 = the shared trap, because the deleting half's
 #       free is per class and inventing one would be a guess).
-src/_ZN19BowserPuzzleManagerD1Ev.cpp
+src/actors/daObjFl_Coin_c.cpp

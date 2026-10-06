@@ -13,7 +13,7 @@
 
 # ---- the frame ------------------------------------------------------------
 # The scene-tree housekeeping pass (phase 1) and the tree's own iterator.
-src/func_02043880.c
+src/actors/ActorBase.cpp
 src/func_0203b394.c
 src/func_0203b358.c
 # The cleanup Process's id callback, a hook the port leaves null.
@@ -64,7 +64,7 @@ src/func_02017060.c
 src/func_020469e0.c
 src/_ZN4Heap6SizeofEPv.cpp
 src/_ZN4Heap10ReallocateEPvj.cpp
-src/_ZN9ModelBase12ApplyOpacityEj.cpp
+src/_ZN9ModelBase12ApplyOpacityEjj.cpp
 src/func_020461b4.c
 src/func_02046208.c
 src/_ZN7Clipper13Func_02015560ER9Matrix4x3R7Vector35Fix12IiES3_.cpp
@@ -101,12 +101,7 @@ src/IsStarCollectedInLevel.c
 # It is the first registry row with a MovingMeshCollider: a KCL of its own,
 # transformed by the actor's matrix, that the Player's own ground and wall
 # probes walk alongside the level's.
-src/d_a_obj_block_l_block_ll.c
-src/_ZN13BigBrickBlock13InitResourcesEv.cpp
-src/_ZN13BigBrickBlock8BehaviorEv.cpp
-src/_ZN13BigBrickBlock6RenderEv.cpp
-src/_ZN13BigBrickBlock16CleanupResourcesEv.cpp
-src/_ZN13BigBrickBlockD1Ev.cpp
+src/actors/daObjBlockL_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN13BigBrickBlockD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN13BigBrickBlockD0Ev.cpp
 # The combat tail the ov002 relocations put on this table: slot 21
@@ -119,11 +114,7 @@ src/_ZN13BigBrickBlockD1Ev.cpp
 # rides the thiscall host copy port/unmatched/BigBrickBlock_OnAttacked2.cpp
 # (wired in CMakeLists.txt) instead. Slot 22 OnAttacked1 (0x020b37ec) stays
 # trapped; see hal/actor_classes.cpp for why.
-src/_ZN13BigBrickBlock15OnGroundPoundedER8dActor_c.cpp
-src/_ZN13BigBrickBlock8OnKickedER8dActor_c.cpp
-src/_ZN13BigBrickBlock4KillEv.cpp
 # Kill delegates to this one leaf (no further calls of its own).
-src/_ZN13BigBrickBlock17NotifyLinkedActorEv.cpp
 # ...and the ring it closes over: the MovingMeshCollider face, the Platform
 # helpers its lifecycle drives, and the event/star bits it reads.
 src/_ZN10dBgW_KcMbgD1Ev.cpp
@@ -138,7 +129,6 @@ src/_ZN10dBgW_KcMbg9GetNormalEsR7Vector3.cpp
 src/_ZN10dBgW_KcMbg9Virtual08Ev.cpp
 src/_ZN5Event6GetBitEj.cpp
 src/_ZN8dActor_c9TrackStarEjj.cpp
-src/_ZN13BigBrickBlock16HasNonzeroAngleXEv.cpp
 src/IsStarCollectedInCurLevel.c
 
 # ---- SIGN_POST (actor 184, ov002), x5 -------------------------------------
@@ -148,12 +138,7 @@ src/IsStarCollectedInCurLevel.c
 # ray from 100 units up and snaps the post to what it finds, which is the first
 # time an actor other than the Player raycasts the level.
 src/d_a_obj_tatefuda.c
-src/_ZN8SignPost13InitResourcesEv.cpp
-src/_ZN8SignPost8BehaviorEv.cpp
-src/_ZN8SignPost6RenderEv.cpp
-src/_ZN8SignPost16CleanupResourcesEv.cpp
-src/_ZN8SignPostD1Ev.cpp
-src/_ZN8SignPostD0Ev.cpp
+src/actors/daObjTatefuda_c.cpp
 # ...and the ring: the MovingCylinderClsn it threads, the shadow it drops, the
 # Platform helpers, and the four ov002 leaves its Behavior branches into.
 src/_ZN7dCcAc_cC1Ev.cpp
@@ -175,10 +160,6 @@ src/_ZN7dCcAc_c10GetOwnerIDEv.cpp
 # every other caller gets; hal/actor_class_faces.cpp gives the sign the same
 # answer through the METHOD name its own TU spells.
 src/actors/dBgActor_c.cpp
-src/func_ov002_020baf80.c
-src/func_ov002_020bafc0.c
-src/func_ov002_020bae9c.c
-src/func_ov002_020bb060.c
 # func_ov002_020bbda4 and func_ov002_020bbd5c are HOST COPIES in
 # port/unmatched/SignPost_StateDispatch.cpp (mwcc PMF pairs).
 
@@ -197,19 +178,19 @@ src/func_ov002_020bb060.c
 # absorbed range), which port/slice_gate16.txt:196 and port/slice_pmfb2.txt:193 already compile, so the
 # symbols this row seated now come from there and the per-function file is gone
 # from main's tree.
-#src/d_a_1up_oneupkinoko.c
+#src/actors/da1up_c.cpp
 src/actors/da1up_c.cpp
 # the fourteen type behaviours the PMF table names
 # ...and the ring: the Enemy base the factory constructs, the Yoshi-eat check
 # its Behavior opens with, and the per-frame helper it closes with.
-# THE ENEMY CONSTRUCTOR IS NOT src/_ZN12dEnemyBase_cC2Ev.cpp. ov002 and ov007 are
+# THE ENEMY CONSTRUCTOR formerly lived in its own mangled-name shard. ov002 and ov007 are
 # linked at the SAME base (0x020ad660) and the config named 0x020aed98 in
 # ov007 -- a different function entirely -- so the file carrying that name is
 # ov007's body and pulls twenty ov007 symbols in behind it. ov002's own
 # Enemy::Enemy is func_ov002_020aed98: Actor::Actor, then the Enemy vtable.
 # da1up_c_classInit_ONEUPKINOKO's call is relocated to 0x020aed98 module:overlay(2),
 # which is what settles it. The name is bridged in hal/cxx_aliases.cpp.
-src/_ZN12dEnemyBase_cC2Ev.cpp
+src/actors/dEnemyBase_c.cpp
 
 # ---- the ov002 tier's shared closure ---------------------------------------
 # What the three classes above reach into once and share: the moving-mesh
@@ -262,8 +243,8 @@ src/func_02037a04.c
 src/func_02039db8.c
 src/func_02039e30.c
 src/func_02039e48.c
-# RETIRED at SLICE1: body now in src/_ZN12dEnemyBase_cD0Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dEnemyBase_cD2Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/dEnemyBase_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one class TU can be compiled.
+#src/actors/dEnemyBase_c.cpp
 src/func_ov002_020e496c.c
 # the 1-up's own leaves: the shared per-frame helper, the collect path and the
 # five type bodies' common tail
@@ -277,37 +258,25 @@ src/_ZN13CLPS_BlockRefD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN8dM3dGSphD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN8dM3dGSphD2Ev.cpp
 src/_ZNK10dBgCh_Actr13JustHitGroundEv.cpp
-src/_ZN12dEnemyBase_c12UpdateWMClsnER10dBgCh_Actrj.cpp
 src/_ZN8dActor_c12ReflectAngleE5Fix12IiES1_s.cpp
 src/DeathTable_SetBit.c
 src/dBgCh_Actr_UpdateContinuous_Veneer.c
 src/dBgCh_Actr_UpdateDiscreteNoLava_veneer.c
 src/func_020383f0.c
 src/func_02038414.c
-src/func_ov002_020b18f0.c
+src/actors/daCoin_c.cpp
 src/_ZN10dBgCh_Actr16UpdateContinuousEv.cpp
 src/_ZN10dBgCh_Actr20UpdateDiscreteNoLavaEv.cpp
 src/_ZN10dBgCh_Actr22UpdateContinuousNoLavaEv.cpp
 src/_ZN10dBgCh_Actr22UpdateDiscreteNoLava_2Ev.cpp
 src/_ZN5Event6SetBitEj.cpp
-src/_ZN9PowerStar13AddStarMarkerEv.cpp
+src/_ZN8daStar_c13AddStarMarkerEv.cpp
 src/_ZNK10dBgCh_Actr15ShouldUpdatePosEv.cpp
 src/func_0203553c.c
 src/func_02038a38.cpp
 src/FUN_0202a130.c
 # the sign's five state bodies (its Init/Main PMF pairs) and the three 1-up
 # type behaviours the first pass did not reach
-src/func_ov002_020bba24.c
-src/func_ov002_020bb9fc.c
-src/func_ov002_020bb9f0.c
-src/func_ov002_020bbd50.c
-src/func_ov002_020bbcb8.cpp
-src/func_ov002_020bbc78.c
-src/func_ov002_020bbb14.cpp
-src/func_ov002_020bbac8.c
-src/func_ov002_020bba28.cpp
-src/func_ov002_020bb520.c
-src/func_ov002_020bb42c.c
 src/_ZNK10dBgCh_Actr12TouchesWaterEv.cpp
 # the sign read state (gate 181): the two player talk-approach helpers its
 # host body calls, both matched and tiny (0x18/0x2c)
@@ -356,8 +325,8 @@ src/_ZN6Player13OnYoshiTryEatEv.cpp
 # mid-teardown and never dispatched through; the seat gives the hosted
 # storage the ROM's contents. Its VT/HEAP placeholders are settled in
 # hal/cxx_aliases.cpp (Enemy base vtable, game heap word).
-# RETIRED at SLICE1: body now in src/_ZN12dEnemyBase_cD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
-#src/_ZN12dEnemyBase_cD0Ev.cpp
+# RETIRED at SLICE1: body now in src/actors/dEnemyBase_c.cpp. MSVC folds the ROM destructor variants into one symbol, so only one class TU can be compiled.
+#src/actors/dEnemyBase_c.cpp
 # LANE-LK4 LINKAGE SEAT: the model family's own deleting dtors (D0), seated
 # into slot 0 of the five hosted primary tables at boot by
 # hal/model_dtor_seat.cpp (Model 0x02016ce0, Animation 0x02015cc4,
@@ -427,8 +396,6 @@ src/_ZN22ExpandingHeapAllocator16InvokeDeallocateEPvPS_j.cpp
 # (the per-instance heap hooks) into slots 13/14 of _ZTV5Actor at boot,
 # after the registry install's STAR_CAMERA fill trapped them. walk_window
 # family only.
-src/_ZN7fBase_c9Virtual34Ejj.cpp
-src/_ZN7fBase_c9Virtual38Ejj.cpp
 src/_ZN4Heap28InitializeSolidHeapAsDefaultEjPS_i.cpp
 src/_ZN4Heap23SetupSolidHeapAsDefaultEjPS_i.cpp
 src/_ZN4Heap15CreateSolidHeapEjPS_i.cpp

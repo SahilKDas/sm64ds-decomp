@@ -9,11 +9,11 @@ the link succeeds, the bytes are wrong.
 
 Wave 5 hit this class twice (w5b_review.md R1/R2):
 
-  R1  slicing src/d_a_grock.c defeated
+  R1  slicing src/actors/daGrock_c.cpp defeated
       /alternatename:_RollingRock_Spawn=_data_ov010_02112d64 and
       PeachPainting::InitResources' SharedFilePtr became a code address --
       level 2 faulted (c0000005 at _RollingRock_Spawn+2).
-  R2  slicing src/func_ov065_02117994.c (Swoop's helper, a genuinely
+  R2  slicing src/actors/daBasabasa_c.cpp (Swoop's helper, a genuinely
       different body) defeated the ov062 sibling alias and three ov062 TUs
       silently ran Swoop's code. No crash, censuses unchanged.
 

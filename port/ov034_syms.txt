@@ -135,7 +135,7 @@
 #
 # ==== ONE LIVE WRONG-NAME AT THE SHARED WINDOW (T6) =======================
 #
-# src/func_ov034_02111588.cpp (state 9's tick) and src/func_ov034_021119ac.c
+# src/actors/daHanachan_c.cpp (state 9's tick) and src/actors/daHanachan_c.cpp
 # (state 6's tick) both CALL a function they spell data_ov052_021125b8 -- an
 # OV052 name, and a data-kind one, for what the ROM's own arm_calls at
 # 0x021115b0, 0x021119ec and 0x02111a00 resolve to as 0x021125b8
@@ -154,7 +154,7 @@
 # rather than fixed: they are ov006's and ov022's -D to make, in ov006's and
 # ov022's own files.
 #
-#   src/_ZN19cMgSmartball_slot_c14RestoreInitialEv.cpp  (OV006 0x02110154, size 0x68, so its body is
+#   src/actors/dScMgSmartball_c.cpp  (OV006 0x02110154, size 0x68, so its body is
 #     [0x02110154, 0x021101bc). On port/slice_smb.txt and compiled today, but
 #     /OPT:REF strips it because nothing references it, so its object
 #     contributes no symbol to the map.) It declares
@@ -192,7 +192,7 @@
 #
 # THE THREE THAT WERE ALREADY LIVE ARE ALREADY ROUTED, and this lane checked
 # rather than assumed: src/game/actors/d_a_obj_bk_dossunbar.cpp (ov015,
-# LINKED) is re-routed by this very commit; src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp and
+# LINKED) is re-routed by this very commit; src/game/actors/d_a_obj_wl_polelift.cpp and
 # src/__sinit_ov025_02112a44.c spell two ov032 names and both already carry a
 # per-source -D from their own lanes (port/CMakeLists.txt:8695 and :913).
 #

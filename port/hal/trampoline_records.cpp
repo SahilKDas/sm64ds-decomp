@@ -6,7 +6,7 @@
 // stylus stroke get judged" was the WANT COUNT of the trap standing in for
 // func_ov006_020d0c38: the body had no decompilation, the trap returned the
 // miss arm, and counting how often it was asked was the honest measurement.
-// That body is decompiled and seated now (src/func_ov006_020d0c38.c, an honest
+// That body is decompiled and seated now (src/actors/unit020cd744.cpp, an honest
 // NONMATCHING seat with its divergences in its banner), so the trap is gone and
 // its counter can only read zero.  A zero that used to mean "no stroke was ever
 // judged" would now mean nothing at all, which is exactly the shape run mg11
@@ -25,7 +25,7 @@
 // AND IT IS NOT THE ONLY WRITER, WHICH IS WHY THIS READOUT SPLITS THE FOUR.
 // The first version of this file said "func_ov006_020d0c38 is the only writer
 // of that word" and the first run disproved it: record 3 came up live before a
-// stylus had touched anything.  src/func_ov006_020d0b78.c installs the scene's
+// stylus had touched anything.  src/actors/unit020cd744.cpp installs the scene's
 // OWN starting trampoline into RECORD 3 at setup -- it writes
 // data_ov006_02141590[0x54] = 3, [0x55] = 0 and [0x51] = 3, which resolve to
 // 0x02140990 + 3*0x32c + 0x324, +0x326 and +0x31e, the same three fields --
@@ -41,7 +41,7 @@
 // data_ov006_02140990 (stride 0x32c, four records), carries the two stroke
 // endpoints at +0x50 and +0x54, and the RENDER GATE at +0x328 which decides
 // whether func_ov006_020cf2fc and func_ov006_020cf758 ever look at the record
-// (src/func_ov006_020d09e0.c and src/func_ov006_020d0ac0.c are the two loops
+// (src/actors/unit020cd744.cpp and src/actors/unit020cd744.cpp are the two loops
 // that read it).
 //
 // A CORRECTION, MEASURED. What stood here said the endpoints were written by
@@ -61,7 +61,7 @@
 //
 // THAT SENTENCE USED TO END "which is still a trapped floor -- so on this build
 // the gate stays 0". IT NO LONGER DOES. Run mg12 lane INST decompiled the
-// installer and seated it (src/func_ov006_020d01e0.cpp, an honest NONMATCHING
+// installer and seated it (src/actors/unit020cd744.cpp, an honest NONMATCHING
 // seat with its divergences in its banner), and the trap in
 // unmatched/MgTrampolineTime_Floors.cpp is retired with it. So the gate is a
 // LIVE MEASUREMENT now, not a known floor: 3 means the installer accepted an
@@ -75,7 +75,7 @@
 
 extern "C" {
 
-/* the ov006 mount's own C names; src/func_ov006_020d0ac0.c reaches the record
+/* the ov006 mount's own C names; src/actors/unit020cd744.cpp reaches the record
    base the same way */
 extern unsigned char data_ov006_02140990[];
 extern unsigned char data_ov006_02140cae[];

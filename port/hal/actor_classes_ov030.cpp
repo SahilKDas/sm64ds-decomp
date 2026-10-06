@@ -99,8 +99,8 @@
 // THE TWO ov080 SLOTS ARE THE CLOSURE GAP, and both are measured rather than
 // guessed: relocs.txt resolves 0x02127124 and 0x02127058 as
 // `module:overlays(78,80)`, and level 22's roster loads ov080 and not ov078, so
-// the ov080 spelling is the live one. src/_ZN13daObjMaruta_c6RenderEv.cpp and
-// src/_ZN13daObjMaruta_c15OnHitByMegaCharER6Player.cpp are appended to slice_ov030cast.txt for it.
+// the ov080 spelling is the live one. src/game/actors/d_a_obj_maruta.cpp and
+// src/game/actors/d_a_obj_maruta.cpp are appended to slice_ov030cast.txt for it.
 //
 // THE WIDTHS (32 / 32 / 31) ARE SETTLED BY THE SEMANTIC TAIL and by nothing
 // else, because no mechanical route is right on all three. The reloc run
@@ -158,7 +158,7 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 #include "dActor_c.h"
 #include "fBase_c.h"
 #include "daMky_c.h"
-#include "RollingLogTtm.h"
+#include "daObjHmMaruta_c.h"
 
 extern "C" {
 /* ---- the shared arm9 defaults, slots 1..30 ---- */
@@ -253,7 +253,7 @@ int _ZTV13RollingLogTtm[32];    /* vtspan: data_ov030_02115a48, config name for 
 int _ZTV7daMky_c[31];           /* vtspan: data_ov030_02115bfc, config name for it */
 }
 
-/* ONE STORAGE, TWO NAMES, for 0x02115a48. src/d_a_obj_hm_maruta.c stores that
+/* ONE STORAGE, TWO NAMES, for 0x02115a48. src/actors/daObjHmMaruta_c.cpp stores that
    table SECOND (its pool is 0x02111680 -> 0x02128338 then 0x02111684 ->
    0x02115a48) and spells the second store `VT1`, a placeholder, while spelling
    the FIRST store `_ZTV15daObjHmMaruta_c` -- the right name on the wrong store.
@@ -286,10 +286,10 @@ int _ZTV7daMky_c[31];           /* vtspan: data_ov030_02115bfc, config name for 
        line 144 is data_ov030_02115c80, a bss row. _ZTV13RollingLogTtm is on
        line 115 at a DIFFERENT address, 0x02115a48.
      - "daMky_c_classInit_MONKEY_STAR.c and ..._MONKEY_THIEF.c spell
-       _ZTV13RollingLogTtm". They do not: src/d_a_mky_monkey_star.c:22 and
-       src/d_a_mky_monkey_thief.c:22 both store _ZTV7daMky_c, agreeing with the
+       _ZTV13RollingLogTtm". They do not: src/actors/daMky_c.cpp:22 and
+       src/actors/daMky_c.cpp:22 both store _ZTV7daMky_c, agreeing with the
        cartridge, and the only file in src/ that spells _ZTV13RollingLogTtm is
-       src/d_a_obj_hm_maruta.c, the rolling log. */
+       src/actors/daObjHmMaruta_c.cpp, the rolling log. */
 /* THE TWO TABLES, read out of config rather than derived one name at a time.
    config/arm9/overlays/ov030/symbols.txt:
 
@@ -310,7 +310,7 @@ int _ZTV7daMky_c[31];           /* vtspan: data_ov030_02115bfc, config name for 
    differ in ten of their thirty-one slots.
 
    So the join __ZTV7daMky_c=__ZTV13RollingLogTtm was false, and its effect was
-   that src/d_a_obj_hm_maruta.c, which stamps _ZTV13RollingLogTtm, spawned every
+   that src/actors/daObjHmMaruta_c.cpp, which stamps _ZTV13RollingLogTtm, spawned every
    rolling log holding the MONKEY's methods -- including a Render that reads a
    ModelAnim at +0xd4 the log's own constructor never builds -- while the array
    this file fills with the log's methods was installed on nothing at all. Both
@@ -695,7 +695,7 @@ static int __fastcall log_clean(void *s, void *)
 static int __fastcall log_behavior(void *s, void *)
 { return _ZN13RollingLogTtm8BehaviorEv(s); }
 /* Slot 9 comes from ov080, not from ov030 and not from arm9. It is the same
-   six-virtual plain-Model shadow src/_ZN13daObjHmBskt_c6RenderEv.cpp uses, calling
+   six-virtual plain-Model shadow src/game/actors/d_a_obj_hm_bskt.cpp uses, calling
    index 5, which hal/cxxname_bridge.cpp:511 dual-fills as Render. */
 static int __fastcall log_render(void *s, void *)
 { port_actor_render_probe("ROLLING_LOG_TTM", (char *)s + 0xd4);
@@ -768,7 +768,7 @@ static int __fastcall mky_pdes(void *s, void *)
    has three such bodies two slots away: src/actors/daMky_c.cpp and
    src/actors/daMky_c.cpp (which are RollingLogTtm's, not UkikiCage's) walk
    0x02115a48 -> _ZTV13daObjMaruta_c -> _ZTV10dBgActor_c, three tables deep, and
-   src/_ZN13daObjHmBskt_cD1Ev.cpp walks two. All three stay in the slice and run
+   src/game/actors/d_a_obj_hm_bskt.cpp walks two. All three stay in the slice and run
    their own stores. */
 /* slot 16 is the matched src D1 through hal/dtor_faces_cpp.cpp (lane DTOR-FACES-CPP);
    the transcribed thunk that stood here (mky_d1) spelled the same chain by hand. */

@@ -217,9 +217,9 @@ reference the linker can follow today.
 
 Three ov004 TUs are counted as linked in walk_window today:
 
-    src/func_ov004_020adc1c.c
-    src/func_ov004_020adc00.c
-    src/func_ov004_020ada40.c
+    src/minigames/d_s_mg_base.cpp
+    src/minigames/d_s_mg_base.cpp
+    src/minigames/d_s_mg_base.cpp
 
 They are reached from ov081's Spindrift, per the note at the top of
 hal/actor_classes_ov081.cpp.
@@ -277,7 +277,7 @@ misrouted call, and the port already contradicts itself about the address:
     four parameters.
   - the SEATED ov004 TU defines three:
     `void func_ov004_020ada40(int thiz, int a1, int a2)`.
-  - src/func_ov081_02123910.cpp:53 routes Spindrift into that three-parameter
+  - src/actors/daHuwa_c.cpp:53 routes Spindrift into that three-parameter
     ov004 body with four arguments, `(c, &kv, other, tmp)`.
 
 THE CONSEQUENCE. The ov004 body's first statement is
@@ -299,7 +299,7 @@ source two later lanes have now quoted faithfully and been misled by. It read
 the owner, and was never updated after that lane landed.
 
 Lane A2 took it. The fix is a per-source COMPILE_DEFINITIONS in
-port/CMakeLists.txt, on src/func_ov081_02123910.cpp, redirecting
+port/CMakeLists.txt, on src/actors/daHuwa_c.cpp, redirecting
 func_ov004_020ada40 onto func_020ada40 --
 ov002's body, which is the answer co-residency gives. Spindrift's
 kill-by-invincible-character path reaches real work today and the "SILENT
@@ -487,7 +487,7 @@ Gaps, per cluster, from what the two overlays actually poke:
 
      THE CAUSE IS THE MSVC DTOR-SLOT SHIFT, one slot, and it is the same
      defect port/unmatched/Door_Render.cpp records on the same two classes.
-     src/func_ov006_020c3bf4.cpp draws the sub-object's model through a LOCAL
+     src/actors/unit020bfec0.cpp draws the sub-object's model through a LOCAL
      SHADOW CLASS of six pure virtuals and calls f5(0). That is the ROM's
      numbering -- byte +0x14 of an Itanium vtable is the sixth word, and on
      Model and ModelAnim alike that word is Render:
@@ -712,7 +712,7 @@ Gaps, per cluster, from what the two overlays actually poke:
      shells at priority 1, six semi-transparent reflections at priority 2 and
      the snow at priority 0, with the snow on the HIGHEST OAM indices, so index
      order inverted the stack. Scene 374's board is on engine B and looks
-     innocent for 300 idle frames, but src/RenderOamBothScreens.cpp submits
+     innocent for 300 idle frames, but src/minigames/d_s_mg_base.cpp submits
      every entry to BOTH engines and its travelling shell arrives on engine A
      during a shot -- 74 mode-1 entries in 74 of 240 sampled frames -- so it is
      the same defect on both games and an idle capture cannot see it.

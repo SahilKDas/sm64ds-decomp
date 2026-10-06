@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov072_021217ac.cpp -- the SAME func_ov072_02121d50
+/* HOST COPY of src/game/actors/d_a_pg_bby.cpp -- the SAME func_ov072_02121d50
  * SHORT-1 seam port/unmatched/BabyPenguin_InitResources.cpp fixes,
  * applied to this landing-transition helper.
  *
@@ -9,7 +9,7 @@
  * derivation. This host copy is the matched src line for line otherwise;
  * only the func_ov072_02121d50 call gains its real second argument (0).
  *
- * src/func_ov072_021217ac.cpp is dropped from slice_gate193.txt in
+ * src/game/actors/d_a_pg_bby.cpp is dropped from slice_gate193.txt in
  * favour of this file; the byte-locked source is unchanged.
  */
 #include "common.h"

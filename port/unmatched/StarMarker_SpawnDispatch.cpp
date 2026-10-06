@@ -1,4 +1,4 @@
-/* HOST COPY of src/func_ov002_020b10a0.c -- kills an actor and, if a matching
+/* HOST COPY of src/actors/daCoin_c.cpp -- kills an actor and, if a matching
  * StarMarker exists, asks that StarMarker to spawn its red-coin star.
  *
  * THE CALLING-CONVENTION SEAM:
@@ -26,7 +26,7 @@
  * preserved: it is still only called when that return is non-null, matching the
  * `if (func_ov002_020b1328(c))` guard.
  *
- * src/func_ov002_020b10a0.c is dropped from slice_gate33.txt in favour of this
+ * src/actors/daCoin_c.cpp is dropped from slice_gate33.txt in favour of this
  * file; the byte-locked source is unchanged.
  */
 

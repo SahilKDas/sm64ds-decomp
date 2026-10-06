@@ -123,7 +123,7 @@ struct HbActor {
 /* func_ov002_020cef84 RETIRED (run link100, lane SEAT6, batch B6).
    Slot 28's OTHER dispatcher (src/func_ov002_020eeca8.cpp) spells the
    call as a C++ virtual, so the seats stay thiscall and this site moves.
-   The matched TU src/func_ov002_020cef84.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table, word 28 __fastcall, with
+   The matched TU src/actors/Player.cpp is seated in its place: port/tools/hostgen.py's VIRTUAL_CALL table, word 28 __fastcall, with
    the receiver latch carried over.
    Per-row ROM evidence (referrer, RTTI name, kind:function record, the
    dispatch instruction read at its own address) is in port/slice_seat6.txt. */

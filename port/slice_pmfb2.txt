@@ -84,7 +84,7 @@ src/actors/dScMgSound_c.cpp
 # holds ma2_render, declared __fastcall(void *self, void *unused, const void *s).
 # Same receiver register, same stack argument, same cleanup -- the rule lane
 # EXCEPT measured and lane FACEF re-measured.
-src/_ZN4Bird6RenderEv.cpp
+src/game/actors/d_a_s_bird.cpp
 src/game/actors/d_a_mc_flag.cpp
 #
 # ---- BATCH 3: family-C CALL SHAPE rows over a table that already has an ----
@@ -163,7 +163,7 @@ src/game/actors/d_a_mc_flag.cpp
 # in as the plain C name, so they need nothing.
 #
 # ONE ROW ONLY GETS A FACE ON HALF ITS TABLE. data_ov002_0210af2c is read by
-# TWO dispatchers: src/func_ov002_020efa54.cpp takes the ENTER pair at
+# TWO dispatchers: src/actors/dPathLiftActor_c.cpp takes the ENTER pair at
 # record+0 and _ZN16dPathLiftActor_c12BaseBehaviorEv takes the TICK pair at record+8.
 # PMFB1 seated the first as a FREE row because MSVC compiles it as a TAIL JUMP,
 # and a tail jump hands the callee the forwarder's own cdecl frame, so a plain
@@ -189,10 +189,10 @@ src/game/actors/d_a_mc_flag.cpp
 #     func_ov002_020f3310, itself a dispatcher over 02110e24, and cell 3 of
 #     02110e7c is func_ov002_020f3d98 over 02110e34. Three tables, two files
 #     and a nest is a lane, not a row.
-src/_ZN16dPathLiftActor_c12BaseBehaviorEv.cpp
+src/actors/dPathLiftActor_c.cpp
 src/actors/da1up_c.cpp
-src/_ZN4Coin8BehaviorEv.cpp
-src/_ZN9PowerStar8BehaviorEv.cpp
+src/actors/daCoin_c.cpp
+src/_ZN8daStar_c8BehaviorEv.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main consolidated ov084's
 # PiranhaPlant bodies into this one TU, and the TU carries func_ov084_0212f204, whose
 # zero-argument _ZN8dActor_c13ClosestPlayerEv() call closestplayer_guard refuses (thiscall
@@ -236,8 +236,7 @@ src/_ZN9PowerStar8BehaviorEv.cpp
 # file. Both TUs define their own Itanium C name, so neither needs a method
 # face.
 #
-# src/func_ov002_020aea30.cpp is a //cpp-marked .c -- `typedef void (C::*PMF)
+# src/actors/dEnemyBase_c.cpp is a //cpp-marked .c -- `typedef void (C::*PMF)
 # (int, int);` is not C -- and is given LANGUAGE CXX in CMake block R10a, the
 # same treatment the tree gives every other //cpp-marked .c it compiles.
-src/_ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr.cpp
-src/func_ov002_020aea30.cpp
+src/actors/dEnemyBase_c.cpp

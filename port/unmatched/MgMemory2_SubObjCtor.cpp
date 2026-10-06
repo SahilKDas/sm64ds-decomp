@@ -2,7 +2,7 @@
  * the reason it cannot be compiled from src: THREE OF ITS ARGUMENTS ARE
  * SPELLED AS GLOBALS THAT EXIST IN NO CONFIG. Run mg6, lane MEM.
  *
- * src/func_ov006_020c0a48.c opens
+ * src/actors/unit020bfec0.cpp opens
  *
  *     extern int g0[], g1[], g2[];
  *
@@ -33,14 +33,14 @@
  *
  * so they are 0x205, 0x206 and 0x207 -- three consecutive NitroFS file ids, the
  * shape every other SharedFilePtr::Construct call in this family uses (its
- * sibling src/func_ov006_020c1d80.c passes 0x212, 0x210, 0x20f, 0x20c and
+ * sibling src/actors/unit020bfec0.cpp passes 0x212, 0x210, 0x20f, 0x20c and
  * eleven more as plain literals, so the argument's KIND is not in doubt either).
  * The pool words are the only three between the function's last instruction at
  * 020c0a98 and the next symbol at 020c0aa8, so there is nothing else they could
  * be.
  *
  * THE DELTA FROM src, line by line, per the unmatched/MgBase_DeclConflict.cpp
- * precedent. The body below is src/func_ov006_020c0a48.c verbatim except:
+ * precedent. The body below is src/actors/unit020bfec0.cpp verbatim except:
  *
  *   1. the three `extern int g0[], g1[], g2[];` declarations are gone
  *   2. the three call sites pass the pool constants the ROM loads
@@ -50,7 +50,7 @@
  * return of `t` are src's, unchanged, and every one is confirmed against the
  * disassembly above.
  *
- * IT DEFINES func_ov006_020c0a48, so src/func_ov006_020c0a48.c is OUT of
+ * IT DEFINES func_ov006_020c0a48, so src/actors/unit020bfec0.cpp is OUT of
  * port/slice_mem.txt -- listing both would be an LNK2005. That is the one
  * linked function this repair costs.
  *

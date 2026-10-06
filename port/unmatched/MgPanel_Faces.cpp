@@ -7,7 +7,7 @@
 // This file used to define func_ov006_02106168 as a counting stub, because the
 // body had a config symbol, no delink block in
 // config/arm9/overlays/ov006/delinks.txt and no src file in either extension.
-// src/func_ov006_02106168.cpp now exists and byte-matches at mwccarm 1.2/sp2p3
+// src/actors/dScMgPanel_c.cpp now exists and byte-matches at mwccarm 1.2/sp2p3
 // (135 instructions + 7 pool words = 142 = 0x238/4), so the body is an
 // ordinary line in port/slice_ppp.txt and nothing here stands in for it.
 //
@@ -40,7 +40,7 @@
 // rather than resolved: nothing here says which mode is "Puzzle Panel" and
 // which is "Puzzle Panic".
 //
-// The virtual call needs no help from this file. src/func_ov006_02106168.cpp
+// The virtual call needs no help from this file. src/actors/dScMgPanel_c.cpp
 // dispatches slot 35 through the seated table the same way
 // src/actors/dScMgPanel_c.cpp already does, and by the time either runs
 // port_scene_fill_panel has replaced that slot's raw DS word with

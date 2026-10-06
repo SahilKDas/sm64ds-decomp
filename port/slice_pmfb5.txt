@@ -166,7 +166,7 @@
 # behind a seat reads zero forever and nothing looks wrong.
 #
 # THREE GUESS MARKERS, ALL ALREADY ADJUDICATED. src/actors/dScMgCup_c.cpp,
-# src/_ZN12dScMgSlot3_c8BehaviorEv.cpp and src/minigames/d_s_mg_bsc.cpp carry "recovered
+# src/actors/dScMgSlots.cpp and src/minigames/d_s_mg_bsc.cpp carry "recovered
 # from vtable slot identity" headers; inferred_stub_guard.py reports them and
 # does not refuse them, and each is ruled REAL_DECOMP against the ROM in
 # port/tools/inferred_stub_adjudicated.txt.
@@ -185,7 +185,7 @@ src/actors/dScMgCup_c.cpp
 # row returns when the host copy covers the whole consolidated TU.
 #src/actors/dScMgCurling2_c.cpp
 src/actors/dScMgPanel_c.cpp
-src/_ZN12dScMgSlot3_c8BehaviorEv.cpp
+src/actors/dScMgSlots.cpp
 src/minigames/d_s_mg_bsc.cpp
 #
 # ---- BATCH 2: dScMgCurling_c's COHERENT PAIR, THREE TABLES ------------------
@@ -227,7 +227,7 @@ src/minigames/d_s_mg_bsc.cpp
 # 02141910 takes ONE-argument faces: eleven faces.
 #
 # ONE /alternatename: ?data_ov006_02141950@@3PAUEntry@@A, read off the object
-# with dumpbin /symbols. src/func_ov006_020e3078.cpp declares BOTH its tables
+# with dumpbin /symbols. src/actors/dScMgCurling_c.cpp declares BOTH its tables
 # inside its own extern "C" block and needs none, which the UNDEF sweep of that
 # object confirms (_data_ov006_021418b0, _data_ov006_02141910,
 # _func_ov006_020e1680, nothing decorated).
@@ -255,8 +255,7 @@ src/minigames/d_s_mg_bsc.cpp
 # through port_mg_curling_state_hits and it was incremented by the two
 # switches; eleven of this class's twenty-five addresses no longer reach a
 # switch, so each face takes the same increment.
-src/func_ov006_020e3078.cpp
-src/_ZN14dScMgCurling_c8BehaviorEv.cpp
+src/actors/dScMgCurling_c.cpp
 #
 # ---- BATCH 3: FOUR ACTOR-OVERLAY ROWS, TWO OVERLAYS ------------------------
 #
@@ -468,7 +467,7 @@ src/_ZN14dScMgCurling_c8BehaviorEv.cpp
 #   _ZN11MirrorLuigi8BehaviorEv reads INDEX STRIDE FOUR on the census's own
 #     width_ev column, a different shape from every other row in this family,
 #     and _ZN10dScEntry_c8BehaviorEv and func_02043fdc show no index stride at all.
-src/func_ov060_02115b84.cpp
-src/_ZN10BowserFire13InitResourcesEv.cpp
-src/_ZN9SpikeBomb8BehaviorEv.cpp
-src/_ZN10BulletBill8BehaviorEv.cpp
+src/actors/daKpa_c.cpp
+src/actors/daKpaFire_c.cpp
+src/actors/daKirai_c.cpp
+src/game/actors/d_a_klr.cpp

@@ -5,7 +5,7 @@
  *
  * (1) src/_ZN5Shark6RenderEv.cpp -- the ModelAnim slot-5 collision (T1).
  *     Unconditional, null scale, the same body as MantaRay's.
- * (2) src/func_ov090_021338b4.cpp -- the state setter, record 0 (ENTER).
+ * (2) src/actors/daShark_c.cpp -- the state setter, record 0 (ENTER).
  * (3) src/_ZN5Shark8BehaviorEv.cpp -- the record-1 (TICK) pointer-to-member
  *     call plus the three PathPtr __thiscall member calls and the
  *     ApproachLinear overload. Shark's path fields are at 0x388 / 0x390 /
@@ -33,7 +33,7 @@ struct PortOv090Pmf { unsigned int fn; int delta; };
 typedef int (*PortOv090StateFn)(void *);
 
 /* func_ov090_021338b4 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov090_021338b4.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daShark_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.

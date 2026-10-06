@@ -38,9 +38,9 @@
 // A PAIR WHOSE CONSUMER NAMES A MEMBER-POINTER TYPE NEEDS A HOST COPY,
 // WHETHER IT IS CALLED OR ONLY COPIED."
 //
-//   src/_ZN13dScMgTeresa_c8BehaviorEv.cpp   struct Entry { PMF pmf; }   02142eb0  arity 0
+//   src/actors/dScMgTeresa_c.cpp   struct Entry { PMF pmf; }   02142eb0  arity 0
 //   src/actors/dScMgTeresa_c.cpp   typedef void (C::*PMF)(int) 02142e88  arity 1
-//   src/func_ov006_0211f6fc.cpp   typedef void (C::*PMF)(int) 02142ed8  arity 1
+//   src/actors/dScMgTeresa_c.cpp   typedef void (C::*PMF)(int) 02142ed8  arity 1
 //   src/actors/dScMgTeresa_c.cpp   typedef void (C::*PMF)(int) 02142f18  arity 1
 //
 // THE FIRST IS VTABLE SLOT 6 AND IT IS THE SPELLING facegen MISSES. Section 10
@@ -99,7 +99,7 @@
 //
 // Run mg9 emitted this address as a REPORTING case that returned -1 and never
 // called anything, because no src file defined it. It is decompiled now:
-// src/func_ov006_0211ebdc.c byte-matches the ROM under mwccarm 2004/b56 and
+// src/actors/dScMgTeresa_c.cpp byte-matches the ROM under mwccarm 2004/b56 and
 // passes tools/linkcheck.py VERIFIED with zero blind relocations. The case
 // below is an ordinary call in the data_ov006_02142ed8 group beside its
 // sibling 0x0211ee34, and THE FLOOR COUNTER IS GONE RATHER THAN LEFT READING
@@ -109,7 +109,7 @@
 //
 // THE OTHER TWO FLOORS. func_ov006_0211e72c was on the RENDER path (the sixth
 // call vtable slot 9 makes) and is ALSO retired by this lane --
-// src/func_ov006_0211e72c.c, same two gates -- so hal/scene_mg_booseek.cpp no
+// src/actors/dScMgTeresa_c.cpp, same two gates -- so hal/scene_mg_booseek.cpp no
 // longer carries a trap either. func_ov004_020ae5c4 is ov004's, is still a
 // floor, and still gets its trap in hal/scene_mg_faces.cpp beside
 // func_ov004_020ae858; seven ov006 TUs across the family reach it, so it is

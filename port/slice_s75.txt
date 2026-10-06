@@ -312,7 +312,7 @@ src/actors/dScMgCurling2_c.cpp
 # decompile of the same address. Taking both is a duplicate symbol, and the
 # matched tree's body is the one to keep.
 #src/func_ov006_020e513c.c
-src/func_ov006_020e5450.c
+src/func_ov006_020e5450.cpp
 src/func_ov006_020e59b0.c
 src/func_ov006_020e5a0c.c
 src/func_ov006_020e5b70.c
@@ -331,4 +331,4 @@ src/func_ov006_020e668c.c
 src/_ZN15dScMgCurling2_c13OnYoshiTryEatEi.cpp
 src/_ZN15dScMgCurling2_c6RenderEv.cpp
 src/_ZN15dScMgCurling2_c13InitResourcesEv.cpp
-src/d_s_mg_curling2.c
+src/d_s_mg_curling2.cpp

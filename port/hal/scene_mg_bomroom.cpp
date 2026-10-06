@@ -153,7 +153,7 @@
 // bombs entered state 6 at substate 0 and 2876 frames later all forty were
 // still at substate 0. Nothing was ticking them.
 //
-// THE CAUSE WAS ONE DROPPED RECEIVER IN src/func_ov006_020d8cc4.cpp. That TU
+// THE CAUSE WAS ONE DROPPED RECEIVER IN src/actors/dScMgBomroom_c.cpp. That TU
 // declared `extern "C" int func_ov006_020d836c(void);` and called it with no
 // argument. The ROM passes `this`:
 //

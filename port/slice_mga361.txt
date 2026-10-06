@@ -143,7 +143,7 @@
 #   constructor. On ARM r0 already holds p; on the host nothing is pushed.
 #   IT WRITES THROUGH THE GARBAGE `this` RATHER THAN ONLY READING IT (lane
 #   MAR1's verification, stronger than this lane's first filing):
-#   src/_ZN11dScMgBase_cC2Ev.cpp dereferences on its first statement,
+#   src/minigames/d_s_mg_base.cpp dereferences on its first statement,
 #   _ZN7fBase_cC2Ev(self), then stores &data_0208e4b8, &_ZTV8dScene_c and
 #   &data_ov004_020bc0c0 through it. A wild write to an uninitialised value
 #   faults only by luck, so the likely symptom is silent corruption elsewhere.
@@ -153,7 +153,7 @@
 #   361, so it is available rather than blocking.
 #
 # ---- the list ---------------------------------------------------------------
-src/Camera_UpdateMatrices.c
+src/actors/unit020bfec0.cpp
 src/_ZN8Particle10SysTrackerD1Ev.cpp
 src/func_02012174.c
 src/func_02016a04.c
@@ -161,26 +161,7 @@ src/_ZN8Particle10SysTracker8Contents5ClearEv.cpp
 src/func_0203ccd4.c
 src/func_0203cd80.c
 src/func_0203d738.c
-src/func_ov004_020af770.cpp
 src/minigames/d_s_mg_base.cpp
-src/func_ov004_020b0cac.c
-src/func_ov004_020b1b78.c
-src/func_ov004_020b1e34.c
-src/func_ov004_020b2574.c
-src/func_ov004_020b6808.c
-src/func_ov006_020c225c.c
-src/func_ov006_020c2290.c
-src/func_ov006_020c2440.cpp
-src/func_ov006_020c2594.c
-src/func_ov006_020c2664.c
-src/func_ov006_020c2848.cpp
-src/func_ov006_020c2924.cpp
-src/func_ov006_020c2994.c
-src/func_ov006_020c29dc.cpp
-src/func_ov006_020c2b8c.cpp
-src/func_ov006_020c2be8.c
-src/func_ov006_020c3050.c
-src/func_ov006_020c3288.c
-src/func_ov006_020c33dc.c
+src/actors/dMgState_c.cpp
 src/actors/dScMgCup_c.cpp
 src/minigames/d_s_mg_single3_d_base.cpp

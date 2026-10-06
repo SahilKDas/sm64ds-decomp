@@ -61,8 +61,7 @@ src/game/actors/d_a_obj_waterfall.cpp
 # ActorBase's own slot 3 and slot 9 -- the do-nothing bases the mist inherits.
 # No class the port carried before gate 20 left either slot unoverridden, so
 # this is the first time either body is compiled.
-src/_ZN7fBase_c16CleanupResourcesEv.cpp
-src/_ZN7fBase_c6RenderEv.cpp
+src/actors/ActorBase.cpp
 # The exit's hand-off: 020b0a0c is the LoadLevel call its Behavior makes once
 # the Player has crossed, and LookAtExit is the camera move that precedes it.
 src/_ZN6Camera10LookAtExitER8dActor_c.cpp

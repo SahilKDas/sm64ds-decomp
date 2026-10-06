@@ -29,4 +29,4 @@
 # this body into src/game/actors/daObjPushblock_c.cpp (ov002 delinks, .text 0x020b910c..0x020b9148, one
 # absorbed range), which port/slice_gate224.txt:23 and port/slice_gate226.txt:31 already compiles, so the symbols this row seated
 # now come from there and the per-function file is gone from main's tree.
-#src/d_a_obj_pushblock.cpp
+#src/game/actors/daObjPushblock_c.cpp

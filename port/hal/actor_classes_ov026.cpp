@@ -105,7 +105,7 @@
 // per-source -D renames in port/CMakeLists.txt; one of them was already a live
 // hazard in the shipping binary:
 //
-//   src/func_ov026_021122b0.c calls `__sinit_ov045_02112280` where ov026's own
+//   src/actors/daWater_Suikomi_c.cpp calls `__sinit_ov045_02112280` where ov026's own
 //   func_ov026_02112280 is meant -- and __sinit_ov045_02112280 IS ALREADY
 //   DEFINED in walk_window, by ov013_syms.c.obj (a mounted DATA object at that
 //   shared address). An /alternatename would have been defeated silently and
@@ -114,8 +114,8 @@
 //   anything.
 //
 // The other three are undefined today and renamed anyway for the same reason:
-//   src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp  data_ov032_02113a9c -> ov026's own
-//   src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp  func_ov053_021112a4 -> ov026's own
+//   src/game/actors/d_a_obj_wl_polelift.cpp  data_ov032_02113a9c -> ov026's own
+//   src/game/actors/d_a_obj_wl_polelift.cpp  func_ov053_021112a4 -> ov026's own
 //   src/__sinit_ov026_02112d68.c data_ov036_02113f58 -> ov026's own bss cell
 //
 // ============================ WHAT IS AND IS NOT TRAPPED ====================
@@ -159,7 +159,7 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 #pragma comment(linker, "/alternatename:_port_ov026_submarine_kcl=_data_ov026_02113edc")
 // And the polelift's own collision vector, for the same reason one address
 // over: decl_common.h declares data_ov026_02113a9c as `Vector3` while
-// src/_ZN17daObjWlPolelift_c13InitResourcesEv.cpp declares its (wrong-overlay-spelled) reference as
+// src/game/actors/d_a_obj_wl_polelift.cpp declares its (wrong-overlay-spelled) reference as
 // a local `struct V3`.
 #pragma comment(linker, "/alternatename:_port_ov026_polelift_clsn=_data_ov026_02113a9c")
 
@@ -180,7 +180,7 @@ extern "C" void *__fastcall port_actor_s30_base(void *self, void *, void *out);
 #pragma comment(linker, "/alternatename:?data_ov026_02113f04@@3UFilePtr4@@A=_data_ov026_02113f04")
 #pragma comment(linker, "/alternatename:?data_ov026_02112f40@@3UBTA_File@@A=_data_ov026_02112f40")
 //
-// src/func_ov026_02111d4c.cpp (the whirlpool's state-0 tick) declares a local
+// src/actors/daWater_Tatumaki_c.cpp (the whirlpool's state-0 tick) declares a local
 // shadow `struct Actor { Player *ClosestPlayer(); int HorzAngleToCPlayer(); };`
 // -- and gets the RETURN TYPE wrong: the real method returns s16
 // (include/Actor.h:189, defined as `short Actor::HorzAngleToCPlayer()` in

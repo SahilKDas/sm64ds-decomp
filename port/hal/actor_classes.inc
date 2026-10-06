@@ -670,10 +670,10 @@ extern unsigned char g_profile_STAR_SWITCH[];      /* ov002 0x0210991c, id 12 */
 void *daObjSwitch_c_classInit_STAR_SWITCH(void);                     /* ov002 0x020baaac */
 /* ---- gate 128: EXCLAMATION_BLOCK (21, ov102) ------------------------------
    Jolly Roger Bay's ship sublevel (level 9) prints id 0x15 (21) skipped. Its
-   factory daObjHatenaBlock_c_classInit_ITEM_BLOCK installs _ZTV13QuestionBlock, the SAME table
+   factory daObjHatenaBlock_c_classInit_ITEM_BLOCK installs _ZTV18daObjHatenaBlock_c, the SAME table
    QUESTION_BLOCK (id 20) installs and hal_fill_question_block_vtable already
    fills, so this row carries no fill of its own -- the FORTRESS_TOWER shape.
-   All of QuestionBlock's methods are already compiled and its host vtable is
+   All of daObjHatenaBlock_c's methods are already compiled and its host vtable is
    already filled (gate 23), and g_profile_ITEM_BLOCK is already mounted
    (ov102_syms.txt); the record's +4 halfword reads 21. See slice_gate128.txt
    and the QUESTION_BLOCK section in hal/actor_classes.cpp. */
@@ -885,8 +885,8 @@ void hal_fill_koopa_vtable(void);
 
 /* ---- gate 188: ov016's six MOVER classes (Jolly Roger Bay). Per-symbol mount
    ov016_syms.txt; fills hal/actor_classes_jrb.cpp; closure slice_gate188.txt.
-   Four host vtables (Unagi 31-slot Enemy, ShipUp 32 + RockPillar 32 + FloatOn-
-   Water 37, all Platform). ShipDown SHARES _ZTV6ShipUp and daObjKi_Fune_c_classInit_KI_FUNE_UP's body;
+   Four host vtables (Unagi 31-slot Enemy, daObjKi_Fune_c 32 + RockPillar 32 + FloatOn-
+   Water 37, all Platform). ShipDown SHARES _ZTV14daObjKi_Fune_c and daObjKi_Fune_c_classInit_KI_FUNE_UP's body;
    SlidingBox SHARES _ZTV23FloatOnWaterPlatformJrb and installs it directly.
    daObjKi_Ita_c_classInit's LAST vptr write is VT1 (the shared placeholder),
    so it takes a reseat wrapper (the bully treatment); the other five factories
@@ -909,7 +909,7 @@ extern unsigned char g_profile_KI_HASIRA[];               /* ov016 0x02114adc, +
 extern unsigned char g_profile_KI_ITA[];  /* ov016 0x02114ba8, +4 reads 60  */
 extern unsigned char g_profile_SLIDE_BOX[];               /* ov016 0x02114c68, +4 reads 313 */
 void *daMoray_c_classInit(void);                    /* installs _ZTV5Unagi itself */
-void *daObjKi_Fune_c_classInit_KI_FUNE_UP(void);                   /* installs _ZTV6ShipUp (shared by ShipDown) */
+void *daObjKi_Fune_c_classInit_KI_FUNE_UP(void);                   /* installs _ZTV14daObjKi_Fune_c (shared by ShipDown) */
 void *daObjKi_Fune_c_classInit_KI_FUNE(void);                 /* same body as daObjKi_Fune_c_classInit_KI_FUNE_UP */
 void *daObjKi_Hasira_c_classInit(void);               /* installs _ZTV10RockPillar (RockPillar table) */
 void *port_factory_float_on_water_jrb(void);/* id 60: daObjKi_Ita_c_classInit writes the VT1 placeholder as its last
@@ -1331,7 +1331,7 @@ extern unsigned char g_profile_MC_DODAI[];           /* ov102 0x0214e150, +4 = 3
 void *daObjSimpleBg_c_classInit_MC_DODAI(void);                          /* ov102 0x02148ecc, 48 B */
 extern unsigned char g_profile_MC_HAZAD[];        /* ov102 0x0214e16c, +4 = 341 */
 void *daObjSimpleBg_c_classInit_MC_HAZAD(void);                       /* ov102 0x02148e9c, 48 B */
-/* ov102, table 0x0214e47c _ZTV13QuestionBlock, filled by id 20 */
+/* ov102, table 0x0214e47c _ZTV18daObjHatenaBlock_c, filled by id 20 */
 extern unsigned char g_profile_VS_ITEM_BLOCK[]; /* ov102 0x0214e3cc, +4 = 22 */
 void *daObjHatenaBlock_c_classInit_VS_ITEM_BLOCK(void);                /* ov102 0x0214a92c, 64 B */
 extern unsigned char g_profile_CAP_BLOCK_M[];      /* ov102 0x0214e420, +4 = 23 */
@@ -1827,7 +1827,7 @@ void hal_fill_bubba_vtable(void);                    /* _ZTV12daBakubaku_c, 31 *
 extern unsigned char g_profile_HANACHAN[];            /* ov034 0x02114498, +4 = 248 */
 void *port_factory_wiggler(void);                    /* ov034 0x021136a4, 380 B */
 void hal_fill_wiggler_vtable(void);                  /* _ZTV7Wiggler, 31 */
-/* src/d_a_hanachan.c is HELD OUT of the slice and the factory is spelled by
+/* src/actors/daHanachan_c.cpp is HELD OUT of the slice and the factory is spelled by
    hand: the ROM leaves the object operator new returned in r0 when Enemy::C2 is
    entered, so the matched TU calls it with NO argument -- the ChiefChilly r0
    ride-through (port/slice_w12.txt) -- and the name it spells, func_020aed98,
@@ -2281,7 +2281,7 @@ void hal_fill_cloud_vtable(void);               /* _ZTV5Cloud 0x02111858, 31 */
        its PMF state seat); no fill of its own. */ \
     {12, "STAR_SWITCH", g_profile_STAR_SWITCH, daObjSwitch_c_classInit_STAR_SWITCH, 0}, \
     /* ---- gate 128: EXCLAMATION_BLOCK (21), Jolly Roger Bay ship (ov102) ---- */ \
-    /* Installs _ZTV13QuestionBlock, filled by the QUESTION_BLOCK row above; no \
+    /* Installs _ZTV18daObjHatenaBlock_c, filled by the QUESTION_BLOCK row above; no \
        fill of its own, the FORTRESS_TOWER / STAR_SWITCH shape. */ \
     {21, "EXCLAMATION_BLOCK", g_profile_ITEM_BLOCK, daObjHatenaBlock_c_classInit_ITEM_BLOCK, 0}, \
     /* ---- gate 121: STATIC_ROCK (61), Jolly Roger Bay (ov102) ---- */ \

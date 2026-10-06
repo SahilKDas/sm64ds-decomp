@@ -41,25 +41,11 @@
 # already in the walk_window link for other classes. That is measured off the
 # link, not assumed.
 
-src/_ZN16RotatingCogSmallD1Ev.cpp
+src/actors/daObjCtMecha10_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN16RotatingCogSmallD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN16RotatingCogSmallD0Ev.cpp
-src/_ZN16RotatingCogSmall16CleanupResourcesEv.cpp
-src/_ZN16RotatingCogSmall6RenderEv.cpp
-src/_ZN16RotatingCogSmall8BehaviorEv.cpp
-src/_ZN16RotatingCogSmall13InitResourcesEv.cpp
-src/d_a_obj_ct_mecha10_ct_mecha12s.c
-src/d_a_obj_ct_mecha10_ct_mecha12l.c
-src/d_a_obj_ct_mecha10_ct_mecha10.c
-src/_ZN16SpinningPlatformD1Ev.cpp
+src/actors/daObjCtMecha11_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN16SpinningPlatformD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN16SpinningPlatformD0Ev.cpp
-src/_ZN16SpinningPlatform12UpdateShadowEv.cpp
-src/_ZN16SpinningPlatform11UpdateModelEv.cpp
-src/_ZN16SpinningPlatform16CleanupResourcesEv.cpp
-src/_ZN16SpinningPlatform6RenderEv.cpp
-src/_ZN16SpinningPlatform8BehaviorEv.cpp
-src/_ZN16SpinningPlatform13InitResourcesEv.cpp
-src/d_a_obj_ct_mecha11.c
 src/__sinit_ov035_02111f04.c
 src/__sinit_ov035_02111fc0.c

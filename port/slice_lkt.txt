@@ -11,7 +11,7 @@
 #     from:0x02104288 kind:load to:0x0213dbbc module:overlay(6)
 #
 # which is how the vtable is tied to the id rather than by name. The class
-# name is the factory's own: src/d_s_mg_pachinko2.c writes
+# name is the factory's own: src/actors/dScMgPachinko2_c.cpp writes
 # _ZTV16dScMgPachinko2_c into the object's first word.
 #
 # THE CLOSURE IS THE FIVE-ROOT WALK slice_pch.txt describes, run against the
@@ -83,9 +83,9 @@
 # table name returns the constructor and one reader and nothing else. All
 # three are host-copied in port/unmatched/MgPachinko2_StateDispatch.cpp:
 #
-#     src/func_ov006_020fff84.cpp   data_ov006_021426cc    5 states
-#     src/func_ov006_0210246c.cpp   data_ov006_02142734   15 states
-#     src/func_ov006_02102e8c.cpp   data_ov006_021426f4    8 states
+#     src/actors/dScMgPachinko2_c.cpp   data_ov006_021426cc    5 states
+#     src/actors/dScMgPachinko2_c.cpp   data_ov006_02142734   15 states
+#     src/actors/dScMgPachinko2_c.cpp   data_ov006_021426f4    8 states
 #
 # ALL THREE ARE THE POINTER-TO-MEMBER WALL, which is the whole of this class's
 # ::* sweep. The sweep was run over the entire closure, per
@@ -115,7 +115,7 @@
 # func_ov006_020c3d18, the one known instance, is not in this closure; the boot
 # under SM64DS_FAULTS_FATAL=1 is what stands behind the claim, not this list.
 #
-# THE DELETING DESTRUCTOR, src/_ZN16dScMgPachinko2_cD0Ev.cpp, vtable slot 17. It spells
+# THE DELETING DESTRUCTOR, src/actors/dScMgPachinko2_c.cpp, vtable slot 17. It spells
 # the two shared decl_common.h placeholders -- t[0] = (int)VT and
 # Memory::Deallocate(t, HEAP) -- and hal/cxx_aliases.cpp binds bare VT to
 # _data_ov002_021081e4, the ENEMY base table. Its ROM literal pool at
@@ -125,7 +125,7 @@
 # addresses spelled, exactly as lane PCH did for the sibling class.
 #
 # ITS D2 SIBLING IS AN ORDINARY SLICE LINE and the difference is worth naming:
-# src/_ZN16dScMgPachinko2_cD1Ev.cpp spells the same store as
+# src/actors/dScMgPachinko2_c.cpp spells the same store as
 # x[0] = (int)data_ov006_0213dbbc, by the real config symbol, so nothing about
 # it needs a host copy. It is also the cross-check on the D0's ruling.
 #
@@ -176,80 +176,18 @@
 # a floor -- the distinction stategen.py started making after lane MGB. It is
 # an ordinary slice line and is IN the list below:
 #
-#     0x02103ac0   src/func_ov006_02103ac0.c, bannered NONMATCHING
+#     0x02103ac0   src/actors/dScMgPachinko2_c.cpp, bannered NONMATCHING
 #                  (different op / idiom, div=34). Called by vtable slot 6 in
 #                  its case 1, so this class reaches it on the first tick.
 #                  NONMATCHING TUs are routinely sliced and built by this port.
 
 # ---- ov006, dScMgPachinko2_c's own closure, wave 1 -----------------------
 
-src/d_s_mg_pachinko2.c
-src/_ZN16dScMgPachinko2_cD1Ev.cpp
-src/func_ov006_020ff47c.c
-src/func_ov006_020ff4ec.c
-src/func_ov006_020ff534.c
-src/func_ov006_020ff690.c
-src/func_ov006_020ffde4.c
-src/func_ov006_020fff54.c
-src/func_ov006_020fffec.c
-src/func_ov006_02100058.c
-src/func_ov006_02100084.c
-src/func_ov006_02100140.c
-src/func_ov006_021001ac.c
-src/func_ov006_02100278.c
-src/func_ov006_02100314.c
-src/func_ov006_02100380.c
-src/func_ov006_02100488.cpp
-src/func_ov006_021004c0.c
-src/func_ov006_021004f4.c
-src/func_ov006_02100554.c
-src/func_ov006_0210068c.c
-src/func_ov006_021006f4.c
-src/func_ov006_02100734.c
-src/func_ov006_021009b8.c
-src/func_ov006_02100b08.c
-src/func_ov006_02100bac.c
-src/func_ov006_02100d90.c
-src/func_ov006_02100e3c.c
-src/func_ov006_02100f7c.c
-src/func_ov006_02101088.c
-src/func_ov006_02101224.c
-src/func_ov006_021012cc.c
-src/func_ov006_021016ec.c
-src/func_ov006_021019e0.c
-src/func_ov006_02101af0.c
-src/func_ov006_02101e88.c
-src/func_ov006_021020c4.c
-src/func_ov006_021024e0.c
-src/func_ov006_02102564.c
-src/func_ov006_0210258c.cpp
-src/func_ov006_02102624.c
-src/func_ov006_0210265c.c
-src/func_ov006_02102718.c
-src/func_ov006_021027e4.c
-src/func_ov006_02102864.c
-src/func_ov006_02102c3c.c
-src/func_ov006_02102d6c.c
-src/func_ov006_02102dbc.c
-src/func_ov006_02102de4.c
-src/func_ov006_02102ef4.c
-src/func_ov006_02102f3c.c
-src/func_ov006_02103360.c
-src/func_ov006_02103608.c
-src/func_ov006_0210371c.c
-src/func_ov006_02103870.c
-src/func_ov006_0210397c.c
-src/func_ov006_02103994.c
-src/func_ov006_02103bfc.c
-src/_ZN16dScMgPachinko2_c13OnYoshiTryEatEi.cpp
-src/_ZN16dScMgPachinko2_c6RenderEv.cpp
-src/_ZN16dScMgPachinko2_c8BehaviorEv.cpp
-src/_ZN16dScMgPachinko2_c13InitResourcesEv.cpp
-# THE DELINKS JOIN MISS. src/func_ov006_02103ac0.c exists and is bannered
+src/actors/dScMgPachinko2_c.cpp
+# THE DELINKS JOIN MISS. src/actors/dScMgPachinko2_c.cpp exists and is bannered
 # NONMATCHING; only config/arm9/overlays/ov006/delinks.txt misses it, which is
 # why the closure walk reached it as an unresolved address rather than as a
 # block. Slot 6's case 1 calls it, so it is a real line.
-src/func_ov006_02103ac0.c
 
 # ---- ov004, the one framework TU this class adds ------------------------
 #
@@ -258,7 +196,7 @@ src/func_ov006_02103ac0.c
 # neither: nothing in port/ defines func_ov004_020b1e44 and no existing slice
 # names it. It is the framework's language-indexed sprite drawer, reached from
 # this class's HUD path.
-src/func_ov004_020b1e44.c
+src/minigames/d_s_mg_base.cpp
 
 # ---- wave 2, run mg7 lane L369: the five bodies that had no source ---------
 #
@@ -269,12 +207,12 @@ src/func_ov004_020b1e44.c
 # mattered most is 0x02102274: this class selected it on EVERY tick of every
 # live entry, which is why the launch machine never armed.
 #
-#   src/func_ov006_02102274.c   0x1f8   MATCHED 1.2/sp2p3   state 0 of 02142734
-#   src/func_ov006_020ffb54.c   0x290   MATCHED 1.2/sp2p3   state 2 of 021426cc
-#   src/func_ov006_020ff8c8.c   0x28c   MATCHED 1.2/sp2p3   state 3 of 021426cc
-#   src/func_ov006_02102fe8.cpp   0x378   NONMATCHING 2004/b56, 18 words, all
+#   src/actors/dScMgPachinko2_c.cpp   0x1f8   MATCHED 1.2/sp2p3   state 0 of 02142734
+#   src/actors/dScMgPachinko2_c.cpp   0x290   MATCHED 1.2/sp2p3   state 2 of 021426cc
+#   src/actors/dScMgPachinko2_c.cpp   0x28c   MATCHED 1.2/sp2p3   state 3 of 021426cc
+#   src/actors/dScMgPachinko2_c.cpp   0x378   NONMATCHING 2004/b56, 18 words, all
 #                                       register naming; state 1 of 021426f4
-#   src/func_ov006_0210076c.c   0x24c   NONMATCHING 2004/b56, one induction
+#   src/actors/dScMgPachinko2_c.cpp   0x24c   NONMATCHING 2004/b56, one induction
 #                                       variable; the per-entry follow-up
 #
 # THE TRAP FILE LOSES ITS ONLY BODY WITH THIS WAVE.
@@ -282,11 +220,6 @@ src/func_ov004_020b1e44.c
 # func_ov006_0210076c, and a trap standing beside a real definition is a
 # duplicate symbol rather than a safety net, so the file is deleted here
 # rather than emptied.
-src/func_ov006_02102274.c
-src/func_ov006_020ffb54.c
-src/func_ov006_020ff8c8.c
-src/func_ov006_02102fe8.cpp
-src/func_ov006_0210076c.c
 
 # THE TWO TUs THE HEADER PARKED BEHIND 0x0210076c. Its own block says
 # "func_ov006_02100408 and func_ov006_02101148 are reached from nothing in this
@@ -294,5 +227,3 @@ src/func_ov006_0210076c.c
 # decompiles 0x0210076c." That is this wave. 0x02100408 is the catch effect
 # seeder (a 0x18-stride table at +0x5320) and 0x02101148 is the carrier's own
 # catch bookkeeping; both already had matched src TUs and only wanted a caller.
-src/func_ov006_02100408.c
-src/func_ov006_02101148.c

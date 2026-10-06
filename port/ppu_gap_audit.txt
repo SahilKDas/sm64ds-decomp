@@ -879,7 +879,7 @@ SM64DS_SCENE=374 SM64DS_SCENE_FRAMES=300 SM64DS_FAULTS_FATAL=1, exit 0:
     POLYGONS      0 on all 300 samples
     the pair      layer mask d45c=14 vs DISPCNT bits 8-12=00 -- NOT PUBLISHED
 
-WHAT THE ROM INTENDS, from its own matched sources. src/_ZN14dScMgCurling_c13InitResourcesEv.cpp
+WHAT THE ROM INTENDS, from its own matched sources. src/actors/dScMgCurling_c.cpp
 (dScMgCurling_c::InitResources) sets data_0209d45c |= 4, forces BG2CNT to
 priority 2 and then to (old & 0x43) | 0x1220, decompresses the BG2 tiles to
 G2::GetBG2CharPtr(), loads the BG palette (file 0x2f, 0x60, 0x1a0) and a

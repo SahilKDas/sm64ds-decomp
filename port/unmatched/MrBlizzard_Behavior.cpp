@@ -21,7 +21,6 @@
  */
 #include "decl_SaveData.h"
 #include "decl_common.h"
-#include "MrBlizzard.h"
 extern "C" {
 extern int _ZN12dEnemyBase_c26UpdateKillByInvincibleCharER10dBgCh_ActrR9ModelAnimj(void* self, void* wm, void* anim, unsigned n);
 extern int _ZN12dEnemyBase_c11UpdateDeathER10dBgCh_Actr(void* self, void* wm);
@@ -46,9 +45,9 @@ struct PortMrBlizzardPair { unsigned enter_fn, enter_delta, tick_fn, tick_delta;
 typedef int (*PortMbFn)(void *);
 }
 
-int MrBlizzard::Behavior()
+extern "C" int port_mr_blizzard_behavior(void *self)
 {
-    char* c = (char*)this;
+    char* c = (char*)self;
     void* r5;
     char* p;
     if (*(int*)(c + 0x41c) == 3) {

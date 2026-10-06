@@ -8,22 +8,22 @@
 # named enablers turned out not to exist any more; that is written down
 # here rather than left as a fixer card nobody closes.
 #
-# ---- ROW 1: func_ov098_0213a794 (ov098 0x0213a794, 332 bytes) --------------
+# ---- ROW 1: daObjFallBlock_c_InitResources (ov098 0x0213a794, 332 bytes) --------------
 #
 #   THE CLAIMED ENABLER (E1): "MSVC C2733 rejects the matched TU's second
 #   extern-C decl", the shape the COFFIN1 fixer closed on Coffin. The host
 #   copy port/unmatched/FallBlockWf_InitVeneer.cpp carried that as its whole
 #   reason for existing: "it declares its own extern "C" int
-#   func_ov098_0213a794(char*, char**) while decl_common.h (which it includes)
-#   already declares extern int func_ov098_0213a794(void*, void*), and MSVC's
+#   daObjFallBlock_c_InitResources(char*, char**) while decl_common.h (which it includes)
+#   already declares extern int daObjFallBlock_c_InitResources(void*, void*), and MSVC's
 #   C++ front end rejects two extern "C" declarations that differ only in
 #   pointer type (C2733)".
 #
-#   MEASURED, NOT ASSUMED: src/func_ov098_0213a794.cpp COMPILES CLEAN under
+#   MEASURED, NOT ASSUMED: src/daObjFallBlock_c_InitResources.cpp COMPILES CLEAN under
 #   the port's own command line today. cl /c ... -std:c++17 /vmg /vmm with
 #   -DSM64DS_PLATFORM_PC and the three port include roots exits 0 with no
 #   diagnostic, and dumpbin /symbols on the object gives
-#       SECT5 External  _func_ov098_0213a794
+#       SECT5 External  _daObjFallBlock_c_InitResources
 #   plus five undefined externals and nothing else. So E1 needed no fixer and
 #   no /alternatename: the enabler is STALE. The matched TU's own text no
 #   longer carries a second extern-C declaration of itself -- it declares
@@ -42,7 +42,7 @@
 #
 #   REACH. ov015's InitResources tail-calls this body through the
 #   cross-overlay veneer, and the caller spells the flat cdecl name
-#   func_ov098_0213a794, which is exactly what the matched TU defines
+#   daObjFallBlock_c_InitResources, which is exactly what the matched TU defines
 #   (extern "C" in the source). Nothing else changes.
 #
 #   WHAT WAS RETIRED. port/unmatched/FallBlockWf_InitVeneer.cpp held this one
@@ -74,7 +74,7 @@
 #   a local shadow declaration of the class, because this file includes no
 #   game headers by its own rule. A qualified call is a direct call, so it
 #   does not dispatch through the vtable and does not recurse, which is the
-#   same point src/_ZN20cMgSmartball_dokan_c14RestoreInitialEv.cpp's own
+#   same point src/actors/dScMgSmartball_c.cpp's own
 #   header comment makes about the ROM's qualification.
 #
 #   THE FLAT NAME IS NOT DEFINED, on purpose. out/SEAT14E/bugs.md item 1:
@@ -89,4 +89,4 @@
 #   0x02110bb4 IS this body. kSmartballObjFaces is the port's fill for those
 #   three words, so the call is the one the cartridge makes.
 
-src/func_ov098_0213a794.cpp
+src/actors/daObjFallBlock_c.cpp

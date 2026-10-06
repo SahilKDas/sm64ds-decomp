@@ -72,7 +72,7 @@
 // not that it is a copy, it is that `struct Pair { int a; int b; }` is eight
 // bytes on both machines.
 //
-// src/func_ov004_020b7cd0.cpp and src/func_ov004_020b72d4.cpp pass the test on
+// src/actors/dMgState_c.cpp and src/actors/dMgState_c.cpp pass the test on
 // the spelling: each declares `struct Pair { int a; int b; }` and stores the
 // two words into the object's own state field. They are NOT here, they are two
 // ordinary aliases in hal/scene_mg_faces.cpp section 2b, and the alias is right
@@ -111,7 +111,7 @@
 //
 // The four are also the worse defect. They dispatch the OBJECT'S OWN pmf field
 // rather than a table, so MSVC's four-byte member pointer moves every field
-// after it: src/func_ov004_020b31b4.cpp puts `state` at 0x1c where the ROM
+// after it: src/actors/unit020b2c84.cpp puts `state` at 0x1c where the ROM
 // reads [r0,#0x20]. That is a wrong READ before any dispatch happens, where
 // the two table cases are a wrong stride within a correct object. Their
 // layouts are re-derived from the disassembly below, one offset at a time,
@@ -218,7 +218,7 @@
 //
 //   func_ov004_020b35d8  0xc0 bytes, and it OPENS `mov r7, r0` then reads
 //     [r7,#0x34], [r7,#0x10], [r7,#0x12], [r7,#0x18], [r7,#0x1c]. It never
-//     touches r1. One argument, `this`, and src/func_ov004_020b35d8.c declares
+//     touches r1. One argument, `this`, and src/actors/unit020b2c84.cpp declares
 //     exactly that (`struct Obj *self` with fields at 0x10/0x12/0x18/0x1c/0x34,
 //     which is the disassembly field for field). It is called with one
 //     argument below and that is not a ride-through, it is the plain case.
@@ -289,9 +289,9 @@ void func_ov004_020adeb0(char *c);
 /* THE TWO SLOT-12 STATES, added by run mg5 lane FWK; section 5 is the
    derivation. Both are matched src TUs with delink blocks, both are reached
    from a ZERO-ARGUMENT slot, and neither needed a host copy.
-     020b35d8  src/func_ov004_020b35d8.c   0xc0 bytes, reads `this` only
-     020b3698  src/func_ov004_020b3698.c   0x4 bytes, the whole body is `bx lr`
-   Their three slice lines (these two plus src/func_ov004_020b1aec.c, the one
+     020b35d8  src/actors/unit020b2c84.cpp   0xc0 bytes, reads `this` only
+     020b3698  src/actors/unit020b2c84.cpp   0x4 bytes, the whole body is `bx lr`
+   Their three slice lines (these two plus src/minigames/d_s_mg_base.cpp, the one
    callee of 020b35d8 the slice did not already carry) join port/slice_mg1.txt
    in the same commit as these cases, which is what gives them a caller. */
 void func_ov004_020b35d8(void *self);
@@ -394,8 +394,8 @@ static void mg_unhandled(const char *what, unsigned code, int adj)
    The other twenty-four are __sinit_ov004_020b955c's three tables, and THE
    SEAT below installs host bodies into all thirty of their code-bearing cells,
    so the two matched TUs that read them through an object field
-   (src/func_ov004_020b31b4.cpp and src/func_ov004_020b321c.cpp, whose fields
-   src/func_ov004_020b3278.cpp writes) and 020b3278's own direct dispatch on
+   (src/actors/unit020b2c84.cpp and src/actors/unit020b2c84.cpp, whose fields
+   src/actors/unit020b2c84.cpp writes) and 020b3278's own direct dispatch on
    data_ov004_020bf490 all reach a host address with no switch in the path. A
    switch left standing beside a seated table is not a safety net: it is a
    second opinion about an address that can no longer arrive. */
@@ -499,7 +499,7 @@ void port_mg_framework_states_seat(void);
 }
 
 /* ---- THE TWO ALIASES THE MATCHED TUs ASK FOR (lane PMFB3) ----------------
-   src/func_ov004_020add88.cpp and src/func_ov004_020adf2c.cpp declare their
+   src/minigames/d_s_mg_base.cpp and src/minigames/d_s_mg_base.cpp declare their
    table at namespace scope rather than inside an extern "C" block, so MSVC
    spells the reference with the C++ decoration below -- read off each TU's own
    /FAsc listing (runs/link100/out/PMFB3/listings/), not guessed -- while the
@@ -518,8 +518,8 @@ void port_mg_framework_states_seat(void);
    copy away takes the switch with it and the matched TU would call a DS
    address. Turning it inside out fixes it once -- install the HOST bodies into
    the four cells at boot, and the ROM's own two dispatchers reach them with no
-   switch at all. Both are now src/func_ov004_020add88.cpp and
-   src/func_ov004_020adf2c.cpp on port/slice_pmfb3.txt.
+   switch at all. Both are now src/minigames/d_s_mg_base.cpp and
+   src/minigames/d_s_mg_base.cpp on port/slice_pmfb3.txt.
 
    NO FACE, AND THAT IS MEASURED. Both matched TUs compile the dispatch to a
    TAIL JUMP with the frame fully restored:
@@ -704,7 +704,7 @@ static unsigned g_fwk_field_hits;
 static unsigned g_fwk_490_hits;
 static unsigned g_fwk_seated;
 
-/* ---- THE ALIAS src/func_ov004_020b3278.cpp ASKS FOR ---------------------
+/* ---- THE ALIAS src/actors/unit020b2c84.cpp ASKS FOR ---------------------
    That TU declares `extern PMF data_ov004_020bf490[]` at namespace scope with
    PMF a pointer to member, so MSVC encodes the member-pointer type into the
    reference and spells it as below -- read off the TU's own /FAsc listing
@@ -747,7 +747,7 @@ static void fw_020b49f0(void *c) { ++g_fwk_field_hits; func_ov004_020b49f0(c); }
 static void fw_020b4a28(void *c) { ++g_fwk_field_hits; func_ov004_020b4a28(c); }
 static void fw_020b4a4c(void *c) { ++g_fwk_field_hits; func_ov004_020b4a4c(c); }
 
-/* The faces for data_ov004_020bf490. src/func_ov004_020b3278.cpp compiles its
+/* The faces for data_ov004_020bf490. src/actors/unit020b2c84.cpp compiles its
    dispatch to `call eax` with the receiver in ecx and NOTHING pushed, so these
    twelve cells hold ten one-cell __fastcall faces (0x020b484c and 0x020b40ac
    each fill two slots). func_ov004_020b3698 is four bytes of `bx lr` in the ROM

@@ -31,15 +31,9 @@
 # InitResources 0x02111fc0, CleanupResources 0x02111ec4, Behavior 0x02111f28,
 # Render 0x02111ee8, D1 0x02111e10, D0 0x02111e40. All straight-line, no
 # pointer-to-member.
-src/d_a_obj_c1_peach.c
-src/_ZN13PeachPainting13InitResourcesEv.cpp
-src/_ZN13PeachPainting8BehaviorEv.cpp
-src/_ZN13PeachPainting6RenderEv.cpp
-src/_ZN13PeachPainting16CleanupResourcesEv.cpp
-src/_ZN13PeachPaintingD0Ev.cpp
+src/actors/daObjC1Peach_c.cpp
 # D1 (slot 16) is a real C++ destructor over shadow Actor/Model classes, so it
 # is NOT compiled here (MSVC would emit references to base destructors no TU
 # defines); slot 16 is a pt_d1 thunk in hal/actor_classes.cpp instead -- Model
 # at 0xd4 then Actor::~Actor, the gate-31 recipe.
 # _ZN13PeachPainting20UpdateModelTransformEv: the InitResources helper (the mislabeled data_ov052).
-src/_ZN13PeachPainting20UpdateModelTransformEv.cpp

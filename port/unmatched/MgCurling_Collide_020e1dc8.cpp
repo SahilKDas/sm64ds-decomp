@@ -18,7 +18,7 @@
 // are that one defect; see port/curling_round2.txt.
 //
 // ITS ONE CALLER IS MATCHED AND SETTLES THE ARGUMENTS.
-// src/func_ov006_020e2c08.c is the release handler: it decides the tap landed
+// src/actors/dScMgCurling_c.cpp is the release handler: it decides the tap landed
 // on shell `idx`, writes that shell's heading (+0x4686), speed (+0x4668) and
 // state (+0x4688 = 1), and THEN calls func_ov006_020e1dc8(self, idx) before
 // playing the launch sound 0x1d3. So `idx` is the shell that was just shot,
@@ -71,8 +71,8 @@
 // ---- THE SHELL RECORD, READ OUT OF THIS FUNCTION AND ITS MATCHED SIBLINGS -
 //
 // Five shells, stride 0x2c, based at this+0x4660. Every offset below is
-// cross-checked against src/func_ov006_020e2868.c (the matched per-frame
-// physics tick) and src/func_ov006_020e2c08.c (the matched release handler),
+// cross-checked against src/actors/dScMgCurling_c.cpp (the matched per-frame
+// physics tick) and src/actors/dScMgCurling_c.cpp (the matched release handler),
 // which reach the same fields by the same arithmetic:
 //
 //   +0x4660   s32   position, axis A (Fix12).  020e2868 advances it by

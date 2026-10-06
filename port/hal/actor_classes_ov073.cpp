@@ -67,7 +67,7 @@
 // literal (0x504 the size, 8/8/2 the array counts, 0xc the stride,
 // func_0203d384 the element constructor in r3, _ZN7Vector3D1Ev the destructor on
 // the stack) is read from the disassembly of 0x02121ec8 and its literal pool.
-// src/d_a_king_donketu.cpp stays OUT of this lane's slice.
+// src/actors/daKing_Donketu_c.cpp stays OUT of this lane's slice.
 // The three Ccc Spawns do NOT have this problem -- their
 // `_ZN10dBgActor_cC2Ev(p)` names the receiver -- so they are registered directly.
 //
@@ -224,10 +224,10 @@ void func_0203d384(void);
    dropped-receiver direction: the caller pushes the player, the body reads
    ECX. THREE COMPILED CALL SITES pass it the ARM way and always did --
 
-     src/func_ov073_02120ed0.c:20   extern int _ZN6Player12GetHurtStateEv(void *self);
-     src/func_ov073_02120ed0.c:112  if (_ZN6Player12GetHurtStateEv(p) == 4) goto hz;
-     src/func_ov073_02120ed0.c:113  if (_ZN6Player12GetHurtStateEv(p) == 5) goto hz;
-     src/func_ov077_02126640.cpp:37 if (_ZN6Player12GetHurtStateEv(a) < 0) {
+     src/actors/daKing_Donketu_c.cpp:20   extern int _ZN6Player12GetHurtStateEv(void *self);
+     src/actors/daKing_Donketu_c.cpp:112  if (_ZN6Player12GetHurtStateEv(p) == 4) goto hz;
+     src/actors/daKing_Donketu_c.cpp:113  if (_ZN6Player12GetHurtStateEv(p) == 5) goto hz;
+     src/actors/daPopoi_c.cpp:37 if (_ZN6Player12GetHurtStateEv(a) < 0) {
 
    -- and the body src/_ZN6Player12GetHurtStateEv.cpp:10 reads `this` twice:
 
@@ -535,17 +535,17 @@ extern "C" void hal_fill_chief_chilly_vtable(void)
 // as real methods, so the face is the C-name bridge INTO them, not a host copy.
 // ChiefChilly's Behavior and Render are NOT faced here: both are host copies in
 // port/unmatched/Ov073_State.cpp and their matched TUs are out of the slice.
-#include "CccArena.h"
-#include "ChiefChilly.h"
+#include "daObjEwbIce_c.h"
+#include "daKing_Donketu_c.h"
 extern "C" {
 int _ZN8CccArena13InitResourcesEv(void *self)
-{ return ((CccArena *)self)->CccArena::InitResources(); }
+{ return ((daObjEwbIce_c *)self)->daObjEwbIce_c::InitResources(); }
 int _ZN8CccArena16CleanupResourcesEv(void *self)
-{ return ((CccArena *)self)->CccArena::CleanupResources(); }
+{ return ((daObjEwbIce_c *)self)->daObjEwbIce_c::CleanupResources(); }
 int _ZN8CccArena8BehaviorEv(void *self)
-{ return ((CccArena *)self)->CccArena::Behavior(); }
+{ return ((daObjEwbIce_c *)self)->daObjEwbIce_c::Behavior(); }
 int _ZN8CccArena6RenderEv(void *self)
-{ return ((CccArena *)self)->CccArena::Render(); }
+{ return ((daObjEwbIce_c *)self)->daObjEwbIce_c::Render(); }
 int _ZN11ChiefChilly13InitResourcesEv(void *self)
-{ return ((ChiefChilly *)self)->ChiefChilly::InitResources(); }
+{ return ((daKing_Donketu_c *)self)->daKing_Donketu_c::InitResources(); }
 }

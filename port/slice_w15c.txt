@@ -60,21 +60,10 @@
 #       module:overlay(25). ov032 has a real data_ov032_02113acc with four
 #       readers already in src, so the same argument applies.
 
-src/_ZN11PyramidStep13InitResourcesEv.cpp
-src/_ZN11PyramidStep8BehaviorEv.cpp
-src/_ZN11PyramidStep6RenderEv.cpp
-src/_ZN11PyramidStepD1Ev.cpp
+src/actors/daObjDpBrock_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN11PyramidStepD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN11PyramidStepD0Ev.cpp
-src/d_a_obj_dp_brock.c
-src/func_ov025_02111dec.cpp
-src/func_ov025_02111e30.c
-src/_ZN11PyramidLift13InitResourcesEv.cpp
-src/_ZN11PyramidLift16CleanupResourcesEv.cpp
-src/_ZN11PyramidLift8BehaviorEv.cpp
-src/_ZN11PyramidLift6RenderEv.cpp
-src/_ZN11PyramidLiftD1Ev.cpp
-src/_ZN11PyramidLiftD0Ev.cpp
+src/actors/daDpLift_c.cpp
 src/d_a_dp_lift.cpp
 src/func_ov025_021125bc.cpp
 src/func_ov025_021125dc.c

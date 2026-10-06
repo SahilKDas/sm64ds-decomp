@@ -31,7 +31,7 @@
 //
 // ---- 2. AN arm9 CALLEE SPELLED BY ADDRESS --------------------------------
 //
-// src/func_ov006_020fb97c.c declares and calls
+// src/actors/dScMgPachinko_c.cpp declares and calls
 //
 //     extern void func_0205a448(unsigned short val, void* dst, int nbytes);
 //     func_0205a448(sp, (void*)r, 0x6000);
@@ -45,7 +45,7 @@
 //
 // This is port/mg_fanout_costs.txt section 6's fourth defect, the one it calls
 // "a name-spelling face, the ordinary kind" -- there recorded for
-// src/_ZN14dScMgCurling_c13InitResourcesEv.cpp spelling ov004's func_ov004_020adc74 as bare
+// src/actors/dScMgCurling_c.cpp spelling ov004's func_ov004_020adc74 as bare
 // func_020adc74. It is a decomp-side spelling question and is ROUTED, not
 // taken: the fix in the byte-gated tree is one token in one src TU, and
 // whether that still builds byte-identically under mwccarm is that tree's
@@ -62,7 +62,7 @@
 //
 // dScMgPachinko_c::InitResources (vtable slot 0, the black-screen fix) was
 // recovered on origin/main only as the __thiscall C++ member
-// src/_ZN15dScMgPachinko_c13InitResourcesEv.cpp. hal/scene_mg.cpp's slot-0
+// src/actors/dScMgPachinko_c.cpp. hal/scene_mg.cpp's slot-0
 // dispatch (pch_init) calls the ROM address name _ZN15dScMgPachinko_c13InitResourcesEv as a plain
 // cdecl (void*). An alias cannot bridge cdecl to __thiscall -- the port's
 // documented wall -- so this is the method_faces.cpp shape instead: a cdecl

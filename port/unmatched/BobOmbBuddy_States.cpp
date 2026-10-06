@@ -1,4 +1,4 @@
-/* HOST COPIES of src/func_ov084_0212c960.cpp and src/func_ov084_0212c9a8.cpp
+/* HOST COPIES of src/game/actors/d_a_red_bombhei.cpp and src/game/actors/d_a_red_bombhei.cpp
  * -- the BOB_OMB_BUDDY's state machine, and the mwcc pointer-to-member
  * dispatch for the ninth time in this port.
  *
@@ -98,8 +98,8 @@ extern "C" void port_bob_omb_buddy_states_seat(void)
     }
 }
 
-/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/func_ov084_0212c960.cpp and
-   src/func_ov084_0212c9a8.cpp are on port/slice_pmf3.txt (run link100 lane
+/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/game/actors/d_a_red_bombhei.cpp and
+   src/game/actors/d_a_red_bombhei.cpp are on port/slice_pmf3.txt (run link100 lane
    PMF3). Under /vmg /vmm an Entry is the ROM's sixteen bytes rather than
    MSVC's thirty-two, the emitted bodies stride `shl edx, 4` and TAIL JUMP, and
    port/hal/pmf3_aliases.cpp bridges the mangled table name onto the mount's C

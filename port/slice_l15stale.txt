@@ -15,7 +15,7 @@
 #   exists", and the file header said "Still genuinely unmatched: main has no
 #   TU of this name either (checked against origin/main at bc93fa767)".
 #
-#   WHAT REFUTES IT. src/func_ov060_021140c0.c, added by 83691debd
+#   WHAT REFUTES IT. src/actors/daKpa_c.cpp, added by 83691debd
 #   ("Match func_ov060_021140c0 (ov060, 0x021140c0, 500 bytes)", 2026-09-13) --
 #   after the host copy shipped and after the check the header quotes.
 #   config/arm9/overlays/ov060/symbols.txt line 37 gives the same address and
@@ -46,8 +46,8 @@
 #
 #   CENSUS DEFECT FOUND ON THE WAY (reported, not fixed here):
 #   config/arm9/overlays/ov060/delinks.txt has NO block for this TU. The
-#   blocks run ...src/func_ov060_02113ff4.c (ends 0x021140c0) then straight to
-#   src/func_ov060_021142b4.c (starts 0x021142b4), so 0x021140c0..0x021142b4
+#   blocks run ...src/actors/daKpa_c.cpp (ends 0x021140c0) then straight to
+#   src/actors/daKpa_c.cpp (starts 0x021142b4), so 0x021140c0..0x021142b4
 #   is a hole in the delinks ledger even though symbols.txt names the function
 #   and the match commit says match.py --strict-relocs is green. That is a
 #   decomp-config gap, not a port gap, and it does not affect this row.
@@ -96,5 +96,5 @@
 #   battery cannot vouch for on its own, so this row owes the level captures
 #   listed in this lane's report.
 
-src/func_ov060_021140c0.c
-src/_ZN13TreasureChest6State0Ev.cpp
+src/actors/daKpa_c.cpp
+src/actors/daObjTbox_c.cpp

@@ -68,7 +68,7 @@
 /* fBase_c's TWO VIRTUAL SPELLINGS, the same shape as the nine above and new to
    this batch.  Both sides AE, one class, the same two integer parameters: U is
    the virtual spelling the fBase_c vtable fills ask for and Q is the
-   non-virtual spelling src/_ZN7fBase_c9Virtual34Ejj.cpp's sibling TUs emit.
+   non-virtual spelling src/actors/ActorBase.cpp's sibling TUs emit.
    Nothing about the receiver moves. */
 /* hal/cxx_aliases.cpp:2988 */
 #pragma comment(linker, "/alternatename:?Virtual34@fBase_c@@UAEHII@Z=?Virtual34@fBase_c@@QAEHII@Z")

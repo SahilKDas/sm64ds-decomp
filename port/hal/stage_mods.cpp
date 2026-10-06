@@ -17,7 +17,7 @@
    Read off the matched TUs, not off a description of them. The three that
    define the whole shape:
 
-     src/_ZN5Stage18LoadClsnAndObjectsER11LVL_OverlayjR7dBgW_Kc.cpp
+     src/stage/LevelObjects.cpp
          LVL_Overlay: clps +0x00, objTable +0x04, kclFileId +0x0a,
          subTables +0x10, subCount +0x14. It calls LoadObjects ONCE on
          ovl->objTable with index -1, then once per sub-table entry with
@@ -34,7 +34,7 @@
          pointer first. hal/level_boot.cpp's PortLvlOverlay says stride 0x0c
          independently and the two agree.
 
-     src/_Z11LoadObjectsRN11LVL_Overlay8ObjTableEij.cpp
+     src/stage/LevelObjects.cpp
          ObjTable: u16 count +0x00, entries +0x04. The entries are 8 bytes
          each and they are DESCRIPTORS, not objects:
 
@@ -59,7 +59,7 @@
      descriptor lives in, the loop index the ROM passes down as LoadObjects'
      second argument, and that is what this file's `scope` byte selects.
 
-     src/_Z19LoadStandardObjectsRN11LVL_Overlay11ObjSubTableEij.cpp and its
+     src/stage/LevelObjects.cpp and its
      siblings
          ObjSubTable: kind +0x00 (the byte above), count +0x01, entries +0x04.
          The record shapes this build writes:

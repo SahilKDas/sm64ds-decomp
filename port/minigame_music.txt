@@ -20,7 +20,7 @@ Minigame music is already dispatched on every boot, by linked code:
     = src/minigames/d_s_mg_base.cpp           (in slice_mg1.txt, linked)
     -> func_ov004_020ae330                  (slice_mg1.txt:249, linked)
 
-func_ov004_020ae330 (src/func_ov004_020ae330.c) is the whole decision:
+func_ov004_020ae330 (src/minigames/d_s_mg_base.cpp) is the whole decision:
 
     if (data_ov004_020beb68 == 0) return;              scene tracker
     if (func_ov004_020ae1cc() == 0) {                  enable at +0x2c
@@ -34,7 +34,7 @@ func_ov004_020ae330 (src/func_ov004_020ae330.c) is the whole decision:
 func_ov004_020ae1f0 returns self->unk_0c8; slot 1
 (src/minigames/d_s_mg_base.cpp:41, host copy in unmatched/MgBase_Slot1.cpp) fills
 unk_0c8 = *(int *)(data_0209b308 + 0x28). The base ctor
-src/_ZN11dScMgBase_cC2Ev.cpp:38 sets data_ov004_020beb68 = self, so the tracker
+src/minigames/d_s_mg_base.cpp:38 sets data_ov004_020beb68 = self, so the tracker
 gate passes on a direct scene boot; it also reads data_0209b308 + 0x30.
 
 Every input is one 0x34-byte arm9 record. Both things wrong with it were wrong
@@ -61,7 +61,7 @@ past +0x0f was out of bounds. It landed in that file only as the sibling of
 data_ov004_020beb68, which has since gone home to ov004's own .bss.
 
 The src declarations agree the object is much larger than four ints --
-src/func_ov004_020ad79c.c reads data_0209b308[5] and [6], func_ov004_020ad8b8.c
+src/minigames/d_s_mg_base.cpp reads data_0209b308[5] and [6], func_ov004_020ad8b8.c
 reads [0x14/4] -- so the 16-byte host was contradicted by the tree's own
 sources, not only by symbols.txt.
 
@@ -81,7 +81,7 @@ nothing on every run below. Both stay BSS-zero, which is their DS boot value.
 3. DEFECT TWO: NOTHING EVER SEEDED THE RECORD
 ---------------------------------------------
 
-The only writer is the Rec Room overlay ov005, src/func_ov005_020c0378.cpp:96-107:
+The only writer is the Rec Room overlay ov005, src/actors/dScMiniGm_c.cpp:96-107:
 it copies a 0x34-byte row out of data_ov005_020c24d8 for the minigame the player
 picked, and THEN launches the scene. ov005 is in no slice and no mount, so
 SM64DS_SCENE=374 bypasses it entirely: music id and enable both read zero,
@@ -334,7 +334,7 @@ delivered. Two checks, both against the ROM rather than inference:
     this lane fixed. The ROM does not re-run the music decision on a round
     change or a pause; layer 1 is started once and left playing.
 
-  * WHETHER THE STATE SETTER TOUCHES SOUND. src/_ZN10dMgState_c8SetStateEi.cpp has no
+  * WHETHER THE STATE SETTER TOUCHES SOUND. src/actors/dMgState_c.cpp has no
     sound, music, sseq or bgm reference anywhere in it. Its whole body assigns
     self->index and self->onUpdate from a twenty-entry member-pointer table,
     sets self->onSomething, and dispatches. It is a STATE setter.

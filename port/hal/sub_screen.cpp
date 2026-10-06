@@ -495,7 +495,7 @@ unsigned char tp_rd(const unsigned char *p, int i)
  *
  * WHAT THAT COST, from a live session: "when i drag off screen it releases the
  * touch". On scene 368 that is the slingshot firing itself. The pull is
- * src/func_ov006_020fe394.cpp and its whole body is one branch on
+ * src/actors/dScMgPachinko_c.cpp and its whole body is one branch on
  * `data_020a0de8[k * 4] != 0`: the true side keeps the ball at the captured
  * offset, and the FALSE side is the shot. It writes 2 into the slot's state
  * byte at +0x4f0d and either snaps the ball home or launches it. So a hand
@@ -727,7 +727,7 @@ void poll_touch(void)
      *
      * WHAT IT COST, measured on scene 368 (Bob-omb Squad) with
      * SM64DS_TOUCH_PROBE and the shot table's own state trace. The plunger is
-     * src/func_ov006_020fe2e4.c (grab) and src/func_ov006_020fe394.cpp (pull and
+     * src/actors/dScMgPachinko_c.cpp (grab) and src/actors/dScMgPachinko_c.cpp (pull and
      * release). The grab arms on `data_020a0de8[k*4] && data_020a0de9[k*4]`
      * and captures ball-minus-stylus into +0x4ee8/+0x4eec; the pull then holds
      * that offset, so WHERE the stylus is on the arming frame decides where
@@ -753,7 +753,7 @@ void poll_touch(void)
      * `de8 && de9` sites (the press edge: curling's func_ov006_020e1b54,
      * Coincentration's func_ov006_020dd0e0, and two dozen more) fired one
      * frame late and then EVERY frame of the hold instead of once.
-     * `de8 == 0 && de9` sites (the release edge: src/func_ov006_020d1ba0.cpp:63,
+     * `de8 == 0 && de9` sites (the release edge: src/actors/dScMgAmida_c.cpp:63,
      * _ZN17dScMgTrampoline_c16UpdateTouchInputEv.c:49, _ZN21cMgSmartball_spring_c12SaveSnapshotEv.c:82) were identically
      * false under the old spelling -- a byte that means "down and was down"
      * cannot be set while `down` is clear -- so release detection did not
@@ -1646,14 +1646,14 @@ void hal_obj_parity_probe(void)
  *
  * THE ROM SAYS WHICH SCREEN, three independent ways, all in matched src:
  *
- *   src/Hud_RenderSprite.cpp        its dScMgD3DBase_c arm draws ONLY while
+ *   src/minigames/d_s_mg_base.cpp        its dScMgD3DBase_c arm draws ONLY while
  *                                   sel (scene + 0x4664) is 0, and its ordinary
  *                                   arm is OAM::RenderSub -- the SUB engine,
  *                                   which is the bottom screen.
- *   src/RenderOamMainScreen.cpp     its D3D arm draws ONLY while sel is 1, and
+ *   src/minigames/d_s_mg_base.cpp     its D3D arm draws ONLY while sel is 1, and
  *                                   its ordinary arm is OAM::Render(draw=0) --
  *                                   the MAIN engine, the top screen.
- *   src/RenderOamBothScreens.cpp    its D3D arm submits at y + 0xc0 + G while
+ *   src/minigames/d_s_mg_base.cpp    its D3D arm submits at y + 0xc0 + G while
  *                                   sel is 1 and at y while sel is 0, and 0xc0
  *                                   + G is exactly the offset its ordinary arm
  *                                   uses for the TOP screen's copy.
@@ -2838,7 +2838,7 @@ void LoadControllerModeText(int a)
 /* The third leaf, func_ov004_020adc4c, is NOT stubbed here any more (run linkw
    wave C, lane cat-2d). It was tagged `src reads data_ov004_020beb60, and
    ov004 is not mounted`, and that one BSS word is now hosted in
-   hal/oam2d_ov004_bss.cpp, so the matched src/func_ov004_020adc4c.c is the
+   hal/oam2d_ov004_bss.cpp, so the matched src/minigames/d_s_mg_base.cpp is the
    body LoadFont reaches. Leaving the stub here would be a duplicate
    definition. The branch that calls it is still not taken: it is LoadFont's
    data_0209d698 == 2 arm, the minigame framework's font, and the window loads

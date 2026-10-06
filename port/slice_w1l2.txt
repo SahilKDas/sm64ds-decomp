@@ -56,10 +56,8 @@ src/_ZN5dCc_cD1Ev.cpp
 # its ADDRESS as a transient vptr. The sweep is written out in the seat's own
 # comment. What blocked this head in wave 2 was data_0209f1e4, the DS BSS word
 # Scene::ResetFadersAndSound clears; hal/auto_bss.cpp hosts it now.
-src/_ZN8dScene_c19BeforeInitResourcesEv.cpp
+src/actors/dScene_c.cpp
 # the two faces the head calls
-src/_ZN8dScene_c19ResetFadersAndSoundEv.cpp
-src/_ZN8dScene_c20Initialise3dGraphicsEv.cpp
 # Scene::Initialise3dGraphics' own callees. The global Initialise3dGraphics(int)
 # is listed in slice_gate36.txt, but that list is INERT: CMakeLists.txt builds
 # SLICE36_SOURCES and then never adds it to a target, so the TU was not even
@@ -101,9 +99,6 @@ src/DMASyncFillTransfer.c
 # so no face and no adapter has to be invented for them. The other six unlinked
 # slots of this table are blocked on hal/method_faces.cpp, which this lane does
 # not own -- the reasons are in the seat file's group 4.
-src/_ZN8dScene_c12BeforeRenderEv.cpp
-src/_ZN8dScene_cD1Ev.cpp
-src/_ZN8dScene_cD0Ev.cpp
 
 # ==== WAVE 4, LANE w4-d ====================================================
 # ---- _ZTV8dScene_c slot 7, and the eight TUs behind it -----------------------
@@ -119,7 +114,6 @@ src/_ZN8dScene_cD0Ev.cpp
 # (`int _ZN8dScene_c14BeforeBehaviorEv(char *self)` inside extern "C"), so slot 7
 # takes the same ecx->arg adapter the other four use and needs no face of its
 # own.
-src/_ZN8dScene_c14BeforeBehaviorEv.cpp
 # the pause branch: func_02023544 resets sound and the two mode bytes, and its
 # own callees func_02011c8c / GetSoundMode / SetSoundMode are already linked.
 src/func_02023544.c
@@ -172,15 +166,12 @@ src/engine/fader/_ZN15FaderBrightness14SetForwardTimeEj.cpp
 # Slot 4 is the straightforward one: the body passes its own receiver and only
 # the C-linkage name of its base call was undefined. Its other two references
 # (func_02011974 and data_0209b53c) were already resolved.
-src/_ZN8dScene_c22BeforeCleanupResourcesEv.cpp
 # Slots 8 and 11 are the ROM's TAIL VENEERS, and they are here because their
 # callees turned out to be empty -- `ret 4`, three bytes, no receiver read and
 # no argument read, folded onto one address by /OPT:ICF. The dropped receiver
 # the veneers' void() shape implies therefore cannot be wrong the way
 # method_faces.cpp's failure mode 2 means. The two listings and the reading are
 # beside the tagged definitions in that file.
-src/_ZN8dScene_c13AfterBehaviorEj.cpp
-src/_ZN8dScene_c11AfterRenderEj.cpp
 #
 # SLOT 2 IS RULED OUT, and this is the listing that rules it out rather than a
 # judgement call. Scene::AfterInitResources is the same veneer shape, but its
@@ -198,7 +189,7 @@ src/_ZN8dScene_c11AfterRenderEj.cpp
 #
 # SLOT 5 STAYS OUT, re-confirmed rather than carried: config/arm9/symbols.txt
 # puts data_02092660 at 0x02092660 kind:data(any), and
-# src/_ZN8dScene_c21AfterCleanupResourcesEj.cpp DEFINES it at namespace scope
+# src/actors/dScene_c.cpp DEFINES it at namespace scope
 # inside extern "C" -- a definition, not a tentative one -- so the symbol lands
 # in ordinary .bss, outside .dsstate, and dsstate_guard rejects it. Hosting it
 # in hal/auto_bss.cpp would be a second definition. The fix is in src/, which

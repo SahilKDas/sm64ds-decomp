@@ -59,7 +59,7 @@ src/game/actors/d_a_obj_rc_hane.cpp
 # _ZN10DonutBlock6RenderEv.cpp dispatches ROM slot 5 through a local six-virtual
 # shadow over the plain Model at +0xd4 -- SAFE (dual-filled _ZTV5Model).
 src/game/actors/d_a_obj_rc_guruguru.cpp
-src/_ZN10DonutBlock16OnPendingDestroyEv.cpp
+src/actors/daObjRc_Tikuwa_c.cpp
 # FACEFIX 2026-09-14: DONUT_BLOCK's OWN FOUR VIRTUALS WERE IN NO SLICE, and the
 # hole was invisible because two forwarders filled it. Nothing in the link
 # defined ?InitResources/?CleanupResources/?Render/?Behavior@DonutBlock@@UAEHXZ,
@@ -71,13 +71,6 @@ src/_ZN10DonutBlock16OnPendingDestroyEv.cpp
 # own matched bodies against include/DonutBlock.h, the same shape the block's
 # OnPendingDestroy above already takes, and with them in the slice the flat
 # faces forward to real code.
-src/_ZN10DonutBlock13InitResourcesEv.cpp
-src/_ZN10DonutBlock16CleanupResourcesEv.cpp
-src/_ZN10DonutBlock6RenderEv.cpp
-src/_ZN10DonutBlock8BehaviorEv.cpp
-src/func_ov036_02111ca4.cpp
-src/func_ov036_02111cc4.c
-src/d_a_obj_rc_tikuwa.c
 #
 # ---- block 5: ARMED_ROTATING_PLATFORM (132, 18daObjRc_Guruguru_c),
 # vt 0x02113dcc, 32 slots, Platform-derived. Own slots 0/3/6/9/16/17.
@@ -145,10 +138,7 @@ src/__sinit_ov036_02112944.c
 # All four are in no other slice and in no map today. _ZN13daObjDorifu_c6RenderEv.cpp
 # dispatches ROM slot 5 over a plain 0x50-stride Model array element at +0x320
 # -- the dual-filled _ZTV5Model, safe.
-src/_ZN13daObjDorifu_c16CleanupResourcesEP20daObjDorifuResources.cpp
-src/_ZN13daObjDorifu_c13InitResourcesEP20daObjDorifuResources.cpp
-src/_ZN13daObjDorifu_c8BehaviorEv.cpp
-src/_ZN13daObjDorifu_c6RenderEv.cpp
+src/actors/daObjDorifu_c.cpp
 #
 # NOT in this slice (host copies or host thunks cover them instead):
 #   src/game/actors/d_a_obj_rc_hane.cpp  (SHIP_WING's D1: MSVC-synthesised over

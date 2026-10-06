@@ -76,9 +76,9 @@ src/func_ov002_020f5f0c.cpp
 # Key and UpDownLiftBbh define real C++ MEMBERS and go through the forwarders in
 # port/hal/fwd_forwarders.cpp; ToxBox defines the flat extern "C" name and needs
 # only its table alias.
-src/_ZN3Key8BehaviorEv.cpp
-src/_ZN13UpDownLiftBbh8BehaviorEv.cpp
-src/_ZN6ToxBox8BehaviorEv.cpp
+src/actors/daObjKey_c.cpp
+src/actors/daUdlift_c.cpp
+src/actors/daOnms_c.cpp
 
 # ---- gate 3: THE OBJECT-FIELD ROWS THE ov006 RANGE SWEEP CLOSES ------------
 #
@@ -110,13 +110,13 @@ src/_ZN6ToxBox8BehaviorEv.cpp
 #
 # ONE FACE PER CODE WORD, not per record, and here it is load-bearing rather
 # than tidy: both retired files refuse a seat in writing because a stored pair
-# is also a BY-VALUE COMPARISON SENTINEL. src/func_ov006_020c2994.c compares an
+# is also a BY-VALUE COMPARISON SENTINEL. src/actors/unit020bfec0.cpp compares an
 # object's pair against data_ov006_0213adb8, which holds the same code word
 # 0x020c27c4 as the installed record 0213adc8; a face per record would give them
 # different addresses and the comparison would go permanently false while the
 # dispatch still looked right. A face per code word gives them the same address.
-src/func_ov006_020c2b8c.cpp
-src/func_ov006_020c4cd8.cpp
+src/actors/unit020bfec0.cpp
+src/actors/dMg3DHeyhoObjAdapter_c.cpp
 # QUARANTINED at the main->port sync (origin/main 9c7f38a24): main folded this
 # class into one TU, and port/ host-copies bodies inside it (the slice_bnp host copies).
 # port/CMakeLists.txt's own assertion refuses the pair, because taking both is a

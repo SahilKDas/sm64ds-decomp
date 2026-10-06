@@ -107,7 +107,7 @@
 
 /* ---- THE ONE NAME-SPELLING REPAIR ----------------------------------------
  *
- * src/func_ov005_020bff4c.cpp is a genuine .cpp and it declares its callee the
+ * src/actors/dScMiniGm_c.cpp is a genuine .cpp and it declares its callee the
  * way the ROM's own source did:
  *
  *     namespace SaveData { void SaveMinigames(MinigameSaveData *); }
@@ -167,7 +167,7 @@ void  _ZN11dScMiniGm_c16OnPendingDestroyEv(void);              /* slot 12  OnPen
 int  *_ZN11dScMiniGm_cD1Ev(int *self);         /* slot 16  D2                */
 void *_ZN11dScMiniGm_cD0Ev(void *self);        /* slot 17  D0                */
 
-/* the factory (src/d_s_mini_gm.c) */
+/* the factory (src/actors/dScMiniGm_c.cpp) */
 void *dScMiniGm_c_classInit(void);
 
 /* the two decision words the menu writes, for the report below */
@@ -307,7 +307,7 @@ extern "C" void *port_mgm_spawn(void) { return dScMiniGm_c_classInit(); }
 /* ---- the report -----------------------------------------------------------
  *
  * WHAT A TAP ON THE MENU IS SUPPOSED TO MOVE, named from the ROM before any
- * run rather than read off one afterwards. src/func_ov005_020c0378.cpp is the
+ * run rather than read off one afterwards. src/actors/dScMiniGm_c.cpp is the
  * selector and it is the only writer of both words:
  *
  *   data_0208a170   the highlighted row base. func_ov005_020c0878 advances it
@@ -339,7 +339,7 @@ extern "C" void port_scene_mgm_report(void)
                 (unsigned)(data_0209b308[0] | (data_0209b308[1] << 8)));
     /* AND THE REQUEST ITSELF. Scene::StartSceneFade's whole body is
        `if (Scene::SetSceneToSpawn(actorID, param)) data_0209f5e8.color = ...`
-       (src/_ZN8dScene_c14StartSceneFadeEjjt.cpp), and SetSceneToSpawn parks the id
+       (src/actors/dScene_c.cpp), and SetSceneToSpawn parks the id
        in data_02092664. So this word IS the launch request: a menu that took a
        touch and a menu that ASKED THE GAME FOR A SCENE are two different
        claims, and only this one is the second. At boot the harness leaves it

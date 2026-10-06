@@ -45,7 +45,7 @@
 #            delta word.
 #        src/_ZN6Fwoosh8BehaviorEv.cpp                     FWOOSH's TICK, the
 #            `struct Holder { char pad[8]; PMF fn; }` view of the same cell.
-#        src/func_ov091_02134044.cpp                      FWOOSH's ENTER,
+#        src/game/actors/d_a_hyuhyu.cpp                      FWOOSH's ENTER,
 #            `struct C;` forward-declared at the typedef -- the sixteen-byte
 #            unknown-inheritance form.
 #
@@ -88,7 +88,7 @@
 #      shadows a ModelAnim rather than a Model.
 #
 #  (3) ONE MSVC FRONT-END REFUSAL.
-#        src/func_ov091_021339fc.c is NONMATCHING-bannered ("hand-written asm,
+#        src/game/actors/d_a_hyuhyu.cpp is NONMATCHING-bannered ("hand-written asm,
 #            not a C decompilation ... asm hatch on a proven mwccarm 1.2
 #            register-allocation/scheduling wall") and the hatch is TWO ARM
 #            instructions, `ldr curHat0,[a,#8]` and `mov newHat,#1`, inside an
@@ -127,7 +127,7 @@
 # Ten of these 30 are .cpp and twenty are .c. The comment-stripped sweep for
 # a `//cpp` marker, a top-level `extern "C"` block, `class`, `virtual` and
 # `::` over all twenty .c files finds ONE that is really C++:
-# src/func_ov091_02133c6c.cpp opens with `//cpp` and declares `extern "C"`
+# src/game/actors/d_a_hyuhyu.cpp opens with `//cpp` and declares `extern "C"`
 # functions at file scope. It is marked LANGUAGE CXX in port/CMakeLists.txt.
 #
 # ==== NO MOUNT ROWS, AND WHY ===============================================
@@ -164,51 +164,25 @@
 # ---- ARROW_PATH_LIFT (157) + SQUARE_METAL_NET_LIFT (144) ------------------
 # the two factories: byte-identical 0x38-byte bodies, one pool literal each,
 # both 0x02134ec0
-src/d_a_linelift2_km3_lift.c
-src/d_a_linelift2_km2_susumu.c
+src/game/actors/d_a_linelift2.cpp
 # the class: four real C++ methods (Behavior host-copied), two flat-C dtors
-src/_ZN22RotatingUpDownPlatform13InitResourcesEv.cpp
-src/_ZN22RotatingUpDownPlatform16CleanupResourcesEv.cpp
-src/_ZN22RotatingUpDownPlatform6RenderEv.cpp
-src/_ZN22RotatingUpDownPlatformD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN22RotatingUpDownPlatformD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN22RotatingUpDownPlatformD0Ev.cpp
 # the three state bodies the seat rewrites, plus the path-follow helper they
 # share and the geometry helper it calls
-src/func_ov091_02131ef0.c
-src/func_ov091_02131f9c.c
-src/func_ov091_02132000.c
-src/func_ov091_02131db8.c
-src/func_ov091_02131cb0.c
 # the collider callback pair: 02132380 is an arg-shifting tail-call veneer
 # (`e59fc008 e1a00001 e1a01002 e12fff1c 02132360` -- it drops the first
 # argument and forwards the next two) and 02132360 is what it forwards to.
 # It names all three parameters and forwards two, so it is ordinary cdecl and
 # needs no tailjump row.
-src/func_ov091_02132360.cpp
-src/func_ov091_02132380.c
 
 # ---- FWOOSH (231) ---------------------------------------------------------
-src/d_a_hyuhyu.c
-src/_ZN6Fwoosh13InitResourcesEv.cpp
-src/_ZN6Fwoosh16CleanupResourcesEv.cpp
+src/game/actors/d_a_hyuhyu.cpp
 # (Render is NOT here -- the ModelAnim slot-5 collision, refusal (2) above)
-src/_ZN6Fwoosh16OnPendingDestroyEv.cpp
-src/_ZN6FwooshD1Ev.cpp
 # RETIRED at SLICE1: body now in src/_ZN6FwooshD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN6FwooshD0Ev.cpp
 # the six state bodies the seat rewrites (three enter / three tick pairs)
-src/func_ov091_0213400c.c
-src/func_ov091_02133f60.c
-src/func_ov091_02133f24.c
-src/func_ov091_02133d30.cpp
-src/func_ov091_02133d1c.c
-src/func_ov091_02133c6c.cpp
 # the per-frame matrix helper both Behavior arms call
-src/func_ov091_02134094.c
 # vtable slots 18 / 19 / 29, all three FWOOSH's own. 0213448c is the ROM's
 # `ldr ip,[pc]; bx ip` veneer onto ActorBase::MarkForDestruction and is
 # declared WITH a self parameter at the seat for that reason.
-src/_ZN6Fwoosh13OnYoshiTryEatEv.cpp
-src/_ZN6Fwoosh13OnTurnIntoEggER6Player.cpp
-src/_ZN6Fwoosh16OnAimedAtWithEggEv.cpp

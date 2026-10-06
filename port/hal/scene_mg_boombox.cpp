@@ -257,7 +257,7 @@ void port_mg_dispatch_counts(unsigned *calls, unsigned *unknown);
 /* the persistent minigame record and the two framework bodies that address it,
    named so the census can print the record rather than leave it inferred.
    Nothing new is defined here: the storage is hal/level_boot.cpp's
-   .dsstate$savblk0004 and the index function is src/func_ov004_020adc3c.c. */
+   .dsstate$savblk0004 and the index function is src/minigames/d_s_mg_base.cpp. */
 extern void         *data_ov004_020beb68;     /* the live dScMgBase_c `this` */
 extern unsigned char data_0209caf4[];         /* 36 records x 20 bytes       */
 int  func_ov004_020adc3c(void *c);            /* (self->field_8 >> 8) & 0xff */

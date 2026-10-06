@@ -44,11 +44,11 @@
 #     record. Read off each recovered source's own struct declaration, not
 #     inferred from a crash. The SoundObject/Cap/MrBlizzard/BabyPenguin/Unagi/
 #     HootTheOwl shape, sixth instance.
-#       src/func_ov077_02124754.cpp  Lakitu  cell[0] enter, cell ptr at +0x3f0
-#       src/func_ov077_02124718.cpp  Lakitu  cell[1] tick
-#       src/func_ov077_02125e5c.cpp  Spiny   cell[0] enter, cell ptr at +0x3d0
-#       src/func_ov077_02125e20.cpp  Spiny   cell[1] tick
-#       src/func_ov077_02126d5c.cpp  HeaveHo setter + enter, ptr at +0x3fc,
+#       src/game/actors/d_a_jgm.cpp  Lakitu  cell[0] enter, cell ptr at +0x3f0
+#       src/game/actors/d_a_jgm.cpp  Lakitu  cell[1] tick
+#       src/actors/daTgz_c.cpp  Spiny   cell[0] enter, cell ptr at +0x3d0
+#       src/actors/daTgz_c.cpp  Spiny   cell[1] tick
+#       src/actors/daPopoi_c.cpp  HeaveHo setter + enter, ptr at +0x3fc,
 #                                    and the only one of the six with a null
 #                                    guard, which the host copy keeps
 #       src/_ZN7HeaveHo8BehaviorEv.cpp       the SAME PMF dispatched INLINE
@@ -84,7 +84,7 @@
 #     and on none of the three HEAVE_HO ones. The CALLER is displaced, the
 #     Ov007_ImplicitR0/Actor_ClosestPlayer idiom:
 #       src/_ZN6Lakitu13InitResourcesEv.cpp -> port/unmatched/Lakitu_HostSites.cpp
-#     src/func_ov077_0212478c.c is NOT touched and stays in the slice: it is
+#     src/game/actors/d_a_jgm.cpp is NOT touched and stays in the slice: it is
 #     correct and the other eight callers depend on it.
 #
 # NOTHING ELSE IS REFUSED. In particular:
@@ -95,7 +95,7 @@
 #     ov094 func_ov094_02136024 shape does not occur here).
 #   * FOUR TUs dispatch a virtual on the ACTOR ITSELF through a THIRTY-virtual
 #     destructor-free local shadow, reaching slot 29 -- func_ov077_02123d40,
-#     func_ov077_02124038, func_ov077_021251d0, func_ov077_02125480. These
+#     _ZN7daJgm_c14EnterFallStateEv, func_ov077_021251d0, func_ov077_02125480. These
 #     look like the Render case and are NOT: MSVC numbers a destructor-free
 #     shadow linearly, so index 29 lands on ROM slot 29 in the ROM-shaped host
 #     table, and all four are correct straight out of src/. Refusing them would
@@ -133,85 +133,15 @@
 # owes its decomp-side marker correction and retires when that line goes.
 #
 # ==== THE SLICE: 79 TUs (91 - 12 host copies) =============================
-src/d_a_popoi.c
-src/d_a_jgm.c
-src/d_a_tgz.c
-src/_ZN5Spiny13InitResourcesEv.cpp
-src/_ZN5Spiny16CleanupResourcesEv.cpp
-src/_ZN5Spiny16OnPendingDestroyEv.cpp
-src/_ZN5Spiny8BehaviorEv.cpp
+src/actors/daPopoi_c.cpp
+src/game/actors/d_a_jgm.cpp
+src/actors/daTgz_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN5SpinyD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN5SpinyD0Ev.cpp
-src/_ZN6Lakitu16CleanupResourcesEv.cpp
-src/_ZN6Lakitu16OnPendingDestroyEv.cpp
-src/_ZN6Lakitu8BehaviorEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN6LakituD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN6LakituD0Ev.cpp
-src/_ZN7HeaveHo13InitResourcesEv.cpp
-src/_ZN7HeaveHo16CleanupResourcesEv.cpp
-src/_ZN7HeaveHo16OnPendingDestroyEv.cpp
 # RETIRED at SLICE1: body now in src/_ZN7HeaveHoD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN7HeaveHoD0Ev.cpp
-src/_ZN7HeaveHoD1Ev.cpp
 src/__sinit_ov077_02127240.c
 src/__sinit_ov077_0212749c.c
 src/__sinit_ov077_021275fc.c
-src/_ZN6Lakitu13OnYoshiTryEatEv.cpp
-src/_ZN6Lakitu16OnAimedAtWithEggEv.cpp
-src/func_ov077_02123814.c
-src/func_ov077_02123880.c
-src/func_ov077_021238bc.cpp
-src/func_ov077_0212390c.cpp
-src/func_ov077_02123a1c.cpp
-src/func_ov077_02123a74.cpp
-src/func_ov077_02123c6c.cpp
-src/func_ov077_02123d40.cpp
-src/func_ov077_02123fcc.c
-src/func_ov077_02124038.cpp
-src/func_ov077_02124118.cpp
-src/func_ov077_021241ac.c
-src/func_ov077_021242f0.c
-src/func_ov077_02124394.c
-src/func_ov077_021243c0.cpp
-src/func_ov077_021244d4.cpp
-src/func_ov077_02124564.c
-src/func_ov077_02124698.c
-src/func_ov077_0212478c.c
-src/_ZN6Lakitu13OnTurnIntoEggER6Player.cpp
-src/_ZN5Spiny13OnYoshiTryEatEv.cpp
-src/_ZN5Spiny16OnAimedAtWithEggEv.cpp
-src/func_ov077_02124c28.cpp
-src/func_ov077_02124ce4.c
-src/func_ov077_02124d08.cpp
-src/func_ov077_02124eb0.cpp
-src/func_ov077_021250a8.cpp
-src/func_ov077_021251d0.cpp
-src/func_ov077_02125290.c
-src/func_ov077_02125304.cpp
-src/func_ov077_021253a4.cpp
-src/func_ov077_02125480.cpp
-src/func_ov077_02125550.cpp
-src/func_ov077_021256b4.c
-src/func_ov077_02125830.c
-src/func_ov077_021258dc.c
-src/func_ov077_02125908.c
-src/func_ov077_02125a0c.c
-src/func_ov077_02125a54.c
-src/func_ov077_02125b1c.cpp
-src/func_ov077_02125bb4.c
-src/func_ov077_02125dd4.c
-src/func_ov077_02125e94.c
-src/_ZN5Spiny13OnTurnIntoEggER6Player.cpp
-src/func_ov077_02126300.c
-src/func_ov077_02126528.cpp
-src/func_ov077_02126640.cpp
-src/func_ov077_02126758.cpp
-src/func_ov077_0212679c.c
-src/func_ov077_02126930.cpp
-src/func_ov077_021269a8.cpp
-src/func_ov077_02126a04.c
-src/func_ov077_02126a50.c
-src/func_ov077_02126a84.c
-src/func_ov077_02126ad0.c
-src/func_ov077_02126cd4.cpp
-src/func_ov077_02126dac.c

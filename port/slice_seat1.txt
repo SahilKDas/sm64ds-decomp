@@ -35,13 +35,13 @@
 #       own reloc is from:0x021112c8 to:0x02111214 module:overlay(44), so
 #       `_ZN19daObjKb1Billboard_c20UpdateModelTransformEv` is the CORRECT name there and keeps that TU in
 #       the link after this redirect.
-#   src/_ZN11daObjKumo_c13InitResourcesEv.cpp               ov039 0x0211132c -- the
+#   src/game/actors/d_a_obj_kumo.cpp               ov039 0x0211132c -- the
 #       same shift one overlay over. ov039 has no src TU at its own 0x02111214
 #       in this tree, so there is nothing to redirect it to. Recorded, not
 #       touched: it is not this lane's row.
 #
 # Byte gate, this tree, pinned compiler:
-#   tools/match.py --c src/func_ov031_02111214.c --func func_ov031_02111214
+#   tools/match.py --c src/game/actors/d_a_obj_hs_billboard.cpp --func func_ov031_02111214
 #     --addr 0x02111214 --size 0x40 --bin extracted/overlays/overlay_0031.bin
 #     --base 0x021111a0 --version 2004/b56   ->  2004/b56: MATCH
 #
@@ -49,7 +49,7 @@
 # delinks, .text 0x021111a0..0x02111344), which port/slice_dtorfaces.txt:52 and
 # port/slice_w10a.txt:127 already compile, so the symbol this seat needs comes
 # from there and the per-function row has no file any more.
-#src/func_ov031_02111214.c
+#src/game/actors/d_a_obj_hs_billboard.cpp
 
 # ---------------------------------------------------------------------------
 # ROWS 2 AND 3: THE EXMEMCNT CARD BIT, R3F's RECIPE ONE BIT OVER

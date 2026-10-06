@@ -410,6 +410,7 @@ static bool winapi_load(void)
 #include "hal/comms_seam.h"       /* run mg15 lane MP1: the radio seam */
 #include "hal/voice_chat.h"      /* lane VOICE: proximity voice chat */
 #include "hal/comms_loopback.h"   /* run mg16 lane MP2: the loopback carrier */
+#include "hal/resource_pack.h"    /* declarative Lua resource packs */
 /* run mg16 lane MP3: hal/comms_lockstep.h is RETIRED. Its transcription of
    src/func_0203ea5c.c existed only because that TU was in no slice; the TU is
    linked now and drives itself. Its lessons live in comms_seam.h's frozen
@@ -671,6 +672,7 @@ extern int data_0209f350[];    /* per-pad status */
 extern int data_020a1164[];    /* camera per-player block; +0 = angle
                                   (GetAngleToCamera reads it) */
 extern int data_0209caa0[];
+extern unsigned char data_02092128[];
 extern unsigned char data_0209d660;
 extern int data_0209fc48;
 extern unsigned char data_0209f2d8;
@@ -732,7 +734,7 @@ int _ZN6Player11ChangeStateERNS_5StateE(void *self, void *st);
 /* SM64DS_FORCE_STATE=squish. NOT a hand-written ChangeState: this is the ROM's
    own crush entry point, Player::Unk_020c6a10 (ov002 0x020c6a10), the exact
    function the crushers call -- ov073 0x02120284 with 1, ov074 0x02120d74 with
-   2, ov078 0x021240a0 with 1 (src/func_ov073_021200e0.c:73,
+   2, ov078 0x021240a0 with 1 (src/actors/daKing_Donketu_c.cpp:73,
    src/actors/Goomboss.cpp:73 and src/actors/daBombking_c.cpp:107). It runs the
    ROM's own three gates (mClsnFlags & 1, i.e. on the ground; not already in
    ST_SQUISH; func_ov002_020d82f0), then sets mScaleY = 0x100 and holds
@@ -1664,7 +1666,7 @@ extern "C" int port_rom_loop_enabled(void);
    history: rung H1 seated the member-pointer site that was smashing
    func_ov075_0211b418's frame, registered scene 6's and scene 360's graphics
    blocks, and faced the one virtual slot the registered block then reached
-   (0x0211c94c slot 1, from src/func_ov075_021160dc.cpp). Measured with this
+   (0x0211c94c slot 1, from src/actors/dScEntry_c.cpp). Measured with this
    gate ARMED, 300 frames each: scene 6 rc=0, scene 360 rc=0, scene 1 rc=0 with
    the counted 0/1/2/3 = 300/0/450/150 and the wrong block 0 times, scene 8
    rc=0. The [thr] line on a scene under the flipped default reads
@@ -2288,8 +2290,8 @@ static void pacer_begin(void)
    and every scene sets it for itself during its own InitResources:
 
        src/_ZN5Stage13InitResourcesEv.cpp:362        = 2   the 3D levels
-       src/_ZN16dScMgSmartball_c13InitResourcesEv.cpp  = 1   a minigame
-       src/_ZN11dScMgCoin_c13InitResourcesEv.cpp and its dozen peers = 1   the other minigames
+       src/actors/dScMgSmartball_c.cpp  = 1   a minigame
+       src/actors/dScMgCoin_c.cpp and its dozen peers = 1   the other minigames
        src/func_ov002_020f7780.c:23                  = 3
        src/_ZN10dScEntry_c13InitResourcesEv.cpp:140               = 2
 
@@ -3297,6 +3299,12 @@ enum {
     MENU_VS_MODE,       /* the ROM's single mode, stated; enter goes too      */
     MENU_EXIT,
     MENU_CHARACTER,
+    MENU_PACK_CHARACTER,
+    MENU_MODS,
+    MENU_MOD_INFO,
+    MENU_MOD_ORDER,
+    MENU_MOD_DIAG,
+    MENU_MOD_RELOAD,
     MENU_SNAP,
     MENU_OVERLAY,
     MENU_CAMERA,
@@ -4044,6 +4052,8 @@ static int menu_at = -1;   /* SM64DS_MENU_AT, see where it is read */
    back up. See the block below the menu's input, where it is spent. */
 static int menu_b_swallow;
 static int menu_sel;
+static int menu_pack;
+static int menu_pack_character;
 static int menu_entrance;             /* the entrance the warp row is showing */
 /* THE LEVEL ROW IS THE DEBUG LEVEL SELECT'S OWN LIST. dScTitle_c (ov003,
    scene 2) picks a row out of data_ov003_020b1180 -- 0x36 eight-byte rows,
@@ -4689,6 +4699,34 @@ struct MenuHost {
     int   real_camera;  /* is there a game camera at all */
 };
 static MenuHost g_menu_host;
+extern "C" void port_sync_set_pack_characters(
+    const unsigned long long *, int, unsigned long long);
+
+static void resource_pack_register_textures(void)
+{
+    ntr::hdtex_clear_registered();
+    for (const auto &texture : sm64ds::packs::textures())
+        ntr::hdtex_register(texture.target_hash, texture.source.c_str());
+    unsigned long long hashes[252];
+    int count = 0;
+    for (const auto &character : sm64ds::packs::characters())
+        if (count < 252)
+            hashes[count++] = sm64ds::packs::character_key_hash(character.key);
+    port_sync_set_pack_characters(
+        hashes, count, sm64ds::packs::character_key_hash(
+                           sm64ds::packs::selected_character_key()));
+}
+
+static void ovl_fill(const OvlSurface &fb, int x0, int y0, int w, int h,
+                     uint32_t color)
+{
+    for (int y = y0; y < y0 + h; ++y) {
+        if (y < 0 || y >= ntr::active_h) continue;
+        uint32_t *row = fb.px + (size_t)y * (size_t)fb.stride;
+        for (int x = x0; x < x0 + w; ++x)
+            if (x >= 0 && x < ntr::active_w) row[x] = color;
+    }
+}
 
 static void menu_draw(const OvlSurface &fb)
 {
@@ -4797,6 +4835,64 @@ static void menu_draw(const OvlSurface &fb)
     snprintf(ln[MENU_CHARACTER], sizeof ln[0], "character         %s%s",
              CHAR_NAME[g_character_pending & 3],
              g_character_pending == g_character ? "" : "   enter to switch");
+    {
+        const auto &characters = sm64ds::packs::characters();
+        if (characters.empty())
+            snprintf(ln[MENU_PACK_CHARACTER], sizeof ln[0],
+                     "pack character    none installed");
+        else {
+            menu_pack_character %= (int)characters.size();
+            const auto &item = characters[menu_pack_character];
+            snprintf(ln[MENU_PACK_CHARACTER], sizeof ln[0],
+                     "pack character    %d/%d %.28s  base %s%s",
+                     menu_pack_character + 1, (int)characters.size(),
+                     item.name.c_str(), CHAR_NAME[item.base_character & 3],
+                     sm64ds::packs::selected_character_key() == item.key
+                         ? " [selected]" : "");
+        }
+    }
+    {
+        const auto &packs = sm64ds::packs::packs();
+        if (packs.empty())
+            snprintf(ln[MENU_MODS], sizeof ln[0], "mods              no packs installed");
+        else {
+            menu_pack %= (int)packs.size();
+            const auto &pack = packs[menu_pack];
+            snprintf(ln[MENU_MODS], sizeof ln[0],
+                     "mods              %d/%d %s [%s] %s%s",
+                     menu_pack + 1, (int)packs.size(), pack.name.c_str(),
+                     pack.enabled ? "ON" : "off",
+                     pack.loaded ? "loaded" : "not loaded",
+                     pack.errors.empty() ? "" : " ERROR");
+            snprintf(ln[MENU_MOD_INFO], sizeof ln[0],
+                     "mod info          v%s by %.28s  license %.24s",
+                     pack.version.empty() ? "?" : pack.version.c_str(),
+                     pack.author.empty() ? "unknown" : pack.author.c_str(),
+                     pack.license.empty() ? "UNSPECIFIED" : pack.license.c_str());
+            snprintf(ln[MENU_MOD_ORDER], sizeof ln[0],
+                     "mod order         %d   left/right moves selected pack",
+                     pack.order + 1);
+            if (pack.errors.empty())
+                snprintf(ln[MENU_MOD_DIAG], sizeof ln[0],
+                         "mod diagnostics   no validation errors");
+            else
+                snprintf(ln[MENU_MOD_DIAG], sizeof ln[0],
+                         "mod error         %.20s: %.55s",
+                         pack.errors[0].field.c_str(),
+                         pack.errors[0].message.c_str());
+        }
+        if (packs.empty()) {
+            snprintf(ln[MENU_MOD_INFO], sizeof ln[0], "mod info          -");
+            snprintf(ln[MENU_MOD_ORDER], sizeof ln[0], "mod order         -");
+            snprintf(ln[MENU_MOD_DIAG], sizeof ln[0], "mod diagnostics   -");
+        }
+        const char *state = sm64ds::packs::reload_state() ==
+                                    sm64ds::packs::ReloadState::Queued
+                                ? "queued until a safe menu"
+                                : "enter to reload";
+        snprintf(ln[MENU_MOD_RELOAD], sizeof ln[0],
+                 "reload mods       %s", state);
+    }
     snprintf(ln[MENU_SNAP], sizeof ln[0], "fake snap         %s",
              g_fake_snap ? "ON (collider owner set at boot)" : "off");
     snprintf(ln[MENU_OVERLAY], sizeof ln[0], "stats overlay     %s",
@@ -4935,6 +5031,15 @@ static void menu_draw(const OvlSurface &fb)
 static void menu_input(int pad_live, const XPad *pad)
 {
     if (g_selftest) return;
+    if (!g_menu_host.player && sm64ds::packs::reload_state() ==
+                                   sm64ds::packs::ReloadState::Queued) {
+        std::string error;
+        if (!sm64ds::packs::apply_queued_reload(true, error))
+            fprintf(stderr, "[resource-pack] queued reload failed: %s\n",
+                    error.c_str());
+        else
+            resource_pack_register_textures();
+    }
     static unsigned menu_prev;
     unsigned held = 0;
     unsigned edge;
@@ -5350,6 +5455,108 @@ static void menu_input(int pad_live, const XPad *pad)
                     g_character_pending =
                         (dec ? g_character_pending + 3
                              : g_character_pending + 1) & 3;
+                }
+                break;
+            case MENU_PACK_CHARACTER:
+                {
+                    const auto &characters = sm64ds::packs::characters();
+                    if (characters.empty()) {
+                        ss_note("no pack characters are available");
+                        break;
+                    }
+                    menu_pack_character %= (int)characters.size();
+                    if (edge & (1u << 5)) {
+                        const auto item = characters[menu_pack_character];
+                        std::string error;
+                        if (!sm64ds::packs::select_character(item.key, error))
+                            ss_note(error.c_str());
+                        else if (g_menu_host.player) {
+                            resource_pack_register_textures();
+                            /* Gameplay remains on one of the four retail
+                               profiles. The resource bridge replaces native
+                               assets; it never creates a fifth ROM slot. */
+                            port_player_set_character(g_menu_host.player,
+                                                      item.base_character);
+                            g_character = g_character_pending = item.base_character;
+                            ss_note("pack character selected");
+                        } else {
+                            resource_pack_register_textures();
+                            ss_note("pack character saved for the next level");
+                        }
+                    } else {
+                        menu_pack_character = dec
+                            ? (menu_pack_character + (int)characters.size() - 1) %
+                                  (int)characters.size()
+                            : (menu_pack_character + 1) % (int)characters.size();
+                    }
+                }
+                break;
+            case MENU_MODS:
+                {
+                    const auto &packs = sm64ds::packs::packs();
+                    if (packs.empty()) {
+                        ss_note("no resource packs are installed");
+                        break;
+                    }
+                    menu_pack %= (int)packs.size();
+                    if (edge & (1u << 5)) {
+                        std::string error;
+                        const auto pack = packs[menu_pack];
+                        if (!sm64ds::packs::set_pack_enabled(
+                                pack.id, !pack.enabled, error))
+                            ss_note(error.c_str());
+                        else
+                            ss_note("pack setting saved; reload mods to apply");
+                    } else {
+                        menu_pack = dec
+                            ? (menu_pack + (int)packs.size() - 1) % (int)packs.size()
+                            : (menu_pack + 1) % (int)packs.size();
+                    }
+                }
+                break;
+            case MENU_MOD_INFO:
+            case MENU_MOD_DIAG:
+                {
+                    const auto &packs = sm64ds::packs::packs();
+                    if (!packs.empty() && !packs[menu_pack % packs.size()].errors.empty()) {
+                        const auto &issue = packs[menu_pack % packs.size()].errors[0];
+                        fprintf(stderr, "[resource-pack:%s] %s: %s\n",
+                                issue.pack_id.c_str(), issue.field.c_str(),
+                                issue.message.c_str());
+                        ss_note(issue.message.c_str());
+                    }
+                }
+                break;
+            case MENU_MOD_ORDER:
+                {
+                    const auto &packs = sm64ds::packs::packs();
+                    if (!packs.empty()) {
+                        menu_pack %= (int)packs.size();
+                        std::string error;
+                        const std::string id = packs[menu_pack].id;
+                        if (!sm64ds::packs::move_pack(id, dec ? -1 : 1, error))
+                            ss_note(error.c_str());
+                        else {
+                            menu_pack += dec ? -1 : 1;
+                            if (menu_pack < 0) menu_pack = 0;
+                            if (menu_pack >= (int)packs.size())
+                                menu_pack = (int)packs.size() - 1;
+                            ss_note("pack order saved; reload mods to apply");
+                        }
+                    }
+                }
+                break;
+            case MENU_MOD_RELOAD:
+                if (edge & (1u << 5)) {
+                    std::string error;
+                    const bool safe = !g_menu_host.player;
+                    if (!sm64ds::packs::request_reload(safe, error))
+                        ss_note(error.c_str());
+                    else if (safe) {
+                        resource_pack_register_textures();
+                        ss_note("resource packs reloaded");
+                    } else
+                        ss_note("reload queued until a safe menu");
                 }
                 break;
             case MENU_SNAP:
@@ -7940,6 +8147,200 @@ static int port_scene_want_window(void)
 static HWND g_entry_hwnd;
 static HDC  g_entry_hdc;
 
+/* ---- 64DS-DX FRONTEND ---------------------------------------------------
+   This is host UI over the ROM's title/file-select scene. It does not replace
+   or patch dScDSMT/dScTitle: their file buttons, fades, save loading and touch
+   handling continue underneath. F6 opens a modal character picker; while it
+   is open, the DS keypad is suppressed so one press cannot also activate a
+   file. The chosen base is applied after the ROM loads File A/B/C, at the
+   title-entry boundary below. Pack characters keep their stable key but still
+   use one of the four retail gameplay profiles. */
+static int g_frontend_character_open;
+static int g_frontend_character_cursor;
+static int g_frontend_character_seeded;
+static int g_frontend_character_swallow;
+
+static const int FRONTEND_RETAIL_ORDER[4] = { 0, 3, 1, 2 };
+
+static const sm64ds::packs::Character *frontend_pack_character(int cursor)
+{
+    const auto &items = sm64ds::packs::characters();
+    if (cursor == 3)
+        return sm64ds::packs::character("64ds-dx:waluigi");
+    if (cursor < 5) return nullptr;
+    int wanted = cursor - 5;
+    for (const auto &item : items) {
+        if (item.key == "64ds-dx:waluigi") continue;
+        if (wanted-- == 0) return &item;
+    }
+    return nullptr;
+}
+
+static int frontend_character_count(void)
+{
+    int extras = 0;
+    for (const auto &item : sm64ds::packs::characters())
+        if (item.key != "64ds-dx:waluigi") ++extras;
+    return 5 + extras;
+}
+
+static const char *frontend_character_name(int cursor)
+{
+    if (cursor == 3) return "Waluigi";
+    if (cursor < 5)
+        return CHAR_NAME[FRONTEND_RETAIL_ORDER[cursor < 3 ? cursor : 3]];
+    const auto *item = frontend_pack_character(cursor);
+    return item ? item->name.c_str() : "Unavailable";
+}
+
+static int frontend_character_base(int cursor)
+{
+    if (cursor == 3) return 2;
+    if (cursor < 5)
+        return FRONTEND_RETAIL_ORDER[cursor < 3 ? cursor : 3];
+    const auto *item = frontend_pack_character(cursor);
+    return item ? item->base_character & 3 : 0;
+}
+
+static void frontend_character_seed(void)
+{
+    if (g_frontend_character_seeded) return;
+    g_frontend_character_seeded = 1;
+    const std::string &key = sm64ds::packs::selected_character_key();
+    if (!key.empty()) {
+        if (key == "64ds-dx:waluigi") {
+            g_frontend_character_cursor = 3;
+            return;
+        }
+        int cursor = 5;
+        for (const auto &item : sm64ds::packs::characters()) {
+            if (item.key == "64ds-dx:waluigi") continue;
+            if (item.key == key) {
+                g_frontend_character_cursor = cursor;
+                return;
+            }
+            ++cursor;
+        }
+    }
+    const int base = sm64ds::packs::selected_base_character() & 3;
+    g_frontend_character_cursor = base == 0 ? 0 : base == 3 ? 1 : base == 1 ? 2 : 4;
+}
+
+static void frontend_character_commit(void)
+{
+    std::string error;
+    if (g_frontend_character_cursor != 3 && g_frontend_character_cursor < 5) {
+        if (!sm64ds::packs::select_retail_character(
+                frontend_character_base(g_frontend_character_cursor), error))
+            ss_note(error.c_str());
+    } else {
+        const auto *item = frontend_pack_character(g_frontend_character_cursor);
+        if (!item || !sm64ds::packs::select_character(item->key, error))
+            ss_note(error.empty() ? "pack character is unavailable" : error.c_str());
+    }
+    character_set_pending(frontend_character_base(g_frontend_character_cursor));
+    resource_pack_register_textures();
+    ss_note("character selected; choose a save file to play");
+}
+
+static void frontend_input(int pad_live, const XPad *pad)
+{
+    if (!port_title_entry_armed() || port_title_entry_taken() || g_selftest) return;
+    frontend_character_seed();
+    static unsigned previous;
+    unsigned held = 0;
+    if (key_live(VK_F6)) held |= 1u;
+    if (key_act(HOST_KEY_LEFT) || key_act(HOST_KEY_LEFT_ALT)) held |= 2u;
+    if (key_act(HOST_KEY_RIGHT) || key_act(HOST_KEY_RIGHT_ALT)) held |= 4u;
+    if (key_act(HOST_KEY_START)) held |= 8u;
+    if (pad_live) {
+        if (pad->buttons & 0x0004) held |= 2u;
+        if (pad->buttons & 0x0008) held |= 4u;
+        if (pad_act(pad, HOST_PAD_START) || pad_act(pad, HOST_PAD_JUMP)) held |= 8u;
+    }
+    const unsigned edge = held & ~previous;
+    previous = held;
+    if (edge & 1u) g_frontend_character_open = !g_frontend_character_open;
+    if (!g_frontend_character_open) return;
+    const int count = frontend_character_count();
+    if (edge & 2u)
+        g_frontend_character_cursor =
+            (g_frontend_character_cursor + count - 1) % count;
+    if (edge & 4u)
+        g_frontend_character_cursor = (g_frontend_character_cursor + 1) % count;
+    if (edge & 8u) {
+        frontend_character_commit();
+        g_frontend_character_open = 0;
+        g_frontend_character_swallow = 1;
+    }
+}
+
+static void frontend_draw(const OvlSurface &fb)
+{
+    if (!port_title_entry_armed() || port_title_entry_taken() || menu_on) return;
+    frontend_character_seed();
+    const int x = 12, w = ntr::active_w - 24;
+    ovl_shade(fb, x, 10, w, 34);
+    ovl_fill(fb, x, 10, 5, 34, 0xFF8254FFu);
+    ovl_text(fb, x + 14, 16, "64DS-DX", 0xFFFFFFFFu);
+    ovl_text(fb, x + 82, 16, "ADVENTURE", 0xFF80C0FFu);
+    char status[128];
+    const char *selected = sm64ds::packs::has_selected_character()
+        ? (sm64ds::packs::selected_character()
+               ? sm64ds::packs::selected_character()->name.c_str()
+               : CHAR_NAME[sm64ds::packs::selected_base_character() & 3])
+        : "save default";
+    snprintf(status, sizeof status, "Character: %.28s   F6 Character Select", selected);
+    ovl_text(fb, x + 14, 29, status, 0xFFD0D0D0u);
+    if (!g_frontend_character_open) return;
+
+    const int pw = 390, ph = 142;
+    const int px = (ntr::active_w - pw) / 2;
+    const int py = (ntr::active_h - ph) / 2;
+    ovl_shade(fb, px, py, pw, ph);
+    ovl_shade(fb, px, py, pw, ph);
+    ovl_fill(fb, px, py, pw, 24, 0xFF312350u);
+    ovl_fill(fb, px, py, 6, ph, 0xFF8254FFu);
+    ovl_text(fb, px + 18, py + 7, "CHARACTER SELECT", 0xFFFFFFFFu);
+    const int base = frontend_character_base(g_frontend_character_cursor);
+    static const uint32_t accent[4] = {
+        0xFFDE4040u, 0xFF42B85Au, 0xFFE6B83Fu, 0xFF68C85Au
+    };
+    ovl_fill(fb, px + 20, py + 42, 76, 76, accent[base]);
+    ovl_shade(fb, px + 27, py + 49, 62, 62);
+    char initial[2] = { frontend_character_name(g_frontend_character_cursor)[0], 0 };
+    ovl_text(fb, px + 52, py + 72, initial, 0xFFFFFFFFu);
+    ovl_text(fb, px + 118, py + 45,
+             frontend_character_name(g_frontend_character_cursor), 0xFFFFFFFFu);
+    char detail[128];
+    snprintf(detail, sizeof detail, "%d / %d     Base profile: %s",
+             g_frontend_character_cursor + 1, frontend_character_count(),
+             CHAR_NAME[base]);
+    ovl_text(fb, px + 118, py + 64, detail, 0xFFB8C8E8u);
+    if (const auto *item = frontend_pack_character(g_frontend_character_cursor)) {
+        snprintf(detail, sizeof detail, "Pack: %.34s", item->pack_id.c_str());
+        ovl_text(fb, px + 118, py + 82, detail, 0xFFB8C8E8u);
+        snprintf(detail, sizeof detail, "License: %.30s",
+                 item->license.empty() ? "not declared" : item->license.c_str());
+        ovl_text(fb, px + 118, py + 98, detail, 0xFFB8C8E8u);
+    }
+    ovl_text(fb, px + 20, py + 124,
+             "Left/Right choose    Enter/A confirm    F6 close",
+             0xFFFFE060u);
+}
+
+static void frontend_apply_selected_character(void)
+{
+    if (!sm64ds::packs::has_selected_character()) return;
+    const int base = sm64ds::packs::selected_base_character() & 3;
+    character_set_pending(base);
+    data_02092128[0] = (unsigned char)base;
+    fprintf(stderr, "[frontend] file entry uses %s profile%s%s\n",
+            CHAR_NAME[base], sm64ds::packs::selected_character_key().empty()
+                ? "" : " for ",
+            sm64ds::packs::selected_character_key().c_str());
+}
+
 /* ---- ONE COPY OF THE SCENE PATH'S PER-FRAME HOST DUTIES ------------------
  * (run link100, lane STARSEL5.)
  *
@@ -7995,6 +8396,7 @@ static int scene_host_input_frame(HWND hwnd, int frame, XPad *pad,
     /* the pad layout learn flow, the same call the level loop makes;
        inert unless the menu's row armed it */
     padlearn_frame(&pad_live);
+    frontend_input(pad_live, pad);
 #ifndef PORT_ROM_CLEAN
     /* SM64DS_CLICK_TEST: the scripted stylus, driven BEFORE the tick that
        polls it, so a press is in the OS's button state by the time
@@ -8025,7 +8427,8 @@ static int scene_host_input_frame(HWND hwnd, int frame, XPad *pad,
     {
         static unsigned short btn_was;
         unsigned short btn = 0;
-        if (!menu_on) {
+        if (!menu_on && !g_frontend_character_open &&
+            !g_frontend_character_swallow) {
             btn = host_ds_buttons(pad_live, pad);
             /* the DS d-pad off the bound walk keys, either half of each
                pair (settings.json KeyRight / KeyRightAlt and siblings).
@@ -8093,8 +8496,8 @@ static int scene_host_input_frame(HWND hwnd, int frame, XPad *pad,
                at all -- only the level loop did, and only its four
                direction bits -- so the title screen, the file select and
                every minigame menu had no raw source for ANY button,
-               including the directions: src/_ZN10dScTitle_c8BehaviorEv.cpp,
-               src/_ZN11dScMiniGm_c8BehaviorEv.cpp,
+               including the directions: src/actors/dScTitle_c.cpp,
+               src/actors/dScMiniGm_c.cpp,
                src/_ZN12dScStarSel_c8BehaviorEv.cpp and
                src/minigames/d_s_mg_base.cpp all read data_020a0e58
                directly, not the Ctrl block above. scene_raw_all is the
@@ -8115,6 +8518,7 @@ static int scene_host_input_frame(HWND hwnd, int frame, XPad *pad,
         }
         btn_was = btn;
     }
+    g_frontend_character_swallow = 0;
     return 0;
 }
 
@@ -8138,6 +8542,7 @@ static void scene_host_present_frame(HWND hwnd, int stacked,
     const OvlSurface surf =
         stacked ? ovl_surface_stacked(stack_img, fb) : ovl_surface(fb);
 
+    frontend_draw(surf);
     if (menu_on) menu_draw(surf);
     if (!rb_skip_render())
         toast_draw(surf);
@@ -8324,7 +8729,8 @@ static int scene_window_run(void)
 
         /* the scene's own frame; the menu's pause is its second argument, the
            same switch the level loop's game_ticked is */
-        port_scene_tick(port_rom_frame_checked(frame, "scene-tick"), !menu_on);
+        port_scene_tick(port_rom_frame_checked(frame, "scene-tick"),
+                        !menu_on && !g_frontend_character_open);
 
         scene_host_present_frame(hwnd, stacked, fb);
         /* THE HOSTED ARM7, EXACTLY ONCE A FRAME -- and port_scene_tick above
@@ -8349,7 +8755,7 @@ static int scene_window_run(void)
            the 125ms ring drains and the speaker gets whatever the hardware
            repeats. So: the game's frames are pumped there, the paused frames
            are pumped here, and no frame is pumped twice. */
-        if (menu_on) sdat_host_tick();
+        if (menu_on || g_frontend_character_open) sdat_host_tick();
         /* THE ROM'S PHASE 6 on this path, for the level loop's reason: the
            frame's work is done and nothing of the next has started. The scene
            path has no rollback boundary, so there is no re-anchor here. */
@@ -8369,6 +8775,7 @@ static int scene_window_run(void)
            is set on a title run, so this costs an unarmed session one compare
            of a cached int. */
         if (port_title_entry_should_stop()) {
+            frontend_apply_selected_character();
             fprintf(stderr, "[title-entry] a save file was picked; leaving the "
                             "title after %d frame(s)\n",
                     port_rom_frame_checked(frame, "title-entry"));
@@ -8820,6 +9227,27 @@ int main(void)
             fprintf(stderr, "[recorder] session start\n");
         }
     }
+    /* Lua is a declarative resource-pack language, not a gameplay scripting
+       back door. Each pack is sandboxed and may only register validated native
+       models, animations, texture replacements and character metadata. Loading
+       happens once before game resources are mounted; a broken pack is skipped
+       with a complete playlog diagnostic while the unmodified game continues. */
+    {
+        const char *pack_root = getenv("SM64DS_RESOURCE_PACKS");
+        std::string pack_error;
+        if (!sm64ds::packs::load_all(pack_root ? pack_root
+                                               : "mods/resource-packs",
+                                     pack_error))
+            fprintf(stderr, "[resource-pack] rejected pack(s):\n%s",
+                    pack_error.c_str());
+        fprintf(stderr, "[resource-pack] registry: %zu character(s), "
+                        "%zu texture replacement(s)\n",
+                sm64ds::packs::characters().size(),
+                sm64ds::packs::textures().size());
+        resource_pack_register_textures();
+        if (!sm64ds::packs::selected_character_key().empty())
+            character_set_pending(sm64ds::packs::selected_base_character());
+    }
     /* A stale file from an earlier run must never be read as this run's verdict.
        Clear it before the decision, write it only if the decision goes badly. */
     port_startup_error_clear();
@@ -9111,7 +9539,7 @@ int main(void)
        but which hal/scene_boot.cpp's port_graph_block_register has never been
        told about. The port's OWN beat therefore refuses it and answers 1; the
        ROM's func_02019144 and func_02019100 have no such test, so under the
-       wake they dispatch it for the first time. src/_ZN10dScEntry_c15graphCallback_c14GraphCallback2Ev.cpp --
+       wake they dispatch it for the first time. src/actors/dScEntry_c.cpp --
        slot 2, the VS menu's own display sync -- is
 
          *(u16*)0x400100c = (BG2CNT_B & ~0x1f00) | (c[0xc] << 8);
@@ -12995,7 +13423,7 @@ int main(void)
            CLEARS it. So a frame's registrations can only happen after that
            frame's CleanAll and before its RenderAll, and the registrations are
            made from actors' own Behavior methods (SignPost::Behavior and
-           ArrowSignRight::Behavior are the two matched examples). On the ROM
+           daObjYajirusi_c::Behavior are the two matched examples). On the ROM
            that works because the Stage ticks at the head of the behaviour list
            -- its spawn record at 0x0209213c carries behaviour priority 3
            against the hundreds other classes use. The port's equivalent of
@@ -13509,7 +13937,7 @@ int main(void)
                     mode the trigger's inner gate is
                         (VS && data_0209fc68 == 0) || (data_0209caa0[2] & 0x80)
                     and on the CARTRIDGE exactly one write sets that bit --
-                    src/func_ov085_0212d5dc.cpp:51, LakituBro's last opening
+                    src/game/actors/d_a_c_jugem.cpp:51, LakituBro's last opening
                     state.
                     ON THIS PORT IT IS ALREADY SET ON EVERY LEVEL ENTRY, and a
                     reader who takes the sentence above as the whole story will

@@ -96,7 +96,7 @@
 # A full sweep of every src/ TU outside ov090 for every ov090 symbol name found
 # exactly ONE crossing, and it is already live in the tree:
 #
-#   src/func_ov006_020d5e5c.c declares `extern int data_ov090_021343b0[]`
+#   src/actors/dScMgBomroom_c.cpp declares `extern int data_ov090_021343b0[]`
 #
 # 0x021343b0 is SHARK's typeinfo NAME STRING in ov090 ("9daShark_c") and
 # minigame table data in ov006, and the relocation's own module field settles
@@ -114,7 +114,7 @@
 # and to the linkage count.
 #
 # So this lane RETIRES the alias and routes the same crossing by -D instead:
-# set_source_files_properties on src/func_ov006_020d5e5c.c with
+# set_source_files_properties on src/actors/dScMgBomroom_c.cpp with
 # `data_ov090_021343b0=data_ov006_021343b0`. Same destination, same evidence,
 # and it survives the LHS becoming defined. port/tools/alternatename_guard.py
 # is what would have caught the alternative; it is not asked to. The seat file
@@ -129,14 +129,14 @@
 # ov091's spelling. ov091 shares the 0x02130f00 window and its .text runs to
 # 0x021344e8, so both addresses are code in ov091 and data-or-code in ov090:
 #
-#   src/func_ov090_02131608.cpp  spells _ZN6Fwoosh13OnYoshiTryEatEv
+#   src/actors/daMenbo_c.cpp  spells _ZN6Fwoosh13OnYoshiTryEatEv
 #       ov090's reloc: from:0x02131644 -> 0x02134498 module:overlay(90)
 #       0x02134498 in ov090 is data_ov090_02134498, a SharedFilePtr in .bss
 #       that __sinit_ov090_02133ce8 constructs with file id 0x3a3. The TU reads
 #       `.w[1]` off it and hands it to ModelAnim::SetAnim -- a FILE POINTER,
 #       which is what a SharedFilePtr's second word is. It is not a function.
 #
-#   src/func_ov090_02133830.c    spells _ZN5Stump6RenderEv
+#   src/actors/daShark_c.cpp    spells _ZN5Stump6RenderEv
 #       ov090's reloc: from:0x02133874 -> 0x02133710 module:overlay(90)
 #       0x02133710 in ov090 is func_ov090_02133710, Shark's own helper, inside
 #       Shark's .text block (0x0213367c..0x02133ca0). The call sits at the end
@@ -327,7 +327,7 @@ data_ov090_021341e4 data_ov090_021341ec _ZTS9daManta_c data_ov090_02134200
 _ZTI9daManta_c g_profile_MANTA
 data_ov090_021342b8 data_ov090_021342c0 data_ov090_021342c8 data_ov090_021342d0
 data_ov090_021342d8 _ZTI12daPukupuku_c _ZTS12daPukupuku_c g_profile_PUKUPUKU
-data_ov090_021343a0 data_ov090_021343a8 data_ov090_021343b0 _ZTI9daShark_c
+data_ov090_021343a0 data_ov090_021343a8 _ZTS9daShark_c _ZTI9daShark_c
 g_profile_SHARK
 data_ov090_02134480 data_ov090_02134488 data_ov090_02134490 data_ov090_02134498
 data_ov090_021344a0 data_ov090_021344a8 data_ov090_021344b4 data_ov090_021344c0

@@ -278,7 +278,7 @@
 # string from the record's own second WORD rather than from what that word
 # POINTS AT, which lands three words early, in the middle of the pointers, and
 # produced "17dMgTrmpln2Mario_c" -- a plausible name with a plausible length
-# prefix.  The link caught it: src/func_ov006_020cd12c.c names the vtable
+# prefix.  The link caught it: src/actors/dMgTrmpln2Mario_c.cpp names the vtable
 # _ZTV18dMgTrmpln3DMario_c and the LNK2019 spelled it out.  The ONLY two
 # relocations naming data_ov006_0213b2c4 in the whole overlay are that element
 # constructor and the element destructor at 0x020cd0c0 (inside
@@ -423,8 +423,8 @@
 #
 # ---- 13. TWO CROSS-MODULE MISBINDINGS, AND THEY WERE THE BOOT BLOCKER ------
 #
-# src/func_ov006_020cd12c.c calls data_ov007_020cd72c and
-# src/func_ov006_020cb16c.c calls data_ov007_020ccd78.  Both DS addresses carry
+# src/actors/dMgTrmpln2Mario_c.cpp calls data_ov007_020cd72c and
+# src/actors/dMgTrmpln2Mario_c.cpp calls data_ov007_020ccd78.  Both DS addresses carry
 # an ov006 FUNCTION and an ov007 DATA symbol, and both ROM relocations read
 # `kind:arm_call ... module:overlay(6)`.  On hardware the two overlays are never
 # resident together, so the address is unambiguous wherever this code can run;
@@ -440,7 +440,7 @@
 #
 # ---- 14. ONE MORE HOST COPY: THE ELEMENT'S MODEL DRAW ---------------------
 #
-# src/func_ov006_020cafb4.cpp models the object at element+0x6c with a local
+# src/actors/dMgTrmpln2Mario_c.cpp models the object at element+0x6c with a local
 # six-pure-virtual shadow and calls its SIXTH virtual, which is the ROM's
 # numbering (byte +0x14 = ModelAnim::Render) and NOT MSVC's (where the sixth
 # word is Virtual18).  Same defect as the flower's and Door_Render.cpp's.
@@ -500,76 +500,10 @@ src/_ZN9ModelAnim7SetAnimEP8BCA_Filei5Fix12IiEj.c
 src/func_02053ea0.c
 src/func_02053eb0.c
 src/func_02054748.c
-src/func_ov006_020bfec0.cpp
-src/func_ov006_020bfff8.cpp
-src/func_ov006_020c8a30.c
-src/func_ov006_020c8a64.c
-src/func_ov006_020c8a9c.c
-src/func_ov006_020c8af4.c
-src/func_ov006_020c8ba8.cpp
-src/func_ov006_020c8c6c.c
-src/func_ov006_020c8c78.c
-src/func_ov006_020c905c.c
-src/func_ov006_020c91ac.cpp
-src/func_ov006_020c94e0.cpp
-src/func_ov006_020c97bc.cpp
-src/func_ov006_020c9aa0.cpp
-src/func_ov006_020c9c8c.cpp
-src/func_ov006_020c9d7c.c
-src/func_ov006_020c9e7c.c
-src/func_ov006_020c9efc.cpp
-src/func_ov006_020c9fe4.cpp
-src/func_ov006_020ca070.cpp
-src/func_ov006_020ca2ec.c
-src/func_ov006_020ca310.cpp
-src/func_ov006_020ca39c.c
-src/func_ov006_020ca3a8.cpp
-src/func_ov006_020caf44.c
-src/func_ov006_020caf4c.c
-src/func_ov006_020cafa4.c
-src/func_ov006_020cafac.c
-src/func_ov006_020cafdc.cpp
-src/func_ov006_020cb134.cpp
-src/func_ov006_020cb1a8.cpp
-src/func_ov006_020cb2b4.c
-src/func_ov006_020cb528.cpp
-src/func_ov006_020cb5c4.c
-src/func_ov006_020cb690.cpp
-src/func_ov006_020cb72c.c
-src/func_ov006_020cb814.c
-src/func_ov006_020cb838.cpp
-src/func_ov006_020cbaec.cpp
-src/func_ov006_020cbd7c.cpp
-src/func_ov006_020cbfd8.cpp
-src/func_ov006_020cc198.cpp
-src/func_ov006_020cc2ac.c
-src/func_ov006_020cc37c.cpp
-src/func_ov006_020cc408.cpp
-src/func_ov006_020cc618.c
-src/func_ov006_020cc63c.c
-src/func_ov006_020cc698.cpp
-src/func_ov006_020cc724.c
-src/func_ov006_020cc8c8.c
-src/func_ov006_020cc9b8.c
-src/func_ov006_020cc9fc.cpp
-src/func_ov006_020ccae0.c
-src/func_ov006_020ccc8c.cpp
-src/func_ov006_020ccd04.c
-src/func_ov006_020ccd64.c
-src/func_ov006_020ccd78.cpp
-src/func_ov006_020cce0c.c
-src/func_ov006_020ccfc8.cpp
-src/func_ov006_020cd158.c
-src/func_ov006_020cd1e0.c
-src/func_ov006_020cd270.c
-src/func_ov006_020cd39c.c
-src/func_ov006_020cd424.c
-src/func_ov006_020cd510.c
-src/func_ov006_020cd62c.c
-src/func_ov006_020cd658.c
-src/func_ov006_020cd720.c
-src/func_ov006_020cd72c.c
-# src/func_ov006_020cf758.cpp is OUT at the mg11 merge. Lane TTE host-copies
+src/actors/unit020bfec0.cpp
+src/actors/unit020c8a30.cpp
+src/actors/dMgTrmpln2Mario_c.cpp
+# src/actors/unit020cd744.cpp is OUT at the mg11 merge. Lane TTE host-copies
 # this body in unmatched/MgTrampolineTerror_MarioDispatch.cpp: its one
 # statement IS an mwcc member-pointer dispatch, (c->*(c->pmf))(), which the
 # host cannot compile -- the ROM's pair is eight bytes where MSVC strides
@@ -578,8 +512,8 @@ src/func_ov006_020cd72c.c
 # Symmetric with slice_tte.txt's 020cb16c line, and the same root cause:
 # both lanes checked the other's FILENAMES, not its SYMBOLS.
 # The 0x800 STROKE INSTALLER, seated by run mg12 lane INST and listed in BOTH
-# trampoline slices (it is reached from src/func_ov006_020d0b78.c on 385's side
-# and from src/func_ov006_020d0c38.c on both). It replaces the trap that lived
+# trampoline slices (it is reached from src/actors/unit020cd744.cpp on 385's side
+# and from src/actors/unit020cd744.cpp on both). It replaces the trap that lived
 # in unmatched/MgTrampolineTime_Floors.cpp, so that file no longer defines it
 # and its floor counter now reads a retired 0. An honest NONMATCHING seat; the
 # banner in the file states its four divergences.
@@ -595,9 +529,9 @@ src/func_ov006_020cd72c.c
 # register-allocation luck, at measured zero cost. Emitted game code is
 # byte-identical across the conversion; the banner has the proof and the one
 # spelling that had to change to keep it so.
-src/func_ov006_020d01e0.cpp
+src/actors/unit020cd744.cpp
 # THE MESH DRAW, seated by run mg13 lane TRAMP, and the last thing between a
-# drawn stroke and a trampoline the player can see. src/func_ov006_020d09e0.c
+# drawn stroke and a trampoline the player can see. src/actors/unit020cd744.cpp
 # calls it once per record whose +0x328 gate the installer above set, so with
 # the installer seated and this one still trapped the gate went 0 -> 1 and
 # nothing was drawn. Listed in BOTH trampoline slices for the same reason
@@ -612,7 +546,6 @@ src/func_ov006_020d01e0.cpp
 # An honest NONMATCHING seat -- 25 divergences against 258 ROM code words, frame
 # and all six call offsets exact, both of loop two's vertex packs matching the ROM
 # instruction for instruction -- and the banner in the file states every one.
-src/func_ov006_020cf2fc.c
 # THE INSTALLER'S OWN THREE CALLEES, and none of them was in ANY slice before it
 # was seated -- the trap was hiding all three, and the first link with the real
 # body failed with exactly three LNK2019s. All three are matched src TUs with
@@ -628,12 +561,3 @@ src/func_ov006_020cf2fc.c
 # of the SIXTEEN WRITERS -- the bodies that copy a pair -- which is a different
 # set from the fourteen code words the pairs point AT. Nothing over there needed
 # changing and nothing over there was changed.
-src/func_ov006_020cf040.c
-src/func_ov006_020cfa28.c
-src/func_ov006_020cfc58.c
-src/func_ov006_020d09e0.c
-src/func_ov006_020d0ac0.c
-src/func_ov006_020d0b04.c
-src/func_ov006_020d0b2c.cpp
-src/func_ov006_020d0bd8.c
-src/func_ov006_020d0c38.c

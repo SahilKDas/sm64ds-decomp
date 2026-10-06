@@ -37,7 +37,7 @@
 // transcription of that.
 //
 // ON THE HOST IT IS A WILD WRITE, NOT A WILD READ, which is lane MAR1's
-// verification and is why this cannot be left alone. src/_ZN11dScMgBase_cC2Ev.cpp
+// verification and is why this cannot be left alone. src/minigames/d_s_mg_base.cpp
 // is
 //
 //     void *_ZN11dScMgBase_cC2Ev(char *self)
@@ -82,7 +82,7 @@
 //
 // WHAT CHANGED, exactly, and nothing else moved: `_ZN11dScMgBase_cC2Ev();`
 // became `_ZN11dScMgBase_cC2Ev(p);`. The declaration is spelled the way
-// src/_ZN11dScMgBase_cC2Ev.cpp DEFINES it, `void *(char *)`, rather than the way
+// src/minigames/d_s_mg_base.cpp DEFINES it, `void *(char *)`, rather than the way
 // the displaced TU declared it, so port/tools/aritycheck.py sees a declaration
 // that agrees with the definition instead of one more zero-argument row.
 //

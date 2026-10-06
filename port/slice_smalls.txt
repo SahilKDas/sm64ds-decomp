@@ -26,8 +26,8 @@
 #   * the alternatename removed from unmatched/Jrb_Aliases.cpp (its banner now
 #     carries the history), and
 #   * -Dfunc_ov018_02111bf0=func_ov016_02111bf0 on the three ov016 callers,
-#     src/func_ov016_02111534.c, src/func_ov016_02111758.cpp and
-#     src/func_ov016_021118b4.cpp (all three linked through slice_gate188.txt).
+#     src/actors/daMoray_c.cpp, src/actors/daMoray_c.cpp and
+#     src/actors/daMoray_c.cpp (all three linked through slice_gate188.txt).
 # Every reference is accounted for: those three are the only spellings of the
 # ov018 name outside ov018 itself, and hal/../unmatched/Unagi_StateDispatch.cpp
 # carries a declaration of it that nothing in that file calls.

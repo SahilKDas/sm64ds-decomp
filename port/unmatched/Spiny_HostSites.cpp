@@ -35,7 +35,7 @@
  *     Offsets are Spiny.h's own: unk_0b0 0xb0, mModel 0xd4, mModelAnim 0x124,
  *     unk_3d8 0x3d8.
  *
- * (3) src/func_ov077_02125e20.cpp and src/func_ov077_02125e5c.cpp -- the PMF
+ * (3) src/actors/daTgz_c.cpp and src/actors/daTgz_c.cpp -- the PMF
  *     disease, state cell at self+0x3d0 (Lakitu's is 0x3f0). 02125e5c
  *     dispatches cell[0] (enter), 02125e20 cell[1] (tick).
  *
@@ -87,14 +87,14 @@ struct PortOv077Pmf { unsigned int fn; int delta; };
 typedef void (*PortOv077StateFn)(void *);
 
 /* func_ov077_02125e5c IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov077_02125e5c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daTgz_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.
    The reading above is kept because it is the derivation. */
 
 /* func_ov077_02125e20 IS NOT A HOST COPY ANY MORE. Run link100 lane PMF2 put
-   src/func_ov077_02125e20.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
+   src/actors/daTgz_c.cpp back on port/slice_pmf2.txt: with /vmg /vmm global (the
    R8 block in port/CMakeLists.txt) MSVC's pointer-to-member IS the ROM's
    8-byte {function, delta} pair, and the matched TU compiles to the same
    tail jump this body was -- measured, listing in that slice's header.

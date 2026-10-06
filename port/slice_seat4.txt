@@ -122,22 +122,22 @@
 #           lane PMFB4 installed there now reaches the matched TU.
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): main folded this body into src/actors/dScMgCoin_c.cpp, which
 # port/slice_ccn.txt:97 already compiles.
-#src/func_ov006_020dc298.cpp
+#src/actors/dScMgCoin_c.cpp
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): main folded this body into src/actors/dScMgCoin_c.cpp, which
 # port/slice_ccn.txt:97 already compiles.
-#src/func_ov006_020dc754.cpp
-src/func_ov006_020de440.cpp
+#src/actors/dScMgCoin_c.cpp
+src/actors/dScMgCoin_c.cpp
 
 # ---- dScMgBomroom_c --------------------------------------------------------
 # 020d7c00  data_ov006_02141708, 5 cells, arity 1. Also slot 6 of the seated
 #           data_ov006_02141730, so its own face now reaches the matched TU.
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): main folded this body into src/actors/dScMgBomroom_c.cpp, which
 # port/slice_gate10.txt:949 and port/slice_pmfb4.txt:129 already compile.
-#src/func_ov006_020d7c00.cpp
+#src/actors/dScMgBomroom_c.cpp
 
 # ---- dScMgCurling_c --------------------------------------------------------
 # 020e12d0  data_ov006_021418c0, 3 cells, arity 1
-src/func_ov006_020e12d0.cpp
+src/actors/dScMgCurling_c.cpp
 
 # ---- dScMgCurling2_c -------------------------------------------------------
 # 020e42b4  data_ov006_021419f8 (4) and data_ov006_021419a0 (3), arity 1 on both
@@ -158,8 +158,7 @@ src/_ZN15dScMgCurling2_c8BehaviorEv.cpp
 # ---- dScMg3DEsp_c ----------------------------------------------------------
 # 020e8a44  data_ov006_02141f1c, 2 cells, arity 1
 # 020e9b70  data_ov006_02141fac, 4 cells, arity 0
-src/func_ov006_020e8a44.cpp
-src/func_ov006_020e9b70.cpp
+src/actors/dMg3DEspAnimSet_c.cpp
 
 # ---- dScMgLuigi_c ----------------------------------------------------------
 # 020f0044  data_ov006_021421ec, 3 cells, arity 1 (the ROM passes a constant 0)
@@ -186,15 +185,14 @@ src/func_ov006_020e9b70.cpp
 # 020f7234  data_ov006_02142440, 10 cells, arity 0
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): main folded this body into src/actors/dScMgMemory2_c.cpp, which
 # port/slice_mem.txt:157 and port/slice_pmfb4.txt:453 already compile.
-#src/_ZN14dScMgMemory2_c11StateResultEv.cpp
+#src/actors/dScMgMemory2_c.cpp
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): main folded this body into src/actors/dScMgMemory2_c.cpp, which
 # port/slice_mem.txt:157 and port/slice_pmfb4.txt:453 already compile.
-#src/_ZN14dScMgMemory2_c9StatePlayEv.cpp
+#src/actors/dScMgMemory2_c.cpp
 
 # ---- dScMgSnowball_c -------------------------------------------------------
 # 02129d94  data_ov006_02143070 (4) and data_ov006_02143020 (3), arity 1 on both
 # 0212a224  data_ov006_02143050, 4 cells, arity 1
 # Both are also cells of the seated data_ov006_02143038, so the faces lane
 # SNOWBALL installed there now reach the matched TUs.
-src/func_ov006_02129d94.cpp
-src/func_ov006_0212a224.cpp
+src/actors/dScMgSnowball_c.cpp

@@ -34,7 +34,6 @@ src/func_0203d384.c
 # port/unmatched/Player_St_Climb.cpp. Main (0x020cb5bc) is now matched source
 # (the div-9 near-miss closed by passing the pad halfword through to
 # func_ov002_020cc05c); the climb-motion helpers ride along with it.
-src/_ZN6Player13St_Climb_MainEv.cpp
 src/func_0200d5c0.c
 src/func_0200d5fc.c
 # St_SwingPlayer_Main (0x020d9fec) is a MATCHING FLOOR with no matched src TU;
@@ -267,7 +266,7 @@ src/_ZN2GX12SetBankForBGEt.cpp
 src/_ZN2GX6DispOnEv.cpp
 src/_ZN4Heap21MaxAllocationUnitSizeEv.cpp
 src/_ZN4Heap6IntactEv.cpp
-src/_ZN8dScene_c22ResetHardwareRegistersEv.cpp
+src/actors/dScene_c.cpp
 src/GetActorDebugName.c
 src/func_0202e118.c
 src/func_020427c4.c
@@ -292,12 +291,11 @@ src/nds_printt.c
 src/DMASyncHalfTransfer.c
 src/MultiStore16.c
 src/Vram__Map.c
-src/_ZN2GX15DisableAllBanksEv.cpp
 src/_ZN2GX15SetGraphicsModeEiii.cpp
 src/_ZN3G2x12SetBGyAffineEPVtP9Matrix2x2iiii.cpp
 src/_ZN3GXS15SetGraphicsModeEi.cpp
 src/_ZN4cstd6strlenEPKc.cpp
-src/_ZN7fBase_c7ProcessEMS_FivEMS_FbvEMS_FvjE.cpp
+src/actors/ActorBase.cpp
 src/func_0201473c.c
 src/func_020147bc.c
 src/func_020524c4.c
@@ -434,7 +432,7 @@ src/_ZN9dBgCh_Gnd10DetectClsnEv.cpp
 src/_ZN6Player16InitWingFeathersEb.cpp
 src/_ZN9ModelAnimD1Ev.cpp
 src/func_02012790.c
-src/LoadKeyModels.cpp
+src/actors/daObjKey_c.cpp
 src/Vec3_HorzDist.c
 # QUARANTINED at the main->port sync (lane SYNC5, the wave-7 fold merge): MSVC
 # refuses main's shape for this TU (C2600, the model family's destructor TUs:
@@ -650,7 +648,7 @@ src/func_ov002_020e69c0.c
 src/func_ov002_020e6a78.c
 src/func_ov002_020e6b3c.c
 src/func_ov002_020e6b74.c
-src/func_ov002_020edca4.c
+src/actors/daYegg_c.cpp
 src/func_ov002_020eed24.cpp
 src/Color_Interp.c
 src/IsButtonInputValid.c
@@ -666,7 +664,7 @@ src/Vec3_Add.c
 src/Vec3_Asr.c
 src/_Z15ApproachLinear2Rsss.cpp
 src/_ZN5dBgPiaSERKS_.cpp
-src/_ZN8dM3dGLin3SetERK7Vector3S2_.cpp
+src/actors/dM3dGLin.cpp
 src/_ZN11ShadowModel9InitModelEP9Matrix4x35Fix12IiES3_S3_j.c
 src/_ZN10dBgCh_Actr20UpdateExtraContinousEv.cpp
 # RE-KEYED at the main->port sync (lane SYNC7, the wave-9 fold merge): main's #2712
@@ -678,7 +676,6 @@ src/_ZN10dBgCh_Actr20UpdateExtraContinousEv.cpp
 src/_ZN3OAM6RenderEbP7OamAttriiii5Fix12IiES3_ii.c
 src/_ZN8dActor_c11UntrackStarERa.cpp
 src/_ZN5Sound8PlayLongEjjjRK7Vector3s.cpp
-src/_ZN7fBase_c18MarkForDestructionEv.cpp
 src/func_0200d858.c
 src/func_02010da4.c
 src/_ZN5dCc_c6UnlinkEv.cpp
@@ -726,9 +723,6 @@ src/func_ov002_020d91e0.c
 src/func_ov002_020dacb4.c
 src/func_ov002_020e0478.cpp
 src/func_ov002_020e7218.c
-src/func_ov002_020ec610.c
-src/func_ov002_020ec728.c
-src/_ZN8dM3dGLinD2Ev.cpp
 src/IsStarCollected.c
 src/SetStarMarker.c
 src/_ZN12dBgCh_SphCrr10DetectClsnEv.cpp
@@ -761,9 +755,6 @@ src/func_0203ac00.c
 src/func_ov002_020da9d4.cpp
 src/func_ov002_020db54c.cpp
 src/func_ov002_020e7554.c
-src/func_ov002_020ec628.c
-src/func_ov002_020ec640.c
-src/func_ov002_020ec80c.c
 src/func_ov002_020eedc0.cpp
 src/func_ov002_020fea4c.c
 src/func_ov002_020fea68.c
@@ -791,7 +782,7 @@ src/func_020485f0.c
 src/func_02048d80.c
 src/func_ov002_020d9c70.c
 src/func_ov002_020da95c.c
-src/func_ov002_020f0918.c
+src/game/actors/d_a_obj_number.cpp
 # func_0200ee8c IS NOT HERE: it declares GetStarCameraSetting `extern s32` and
 # uses the full return as the data_020876e4[] index, but the definition returns
 # unsigned char (AL only), so on x86 MSVC the dirty EAX high bytes produce an
@@ -847,11 +838,9 @@ src/func_02011c8c.c
 # (run lvled, lane intro-cutscene)
 # src/func_ov002_020f7d74.cpp
 src/SetNextStar.c
-src/_ZN8dScene_c20SetAndStopColorFaderEv.cpp
 src/_ZN5Sound6Player19SetPlayableSeqCountEii.cpp
 src/_ZN8SaveData19IsCharacterUnlockedEj.cpp
 src/func_02011d5c.c
-src/_ZN8dScene_c9SetFadersEP15FaderBrightness.cpp
 src/func_02048e54.c
 src/func_02048e74.c
 src/func_02048e94.c
@@ -1055,7 +1044,7 @@ src/_ZN6Player21St_WaitQuicksand_InitEv.cpp
 # hal_call_state_fn, following St_NoControl_Init (the table's ptr words are all
 # zero, so the virtual branch is dead and row[0] would be a DS vtable byte
 # offset). Was port/unmatched/Player_St_WallJump_Main.cpp.
-src/func_ov006_020e17f8.cpp
+src/actors/dScMgCurling_c.cpp
 src/_ZN6Player17St_WallSlide_MainEv.cpp
 src/_ZN6Player17St_WallSlide_InitEv.cpp
 src/_ZN6Player17St_WindCarry_MainEv.cpp
@@ -1080,7 +1069,7 @@ src/func_ov002_020d9dcc.c
 src/func_ov002_020daa74.cpp
 src/func_ov002_020dcafc.c
 src/func_ov002_020e0f38.cpp
-src/func_ov100_02144fcc.cpp
+src/actors/daDoor_c.cpp
 src/GetTeleportDestObj.c
 src/Vec3_MulScalarInPlace.c
 src/_ZN5Sound22LoadAndSetMusic_Layer1Ei.cpp
@@ -1104,13 +1093,12 @@ src/func_ov002_020dc09c.c
 src/func_ov002_020de3d0.c
 src/func_ov002_020de428.c
 src/func_ov002_020df8f0.c
-# src/func_ov002_020ed63c.cpp -- gate 210: YoshiEgg's state setter is an mwcc
+# src/actors/daYegg_c.cpp -- gate 210: YoshiEgg's state setter is an mwcc
 # pointer-to-member over data_ov002_02110a5c; host copy in
 # unmatched/YoshiEgg_StateDispatch.cpp (the MSVC build of this TU called a raw
 # DS word). Nothing dispatched it before the egg was seated.
 src/_ZN5Sound7PlaySubEjjj5Fix12IiEb.cpp
 src/func_02053274.c
-src/func_ov100_02145014.c
 src/ChangeArea.c
 src/GetViewObj.c
 src/GiveVsStars.c
@@ -1234,10 +1222,8 @@ src/_ZN6Player16St_BurnLava_MainEv.cpp
 src/_ZN6Player16St_BurnLava_InitEv.cpp
 src/KillPlayer.c
 src/SetNextLevel.c
-src/_ZN8dScene_c14StartSceneFadeEjjt.cpp
 src/HitDeathPlane.c
 src/FUN_020299f4.cpp
-src/_ZN8dScene_c15SetSceneToSpawnEjj.cpp
 # _ZN6Player17St_NoControl_InitEv RETIRED to its matched TU via hostgen's
 # CALL_STATE_FN table (GATE10_SYMS): both branches route through
 # hal_call_state_fn (the table's ptr words are all zero, so the virtual branch

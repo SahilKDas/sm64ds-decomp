@@ -181,7 +181,7 @@
 #     is the ROM's own `cmp r0,#9 / addls pc,pc,r0,lsl #2` ten-arm jump table
 #     on the same index. Neither is the wall.
 #   - A `::*` SWEEP over all 41 TUs in the class's code block: EXACTLY ONE,
-#     src/func_ov006_02107db8.cpp.
+#     src/actors/dScMgRoulette_c.cpp.
 #   - THE WORD-DECODE SCAN, for the third shape neither prescribed detector can
 #     see. Every word of 0x0210788c..0x0210a4ac was decoded looking for
 #     `add Rd,Rn,Rm,asr #1`: ONE site, 0x02107e30, inside that same TU. Five
@@ -468,5 +468,4 @@
 # duplicate symbol and taking the src one puts the host copy's reason back. The
 # row returns when the host copy covers the whole consolidated TU.
 #src/minigames/d_s_mg_roulette.cpp
-src/func_ov006_020c0e8c.c
-src/func_ov006_020c0efc.c
+src/actors/unit020bfec0.cpp

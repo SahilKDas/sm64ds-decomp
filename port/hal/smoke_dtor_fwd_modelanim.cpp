@@ -12,7 +12,7 @@
 // hal/dtor_forwarders_gen_w9c.cpp; walk_window.map line 26138 shows it there.
 //
 // WHY NOT THAT FILE ITSELF.  It carries thirty rows for thirty classes,
-// including TowerStep, KnockDownPlank and the rest of wave 9c's batch, and a
+// including daObjBk_Lift_c, KnockDownPlank and the rest of wave 9c's batch, and a
 // model-animation harness hosts none of them.  This is the subset argument
 // port/faces_sync_smoke_heap.txt makes for the ledger, applied once more.
 //

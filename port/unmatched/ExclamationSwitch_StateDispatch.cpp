@@ -93,8 +93,8 @@ extern "C" void port_exclamation_switch_states_seat(void)
     }
 }
 
-/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/func_ov002_020ba4d8.cpp and
-   src/func_ov002_020ba520.cpp are on port/slice_pmf3.txt (run link100 lane
+/* BOTH DISPATCHERS ARE BACK ON THE SLICE. src/actors/daObjSwitch_c.cpp and
+   src/actors/daObjSwitch_c.cpp are on port/slice_pmf3.txt (run link100 lane
    PMF3). With /vmg /vmm target-wide MSVC's pointer-to-member is the ROM's
    8-byte {function, delta} record, so the table strides 0x10 the way the ROM
    does and the emitted body TAIL JUMPS through the record's function word.

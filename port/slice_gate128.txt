@@ -10,17 +10,17 @@
 #
 # ExclamationBlock is a Platform subclass. Its 1016-byte object is built by
 # daObjHatenaBlock_c_classInit_ITEM_BLOCK (ov102 0x0214a8ac), which installs vtable
-# _ZTV13QuestionBlock (ov102 0x0214e47c) -- ExclamationBlock and QuestionBlock
+# _ZTV18daObjHatenaBlock_c (ov102 0x0214e47c) -- ExclamationBlock and daObjHatenaBlock_c
 # are the same class shape (RTTI daObjHatena_c), the block-kind is a param, so
 # the two share one vtable and one method set.
 #
 # ---- everything but the factory is already in the link ---------------------
 #
-# _ZTV13QuestionBlock is the table QUESTION_BLOCK (id 20, daObjHatenaBlock_c_classInit_HATENA_BLOCK)
+# _ZTV18daObjHatenaBlock_c is the table QUESTION_BLOCK (id 20, daObjHatenaBlock_c_classInit_HATENA_BLOCK)
 # installs, and QUESTION_BLOCK is already registered (gate 23), so:
-#   - all of QuestionBlock's methods (Init/Cleanup/Behavior/Render/D1) are
+#   - all of daObjHatenaBlock_c's methods (Init/Cleanup/Behavior/Render/D1) are
 #     already compiled -- gate 23 named them,
-#   - the host vtable array _ZTV13QuestionBlock is already filled by
+#   - the host vtable array _ZTV18daObjHatenaBlock_c is already filled by
 #     hal_fill_question_block_vtable (hal/actor_classes.cpp), and
 #   - g_profile_ITEM_BLOCK is already mounted (ov102_syms.txt).
 #
@@ -29,4 +29,4 @@
 # different object size 1016) -- plus the registry row, which reuses
 # QUESTION_BLOCK's shared vtable fill (fill 0, the FORTRESS_TOWER shape). No
 # new overlay data, no PMF state table, no method face.
-src/d_a_obj_hatena_block_item_block.c
+src/actors/daObjHatenaBlock_c.cpp

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": 4,
+  "key": "64ds-dx:waluigi",
+  "name": "Waluigi",
+  "gameplayProfile": "wario",
+  "assetFormat": "sm64ds-native",
+  "assets": {
+    "body": "assets/waluigi_model.bmd",
+    "headCap": "assets/waluigi_head_cap.bmd",
+    "headNoCap": "assets/waluigi_head_nocap.bmd",
+    "icon": "assets/waluigi_icon.png"
+  },
+  "hitbox": {
+    "radius": 48.0,
+    "height": 116.0,
+    "hurtRadius": 48.0,
+    "hurtHeight": 116.0
+  },
+  "source": {
+    "project": "coop-deluxe/character-models",
+    "character": "keebwaluigi",
+    "revision": "5dc3c5adbd8b3fb51b57fa5250b52dd4c2b05300",
+    "fileSha256": "0a8bf824a37ff89335a147406a715718f8dc7543dc48627f618254dea0e187ac"
+  },
+  "fallback": null
+}

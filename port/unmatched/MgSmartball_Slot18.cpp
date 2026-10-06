@@ -1,7 +1,7 @@
 /* PORT_HOST_ABI. HOST COPY of dScMgSmartball_c vtable slot 18,
  * _ZN16dScMgSmartball_c13OnYoshiTryEatEi. Run mg5, lane SMB.
  *
- * WHY THIS FILE EXISTS. src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp is MATCHED and correct for
+ * WHY THIS FILE EXISTS. src/actors/dScMgSmartball_c.cpp is MATCHED and correct for
  * the ROM, and it is wrong on the host for one reason: it drops an argument
  * that ARM rides through in r0. This is the same defect family
  * port/mg_fanout_costs.txt section 6 records as (b) and (c), found here in
@@ -36,14 +36,14 @@
  *
  * THE SOURCE PAIR, verbatim from the tree:
  *
- *     src/func_ov006_02115b0c.c:113   void func_ov006_02115b0c(char *c)
- *     src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp:8   void func_ov006_02115b0c(void);
- *     src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp:11  func_ov006_02115b0c();
+ *     src/actors/dScMgSmartball_c.cpp:113   void func_ov006_02115b0c(char *c)
+ *     src/actors/dScMgSmartball_c.cpp:8   void func_ov006_02115b0c(void);
+ *     src/actors/dScMgSmartball_c.cpp:11  func_ov006_02115b0c();
  *
  * port/tools/aritycheck.py finds the row without being pointed at it:
  *   DROPS func_ov006_02115b0c -- declared 0 param(s) at
- *   src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp:8, DEFINED 1 param at
- *   src/func_ov006_02115b0c.c:67.
+ *   src/actors/dScMgSmartball_c.cpp:8, DEFINED 1 param at
+ *   src/actors/dScMgSmartball_c.cpp:67.
  *
  * WHY IT IS WORSE THAN A BAD READ, which is the reason it is fixed before the
  * first boot rather than after one: func_ov006_02115b0c is the board
@@ -54,16 +54,16 @@
  * which is exactly the shape lane MAR1 established for section 12's
  * displacement case.
  *
- * WHAT IS CHANGED FROM src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp, stated line by line so the
+ * WHAT IS CHANGED FROM src/actors/dScMgSmartball_c.cpp, stated line by line so the
  * diff is checkable:
  *   1. the declaration of func_ov006_02115b0c gains its `char *` parameter,
- *      which is what src/func_ov006_02115b0c.c:113 already defines;
+ *      which is what src/actors/dScMgSmartball_c.cpp:113 already defines;
  *   2. _ZN16dScMgSmartball_c13OnYoshiTryEatEi gains the `void *self` parameter the vtable slot
  *      is dispatched with, and passes it;
  *   3. nothing else. The two SetBlendAlpha calls, their five arguments and
  *      their two register addresses are byte-for-byte the src TU's.
  *
- * THE DECOMP-SIDE FIX IS ROUTED, NOT TAKEN. src/_ZN16dScMgSmartball_c13OnYoshiTryEatEi.cpp should
+ * THE DECOMP-SIDE FIX IS ROUTED, NOT TAKEN. src/actors/dScMgSmartball_c.cpp should
  * declare and call func_ov006_02115b0c with the object; whether that still
  * builds byte-identically under mwccarm 1.2/sp2p3 is a byte-gated-tree
  * question and this tree is not the place to answer it. src/ is untouched;

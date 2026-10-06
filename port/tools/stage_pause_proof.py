@@ -72,7 +72,7 @@ than merely green.
           correction is the interesting part (run link100, lane FRAME2).  What
           stood here was: the trigger's inner gate is
               (VS && data_0209fc68 == 0) || (data_0209caa0[2] & 0x80)
-          the opening-seen bit's only writer is src/func_ov085_0212d5dc.cpp:51,
+          the opening-seen bit's only writer is src/game/actors/d_a_c_jugem.cpp:51,
           "a level selftest boots with that bit clear", so a scripted START must
           be refused and the watch must say seen=0.
 

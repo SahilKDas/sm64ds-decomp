@@ -268,7 +268,6 @@ DSSTATE_END
    nothing writes it. It is on that tool's BOOT_CONSTANT list now, with the
    reasoning beside the entry. Measured, not predicted -- the first link with
    this alias in it failed exactly there. */
-#pragma comment(linker, "/alternatename:_data_02075720=_VS_STAR_SPAWN_ORDERS")
 
 // ===========================================================================
 // PART 3 -- THE FOUR C-NAME FACES

@@ -35,28 +35,16 @@
 # this-adjustment arithmetic itself, so MSVC's pointer-to-member
 # representation never comes into it -- the rabbit's case. Only the eight
 # statics need seating, and that is in hal/actor_overlays.cpp with the rest.
-src/d_a_btfly.c
-src/_ZN9Butterfly13InitResourcesEv.cpp
+src/actors/daBtfly_c.cpp
 # RETIRED at SLICE1: body now in src/_ZN9ButterflyD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN9ButterflyD0Ev.cpp
-src/_ZN9Butterfly8BehaviorEv.cpp
 # _ZN9Butterfly6RenderEv IS NOT HERE: it dispatches ModelAnim slot 5
 # through a local shadow class, which is ROM numbering, and _ZTV9ModelAnim
 # CANNOT be dual-filled the way _ZTV5Model can -- MSVC's slot 5 there is
 # Virtual18, which takes two arguments where the shadow passes one. Host
 # copy in port/unmatched/ModelAnim_Renders.cpp; measured as a c0000005 in
 # Model::Virtual10 before it was one.
-src/_ZN9Butterfly16CleanupResourcesEv.cpp
-src/_ZN9Butterfly16OnPendingDestroyEv.cpp
 # the eight states, all matched -- no hole and no trap
-src/_ZN9Butterfly6State6Ev.cpp
-src/_ZN9Butterfly6State5Ev.cpp
-src/_ZN9Butterfly6State4Ev.cpp
-src/_ZN9Butterfly6State7Ev.cpp
-src/_ZN9Butterfly6State3Ev.cpp
-src/_ZN9Butterfly6State2Ev.cpp
-src/_ZN9Butterfly6State1Ev.cpp
-src/_ZN9Butterfly6State0Ev.cpp
 
 # ---- FISH (actor 344, ov100) x2 -------------------------------------------
 # The two shoals in the moat. Seven states, and the class is bound to a PARENT
@@ -70,23 +58,12 @@ src/_ZN9Butterfly6State0Ev.cpp
 # case for the fifth time, so MSVC would quadruple the stride. Host copy plus
 # the seven-static seat in port/unmatched/Fish_Behavior.cpp. All seven states
 # are matched src, so that file carries no trap.
-src/d_a_fish.cpp
-src/_ZN4Fish13InitResourcesEv.cpp
+src/game/actors/d_a_fish.cpp
 # RETIRED at SLICE1: body now in src/_ZN4FishD1Ev.cpp. MSVC folds the ROM destructor variants into one symbol, so only one of a class two per-function destructor TUs can be compiled.
 #src/_ZN4FishD0Ev.cpp
 # _ZN4Fish6RenderEv IS NOT HERE either, the same ModelAnim slot-5 case.
-src/_ZN4Fish16CleanupResourcesEv.cpp
-src/_ZN4Fish16OnPendingDestroyEv.cpp
 # the seven states, all matched
-src/func_ov100_021463b0.cpp
-src/func_ov100_02146468.c
-src/func_ov100_021464f4.cpp
-src/func_ov100_02146640.c
-src/func_ov100_021467d4.c
-src/func_ov100_021467e8.cpp
-src/func_ov100_02146828.c
 # the owner test Behavior runs before it will keep a fish alive
-src/func_ov100_0214639c.c
 
 # ---- the overlay's own static initialisers --------------------------------
 # All seven, in ROM order. They are what constructs every SharedFilePtr the
@@ -103,8 +80,6 @@ src/__sinit_ov100_02147d7c.c
 # The two ov100 helpers the fish's own methods close over: 02146280 is the
 # release pass its CleanupResources runs and 0214629c the swim step one state
 # calls.
-src/func_ov100_02146280.c
-src/func_ov100_0214629c.cpp
 # Two arm9 bodies no class the port carried before now needed: the butterfly
 # asks its own animation how long it is, and one of its states poofs.
 src/_ZNK9Animation13GetFrameCountEv.cpp
@@ -151,14 +126,11 @@ src/_ZN10dCcAcPos_c6GetPosEv.cpp
 # +0x668 Holder (typedef'd over an incomplete Actor in the matched TU), the
 # Fish/Whomp/LakituBro case. Host copy in
 # port/unmatched/UnchainedChomp_Behavior.cpp, which also carries the 2-static seat.
-src/_ZN14UnchainedChomp16CleanupResourcesEv.cpp
-src/_ZN14UnchainedChomp16OnPendingDestroyEv.cpp
+src/actors/daWanwan2_c.cpp
 # _ZN14UnchainedChomp6RenderEv IS NOT HERE: ModelAnim slot-5 shadow dispatch
 # off mModelAnim (+0x30c, not the usual +0xd4) plus a 5-iteration loop over the
 # +0x370 Model array. Host copy in port/unmatched/ModelAnim_Renders.cpp.
 # the two Behavior helpers (plain matched, no PMF/ModelAnim trickery)
-src/func_ov100_02143370.cpp
-src/func_ov100_02143b68.cpp
 # _ZN14UnchainedChomp8BehaviorEv IS NOT HERE, and NEITHER is func_ov100_02143b18:
 # both form a pointer-to-member while its class is INCOMPLETE (Behavior's Actor
 # stand-in; 02143b18's own `struct C;` typedef), so MSVC widens the PMF to the
@@ -168,12 +140,7 @@ src/func_ov100_02143b68.cpp
 # matched src; it is not.)
 # the two PMF targets the seat wires as host bodies (Fish precedent: real names
 # in the seat table). 02143aa4 (hi) is the one Behavior actually dispatches.
-src/func_ov100_02143aa4.c
-src/func_ov100_02143ae0.c
 # ...and 02143aa4's own three ov100 callees (its state-advance chain)
-src/func_ov100_0214344c.c
-src/func_ov100_021435e8.cpp
-src/func_ov100_021437d4.c
 # the two ctor/dtor helpers Spawn and D1 pass to __cxa_vec_ctor / __cxa_vec_cleanup
 # (func_0203d384 and _ZN7Vector3D1Ev are already in slice_gate10); leaf funcs.
 src/_ZN8Vector3sD1Ev.cpp
@@ -186,4 +153,3 @@ src/func_0203d73c.c
 # base body, and that body's one job is to add slot 29's result to y: seating 30
 # over a trapped 29 would only move the freeze one slot along. Byte-matches on
 # 1.2/base, 1.2/sp2, 1.2/sp2p3 with strict relocs.
-src/_ZN14UnchainedChomp16OnAimedAtWithEggEv.cpp

@@ -310,9 +310,9 @@ Vector3 dBgCh_Lin::GetClsnPos()
 //       in this link with the same __thiscall shape, one reference parameter
 //       and one char pointer.
 //
-//   ?DisappearPoofDustAt@ArrowSignRight@@QAEXABUVector3@@@Z
-//   ?MarkForDestruction@ArrowSignRight@@QAEXXZ
-//       include/ArrowSignRight.h:74 asks for these two by name: "INHERITED, AND
+//   ?DisappearPoofDustAt@daObjYajirusi_c@@QAEXABUVector3@@@Z
+//   ?MarkForDestruction@daObjYajirusi_c@@QAEXXZ
+//       include/daObjYajirusi_c.h:74 asks for these two by name: "INHERITED, AND
 //       THEREFORE THE PORT'S TO BIND ... they resolve to
 //       _ZN8dActor_c19DisappearPoofDustAtERK7Vector3 and
 //       _ZN7fBase_c19MarkForDestructionEv, which is an /alternatename the port
@@ -325,14 +325,14 @@ Vector3 dBgCh_Lin::GetClsnPos()
 //       ?MarkForDestruction@fBase_c@@QAEXXZ are both defined, both __thiscall,
 //       both with the same parameter list as the left hand side.
 //       THE RECEIVER IS THE SAME POINTER, which is what makes the bridge sound:
-//       ArrowSignRight derives from dBgActor_c from dActor_c from fBase_c, all
+//       daObjYajirusi_c derives from dBgActor_c from dActor_c from fBase_c, all
 //       single inheritance, and the header's own static_asserts pin its fields
 //       at the base layout's offsets (actorID 0x00c, mPosX 0x05c, mAngleY
 //       0x08e, mModel 0x0d4), so every base subobject is at offset 0.
 #pragma comment(linker, "/alternatename:?_ZN8dActor_c15FindWithActorIDEjPS_@dActor_c@@SAPAU1@IPAU1@@Z=?FindWithActorID@dActor_c@@SAPAU1@IPAU1@@Z")
 #pragma comment(linker, "/alternatename:?SpawnMegaCharParticles@Enemy@@QAEXAAUActor@@PAD@Z=?SpawnMegaCharParticles@dEnemyBase_c@@QAEXAAUdActor_c@@PAD@Z")
-#pragma comment(linker, "/alternatename:?DisappearPoofDustAt@ArrowSignRight@@QAEXABUVector3@@@Z=?DisappearPoofDustAt@dActor_c@@QAEXABUVector3@@@Z")
-#pragma comment(linker, "/alternatename:?MarkForDestruction@ArrowSignRight@@QAEXXZ=?MarkForDestruction@fBase_c@@QAEXXZ")
+#pragma comment(linker, "/alternatename:?DisappearPoofDustAt@daObjYajirusi_c@@QAEXABUVector3@@@Z=?DisappearPoofDustAt@dActor_c@@QAEXABUVector3@@@Z")
+#pragma comment(linker, "/alternatename:?MarkForDestruction@daObjYajirusi_c@@QAEXXZ=?MarkForDestruction@fBase_c@@QAEXXZ")
 
 // THE FIFTH IS A FACE, because the two sides do NOT agree about the call.
 // port/hal/cxx_aliases.cpp:689 declares a private shadow

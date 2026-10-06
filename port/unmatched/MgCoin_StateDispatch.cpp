@@ -29,7 +29,7 @@
 // of data_ov006_021417b0 and it is THE TOUCH STATE: with it missing the port
 // delivered every stylus tap to the DS bottom screen correctly and the minigame
 // did nothing, which is exactly what a live session measured. Lane TOUCH of run
-// mg5 matched it; src/func_ov006_020dd0e0.c and its delink block
+// mg5 matched it; src/actors/dScMgCoin_c.cpp and its delink block
 // (.text start:0x020dd0e0 end:0x020dd2cc) came across in the commit before this
 // one, and tools/match.py re-verified MATCH on 2004/b56 in THIS tree, at this
 // size (0x1ec), before the switch case below was changed. The slot is wired to
@@ -197,9 +197,9 @@ void func_ov004_020b0cac(int c, int a1, int a2, int a3, int arg5, short arg6);
 void func_ov004_020ae274(void *c);
 void func_ov004_020adb1c(int arg);
 
-/* THE NAME-SPELLING VARIANT src/func_ov006_020de1d4.c and
-   src/func_ov006_020de26c.cpp use for ov004's data_ov004_020beb68 -- a name
-   that exists in no config, the same shape src/_ZN14dScMgCurling_c13InitResourcesEv.cpp's bare
+/* THE NAME-SPELLING VARIANT src/actors/dScMgCoin_c.cpp and
+   src/actors/dScMgCoin_c.cpp use for ov004's data_ov004_020beb68 -- a name
+   that exists in no config, the same shape src/actors/dScMgCurling_c.cpp's bare
    `func_020adc74` has and which port/mg_fanout_costs.txt section 6 records as
    the ordinary kind of spelling defect. Declared here exactly as the two src
    TUs declare it so the host copy below keeps their reference. */
@@ -341,7 +341,7 @@ extern "C" unsigned port_mg_coin_touch_calls(void)
    port/slice_seat4.txt, so the host copy that stood in for it is gone and
    the declaration above is what the faces in this file reach. */
 
-/* src/func_ov006_020ddd6c.cpp. SILENT: `extern "C" Entry data_ov006_02141840[]`.
+/* src/actors/dScMgCoin_c.cpp. SILENT: `extern "C" Entry data_ov006_02141840[]`.
    Forty elements of stride 0x1c; the live flag at +0x4677, the state byte at
    +0x4675. */
 /* PORT_HOST_ABI: mwcc pointer-to-member dispatch (dScMgCoin_c state table); the 8-byte {code,adj} pair is host-copied as an address switch, MSVC's 4-byte member pointer cannot express it */
@@ -367,7 +367,7 @@ extern "C" void func_ov006_020ddd6c(char *thiz)
     _ZN5Sound12PlayBank2_2DEj(0x151);
 }
 
-/* THE NAME-SPELLING VARIANT src/func_ov006_020de584.c uses for the TU above:
+/* THE NAME-SPELLING VARIANT src/actors/dScMgCoin_c.cpp uses for the TU above:
    a bare `func_020ddd6c`, a name that exists in no config. Defined here rather
    than aliased because the host copy is what has to be reached, and an
    /alternatename whose left-hand side is also a defined symbol is defeated
@@ -438,7 +438,7 @@ extern "C" void func_020ddd6c(void *c)
 // ?data_ov006_021417b0@@3PAUEntry@@A and ?data_ov006_02141810@@3PAUEntry@@A,
 // and 02141840 through the bare pointer-to-member spelling
 // ?data_ov006_02141840@@3PAP8Obj@@AEXH@ZA -- the `Obj` there is the class name
-// src/func_ov006_020de26c.cpp gives its own shadow struct, which is part of the
+// src/actors/dScMgCoin_c.cpp gives its own shadow struct, which is part of the
 // decoration and not a typo. Safe under port/tools/alternatename_guard.py for
 // hal/pmfc_aliases.cpp's reason.
 #pragma comment(linker, "/alternatename:?data_ov006_021417b0@@3PAUEntry@@A=_data_ov006_021417b0")
@@ -446,7 +446,7 @@ extern "C" void func_020ddd6c(void *c)
 #pragma comment(linker, "/alternatename:?data_ov006_02141840@@3PAP8Obj@@AEXH@ZA=_data_ov006_02141840")
 
 /* AND ONE MORE, WHICH THE LINK FOUND AND THIS LANE DID NOT PREDICT.
-   src/func_ov006_020de26c.cpp reaches ov004's data_ov004_020beb68 under the
+   src/actors/dScMgCoin_c.cpp reaches ov004's data_ov004_020beb68 under the
    name `func_020beb68` -- the spelling defect this file's own header records --
    and it declares it at NAMESPACE scope as `char *`, so MSVC spells the
    reference ?func_020beb68@@3PADA. The host copy declared the same global

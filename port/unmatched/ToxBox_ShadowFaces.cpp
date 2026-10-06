@@ -13,7 +13,7 @@
  *
  * It is a NAMING mismatch, not a missing body. src/_ZNK7PathPtr7GetNodeER7Vector3j.cpp
  * is a matched, linked, plain-C body already in this build under the flat
- * Itanium name; src/func_ov092_021313b0.cpp declares its own local shadow
+ * Itanium name; src/actors/daOnms_c.cpp declares its own local shadow
  *
  *     struct PathPtr { int GetNode(Vector3 &v, unsigned int i) const; };
  *

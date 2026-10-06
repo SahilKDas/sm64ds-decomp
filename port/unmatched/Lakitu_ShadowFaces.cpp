@@ -16,7 +16,7 @@
  *       -> ?data_ov077_02127b38@@3USharedFilePtr@@A  (file 0x42a)
  *       -> ?data_ov077_02127b48@@3USharedFilePtr@@A  (file 0x429)
  *       -> ?data_ov077_02127c14@@3USharedFilePtr@@A  (file 0x42b)
- *   src/func_ov077_021244d4.cpp          `extern void *data_ov077_...[]`
+ *   src/_ZN7daJgm_c15EnterThrowStateEv.cpp          `extern void *data_ov077_...[]`
  *       -> ?data_ov077_02127b30@@3PAPAXA
  *       -> ?data_ov077_02127b40@@3PAPAXA
  * These are DATA. There is no calling convention to get wrong, both names
@@ -37,8 +37,8 @@
  * failure mode 3 in hal/method_faces.cpp's own header, the 2026-08-07
  * door-open crash. Both are REAL FORWARDERS instead.
  *
- *   BgCh::StopDetectingWater. src/func_ov077_02123c6c.cpp and
- *   src/func_ov077_02124c28.cpp call the flat _ZN5dBgCh18StopDetectingWaterEv,
+ *   BgCh::StopDetectingWater. src/game/actors/d_a_jgm.cpp and
+ *   src/actors/daTgz_c.cpp call the flat _ZN5dBgCh18StopDetectingWaterEv,
  *   but the matched body src/_ZN5dBgCh18StopDetectingWaterEv.cpp (already in
  *   the build via port/slice_gate10.txt:854) is a real C++ method, so only
  *   ?StopDetectingWater@dBgCh@@QAEXXZ exists. This is the exact twin of
@@ -46,7 +46,7 @@
  *   same way. The decompiled body is what runs; this only carries the ROM's C
  *   name to it (a FORWARDS face in port/faces_adjudicated.txt's terms).
  *
- *   TextureSequence::SetFile. src/func_ov077_021244d4.cpp declares its own
+ *   TextureSequence::SetFile. src/_ZN7daJgm_c15EnterThrowStateEv.cpp declares its own
  *   local shadow `struct TextureSequence { void SetFile(BTP_File &, int,
  *   Fix12, unsigned); }` and calls it as a member, so MSVC emits a reference
  *   to ?SetFile@TextureSequence@@QAEXAAUBTP_File@@HHI@Z. The definition in

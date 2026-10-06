@@ -117,7 +117,7 @@ src/minigames/d_s_mg_roulette.cpp
 # outside the wall (__ZN2GX10LoadBGPlttEPKvjj and its GXS twin) are both on
 # live /alternatename rows at port/hal/cxx_aliases.cpp:3200 and :3201 whose
 # right-hand sides are defined in this link.
-src/_ZN11dScMgBase_c16OnAimedAtWithEggEv.cpp
+src/minigames/d_s_mg_base.cpp
 
 # ---- GATE 2: two dActor_c members a fresh sweep found on the 234-row wall --
 #

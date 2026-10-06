@@ -162,7 +162,7 @@
 //   func_ov006_020ec4dc  0x20c  wiggler set-up variant 3 of 4, selected by
 //       data_ov006_02141fd8 in src/actors/dScMgHanachan_c.cpp's switch. Variants
 //       0, 1 and 2 are matched.
-//       -> src/func_ov006_020ec4dc.c, MATCHED at mwccarm 2004/b56 with strict
+//       -> src/actors/dScMgHanachan_c.cpp, MATCHED at mwccarm 2004/b56 with strict
 //       relocs, delink block added. It is the fifteen-wiggler grid the ladder
 //       in section 7's tables reaches at clear count 8.
 //
@@ -236,7 +236,7 @@
 //
 // NEITHER DOES SLOT 19, WHICH SETTLES lane BOO's CHECK TOO. Scene 387 is the
 // first seated scene whose framework state machine runs, and it exposed a
-// pre-existing crash: src/func_ov004_020b6b40.c and _020b6c9c.c reach vtable
+// pre-existing crash: src/actors/dMgState_c.cpp and _020b6c9c.c reach vtable
 // slot 19 through a shadow array typed as a plain C pointer, so the caller
 // cleans eight bytes while __fastcall mb_v19 has already cleaned four. BOTH OF
 // THOSE TUs ARE IN THIS CLASS'S ov004 CLOSURE and both are already wired by
@@ -728,7 +728,7 @@ extern "C" void port_scene_wiggler_hits(void)
     }
     /* THE TWO FORMER FLOORS, run mg10 lane F386, and NEITHER IS A TRAP COUNT
        ANY MORE. Both bodies are seated -- src/func_ov006_020ea914.c and
-       src/func_ov006_020ec4dc.c -- so a self-counting stub would be reporting
+       src/actors/dScMgHanachan_c.cpp -- so a self-counting stub would be reporting
        on itself instead of on the ROM. What is printed instead is what a run
        already measures and what each fact actually rests on:
 

@@ -111,7 +111,7 @@
  * record's fields, plays 0x1b1 or 0x1ae through func_ov006_020e6db4 with a
  * blend of data_ov006_0213b2f8/2fc/300/304, and SETS +0x328 = 3. With no hit it
  * writes 0x258 at +0x31c and sets +0x328 = 1. Either way the gate goes nonzero,
- * which is what lets src/func_ov006_020d09e0.c and src/func_ov006_020d0ac0.c
+ * which is what lets src/actors/unit020cd744.cpp and src/actors/unit020cd744.cpp
  * look at the record at all.
  *
  * THE READING IS CORROBORATED, NOT JUST ASSERTED. nearmiss/db.jsonl already
@@ -153,7 +153,7 @@
  *
  * func_ov006_020cf2fc (0x45c = 258 instructions + 21 pool words) IS THE MESH
  * DRAW for the grid the installer builds, and it is the reason the two loops in
- * src/func_ov006_020d09e0.c gate on +0x328. It loads the record's translation
+ * src/actors/unit020cd744.cpp gate on +0x328. It loads the record's translation
  * from +0x08 and its scale from +0x2c into data_020a0e68, multiplies through
  * data_0209b3ec twice and pushes both matrices with func_020553a4, then writes
  * the geometry engine directly: 0x04000440 (matrix mode), 0x0400046c, 0x04000454,
@@ -220,7 +220,7 @@
 extern "C" {
 
 /* g_hittest_020d0c38 is GONE with its trap: run mg12 lane TRM decompiled
-   func_ov006_020d0c38 and src/func_ov006_020d0c38.c is a slice line in BOTH
+   func_ov006_020d0c38 and src/actors/unit020cd744.cpp is a slice line in BOTH
    slice_tti.txt and slice_tte.txt now, so a second definition here would be
    the LNK2005 the mg11 merge already paid for once. The accessors keep their
    exact shapes and report the hit-test slot as 0 -- see the note above them
@@ -228,7 +228,7 @@ extern "C" {
 
    g_floor_020d01e0 IS GONE THE SAME WAY, and it is the bigger of the two: run
    mg12 lane INST decompiled func_ov006_020d01e0, the 0x800 INSTALLER, and
-   src/func_ov006_020d01e0.cpp is a slice line in both slices now. It is an honest
+   src/actors/unit020cd744.cpp is a slice line in both slices now. It is an honest
    NONMATCHING seat (49 of 503 code words, frame exact, every call present with
    the ROM's destination) and its divergences are stated in its own banner.
    THE CONSEQUENCE FOR EVERY READER OF THIS FILE: the render gate at +0x328 is
@@ -239,7 +239,7 @@ extern "C" {
 
    g_floor_020cf2fc IS GONE TOO, AND WITH IT THIS FILE'S LAST TRAP. Run mg13
    lane TRAMP decompiled func_ov006_020cf2fc, THE MESH DRAW, and
-   src/func_ov006_020cf2fc.c is a line in both trampoline slices now -- as a
+   src/actors/unit020cd744.cpp is a line in both trampoline slices now -- as a
    TT_SHARED_HOSTGEN symbol, because all thirty-two of its geometry-engine
    stores are raw MMIO and the src/ copy would latch every one of them into
    mapped memory. It is an honest NONMATCHING seat (25 divergences against 258

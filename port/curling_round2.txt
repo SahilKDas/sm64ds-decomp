@@ -43,13 +43,13 @@ config/arm9/overlays/ov006/delinks.txt and neither has a src TU, so the port
 had refused both and the shells slid through one another.
 
   func_ov006_020e1dc8  size 0x2f4  the SHOT-TIME separation. Called once per
-                                   shot by src/func_ov006_020e2c08.c, the
+                                   shot by src/actors/dScMgCurling_c.cpp, the
                                    matched release handler, right after it
                                    writes the shot shell's heading and speed.
                                    Un-stacks whatever the shot shell is already
                                    overlapping, one level of cascade deep.
   func_ov006_020e20bc  size 0x5e0  the PER-FRAME collision. Called by
-                                   src/func_ov006_020e2868.c, the matched
+                                   src/actors/dScMgCurling_c.cpp, the matched
                                    physics tick, every frame for every shell it
                                    ticks, and again through the veneer
                                    func_ov006_020e285c for shells at rest. This
@@ -96,7 +96,7 @@ Call sites: 020e1dc8 has 2 + 2 + 1; 020e20bc has 3 + 3 + 1. Data: data_02082214
 only. Zero new bodies were needed, so the estimate did not move.
 
 ONE THING BROKE AND WAS FIXED IN THE SAME CHANGE, AND THE FIRST FIX FOR IT WAS
-WRONG. src/func_ov006_020e285c.c is a twelve-byte ARM tail-call veneer to
+WRONG. src/actors/dScMgCurling_c.cpp is a twelve-byte ARM tail-call veneer to
 020e20bc whose src declares itself and its callee `(void)`.
 unmatched/MgCurling_StateDispatch.cpp calls it with no arguments and its header
 argues, correctly, that this is the harmless ARM ride-through class because the
@@ -132,16 +132,16 @@ written down because getting there took four tries:
   * The window is STACKED 512x768, so client (2x, 384+2y) is DS pixel (x,y).
     Client (256,724) is DS (128,170) and (256,584) is DS (128,100).
   * A TAP IS NOT ENOUGH AND A SLOW DRAG IS NOT EITHER. The shot handler
-    src/func_ov006_020e2c08.c fires only while the cursor is within +-0x2e of
+    src/actors/dScMgCurling_c.cpp fires only while the cursor is within +-0x2e of
     the shell on axis A and +-0x14 on axis B. A shell is placed at (128,128)
-    and src/func_ov006_020e2dbc.c parks the cursor at (128,176) when it places
+    and src/actors/dScMgCurling_c.cpp parks the cursor at (128,176) when it places
     one, which is 48 out on axis B -- refused. The aim state clamps the cursor
     to B >= 148 (0x94000), and 148 - 128 = 20 = 0x14 exactly, so the shot fires
     ONLY with the cursor driven to its own clamp floor. Twenty frames of drag
     gets there; fourteen does not, because the state's dead zone throws away any
     frame that moved one pixel or less.
   * THE SECOND SHOT HAS TO WAIT OUT A FREEZE. When every shell stops,
-    src/func_ov006_020e3078.cpp writes 0xc0 to +0x4ee2 and returns early for
+    src/actors/dScMgCurling_c.cpp writes 0xc0 to +0x4ee2 and returns early for
     the next 192 frames. A tap inside that window is swallowed whole -- two
     attempts at frames 300 and 420 looked like input failures and were not.
     Frame 620 is clear.
@@ -176,7 +176,7 @@ TWO SHOTS, THE SECOND FIRED IDENTICALLY INTO THE FIRST:
   through shell 0 to -75 and the two would have ended in the same place.
 
   Shell 2 is the game placing the next shell after shot two, which is
-  src/func_ov006_020e2dbc.c doing its ordinary job and is not part of the claim.
+  src/actors/dScMgCurling_c.cpp doing its ordinary job and is not part of the claim.
 
 WHAT THE PROOF DOES NOT COVER, STATED PLAINLY:
 
@@ -233,7 +233,7 @@ and each pins one parameter to one constant, which is the entire vocabulary:
 WHERE THEY COME FROM IN CURLING. Both are sent by the 3D positional sound
 updater beside the pan the port already had -- src/func_02012860.c sends all
 three together on flag bits 1, 2 and 4 -- and curling's rolling-shell loop is a
-3D positional sound (src/func_ov006_020e2868.c ends by refreshing a looping
+3D positional sound (src/actors/dScMgCurling_c.cpp ends by refreshing a looping
 handle through func_02012468). So what was being dropped is the shell sound's
 distance attenuation and its pitch, every frame, for every rolling shell.
 
@@ -254,7 +254,7 @@ reasons, any one of which is enough:
      playing. Dropping them cannot stop one from starting.
   c. The level path and the minigame path start music through THE SAME
      FUNCTION, _ZN5Sound22LoadAndSetMusic_Layer1Ei. hal/star_flow.cpp calls it
-     for a course and src/func_ov004_020ae330.c calls it for a minigame. The
+     for a course and src/minigames/d_s_mg_base.cpp calls it for a minigame. The
      brief's guess that curling uses "a different player/group start variant"
      does not survive reading either caller.
 
@@ -286,18 +286,18 @@ whatever it turns out to draw:
 
   * 0x0202e78c IS NOT AN ADDRESS WITH NO SYMBOL. config/arm9/symbols.txt:1116
     reads `_ZN2GX15DisableAllBanksEv kind:function(arm,size=0x48)
-    addr:0x0202e78c`, and src/_ZN2GX15DisableAllBanksEv.cpp is a matched body
+    addr:0x0202e78c`, and src/actors/dScene_c.cpp is a matched body
     that turns off all thirteen VRAM banks. The face's own comment ("an arm9
     address with no config symbol at all") is simply wrong, and
     port/mg_fanout_costs.txt:907 and port/nfs_names_map.txt:373 repeat it.
-  * So this is a NAME-SPELLING hole, not a missing body. src/func_ov004_020b2980.c
+  * So this is a NAME-SPELLING hole, not a missing body. src/minigames/d_s_mg_base.cpp
     is a twelve-byte ov004 veneer spelling the same address func_0202e78c
     (config/arm9/overlays/ov004/relocs.txt:526 `from:0x020b2988 kind:load
     to:0x0202e78c module:main`), the port stubbed that spelling, and the real
     body was never called. hal/scene_boot.cpp:1182 already aliases a THIRD
     spelling of the same function, the MSVC-mangled one, so the tree carries
     two working routes to it and one dead stub.
-  * WHY IT IS A PLAUSIBLE TINT. Its one caller, src/_ZN11dScMgBase_c9Virtual84Ev.cpp, is
+  * WHY IT IS A PLAUSIBLE TINT. Its one caller, src/minigames/d_s_mg_base.cpp, is
     the minigame's VRAM setup: set graphics mode, DISABLE ALL BANKS, then
     re-assign BG/OBJ/sub-BG/sub-OBJ and decompress tiles into 0x6404000 and
     0x6604000. Skipping the teardown leaves the previous scene's bank
@@ -379,10 +379,10 @@ and the chain is short enough to write down in full.
 The minigame music start is _ZN5Sound22LoadAndSetMusic_Layer1Ei, the SAME
 function a course boot uses. Four matched TUs call it on the minigame side:
 
-    src/func_ov004_020ae20c.c   \
-    src/func_ov004_020ae2c8.cpp  }  called only from func_ov004_020b7124,
+    src/minigames/d_s_mg_base.cpp   \
+    src/minigames/d_s_mg_base.cpp  }  called only from func_ov004_020b7124,
                                  }  func_ov004_020b746c, func_ov004_020b77b4
-    src/func_ov004_020ae330.c   -- called from _ZN11dScMgBase_c18AfterInitResourcesEj
+    src/minigames/d_s_mg_base.cpp   -- called from _ZN11dScMgBase_c18AfterInitResourcesEj
     src/actors/dScMgSound_c.cpp   -- a different minigame
 
 THE FIRST THREE HAVE NO CALLER IN src/ AT ALL. Nothing in the decomp reaches
@@ -405,7 +405,7 @@ once. It calls func_ov004_020ae330, which opens with
 and a 600-frame scene-374 run with SM64DS_SND_TRACE=1 emits ZERO sound commands
 of any opcode -- not a START_SEQ, not a track param, nothing. So on the selftest
 path the descriptor is null and the one reachable music start refuses itself
-before it sends anything. src/_ZN11dScMgBase_cC2Ev.cpp:37 is the only writer of
+before it sends anything. src/minigames/d_s_mg_base.cpp:37 is the only writer of
 that global.
 
 SO THE MUSIC HAS TWO POSSIBLE MECHANISMS AND THIS LANE COULD NOT SEPARATE THEM:
