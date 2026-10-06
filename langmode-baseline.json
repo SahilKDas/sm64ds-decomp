@@ -3,7 +3,7 @@
   "codegen_hacks": {
     "cv_launder": 3,
     "cv_launder_sites": 6,
-    "extern_vtable": 59,
+    "extern_vtable": 58,
     "extern_vtable_classes": 75,
     "inline_asm": 13,
     "launder_or_forced": 129,
@@ -55,13 +55,13 @@
   "shadow_decls": {
     "local_body_no_include": 468,
     "local_body_no_include_cpp": 66,
-    "local_struct_body": 938,
+    "local_struct_body": 937,
     "local_struct_body_cpp": 388,
     "pad_layout": 215
   },
   "totals": {
-    "c_extension": 3125,
-    "cpp_extension": 1313,
-    "src_files": 4438
+    "c_extension": 3118,
+    "cpp_extension": 1310,
+    "src_files": 4428
   }
 }
