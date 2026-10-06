@@ -506,7 +506,7 @@
       ]
     },
     "CrossVec3": {
-      "src/_ZN3G3i7LookAt_EPK7Vector3S2_S2_bP9Matrix4x3.cpp": [
+      "src/engine/gx/G3i.cpp": [
         "param:#1 const Vector3 *",
         "param:#2 const Vector3 *",
         "param:#3 Vector3 *"
@@ -2342,7 +2342,7 @@
       ]
     },
     "NormalizeVec3": {
-      "src/_ZN3G3i7LookAt_EPK7Vector3S2_S2_bP9Matrix4x3.cpp": [
+      "src/engine/gx/G3i.cpp": [
         "param:#1 Vector3 *",
         "param:#2 Vector3 *"
       ],
@@ -7594,8 +7594,24 @@
       ]
     },
     "_ZN3G3i7LookAt_EPK7Vector3S2_S2_bP9Matrix4x3": {
+      "src/actors/dScStarSel_c.cpp": [
+        "param:#1 const void *",
+        "param:#2 const void *",
+        "param:#3 const void *",
+        "param:#4 int"
+      ],
       "src/actors/unit020bfec0.cpp": [
+        "param:#4 int",
         "return:int"
+      ],
+      "src/func_ov007_020b1fa4.c": [
+        "param:#4 int"
+      ],
+      "src/func_ov007_020b20e8.c": [
+        "param:#4 int"
+      ],
+      "src/func_ov007_020b2160.c": [
+        "param:#4 int"
       ]
     },
     "_ZN3GXS10LoadBGPlttEPKvjj": {

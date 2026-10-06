@@ -8510,6 +8510,8 @@
     "src/_ZN8dActor_cC2Ev.cpp": "tangosdev",
     "src/_ZN8dActor_cC1Ev.cpp": "tangosdev",
     "src/_ZN8dActor_cD2Ev.cpp": "tangosdev",
-    "src/_ZN8Vector3sD1Ev.cpp": "andrewboudreau"
+    "src/_ZN8Vector3sD1Ev.cpp": "andrewboudreau",
+    "src/engine/gx/G3i.cpp#_ZN3G3i7LookAt_EPK7Vector3S2_S2_bP9Matrix4x3": "tangosdev",
+    "src/engine/gx/G3i.cpp#_ZN3G3i13PerspectiveW_E5Fix12IiES1_S1_S1_S1_S1_bP9Matrix4x3": "tangosdev"
   }
 }

@@ -7460,13 +7460,9 @@ src/func_02055998.c:
     complete
     .text start:0x02055998 end:0x02055a64
 
-src/_ZN3G3i7LookAt_EPK7Vector3S2_S2_bP9Matrix4x3.cpp:
+src/engine/gx/G3i.cpp:
     complete
-    .text start:0x02055a64 end:0x02055bfc
-
-src/_ZN3G3i13PerspectiveW_E5Fix12IiES1_S1_S1_S1_S1_bP9Matrix4x3.c:
-    complete
-    .text start:0x02055bfc end:0x02055dec
+    .text start:0x02055a64 end:0x02055dec
 
 src/_ZN3GXS17EndLoadOBJExtPlttEv.cpp:
     complete
