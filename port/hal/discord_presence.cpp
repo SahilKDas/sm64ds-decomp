@@ -12,7 +12,6 @@ namespace {
 constexpr std::uint32_t kHandshake = 0;
 constexpr std::uint32_t kFrame = 1;
 constexpr const char *kTangoRepository = "https://github.com/tangosdev/sm64ds-decomp";
-constexpr const char *kDxRepository = "https://github.com/SahilKDas/64DS-DX";
 
 std::string escape_json(const std::string &value)
 {
@@ -73,8 +72,7 @@ std::string make_activity_json(const Activity &activity, unsigned long process_i
     if (activity.start_timestamp > 0)
         json << ",\"timestamps\":{\"start\":" << activity.start_timestamp << '}';
     json << ",\"buttons\":[{\"label\":\"SM64DS source\",\"url\":\""
-         << kTangoRepository << "\"},{\"label\":\"64DS-DX\",\"url\":\""
-         << kDxRepository << "\"}]}} ,\"nonce\":\"sm64ds-" << GetTickCount64() << "\"}";
+         << kTangoRepository << "\"}]}} ,\"nonce\":\"sm64ds-" << GetTickCount64() << "\"}";
     return json.str();
 }
 

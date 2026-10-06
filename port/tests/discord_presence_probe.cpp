@@ -14,7 +14,7 @@ int main()
     assert(json.find("Adventure \\\"Co-op\\\"") != std::string::npos);
     assert(json.find("\"pid\":42") != std::string::npos);
     assert(json.find("https://github.com/tangosdev/sm64ds-decomp") != std::string::npos);
-    assert(json.find("https://github.com/SahilKDas/64DS-DX") != std::string::npos);
+    assert(json.find("SahilKDas") == std::string::npos);
     assert(json.find("\"start\":123456789") != std::string::npos);
     return 0;
 }
