@@ -142,7 +142,7 @@ int daSoundObj_c::Behavior()
 }
 
 /* kPoolDist is the tree's existing spelling for this literal, not coined here:
-   src/func_0200f7f0.c and the two Sound::Play*SecretSound files give the same
+   src/actors/dActor_c.cpp (func_0200f7f0 and the two Sound::Play*SecretSound members) gives the same
    0x8777 the same name. Its sibling 0xcb33 in func_ov002_020f93a8 has no such
    precedent and is left bare. */
 static const int kPoolDist = 0x8777;

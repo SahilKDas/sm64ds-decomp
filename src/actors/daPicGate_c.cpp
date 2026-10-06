@@ -79,22 +79,12 @@ enum {
 
 extern "C" {
 extern int IsStarCollectedInLevel(signed char levelID, int starID);
-extern void func_ov080_021256f8(void *self);
-extern int func_ov080_02125bb0(void *self, int dist);
-extern void func_ov080_02125940(void *self);
-extern void func_ov080_02125af0(void *self);
 extern int data_0209caa0[];
-extern void func_ov080_02126124(void *self);
-extern void func_ov080_02125de0(void *self, int x, int y, int front);
-extern void func_ov080_02125fd0(void *self);
 extern void MulMat4x3Mat4x3(const int *a, const int *b, int *out);
-extern void func_ov080_02125460(void *self);
 extern Matrix4x3 data_0209b3ec;
 extern unsigned short DecIfAbove0_Short(unsigned short *p);
 extern void _ZN8dActor_c9SetRangesE5Fix12IiES1_S1_S1_(
     void *self, int offsetY, int radius, int clip, int far);
-extern void func_ov080_0212555c(void *self);
-extern unsigned char *func_ov080_02125630(void *self, int picture);
 extern u8 data_ov080_02127714[];
 extern void func_020553a4(void *mtx);
 extern void *data_ov080_02127834;
@@ -108,8 +98,9 @@ extern void *_ZN8dActor_cC2Ev(void *self);
 extern int _ZTV11daPicGate_c[];
 namespace Memory { void *operator_new2(unsigned int size); }
 
-/* Call-site names. The symbols stay the ROM's: the state table relocates
- * to the five handlers below, and the others are defined outside this file. */
+/* Call-site names. The state-table handlers keep their func_ov080_* names;
+ * the helpers are daPicGate_c members declared on the class and defined in
+ * src/game/actors/d_a_pic_gate.cpp. */
 #define HitTest func_ov080_021256f8
 #define RippleHeight func_ov080_02125bb0
 #define BuildNormals func_ov080_02125940
@@ -156,16 +147,16 @@ void func_ov080_021264ec(daPicGate_c *self)
         IsStarCollectedInLevel(kGateLevel, kGateStar)) {
         if (ApproachLinear(self->mPosX, self->mClosedPosX + kSlide, kSlideStep))
             kSave[2] |= kOpened;
-        BuildGateMatrix(self);
+        self->BuildGateMatrix();
     }
-    HitTest(self);
+    self->HitTest();
     int i;
     for (i = 0; i < self->mNumCells; i++) {
         daPicGate_c::Vertex *v = &self->mCells[i];
-        v->z = RippleHeight(self, v->dist);
+        v->z = self->RippleHeight(v->dist);
     }
-    BuildNormals(self);
-    FlattenFrame(self);
+    self->BuildNormals();
+    self->FlattenFrame();
     self->mWavePhase = self->mWavePhase + self->mWaveParams->phaseStep;
 }
 }
@@ -201,11 +192,11 @@ void func_ov080_021265ec(daPicGate_c *self)
             row++;
         } while (row < rows);
     }
-    PlaceCorners(self);
+    self->PlaceCorners();
     {
         int width = ((u8)(self->param1 & 0xf) + 1) * kCell;
         int height = ((u8)((self->param1 >> 4) & 0xf) + 1) * kCell;
-        BeginWave(self, width / 2, height / 2, 0);
+        self->BeginWave(width / 2, height / 2, 0);
     }
 }
 }
@@ -220,7 +211,7 @@ void func_ov080_0212677c(daPicGate_c *self)
     int z = 0;
 
     if (self->mWaveTimer == 0) {
-        DrawFlat(self);
+        self->DrawFlat();
         return;
     }
 
@@ -233,7 +224,7 @@ void func_ov080_0212677c(daPicGate_c *self)
 
     G3_LIGHT_VECTOR = 0xe0000000;
     G3_LIGHT_COLOR = 0xc0007fff;
-    LoadMaterial(self);
+    self->LoadMaterial();
 
     G3_MTX_SCALE = kScale;
     G3_MTX_SCALE = kScale;
@@ -277,16 +268,16 @@ void func_ov080_021269b8(daPicGate_c *self)
     int i;
     daPicGate_c::Vertex *v;
 
-    HitTest(self);
+    self->HitTest();
     if (DecIfAbove0_Short(&self->mWaveTimer) == 0) return;
 
     for (i = 0; i < self->mNumCells; i++) {
         v = &self->mCells[i];
-        v->z = RippleHeight(self, v->dist);
+        v->z = self->RippleHeight(v->dist);
     }
 
-    BuildNormals(self);
-    FlattenFrame(self);
+    self->BuildNormals();
+    self->FlattenFrame();
 
     self->mWavePhase = self->mWavePhase + self->mWaveParams->phaseStep;
 }
@@ -337,7 +328,7 @@ void func_ov080_02126a54(daPicGate_c *self)
             row++;
         } while (row < n);
     }
-    PlaceCorners(self);
+    self->PlaceCorners();
 }
 }
 
@@ -419,7 +410,7 @@ s32 daPicGate_c::InitResources() {
     }
 
     mCells = (Vertex *)Memory::operator_new2((unsigned)mNumCells * 0x18u);
-    mTexRecord = (s32)LoadTexture(this, (int)((unsigned char)((param1 >> 8) & 0x1f)));
+    mTexRecord = (s32)this->LoadTexture((int)((unsigned char)((param1 >> 8) & 0x1f)));
     mWaveParams = (const daPicGate_c::WaveParams *)&kDefaultWave;
     mState = &kStates[(unsigned char)((param1 >> 0xd) & 3)];
     (this->*mState->init)();
@@ -440,7 +431,7 @@ s32 daPicGate_c::InitResources() {
                 mPosX += kSlide;
         }
     }
-    BuildGateMatrix(this);
+    this->BuildGateMatrix();
     return 1;
 }
 

@@ -60,8 +60,9 @@
  *                                                pal, hi2) -- matching, enrolled
  *   _ZN3OAM6RenderEbP7OamAttriiii5Fix12IiES3_ii  `u32 a01; u16 a2; u16 a3;` -- the
  *                                                32-bit view its bit extraction needs.
- *                                                NONMATCHING at the terminal compiler
- *                                                floor with tuned pragmas; not enrolled.
+ *                                                Matching; both views now live in
+ *                                                src/engine/oam/OAM.cpp under their
+ *                                                own names (OamAttrEntry/OamAttrRaw).
  *
  * All three views agree on the size and on the field boundaries they share. Folding
  * them into one declaration would mean rewriting every bit access in two fragile

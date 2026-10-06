@@ -23,7 +23,7 @@
  * with only the inline destructor declared, daObjSwdoor_c had no key
  * function anywhere and referencing the destructor group here made this TU
  * the one that defined _ZTV13daObjSwdoor_c and _ZTI13daObjSwdoor_c, the same
- * way src/_ZN8Vector3sD1Ev.cpp's own banner describes for a class with no
+ * way src/actors/dActor_c.cpp's Vector3s banner describes for a class with no
  * key function. Render (slot 9) is now declared out of line in
  * include/daObjSwdoor_c.h and defined in src/actors/daObjSwdoor_c.cpp, so
  * that TU is the key-function TU and anchors the vtable and typeinfo

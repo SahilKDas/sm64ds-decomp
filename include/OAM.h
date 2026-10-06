@@ -58,6 +58,7 @@ struct OAM {
     static u32 EnableSubOAM();
     static void Flush();
     static void Load();
+    static void Reset();
     /* Returns the affine-slot index, or -1 when the table is full. `count' is the
        live entry count and is advanced by 4 -- one OAM entry per matrix
        coefficient, which is also why the search strides by 4. */

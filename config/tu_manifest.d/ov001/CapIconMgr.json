@@ -1,0 +1,130 @@
+{
+  "id": "ov001/CapIconMgr",
+  "module": "ov001",
+  "source": "src/actors/CapIconMgr.cpp",
+  "promoted_source": "src/actors/CapIconMgr.cpp",
+  "status": "promoted",
+  "boundary_confidence": "medium",
+  "boundary_evidence": [
+    "contiguous linker run: 0x20aa420..0x20ab110, 11 function(s), from build/tu_map.json (tools/tu_map.py)",
+    "class label(s): none (free-function manager module; queue row UNATTRIBUTED)",
+    "the run ends exactly where dCapIcon_c's TU begins at 0x20ab110; dCapIcon_c's own header comment names these functions the other TU"
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "start": "0x020aa420",
+      "end": "0x020ab110"
+    }
+  ],
+  "functions": [
+    {
+      "symbol": "func_ov001_020aa420",
+      "address": "0x020aa420",
+      "size": "0x00000290",
+      "legacy_source": "src/func_ov001_020aa420.c",
+      "ordinal": 0
+    },
+    {
+      "symbol": "func_ov001_020aa6b0",
+      "address": "0x020aa6b0",
+      "size": "0x0000001c",
+      "legacy_source": "src/func_ov001_020aa6b0.c",
+      "ordinal": 1
+    },
+    {
+      "symbol": "func_ov001_020aa6cc",
+      "address": "0x020aa6cc",
+      "size": "0x00000018",
+      "legacy_source": "src/func_ov001_020aa6cc.c",
+      "ordinal": 2
+    },
+    {
+      "symbol": "func_ov001_020aa6e4",
+      "address": "0x020aa6e4",
+      "size": "0x000000b8",
+      "legacy_source": "src/func_ov001_020aa6e4.cpp",
+      "ordinal": 3
+    },
+    {
+      "symbol": "func_ov001_020aa79c",
+      "address": "0x020aa79c",
+      "size": "0x0000001c",
+      "legacy_source": "src/func_ov001_020aa79c.c",
+      "ordinal": 4
+    },
+    {
+      "symbol": "func_ov001_020aa7b8",
+      "address": "0x020aa7b8",
+      "size": "0x000000a0",
+      "legacy_source": "src/func_ov001_020aa7b8.cpp",
+      "ordinal": 5
+    },
+    {
+      "symbol": "func_ov001_020aa858",
+      "address": "0x020aa858",
+      "size": "0x00000108",
+      "legacy_source": "src/func_ov001_020aa858.cpp",
+      "ordinal": 6
+    },
+    {
+      "symbol": "func_ov001_020aa960",
+      "address": "0x020aa960",
+      "size": "0x000000f4",
+      "legacy_source": "src/func_ov001_020aa960.cpp",
+      "ordinal": 7
+    },
+    {
+      "symbol": "func_ov001_020aaa54",
+      "address": "0x020aaa54",
+      "size": "0x00000358",
+      "legacy_source": "src/func_ov001_020aaa54.cpp",
+      "ordinal": 8
+    },
+    {
+      "symbol": "func_ov001_020aadac",
+      "address": "0x020aadac",
+      "size": "0x00000194",
+      "legacy_source": "src/func_ov001_020aadac.c",
+      "ordinal": 9
+    },
+    {
+      "symbol": "func_ov001_020aaf40",
+      "address": "0x020aaf40",
+      "size": "0x000001d0",
+      "legacy_source": "src/func_ov001_020aaf40.c",
+      "ordinal": 10
+    }
+  ],
+  "data": [],
+  "bss": [],
+  "notes": [
+    "Free-function manager module folded from eleven one-function sources: the cap-icon request/dispatch state machine that runs the per-character dCapIcon_c lists. Definitions are written in reverse ROM order; mwccarm emits .text ascending to match the cartridge.",
+    "The shards disagreed about two declaration shapes. data_0209f394 was declared as a scalar pointer by the dispatchers and as a void*[] by the eligibility tests; the TU keeps the array spelling and indexes [0] where the scalar read was meant -- same ldr. func_ov001_020aa858 was declared with five parameters by its caller and defined with four; the TU keeps the four-parameter definition and makes the fifth argument explicit with a call-site cast, which preserves the pushed r7 the ROM emits.",
+    "No class is defined in this TU, so the object emits only the eleven licensed .text sections: no vtable, no RTTI, nothing to externalize."
+  ],
+  "compiler_only_output": [],
+  "production_mode": "text-only",
+  "verification": {
+    "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
+    "toolchain": "tools/mwccarm/2004/b56/mwccarm.exe",
+    "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
+    "object": "build/tu/ov001-CapIconMgr/CapIconMgr.o (gitignored)",
+    "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
+    "functions_matched": 11,
+    "functions_declared": 11,
+    "compilerOnlyOutput": {
+      "requested": [],
+      "deadstripped": [],
+      "data": [],
+      "dataExternalized": []
+    },
+    "criteria": {
+      "every_declared_function_defined": "PASS",
+      "every_declared_function_bytes_match": "PASS",
+      "declared_function_set_equals_defined_function_set": "PASS",
+      "functions_occur_in_expected_order": "PASS",
+      "relocation_destinations_verified": "PASS"
+    }
+  }
+}

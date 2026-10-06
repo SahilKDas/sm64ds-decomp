@@ -24,10 +24,7 @@ src/Matrix3x3_FromQuaternion.c
 src/_Z14ApproachLinearRiii.cpp
 
 # Timer (plain struct + methods, no externs)
-src/_ZN5Timer10ResetTimerEv.cpp
-src/_ZN5Timer10StartTimerEv.cpp
-src/_ZN5Timer9StopTimerEv.cpp
-src/_ZN5Timer7GetTimeEv.cpp
+src/Timer.cpp
 
 # Fader hierarchy (real C++ with vtables -- host vtables are exactly what a
 # port wants, unlike the hybrid, which must reject them)

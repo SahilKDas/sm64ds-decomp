@@ -89,7 +89,7 @@ struct dCc_c {
     virtual Vector3 &GetPos() = 0;      /* slot 2 - null in the ROM table */
     virtual u32 GetOwnerID() = 0;       /* slot 3 - null in the ROM table */
 
-    /* Defined as real C++ in src/_ZN5dCc_cC2Ev.cpp. Every derived constructor
+    /* Defined as real C++ in src/engine/collision/dCc_c.cpp. Every derived constructor
      * calls this base step, whose member-initializer list leaves a newly
      * constructed collision node unlinked. */
     dCc_c();

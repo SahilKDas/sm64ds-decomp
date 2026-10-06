@@ -1,0 +1,4 @@
+src_tu/ is the staging area for translation units awaiting promotion
+(notes/tu-promotion-conventions.md). Every staged TU has been promoted,
+so the directory is currently empty -- this file keeps it tracked because
+tools/check_src_tu_compiles.py (pre-push hook) refuses to run without it.

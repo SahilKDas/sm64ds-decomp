@@ -10,6 +10,11 @@ src/actors/daObjYajirusi_c.cpp
 # UpdateClsnPosAndRot, UpdateModelPosAndRotY and IsClsnInRangeOnScreen
 # this slice used to name separately all live in it.
 src/actors/dBgActor_c.cpp
+# dActor_c is one production translation unit; SetRanges and ClosestPlayer
+# this slice used to name separately all live in it. The constructor keeps
+# its own files: the ROM's C1/C2 variant pair brackets Vector3s' vague-linkage
+# D1, so one member definition cannot tile the run.
+src/actors/dActor_c.cpp
 src/_ZN8dActor_cC2Ev.cpp
 # SceneNode's constructor and Reset now share their production translation unit.
 src/actors/ActorBase_SceneNode.cpp
@@ -25,7 +30,6 @@ src/_ZN11ShadowModelC1Ev.cpp
 src/engine/collision/dBgW_KcMbg.cpp
 src/_ZN4dBgW7DisableEv.cpp
 src/_ZN4dBgW9IsEnabledEv.cpp
-src/_ZN8dActor_c9SetRangesE5Fix12IiES1_S1_S1_.cpp
 src/_ZN9ModelBase7SetFileEP8BMD_Fileii.cpp
 src/func_02039394.c
 src/func_020393a4.c
@@ -39,7 +43,6 @@ src/engine/collision/dBgW_Kc.cpp
 src/func_0203b244.c
 src/LenVec3.c
 src/func_020396d0.c
-src/_ZN8dActor_c13ClosestPlayerEv.cpp
 src/Matrix4x3_FromRotationY.c
 # The six func_01ffb0* flag/accessor helpers live in the ITCM half of the
 # dBgW_Kc production TU.

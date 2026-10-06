@@ -1,0 +1,88 @@
+{
+  "id": "arm9/Memory",
+  "module": "arm9",
+  "source": "src/Memory.cpp",
+  "promoted_source": "src/Memory.cpp",
+  "status": "promoted",
+  "boundary_confidence": "high",
+  "boundary_evidence": [
+    "contiguous linker run: 0x0203c1b4..0x0203c24c, 5 function(s), gapless in config/arm9/delinks.txt (each entry's end is the next entry's start, all marked `complete`).",
+    "TOP EDGE: Matrix4x3_ApplyInPlaceToTranslation (0x0203c184..0x0203c1b4) ends exactly where the run begins -- a Matrix4x3 math helper, not a Memory member. BOTTOM EDGE: _ZN4Heap18InitializeGameHeapEjPS_ (0x0203c24c..0x0203c274) begins exactly where the run ends and belongs to the Heap/SolidHeap/ExpandingHeap interleave that occupies 0x0203c24c..0x0203cbc0.",
+    "NAMESPACE-LOCAL COMPLETE: the run is every Memory:: Allocate/Deallocate wrapper; the only other `_ZN6Memory*` functions (operator_new2, operator_delete2 at 0x0203cbcc..0x0203cbe4) sit a full Heap-complex span away and belong to the separate new/delete TU that also holds _Znwj/_ZdlPv -- a TU claims one contiguous .text span, so they cannot be folded here."
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "start": "0x0203c1b4",
+      "end": "0x0203c24c"
+    }
+  ],
+  "functions": [
+    {
+      "symbol": "_ZN6Memory10DeallocateEPv",
+      "address": "0x0203c1b4",
+      "size": "0x00000010",
+      "legacy_source": "src/_ZN6Memory10DeallocateEPv.cpp",
+      "ordinal": 0
+    },
+    {
+      "symbol": "_ZN6Memory8AllocateEj",
+      "address": "0x0203c1c4",
+      "size": "0x00000014",
+      "legacy_source": "src/_ZN6Memory8AllocateEj.cpp",
+      "ordinal": 1
+    },
+    {
+      "symbol": "_ZN6Memory8AllocateEji",
+      "address": "0x0203c1d8",
+      "size": "0x00000010",
+      "legacy_source": "src/_ZN6Memory8AllocateEji.cpp",
+      "ordinal": 2
+    },
+    {
+      "symbol": "_ZN6Memory10DeallocateEPvP4Heap",
+      "address": "0x0203c1e8",
+      "size": "0x00000028",
+      "legacy_source": "src/_ZN6Memory10DeallocateEPvP4Heap.cpp",
+      "ordinal": 3
+    },
+    {
+      "symbol": "_ZN6Memory8AllocateEjiP4Heap",
+      "address": "0x0203c210",
+      "size": "0x0000003c",
+      "legacy_source": "src/_ZN6Memory8AllocateEjiP4Heap.cpp",
+      "ordinal": 4
+    }
+  ],
+  "data": [],
+  "bss": [],
+  "compiler_only_output": [],
+  "notes": [
+    "HAND-BUILT manifest entry, not tools/tubuild.py create output -- the `main` module is unsegmentable, so there is no create candidate id.",
+    "Memory is a namespace of thin allocation wrappers over Heap: the one- and two-argument forms forward with align=4 / null heap, the Heap*-taking forms fall back to Memory::defaultHeapPtr (bss 0x020a0ea0) and call the Heap member. No vtable, RTTI, or emitted data.",
+    "#pragma defer_codegen off makes mwccarm emit .text in source order; the ROM's order is ascending and so is the file's.",
+    "New include/Memory.h gives the namespace and defaultHeapPtr one real declaration, replacing five per-shard local `class Heap' redeclarations; the TU consumes the reconstructed include/Heap.h for the member calls."
+  ],
+  "verification": {
+    "round": "tools/tubuild.py verify -- text-only, whole shadow TU compiled once",
+    "toolchain": "tools/mwccarm/2004/b56/mwccarm.exe",
+    "flags": "-O4,p -enum int -lang c++ -char signed -interworking -proc arm946e -gccext,on -msgstyle gcc -Cpp_exceptions off",
+    "object": "build/tu/arm9-Memory/Memory.o (gitignored)",
+    "comparison": "tools/match.py extract_func+compare (bytes/relocs) AND tools/objisolate.py plan() (relocation type/addend) AND tools/reloc_audit.py check_destinations() (relocation target identity)",
+    "functions_matched": 5,
+    "functions_declared": 5,
+    "compilerOnlyOutput": {
+      "requested": [],
+      "deadstripped": [],
+      "data": [],
+      "dataExternalized": []
+    },
+    "criteria": {
+      "every_declared_function_defined": "PASS",
+      "every_declared_function_bytes_match": "PASS",
+      "declared_function_set_equals_defined_function_set": "PASS",
+      "functions_occur_in_expected_order": "PASS",
+      "relocation_destinations_verified": "PASS"
+    }
+  }
+}

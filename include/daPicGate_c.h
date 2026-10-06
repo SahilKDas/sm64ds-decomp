@@ -71,6 +71,25 @@ struct daPicGate_c : dActor_c {
     virtual s32   Behavior();              /* slot  6 */
     virtual s32   Render();                /* slot  9 */
     virtual void  OnPendingDestroy();      /* slot 12 */
+
+    /* Helpers: the picture-mesh machinery under InitResources' run, folded
+       into src/game/actors/d_a_pic_gate.cpp. The ROM address is the method
+       name. */
+    void  func_ov080_02125460();                      /* LoadMaterial */
+    void  func_ov080_0212555c();                      /* BuildGateMatrix */
+    u8   *func_ov080_02125630(s32 picture);           /* LoadTexture */
+    void  func_ov080_021256f8();                      /* HitTest */
+    void  func_ov080_02125940();                      /* BuildNormals */
+    void  func_ov080_02125af0();                      /* FlattenFrame */
+    s32   func_ov080_02125bb0(s32 dist);              /* RippleHeight */
+    s32   func_ov080_02125cd4(s32 n);
+    s32   func_ov080_02125d08(s32 frames);
+    void  func_ov080_02125de0(s32 x, s32 y, s32 front); /* BeginWave */
+    void  func_ov080_02125f00();
+    void  func_ov080_02125fd0();                      /* DrawFlat */
+    void  func_ov080_02126120();
+    void  func_ov080_02126124();                      /* PlaceCorners */
+    void  func_ov080_021261f4();                      /* wave-mesh render */
 };
 
 #ifndef SM64DS_PLATFORM_PC

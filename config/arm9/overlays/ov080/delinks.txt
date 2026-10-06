@@ -20,65 +20,9 @@ src/_ZN11daPicGate_cD0Ev.cpp:
     complete
     .text start:0x02125428 end:0x02125460
 
-src/func_ov080_02125460.c:
+src/game/actors/d_a_pic_gate.cpp:
     complete
-    .text start:0x02125460 end:0x0212555c
-
-src/func_ov080_0212555c.c:
-    complete
-    .text start:0x0212555c end:0x02125630
-
-src/func_ov080_02125630.cpp:
-    complete
-    .text start:0x02125630 end:0x021256f8
-
-src/func_ov080_021256f8.c:
-    complete
-    .text start:0x021256f8 end:0x02125940
-
-src/func_ov080_02125940.c:
-    complete
-    .text start:0x02125940 end:0x02125af0
-
-src/func_ov080_02125af0.c:
-    complete
-    .text start:0x02125af0 end:0x02125bb0
-
-src/func_ov080_02125bb0.c:
-    complete
-    .text start:0x02125bb0 end:0x02125cd4
-
-src/func_ov080_02125cd4.c:
-    complete
-    .text start:0x02125cd4 end:0x02125d08
-
-src/func_ov080_02125d08.c:
-    complete
-    .text start:0x02125d08 end:0x02125d64
-
-src/func_ov080_02125d64.c:
-    complete
-    .text start:0x02125d64 end:0x02125de0
-
-src/func_ov080_02125de0.c:
-    complete
-    .text start:0x02125de0 end:0x02125f00
-
-src/func_ov080_02125f00.c:
-    complete
-    .text start:0x02125f00 end:0x02125fd0
-
-src/func_ov080_02125fd0.c:
-    complete
-    .text start:0x02125fd0 end:0x02126120
-
-src/func_ov080_02126120.c:
-    complete
-    .text start:0x02126120 end:0x02126124
-
-src/func_ov080_02126124.c:
-    complete
-    .text start:0x02126124 end:0x021261f4
+    .text start:0x02125460 end:0x021261f4
 
 src/actors/daPicGate_c.cpp:
     complete

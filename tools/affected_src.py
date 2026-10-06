@@ -7,7 +7,7 @@ so the worker can add every affected source file to the validation set.
 
 Usage:
     python tools/affected_src.py include/types.h
-    python tools/affected_src.py include/types.h include/Timer.hpp --json
+    python tools/affected_src.py include/types.h include/Timer.h --json
 """
 import argparse
 import json

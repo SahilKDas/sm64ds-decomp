@@ -125,7 +125,7 @@ an earlier "~670" was a regex artifact, see the appendix).
   define *any* named `G3_`/`GX_`/`G2_` inline. Not "overwhelmingly." Three.
 - The norm is a bare store, sometimes not even volatile:
   `*(volatile int *)0x4000440 = 2;` (func_ov006_020d09e0 in `src/actors/unit020cd744.cpp`),
-  `src/func_ov080_02125fd0.c:16`.
+  `src/game/actors/d_a_pic_gate.cpp:541`.
 
 So "the decomp has incidentally done most of the API-recovery a port needs" was the
 opposite of true, and Phase 2 cannot be sized as "swap a header."

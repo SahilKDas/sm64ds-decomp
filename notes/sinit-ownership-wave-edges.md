@@ -88,7 +88,7 @@ twelve-byte destructor records, and initializes one 12-entry non-const PMF
 array at [data_ov080_02128628](../config/arm9/overlays/ov080/symbols.txt).
 
 - Data table [data_ov080_0212775c](../config/arm9/overlays/ov080/symbols.txt) contains 19 consecutive relocations, one to
-  every resource object. [func_ov080_02125630](../src/func_ov080_02125630.cpp)'s closing literal-pool
+  every resource object. [daPicGate_c::func_ov080_02125630](../src/game/actors/d_a_pic_gate.cpp)'s closing literal-pool
   relocation at `0x021256f4` points to that table. Both the function and the
   table belong to the daPicGate_c text/data cluster.
 - `daPicGate_c::InitResources` loads the PMF destination at `0x02126f7c` and

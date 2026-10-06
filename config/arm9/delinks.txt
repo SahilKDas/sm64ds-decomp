@@ -781,369 +781,9 @@ src/Initialise3dGraphics.cpp:
     complete
     .text start:0x0200f558 end:0x0200f658
 
-src/_ZN8dActor_c17DetectRaycastClsnER7Vector3S1_b.cpp:
+src/actors/dActor_c.cpp:
     complete
-    .text start:0x0200f658 end:0x0200f70c
-
-src/_ZN8dActor_c22IsTooFarAwayFromPlayerE5Fix12IiE.cpp:
-    complete
-    .text start:0x0200f70c end:0x0200f760
-
-src/func_0200f760.c:
-    complete
-    .text start:0x0200f760 end:0x0200f7a8
-
-src/_ZN8dActor_c19MakeVanishLuigiWorkER5dCc_c.cpp:
-    complete
-    .text start:0x0200f7a8 end:0x0200f7f0
-
-src/func_0200f7f0.c:
-    complete
-    .text start:0x0200f7f0 end:0x0200f874
-
-src/_ZN5Sound20PlaySmallSecretSoundEP8dActor_cPt.cpp:
-    complete
-    .text start:0x0200f874 end:0x0200f8f8
-
-src/_ZN5Sound15PlaySecretSoundEP8dActor_cPt.cpp:
-    complete
-    .text start:0x0200f8f8 end:0x0200f97c
-
-src/_ZN8dActor_c13SpawnSoundObjEj.cpp:
-    complete
-    .text start:0x0200f97c end:0x0200f9b8
-
-src/_ZN8dActor_c24KillAndTrackInDeathTableEv.cpp:
-    complete
-    .text start:0x0200f9b8 end:0x0200f9d4
-
-src/_ZN8dActor_c19UntrackInDeathTableEv.cpp:
-    complete
-    .text start:0x0200f9d4 end:0x0200f9e4
-
-src/_ZN8dActor_c17TrackInDeathTableEv.cpp:
-    complete
-    .text start:0x0200f9e4 end:0x0200f9f4
-
-src/_ZN8dActor_c18GetBitInDeathTableEv.cpp:
-    complete
-    .text start:0x0200f9f4 end:0x0200fa04
-
-src/func_0200fa04.c:
-    complete
-    .text start:0x0200fa04 end:0x0200fa8c
-
-src/func_0200fa8c.c:
-    complete
-    .text start:0x0200fa8c end:0x0200fac4
-
-src/_ZN8dActor_c13LandingDustAtER7Vector3b.cpp:
-    complete
-    .text start:0x0200fac4 end:0x0200fb4c
-
-src/_ZN8dActor_c15HugeLandingDustEb.cpp:
-    complete
-    .text start:0x0200fb4c end:0x0200fb84
-
-src/_ZN8dActor_c17HugeLandingDustAtER7Vector3b.cpp:
-    complete
-    .text start:0x0200fb84 end:0x0200fc0c
-
-src/_ZN8dActor_c11LandingDustEb.cpp:
-    complete
-    .text start:0x0200fc0c end:0x0200fc44
-
-src/func_0200fc44.c:
-    complete
-    .text start:0x0200fc44 end:0x0200fccc
-
-src/func_0200fccc.c:
-    complete
-    .text start:0x0200fccc end:0x0200fd04
-
-src/_ZN8dActor_c19DisappearPoofDustAtERK7Vector3.cpp:
-    complete
-    .text start:0x0200fd04 end:0x0200fd40
-
-src/_ZN8dActor_c13SmallPoofDustEv.cpp:
-    complete
-    .text start:0x0200fd40 end:0x0200fd74
-
-src/_ZN8dActor_c16TriplePoofDustAtERK7Vector3.cpp:
-    complete
-    .text start:0x0200fd74 end:0x0200fdc8
-
-src/_ZN8dActor_c14TriplePoofDustEv.cpp:
-    complete
-    .text start:0x0200fdc8 end:0x0200fdfc
-
-src/_ZN8dActor_c10PoofDustAtERK7Vector3.cpp:
-    complete
-    .text start:0x0200fdfc end:0x0200fe3c
-
-src/_ZN8dActor_c8PoofDustEv.cpp:
-    complete
-    .text start:0x0200fe3c end:0x0200fe70
-
-src/UnloadBlueCoinModel.c:
-    complete
-    .text start:0x0200fe70 end:0x0200fe9c
-
-src/LoadBlueCoinModel.c:
-    complete
-    .text start:0x0200fe9c end:0x0200fec8
-
-src/_ZN8dActor_c17GetWaterHeightWDWEv.cpp:
-    complete
-    .text start:0x0200fec8 end:0x0200ff14
-
-src/_ZN8dActor_c19UntrackAndSpawnStarERajRK7Vector3h.cpp:
-    complete
-    .text start:0x0200ff14 end:0x0200ff60
-
-src/_ZN8dActor_c11UntrackStarERa.cpp:
-    complete
-    .text start:0x0200ff60 end:0x0200ff94
-
-src/_ZN8dActor_c9TrackStarEjj.cpp:
-    complete
-    .text start:0x0200ff94 end:0x02010044
-
-src/_ZN8dActor_c11SpawnNumberERK7Vector3jbtPS_.cpp:
-    complete
-    .text start:0x02010044 end:0x020100dc
-
-src/_ZN8dActor_c25OnAimedAtWithEggReturnVecEv.cpp:
-    complete
-    .text start:0x020100dc end:0x02010124
-
-src/_ZN8dActor_c16OnAimedAtWithEggEv.cpp:
-    complete
-    .text start:0x02010124 end:0x0201012c
-
-src/_ZN8dActor_c19OnHitFromUnderneathERS_.cpp:
-    complete
-    .text start:0x0201012c end:0x02010130
-
-src/_ZN8dActor_c15OnHitByMegaCharER6Player.cpp:
-    complete
-    .text start:0x02010130 end:0x02010134
-
-src/_ZN8dActor_c24OnHitByCannonBlastedCharERS_.cpp:
-    complete
-    .text start:0x02010134 end:0x02010138
-
-src/_ZN8dActor_c8OnPushedERS_.cpp:
-    complete
-    .text start:0x02010138 end:0x0201013c
-
-src/_ZN8dActor_c8OnKickedERS_.cpp:
-    complete
-    .text start:0x0201013c end:0x02010140
-
-src/_ZN8dActor_c11OnAttacked2ERS_.cpp:
-    complete
-    .text start:0x02010140 end:0x02010144
-
-src/_ZN8dActor_c11OnAttacked1ERS_.cpp:
-    complete
-    .text start:0x02010144 end:0x02010148
-
-src/_ZN8dActor_c15OnGroundPoundedERS_.cpp:
-    complete
-    .text start:0x02010148 end:0x0201014c
-
-src/_ZN8dActor_c9Virtual50Ev.cpp:
-    complete
-    .text start:0x0201014c end:0x02010154
-
-src/_ZN8dActor_c13OnTurnIntoEggER6Player.cpp:
-    complete
-    .text start:0x02010154 end:0x02010160
-
-src/_ZN8dActor_c13OnYoshiTryEatEv.cpp:
-    complete
-    .text start:0x02010160 end:0x02010168
-
-src/_ZN8dActor_c10EarthquakeERK7Vector35Fix12IiE.cpp:
-    complete
-    .text start:0x02010168 end:0x02010180
-
-src/_ZN8dActor_c11UpdateCarryER6PlayerRK7Vector3.cpp:
-    complete
-    .text start:0x02010180 end:0x020102b0
-
-src/_ZN8dActor_c13SpawnFireballERK7Vector3PK10Vector3_165Fix12IiES7_j.cpp:
-    complete
-    .text start:0x020102b0 end:0x02010304
-
-src/func_02010304.cpp:
-    complete
-    .text start:0x02010304 end:0x02010374
-
-src/_ZN8dActor_c18FindExplosionActorER5dCc_c.cpp:
-    complete
-    .text start:0x02010374 end:0x020103b4
-
-src/_ZN8dActor_c7FindEggER5dCc_c.cpp:
-    complete
-    .text start:0x020103b4 end:0x020103f4
-
-src/_ZN8dActor_c14GetSubtractionEss.cpp:
-    complete
-    .text start:0x020103f4 end:0x02010428
-
-src/_ZN8dActor_c12ReflectAngleE5Fix12IiES1_s.cpp:
-    complete
-    .text start:0x02010428 end:0x0201045c
-
-src/_ZN8dActor_c15IsPlayerInRangeERK7Vector3i.cpp:
-    complete
-    .text start:0x0201045c end:0x02010498
-
-src/_ZN8dActor_c15IsPlayerInRangeE5Fix12IiES1_S1_i.cpp:
-    complete
-    .text start:0x02010498 end:0x020104dc
-
-src/_ZN8dActor_c15IsPlayerInRangeEi.cpp:
-    complete
-    .text start:0x020104dc end:0x02010518
-
-src/_ZN8dActor_c24BumpedUnderneathByPlayerER6Player.cpp:
-    complete
-    .text start:0x02010518 end:0x0201054c
-
-src/_ZN8dActor_c16JumpedOnByPlayerER5dCc_cR6Player.cpp:
-    complete
-    .text start:0x0201054c end:0x020105cc
-
-src/func_020105cc.c:
-    complete
-    .text start:0x020105cc end:0x0201061c
-
-src/_ZN8dActor_c15GivePlayerCoinsER6Playerhj.cpp:
-    complete
-    .text start:0x0201061c end:0x02010714
-
-src/_ZN8dActor_c10SpawnCoinsERK7Vector3j5Fix12IiEs.cpp:
-    complete
-    .text start:0x02010714 end:0x02010844
-
-src/func_02010844.c:
-    complete
-    .text start:0x02010844 end:0x020108c4
-
-src/_ZN8dActor_c18ClosestWithActorIDEj.cpp:
-    complete
-    .text start:0x020108c4 end:0x0201092c
-
-src/_ZN8dActor_c18HorzAngleToFPlayerEv.cpp:
-    complete
-    .text start:0x0201092c end:0x02010958
-
-src/_ZN8dActor_c14FarthestPlayerEv.cpp:
-    complete
-    .text start:0x02010958 end:0x0201097c
-
-src/_ZN8dActor_c23HorzAngleToCPlayerOrAngEv.cpp:
-    complete
-    .text start:0x0201097c end:0x020109b8
-
-src/_ZN8dActor_c18HorzAngleToCPlayerEv.cpp:
-    complete
-    .text start:0x020109b8 end:0x020109e4
-
-src/_ZN8dActor_c13DistToCPlayerEv.cpp:
-    complete
-    .text start:0x020109e4 end:0x02010a08
-
-src/_ZN8dActor_c22ClosestNonVanishPlayerEv.cpp:
-    complete
-    .text start:0x02010a08 end:0x02010ad8
-
-src/_ZN8dActor_c13ClosestPlayerEv.cpp:
-    complete
-    .text start:0x02010ad8 end:0x02010b9c
-
-src/_ZN8dActor_c18DropShadowScaleXYZER11ShadowModelR9Matrix4x35Fix12IiES5_S5_j.cpp:
-    complete
-    .text start:0x02010b9c end:0x02010be8
-
-src/_ZN8dActor_c19DropShadowRadHeightER11ShadowModelR9Matrix4x35Fix12IiES5_j.cpp:
-    complete
-    .text start:0x02010be8 end:0x02010c30
-
-src/_ZN8dActor_c9UpdatePosEP5dCc_c.cpp:
-    complete
-    .text start:0x02010c30 end:0x02010c5c
-
-src/_ZN8dActor_c28UpdatePosWithHorzSpeedAndAngEv.cpp:
-    complete
-    .text start:0x02010c5c end:0x02010d40
-
-src/_ZN8dActor_c22UpdatePosWithOnlySpeedEP5dCc_c.cpp:
-    complete
-    .text start:0x02010d40 end:0x02010da4
-
-src/func_02010da4.c:
-    complete
-    .text start:0x02010da4 end:0x02010e08
-
-src/_ZN8dActor_c9SetRangesE5Fix12IiES1_S1_S1_.cpp:
-    complete
-    .text start:0x02010e08 end:0x02010e2c
-
-src/_ZN8dActor_c5SpawnEjjRK7Vector3PK10Vector3_16as.cpp:
-    complete
-    .text start:0x02010e2c end:0x02010e78
-
-src/func_02010e78.c:
-    complete
-    .text start:0x02010e78 end:0x02010ecc
-
-src/_ZN8dActor_c4NextEPKS_.cpp:
-    complete
-    .text start:0x02010ecc end:0x02010ef0
-
-src/_ZN8dActor_c15FindWithActorIDEjPS_.cpp:
-    complete
-    .text start:0x02010ef0 end:0x02010f3c
-
-src/_ZN8dActor_c10FindWithIDEj.cpp:
-    complete
-    .text start:0x02010f3c end:0x02010f6c
-
-src/_ZN8dActor_c11AfterRenderEj.cpp:
-    complete
-    .text start:0x02010f6c end:0x02010f78
-
-src/_ZN8dActor_c12BeforeRenderEv.cpp:
-    complete
-    .text start:0x02010f78 end:0x02010fc8
-
-src/_ZN8dActor_c13AfterBehaviorEj.cpp:
-    complete
-    .text start:0x02010fc8 end:0x02010fd4
-
-src/_ZN8dActor_c14BeforeBehaviorEv.cpp:
-    complete
-    .text start:0x02010fd4 end:0x02011214
-
-src/_ZN8dActor_c21AfterCleanupResourcesEj.cpp:
-    complete
-    .text start:0x02011214 end:0x02011220
-
-src/_ZN8dActor_c22BeforeCleanupResourcesEv.cpp:
-    complete
-    .text start:0x02011220 end:0x02011244
-
-src/_ZN8dActor_c18AfterInitResourcesEj.cpp:
-    complete
-    .text start:0x02011244 end:0x02011268
-
-src/_ZN8dActor_c19BeforeInitResourcesEv.cpp:
-    complete
-    .text start:0x02011268 end:0x020112c8
+    .text start:0x0200f658 end:0x020112c8
 
 src/_ZN8dActor_cD2Ev.cpp:
     complete
@@ -1701,29 +1341,9 @@ src/func_020147bc.c:
     complete
     .text start:0x020147bc end:0x020147d4
 
-src/_ZN8dCcPos_c4InitERK7Vector35Fix12IiES4_jj.cpp:
+src/engine/collision/dCcPos_c.cpp:
     complete
-    .text start:0x020147d4 end:0x02014818
-
-src/_ZN8dCcPos_c10GetOwnerIDEv.cpp:
-    complete
-    .text start:0x02014818 end:0x02014820
-
-src/_ZN8dCcPos_c6GetPosEv.cpp:
-    complete
-    .text start:0x02014820 end:0x02014828
-
-src/_ZN8dCcPos_cD0Ev.cpp:
-    complete
-    .text start:0x02014828 end:0x02014854
-
-src/_ZN8dCcPos_cD1Ev.cpp:
-    complete
-    .text start:0x02014854 end:0x02014878
-
-src/_ZN8dCcPos_cC1Ev.cpp:
-    complete
-    .text start:0x02014878 end:0x0201489c
+    .text start:0x020147d4 end:0x0201489c
 
 src/_ZN10dCcAcPos_c21SetPosRelativeToActorERK7Vector3.cpp:
     complete
@@ -1785,49 +1405,9 @@ src/_ZN10dCcAcPos_cC1Ev.cpp:
     complete
     .text start:0x02014a84 end:0x02014aa8
 
-src/_ZN5dCc_c7ProcessEv.cpp:
+src/engine/collision/dCc_c.cpp:
     complete
-    .text start:0x02014aa8 end:0x02014f44
-
-src/func_02014f44.c:
-    complete
-    .text start:0x02014f44 end:0x02014f5c
-
-src/func_02014f5c.c:
-    complete
-    .text start:0x02014f5c end:0x02014fa4
-
-src/_ZN5dCc_c6UnlinkEv.cpp:
-    complete
-    .text start:0x02014fa4 end:0x02014ff0
-
-src/_ZN5dCc_c6UpdateEv.cpp:
-    complete
-    .text start:0x02014ff0 end:0x02015024
-
-src/_ZN5dCc_c5ClearEv.cpp:
-    complete
-    .text start:0x02015024 end:0x02015040
-
-src/_ZN5dCc_c4InitE5Fix12IiES1_jj.cpp:
-    complete
-    .text start:0x02015040 end:0x02015058
-
-src/_ZN5dCc_cD2Ev.cpp:
-    complete
-    .text start:0x02015058 end:0x0201507c
-
-src/_ZN5dCc_cD0Ev.cpp:
-    complete
-    .text start:0x0201507c end:0x020150a8
-
-src/_ZN5dCc_cD1Ev.cpp:
-    complete
-    .text start:0x020150a8 end:0x020150cc
-
-src/_ZN5dCc_cC2Ev.cpp:
-    complete
-    .text start:0x020150cc end:0x020150e8
+    .text start:0x02014aa8 end:0x020150e8
 
 src/_ZN7Clipper13Func_020150E8ER7Vector35Fix12IiEPh.cpp:
     complete
@@ -1861,29 +1441,9 @@ src/engine/model/MaterialChanger.cpp:
     complete
     .text start:0x0201577c end:0x0201587c
 
-src/_ZN18TextureTransformer7PrepareER8BMD_FileR8BTA_File.cpp:
+src/engine/model/TextureTransformer.cpp:
     complete
-    .text start:0x0201587c end:0x02015888
-
-src/_ZN18TextureTransformer6UpdateER15ModelComponents.cpp:
-    complete
-    .text start:0x02015888 end:0x020158ac
-
-src/_ZN18TextureTransformer7SetFileER8BTA_Filei5Fix12IiEj.c:
-    complete
-    .text start:0x020158ac end:0x02015900
-
-src/_ZN18TextureTransformerD0Ev.cpp:
-    complete
-    .text start:0x02015900 end:0x0201592c
-
-src/_ZN18TextureTransformerD1Ev.cpp:
-    complete
-    .text start:0x0201592c end:0x02015950
-
-src/_ZN18TextureTransformerC1Ev.cpp:
-    complete
-    .text start:0x02015950 end:0x0201597c
+    .text start:0x0201587c end:0x0201597c
 
 src/engine/model/TextureSequence.cpp:
     complete
@@ -2744,21 +2304,9 @@ src/GetSoundMode.c:
     complete
     .text start:0x02019574 end:0x02019584
 
-src/_ZN5Timer7GetTimeEv.cpp:
+src/Timer.cpp:
     complete
-    .text start:0x02019584 end:0x020195c0
-
-src/_ZN5Timer9StopTimerEv.cpp:
-    complete
-    .text start:0x020195c0 end:0x02019604
-
-src/_ZN5Timer10StartTimerEv.cpp:
-    complete
-    .text start:0x02019604 end:0x02019638
-
-src/_ZN5Timer10ResetTimerEv.cpp:
-    complete
-    .text start:0x02019638 end:0x0201964c
+    .text start:0x02019584 end:0x0201964c
 
 src/func_0201964c.c:
     complete
@@ -3259,53 +2807,9 @@ src/func_02020820.c:
     complete
     .text start:0x02020820 end:0x02020884
 
-src/_ZN3OAM16LoadAffineParamsEP7OamAttrPiP9Matrix2x2.cpp:
+src/engine/oam/OAM.cpp:
     complete
-    .text start:0x02020884 end:0x0202096c
-
-src/_ZN3OAM12GetObjHeightEii.cpp:
-    complete
-    .text start:0x0202096c end:0x02020980
-
-src/_ZN3OAM11GetObjWidthEii.cpp:
-    complete
-    .text start:0x02020980 end:0x02020994
-
-src/_ZN3OAM6RenderEbP7OamAttriiii5Fix12IiES3_ii.c:
-    complete
-    .text start:0x02020994 end:0x02021024
-
-src/_ZN3OAM6RenderEbP7OamAttriiii5Fix12IiEi.c:
-    complete
-    .text start:0x02021024 end:0x020214a4
-
-src/_ZN3OAM6RenderEbP7OamAttriiiiP9Matrix2x2.cpp:
-    complete
-    .text start:0x020214a4 end:0x02021788
-
-src/_ZN3OAM5ResetEv.cpp:
-    complete
-    .text start:0x02021788 end:0x02021864
-
-src/_ZN3OAM5FlushEv.cpp:
-    complete
-    .text start:0x02021864 end:0x02021898
-
-src/_ZN3OAM4LoadEv.cpp:
-    complete
-    .text start:0x02021898 end:0x0202194c
-
-src/_ZN3OAM9RenderSubEP7OamAttrii.cpp:
-    complete
-    .text start:0x0202194c end:0x0202199c
-
-src/_ZN3OAM9RenderSubEP7OamAttriiii.cpp:
-    complete
-    .text start:0x0202199c end:0x020219f0
-
-src/_ZN3OAM12EnableSubOAMEv.cpp:
-    complete
-    .text start:0x020219f0 end:0x02021a04
+    .text start:0x02020884 end:0x02021a04
 
 src/engine/particle/Particle_SysTracker_Contents.cpp:
     complete
@@ -3730,17 +3234,9 @@ src/DeathTable_GetBit.c:
     complete
     .text start:0x02029e58 end:0x02029ea4
 
-src/_ZN5Event8ClearBitEj.cpp:
+src/Event.cpp:
     complete
-    .text start:0x02029ea4 end:0x02029ec4
-
-src/_ZN5Event6SetBitEj.cpp:
-    complete
-    .text start:0x02029ec4 end:0x02029ee0
-
-src/_ZN5Event6GetBitEj.cpp:
-    complete
-    .text start:0x02029ee0 end:0x02029ef8
+    .text start:0x02029ea4 end:0x02029ef8
 
 src/_ZN5Stage19RenderVsModeNewStarEv.cpp:
     complete
@@ -5269,25 +4765,9 @@ src/Matrix4x3_ApplyInPlaceToTranslation.c:
     complete
     .text start:0x0203c184 end:0x0203c1b4
 
-src/_ZN6Memory10DeallocateEPv.cpp:
+src/Memory.cpp:
     complete
-    .text start:0x0203c1b4 end:0x0203c1c4
-
-src/_ZN6Memory8AllocateEj.cpp:
-    complete
-    .text start:0x0203c1c4 end:0x0203c1d8
-
-src/_ZN6Memory8AllocateEji.cpp:
-    complete
-    .text start:0x0203c1d8 end:0x0203c1e8
-
-src/_ZN6Memory10DeallocateEPvP4Heap.cpp:
-    complete
-    .text start:0x0203c1e8 end:0x0203c210
-
-src/_ZN6Memory8AllocateEjiP4Heap.cpp:
-    complete
-    .text start:0x0203c210 end:0x0203c24c
+    .text start:0x0203c1b4 end:0x0203c24c
 
 src/_ZN4Heap18InitializeGameHeapEjPS_.cpp:
     complete
@@ -10822,45 +10302,9 @@ src/func_02073534.cpp:
     complete
     .text start:0x02073534 end:0x0207359c
 
-src/_ZN3abi21__vmi_class_type_infoD0Ev.cpp:
+src/typeinfo.cpp:
     complete
-    .text start:0x0207359c end:0x020735c8
-
-src/_ZN3abi21__vmi_class_type_infoD1Ev.cpp:
-    complete
-    .text start:0x020735c8 end:0x020735ec
-
-src/_ZN3abi20__si_class_type_infoD0Ev.cpp:
-    complete
-    .text start:0x020735ec end:0x02073618
-
-src/_ZN3abi20__si_class_type_infoD1Ev.cpp:
-    complete
-    .text start:0x02073618 end:0x0207363c
-
-src/_ZN3abi17__class_type_infoD2Ev.cpp:
-    complete
-    .text start:0x0207363c end:0x02073660
-
-src/_ZN3abi17__class_type_infoD0Ev.cpp:
-    complete
-    .text start:0x02073660 end:0x0207368c
-
-src/_ZN3abi17__class_type_infoD1Ev.cpp:
-    complete
-    .text start:0x0207368c end:0x020736b0
-
-src/_ZNSt9type_infoD2Ev.cpp:
-    complete
-    .text start:0x020736b0 end:0x020736c0
-
-src/_ZNSt9type_infoD0Ev.cpp:
-    complete
-    .text start:0x020736c0 end:0x020736e4
-
-src/_ZNSt9type_infoD1Ev.cpp:
-    complete
-    .text start:0x020736e4 end:0x020736f4
+    .text start:0x0207359c end:0x020736f4
 
 src/__sinit_02073a24.c:
     complete

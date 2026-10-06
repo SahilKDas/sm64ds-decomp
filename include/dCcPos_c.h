@@ -21,7 +21,7 @@
  *
  * THE DESTRUCTOR IS DECLARED FIRST AND D1 IS A REAL METHOD -- see
  * include/ModelBase.h for the key-function rule and the objisolate exemption
- * to it. D0 and D2 stay C files.
+ * to it. The TU emits D2 and C2 as deadstripped compiler-only variants.
  *
  * LAYOUT: the base is 0x30, and pos starts at exactly 0x30 (GetPos is
  * `add r0, r0, #0x30'), so the object is 0x3c.
@@ -42,7 +42,7 @@ struct dCcPos_c : dCc_c {
     virtual Vector3 &GetPos();          /* slot 2 */
     virtual u32 GetOwnerID();           /* slot 3 - always 0 */
 
-    /* DECLARED, defined out of line in src/_ZN8dCcPos_cC1Ev.cpp as real C++
+    /* DECLARED, defined out of line in src/engine/collision/dCcPos_c.cpp as real C++
      * -- the body is empty; the base step and the vptr store are the whole
      * ROM function. */
     dCcPos_c();

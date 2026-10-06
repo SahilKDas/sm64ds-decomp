@@ -11,7 +11,7 @@
  *
  * THE DESTRUCTOR IS DECLARED FIRST AND D1 IS A REAL METHOD -- see
  * include/ModelBase.h for the key-function rule and the objisolate exemption
- * to it. D0 stays a C file.
+ * to it. D0 emits beside it from the one definition.
  *
  * Prepare's ROM body is a 0xc long-call veneer (ldr ip, [pc]; bx ip;
  * .word func_02046b64) -- no argument shuffling, so the real body's
@@ -39,8 +39,6 @@ struct TextureTransformer : Animation {
     /* --- vtable: the destructor pair only. --- */
     virtual ~TextureTransformer();                       /* slots 0 (D1), 1 (D0) */
 
-    /* DECLARED, never defined as a method here -- src/_ZN18TextureTransformerC1Ev.cpp
-       owns C1 (notes/ctor-migration.md section 2). */
     TextureTransformer();
 
     /* --- non-virtual --- */
