@@ -45,9 +45,9 @@
         "unmigrated": 65
       }
     },
-    "cpp_still_handspelled": 59,
-    "mangled_c": 16,
-    "mangled_cpp": 4839,
+    "cpp_still_handspelled": 60,
+    "mangled_c": 15,
+    "mangled_cpp": 4840,
     "mangled_total": 4855,
     "nonmatching_drafts": 5,
     "unmigrated_total": 75
@@ -60,8 +60,8 @@
     "pad_layout": 215
   },
   "totals": {
-    "c_extension": 3118,
-    "cpp_extension": 1310,
-    "src_files": 4428
+    "c_extension": 3117,
+    "cpp_extension": 1303,
+    "src_files": 4420
   }
 }
