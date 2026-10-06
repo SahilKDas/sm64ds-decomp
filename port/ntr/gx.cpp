@@ -717,6 +717,39 @@ GxVertex clip_lerp(const GxVertex &a, const GxVertex &b, float t) {
 static bool g_frame_ortho;
 static bool g_wdepth;
 
+/* THE W-BUFFER'S TIE RULE (run hunt7, lane POLES1). The depth key above is
+   exact to a float ulp, and the cartridge's is not: its geometry engine cuts
+   every polygon's vertex W to 16 significant bits before it interpolates
+   (melonDS GPU3D.cpp SetupPolygon: wsize is the smallest multiple of four bits
+   that holds the polygon's largest W, and the low wsize-16 bits of each vertex
+   W are dropped), the interpolated depth is an integer, and the test is a
+   strict less-than. Two polygons on one plane therefore land on the SAME
+   integer and the one drawn first keeps the pixel. With the key left at float
+   precision, two coincident polygons differ by rounding noise and the pixel
+   goes to whichever one the noise favours: Hazy Maze Cave's second room draws
+   each climb pole twice (cave_all.bmd r1, the red box then a copy in the cave
+   wall's texture, same eight corners) and the pole came out speckled.
+   w_tie_q is that integer's step in the port's w units (one raw unit is
+   1/4096); a later polygon must be nearer than the pixel by one step to win.
+   In the 1/w key a step of Q in w is Q * k * k, k = 1/w = -key, to first order
+   (Q * k is at most 2^-12, so the first order is exact enough). A Z frame
+   passes q = 0, and then the test is the old z >= d bit for bit. */
+static inline float w_tie_q(const GxVertex &a, const GxVertex &b,
+                            const GxVertex &c) {
+    float m = std::fabs(a.w);
+    if (std::fabs(b.w) > m) m = std::fabs(b.w);
+    if (std::fabs(c.w) > m) m = std::fabs(c.w);
+    const float raw = m * 4096.0f;
+    const uint32_t r = raw >= 4294967040.0f ? 0xFFFFFFFFu : (uint32_t)raw;
+    unsigned wsize = 0;
+    while (wsize < 32 && (r >> wsize)) wsize += 4;
+    const unsigned s = wsize > 16 ? wsize - 16 : 0;
+    return (float)(1u << s) * (1.0f / 4096.0f);
+}
+static inline bool w_depth_fail(float z, float d, float q) {
+    return z >= (d < 0.0f ? d - q * d * d : d);
+}
+
 void push_screen_tri(const GxVertex &a, const GxVertex &b, const GxVertex &c) {
     if (g.proj.m[3] == 0.0f && g.proj.m[7] == 0.0f && g.proj.m[11] == 0.0f)
         g_frame_ortho = true;
@@ -3044,6 +3077,29 @@ static uint32_t sample_filtered(const TriTex &tt, const uint32_t *base, int w,
     return (a << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0);
 }
 
+/* COVERAGE BELONGS TO THE TEXEL THE DS WOULD HAVE PICKED (run hunt7, lane
+   FILTEREDGE1). The filter's alpha is a blend, so a cut-out's rim pixel comes
+   back with a PARTIAL alpha next to a transparent texel. Taken at face value
+   that did two wrong things: the footprint grew by up to half a texel (a pixel
+   whose own texel is transparent still passed the "alpha 0 means no pixel"
+   test), and a pixel whose own texel is opaque went down the translucent path
+   with its alpha scaled by the blend, which writes no depth, so whatever was
+   behind it was free to paint over the sprite's edge. The card's pass had the
+   worse form of the same thing (it blended the partial alpha over the clear
+   colour AND wrote depth, so the rim showed what was drawn first).
+   The rule here is the one TextureFilter 0 has always followed: the texel at
+   the sample point decides whether the pixel exists (alpha 0: no pixel) and,
+   when that texel is fully opaque, the pixel is fully opaque and writes depth.
+   The filter only supplies the COLOUR of a pixel that exists. A texel with a
+   partial alpha of its own (an A3I5 or A5I3 gradient) keeps the filtered alpha
+   so its fade stays smooth. `nearest_px` is the nearest texel's 0xAARRGGBB. */
+static inline uint32_t filtered_texel_cover(uint32_t filtered, uint32_t nearest_px) {
+    const uint32_t na = nearest_px >> 24;
+    if (na == 0) return 0;
+    if (na == 0xFF) return filtered | 0xFF000000u;
+    return (filtered >> 24) ? filtered : nearest_px;
+}
+
 /* THE LEVEL OF DETAIL, ONE PER TRIANGLE, from the ratio of its area in texels
    to its area in pixels. A triangle covering a quarter of the pixels its
    texels would fill is half the size in each direction, which is one level
@@ -4407,6 +4463,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
         const float iwa = (std::fabs(a.w) > 1e-6f) ? 1.0f / a.w : 0.0f;
         const float iwb = (std::fabs(b.w) > 1e-6f) ? 1.0f / b.w : 0.0f;
         const float iwc = (std::fabs(c.w) > 1e-6f) ? 1.0f / c.w : 0.0f;
+        const float wq = wdepth ? w_tie_q(a, b, c) : 0.0f;
         /* NOTE the UV terms below stay written as l0 * a.u * iwa. Folding
            a.u * iwa out to the triangle would regroup the multiply, and float
            multiplication does not associate -- (l0*a.u)*iwa and l0*(a.u*iwa)
@@ -4572,7 +4629,7 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
                 const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
-                if (z >= drow[x]) continue;
+                if (w_depth_fail(z, drow[x], wq)) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
                 // Texture first; the vertex colour modulates it. UVs are
@@ -4603,6 +4660,9 @@ void raster_ref(const RefArgs &ra, int tid, int nt) {
                         texel = ref_sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = ref_tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = ref_tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
@@ -4793,6 +4853,25 @@ void rab_compare(Framebuffer &fb, int lo, int hi) {
 }
 
 }  // namespace
+
+/* SM64DS_COVER_DUMP=<path>: after the frame's passes (and before the edge
+   smoothing, which rewrites the mask) write the 3D coverage mask, one byte a
+   pixel, 255 where the 3D engine wrote the pixel, as a binary PGM. Each frame
+   overwrites the file, so the last frame drawn is what is left. With
+   SM64DS_TEX_ONLY on the same run (which now also limits the card's triangles)
+   this is one texture's footprint, which is how TextureFilter 0, 1 and 2 are
+   compared pixel for pixel. Off unless the variable is set. */
+static void cover_dump(const char *path, int cw, int ch) {
+    FILE *f = std::fopen(path, "wb");
+    if (!f) return;
+    std::fprintf(f, "P5\n%d %d\n255\n", cw, ch);
+    std::vector<unsigned char> row((size_t)cw);
+    for (int y = 0; y < ch; ++y) {
+        for (int x = 0; x < cw; ++x) row[(size_t)x] = g_cover[y][x] ? 255 : 0;
+        std::fwrite(row.data(), 1, row.size(), f);
+    }
+    std::fclose(f);
+}
 
 void gx_render(Framebuffer &fb) {
     /* run interp1: what reached the raster is the frame; seal its record. */
@@ -5046,9 +5125,10 @@ void gx_render(Framebuffer &fb) {
             const char *e = getenv("SM64DS_WDEPTH");
             wd_env = (e && *e == '0') ? 0 : 1;
         }
-        /* the card renderer's own depth readback is Z, and the translucent
-           pass reads it: that frame keeps Z */
-        g_wdepth = wd_env && !g_frame_ortho && !g_gpu_opaque &&
+        /* a card frame is W-buffered too: hal/gpu_raster.cpp draws c/w with
+           a GREATER test and the readback hands the translucent pass the same
+           -(1/w) key this loop uses (GxGpuFrame::wdepth, set below) */
+        g_wdepth = wd_env && !g_frame_ortho &&
                    (g_swap_param & 2) != 0;
     }
     /* the tile shape, set below once the frame's work is known */
@@ -5140,6 +5220,7 @@ void gx_render(Framebuffer &fb) {
         const float iwa = (std::fabs(a.w) > 1e-6f) ? 1.0f / a.w : 0.0f;
         const float iwb = (std::fabs(b.w) > 1e-6f) ? 1.0f / b.w : 0.0f;
         const float iwc = (std::fabs(c.w) > 1e-6f) ? 1.0f / c.w : 0.0f;
+        const float wq = wdepth ? w_tie_q(a, b, c) : 0.0f;
         /* NOTE the UV terms below stay written as l0 * a.u * iwa. Folding
            a.u * iwa out to the triangle would regroup the multiply, and float
            multiplication does not associate -- (l0*a.u)*iwa and l0*(a.u*iwa)
@@ -5316,7 +5397,7 @@ void gx_render(Framebuffer &fb) {
                 const float w0 = n0 / area, w1 = n1 / area, w2 = n2 / area;
                 const float l0 = w1, l1 = w2, l2 = w0;   // barycentric for a, b, c
                 const float z = wdepth ? -(l0 * iwa + l1 * iwb + l2 * iwc) : l0 * a.z + l1 * b.z + l2 * c.z;
-                if (z >= drow[x]) continue;
+                if (w_depth_fail(z, drow[x], wq)) continue;
                 // Depth is written only after the texel passes the alpha test
                 // below -- a transparent texel must not occlude what is behind it.
                 // Texture first; the vertex colour modulates it. UVs are
@@ -5347,6 +5428,9 @@ void gx_render(Framebuffer &fb) {
                         texel = sample_filtered<FILTER>(
                             tt, t.tex, t.tw, t.th, uu * tsc, vv * tsc, rep_s,
                             rep_t, flip_s, flip_t);
+                        const int ui = tex_coord(uu * tsc, t.tw, rep_s, flip_s);
+                        const int vi = tex_coord(vv * tsc, t.th, rep_t, flip_t);
+                        texel = filtered_texel_cover(texel, t.tex[vi * t.tw + ui]);
                     }
                     if ((texel >> 24) == 0) continue;      // transparent texel
                 }
@@ -5585,6 +5669,16 @@ void gx_render(Framebuffer &fb) {
         std::memset(&f, 0, sizeof f);
         f.tris = g.tris.data();
         f.count = g.tris.size();
+        /* SM64DS_TEX_ONLY limits the card's triangles the way it limits the
+           software raster's (see cover_dump) */
+        static std::vector<GxTriangle> only_tris;
+        if (only) {
+            only_tris.clear();
+            for (const GxTriangle &ot : g.tris)
+                if (ot.dbg_tex == only) only_tris.push_back(ot);
+            f.tris = only_tris.data();
+            f.count = only_tris.size();
+        }
         f.fb = &fb.px[0][0];
         f.depth = &g_depth[0][0];
         f.cover = &g_cover[0][0];
@@ -5602,6 +5696,7 @@ void gx_render(Framebuffer &fb) {
            and shadow pass is the only reader, so a frame with neither skips
            it. The A/B reads it too, and says so. */
         f.want_depth = (have_translucent || have_shadow || ab_mode()) ? 1 : 0;
+        f.wdepth = g_wdepth ? 1 : 0;
         f.tex_filter = filt;
         f.tex_generation = g_tex_generation;
         /* The colour a pixel this pass does not reach keeps. Taken from the
@@ -5881,6 +5976,10 @@ void gx_render(Framebuffer &fb) {
        cannot write one, and needs no list of regions to avoid.
        Inside the timed section deliberately: it is part of what a frame costs
        when the setting is on, and the perf line should say so. */
+    {
+        static const char *cd = getenv("SM64DS_COVER_DUMP");
+        if (cd && *cd) cover_dump(cd, cw, ch);
+    }
     aa_pass(fb, cw, ch, nt);
     aa_report();
 

@@ -79,15 +79,9 @@ struct PSOut {
     uint id : SV_TARGET1;
 };
 
-PSOut ps_main(VSOut i)
+PSOut shade(VSOut i, float4 t, float ta)
 {
     PSOut o;
-    float4 t = tex0.Sample(smp0, i.uv);
-    // An untextured polygon binds a one-pixel opaque white texture, so this is
-    // the same code path with t == 1 and no branch: gx.cpp's own untextured
-    // case is literally texel = 0xFFFFFFFF.
-    float ta = floor(t.a * 255.0 + 0.5);
-    clip(ta - 0.5);                       // alpha-0 texel: not a pixel
     float sa = floor((i.attr.x * ta + 127.0) / 255.0);
     uint a = (uint)(i.attr.y + 0.5);
     uint m = a >> 6;
@@ -105,6 +99,42 @@ PSOut ps_main(VSOut i)
     o.col = float4(c, min(sa, 31.0) * (1.0 / 31.0));
     o.id = 0x80u | (a & 63u);
     return o;
+}
+
+PSOut ps_main(VSOut i)
+{
+    float4 t = tex0.Sample(smp0, i.uv);
+    // An untextured polygon binds a one-pixel opaque white texture, so this is
+    // the same code path with t == 1 and no branch: gx.cpp's own untextured
+    // case is literally texel = 0xFFFFFFFF.
+    float ta = floor(t.a * 255.0 + 0.5);
+    clip(ta - 0.5);                       // alpha-0 texel: not a pixel
+    return shade(i, t, ta);
+}
+
+// THE SAME PIXEL UNDER TEXTUREFILTER 1 OR 2 (run hunt7, lane FILTEREDGE1). The
+// texture bound here is held PREMULTIPLIED (rgb * a, 16 bits a channel), so the
+// card's own bilinear / trilinear blend is the alpha-weighted blend gx.cpp's
+// sample_bilinear does by hand, and dividing by the blended alpha gives the
+// straight colour back: a transparent texel's colour (black, usually) never
+// reaches the visible edge of a cut-out. COVERAGE IS NOT THE FILTER'S: s1 is a
+// point sampler pinned to the top level, and its texel is the one TextureFilter
+// 0 would have taken. Alpha 0 there is no pixel (no colour, no depth), a fully
+// opaque texel is a fully opaque pixel that writes depth like any other, and
+// only a texel with an alpha of its own (an A3I5 / A5I3 fade) keeps the
+// filtered alpha. gx.cpp's filtered_texel_cover is this same rule.
+SamplerState smpP : register(s1);
+
+PSOut ps_filt(VSOut i)
+{
+    float4 tf = tex0.Sample(smp0, i.uv);
+    float4 tp = tex0.SampleLevel(smpP, i.uv, 0.0);
+    float pa = floor(tp.a * 255.0 + 0.5);
+    clip(pa - 0.5);                       // the DS's texel is alpha 0: not a pixel
+    float fa = floor(tf.a * 255.0 + 0.5);
+    float ta = (pa > 254.5) ? 255.0 : ((fa > 0.5) ? fa : pa);
+    float4 t = float4(saturate(tf.rgb / max(tf.a, 1.0 / 65535.0)), ta * (1.0 / 255.0));
+    return shade(i, t, ta);
 }
 
 // ============================================================================

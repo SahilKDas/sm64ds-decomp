@@ -1244,8 +1244,26 @@ static void ss_file_keep(SsFileKeep *k)
     memcpy(k->cae4, data_0209cae4, sizeof k->cae4);
     memcpy(k->caf4, data_0209caf4, sizeof k->caf4);
 }
+/* THE STAR BYTES ARE THE ONE PIECE THAT DOES ROLL BACK (run hunt7, lane
+   SAVESTATE1). Everything above is kept so that no save the player made is
+   lost, but the star bytes are also what the world SHOWS: a star actor is blue
+   when its bit is set, and the HUD's star count and every star door read the
+   same bytes. Keeping the newer copy meant F8 before a star, the star, F9, and
+   the star was already blue ("loading a state did not undo the star", report on
+   0.5.5). So when the snapshot is of the same open file (the slot byte at
+   +0x328 matches), the star bytes come from the snapshot and the star is gold
+   again, as at the F8. What the player had saved is still safe: the card is
+   never rolled back, and SaveData::SaveFile ORs the stars already on the card
+   into whatever it writes (src/_ZN8SaveData8SaveFileEjP12FileSaveData.cpp), so
+   a later save can add to the file and never take a star out of it. A snapshot
+   of ANOTHER file (the player went back to the title and opened a different
+   slot) keeps the old behaviour: the open file stays whole. */
 static void ss_file_put_back(const SsFileKeep *k)
 {
+    const int slot_at = 0x328 - 0x54;   /* data_0209caf4 + this = caa0 + 0x328 */
+    const int same_file = data_0209caf4[slot_at] == k->caf4[slot_at];
+    unsigned char snap_stars[sizeof k->cab4];
+    memcpy(snap_stars, data_0209cab4, sizeof snap_stars);
     const int moved =
         memcmp(data_0209caa0, k->caa0, sizeof k->caa0) ||
         memcmp(data_0209cab4, k->cab4, sizeof k->cab4) ||
@@ -1257,10 +1275,22 @@ static void ss_file_put_back(const SsFileKeep *k)
     memcpy(data_0209cad2, k->cad2, sizeof k->cad2);
     memcpy(data_0209cae4, k->cae4, sizeof k->cae4);
     memcpy(data_0209caf4, k->caf4, sizeof k->caf4);
+    int stars_back = 0;
+    if (same_file) {
+        for (size_t i = 0; i < sizeof snap_stars; ++i)
+            if (snap_stars[i] != data_0209cab4[i])
+                ++stars_back;
+        memcpy(data_0209cab4, snap_stars, sizeof snap_stars);
+    }
     fprintf(stderr, "[savestate] the open save file was kept as it was before "
-                    "the load (%s)\n",
+                    "the load (%s); star bytes %s (%d course byte(s) differed "
+                    "from the snapshot's)\n",
             moved ? "the snapshot held an older copy of it"
-                  : "the snapshot's copy was the same");
+                  : "the snapshot's copy was the same",
+            same_file ? "put back to the snapshot's, so a star collected after "
+                        "the save is uncollected again"
+                      : "kept (the snapshot is of another file)",
+            stars_back);
 }
 static int ss_load_state(void)
 {
@@ -1557,6 +1587,7 @@ extern signed char data_0209f2f8;    /* the level currently up */
    the compositor can fade the framebuffer. */
 int port_fader_blend_state(int *evy, int *toWhite);
 void port_fader_start_color(int frames, int toEnd, unsigned short color);
+int port_fader_entrance_wipe_armed(void);   /* hal/fader_wipes.cpp */
 /* dialogue pipeline (hal/message_pump.cpp, hal/message_compositor.cpp,
    hal/message_probe.cpp): pump ticks the box state machine (Stage's own
    UpdateMessage dialogue arm); the compositor rasters engine A's 2D box over
@@ -5615,6 +5646,29 @@ struct MenuHost {
 };
 static MenuHost g_menu_host;
 
+extern unsigned char data_02092128[];   /* per-player character the spawn packs as f1 */
+
+/* IS g_menu_host.player A PLAYER THAT STILL EXISTS? (lane CHARSWAP1)
+   g_menu_host.player is only written by the level loop, once a frame, and
+   nothing clears it when that loop stops running. The star select that opens a
+   course entry (and the game over / title crossing) runs INSIDE one level frame
+   through port_interlude_frame, after hal/level_change.cpp's teardown has
+   destroyed the old course's Player and zeroed the ROM's per-slot Player table
+   data_0209f394 -- but g_menu_host.player still holds the dead object's
+   address, so the rows that test it for null took a freed Player for a live
+   one. The character row then ran Player::SetRealCharacter on freed memory and
+   the game closed (ModelAnim2::Func_020162C4 on a null model, 0xc0000005).
+   The ROM's own table is the truth: the Player is live exactly when slot
+   data_0209f250 still points at it. */
+static char *menu_live_player()
+{
+    char *p = g_menu_host.player;
+    const int me = (int)data_0209f250;
+    if (!p || me < 0 || me >= 16 || data_0209f394[me] != (void *)p)
+        return 0;
+    return p;
+}
+
 static void menu_draw(const OvlSurface &fb)
 {
     /* 96, not 72: the level-select row now carries a name as well as the row,
@@ -5719,9 +5773,23 @@ static void menu_draw(const OvlSurface &fb)
     snprintf(ln[MENU_EXIT], sizeof ln[0],
              "exit course       ExitLevel() -> level 1 entrance 13   "
              "(here: level %d)", (int)data_0209f2f8);
-    snprintf(ln[MENU_CHARACTER], sizeof ln[0], "character         %s%s",
-             CHAR_NAME[g_character_pending & 3],
-             g_character_pending == g_character ? "" : "   enter to switch");
+    /* ENTER ON THIS ROW WITH NO PLAYER BUT A COURSE ABOUT TO START (the star
+       select) STAGES THE CHOICE in the save byte the next spawn reads, so the
+       row says which of the two it will do. The byte is the stateless proof
+       that it was staged: the course's own boot rewrites g_character from the
+       Player it spawns, and the row is back to the plain text. */
+    if (!menu_live_player() &&
+        (((unsigned char *)data_0209caa0)[0x41] & 3) == (g_character_pending & 3))
+        snprintf(ln[MENU_CHARACTER], sizeof ln[0], "character         %s%s",
+                 CHAR_NAME[g_character_pending & 3],
+                 "   starts with the course");
+    else
+        snprintf(ln[MENU_CHARACTER], sizeof ln[0], "character         %s%s",
+                 CHAR_NAME[g_character_pending & 3],
+                 g_character_pending == g_character
+                     ? ""
+                     : (menu_live_player() ? "   enter to switch"
+                                           : "   enter for the course"));
     snprintf(ln[MENU_SNAP], sizeof ln[0], "fake snap         %s",
              g_fake_snap ? "ON (collider owner set at boot)" : "off");
     snprintf(ln[MENU_OVERLAY], sizeof ln[0], "stats overlay     %s",
@@ -6275,12 +6343,43 @@ static void menu_input(int pad_live, const XPad *pad)
                 /* left and right pick, enter changes -- the same shape
                    as the warp row above */
                 if (edge & (1u << 5)) {
-                    fprintf(stderr, "[menu] becoming %s\n",
-                            CHAR_NAME[g_character_pending & 3]);
-                    port_player_set_character(g_menu_host.player,
-                                              g_character_pending);
-                    g_character = g_character_pending;
-                    an_pivot_live = 0;   /* do not ease across it */
+                    if (menu_live_player()) {
+                        fprintf(stderr, "[menu] becoming %s\n",
+                                CHAR_NAME[g_character_pending & 3]);
+                        port_player_set_character(g_menu_host.player,
+                                                  g_character_pending);
+                        g_character = g_character_pending;
+                        an_pivot_live = 0;   /* do not ease across it */
+                    } else {
+                        /* NO PLAYER IN THIS PROCESS RIGHT NOW: the star select
+                           (or a crossing) between two courses. The cartridge
+                           has no Player to swap here either; the character is
+                           the save byte data_0209caa0[0x41], read once by
+                           LoadEntranceObjects when the course spawns, so set
+                           that and the course that starts next spawns this
+                           character. Nothing is written through the old
+                           Player, which is gone.
+
+                           THE SAVE BYTE ALONE IS NOT ENOUGH, found by running
+                           it: the spawn packs f2 = save byte (the Player's
+                           mCharacter) and f1 = data_02092128[slot], and
+                           Player::InitResources makes f1 the character the
+                           body and the map icon show. The star select's own
+                           InitResources copied the OLD save byte into
+                           data_02092128 when it opened, so a course that
+                           started after a bare save-byte write had a Luigi
+                           lives icon and a Mario body. StartFile does the pair
+                           (src/StartFile.c: data_02092128[0] =
+                           data_0209caa0[0x41]) for the same reason, so write
+                           both. data_02092114 stays as the ROM left it (-1,
+                           no cap swap pending). */
+                        fprintf(stderr, "[menu] no Player right now (star "
+                                "select / between courses): %s is set for the "
+                                "course that starts next\n",
+                                CHAR_NAME[g_character_pending & 3]);
+                        character_set_pending(g_character_pending);
+                        data_02092128[0] = (unsigned char)g_character_pending;
+                    }
                 } else {
                     g_character_pending =
                         (dec ? g_character_pending + 3
@@ -14885,7 +14984,16 @@ int main(void)
                    (white, 0x7fff) but the reverse direction, so the panel
                    un-whitens to the new level rather than flashing to black. */
                 if (scene_fade == 2) {
-                    port_fader_start_color(16, 0, 0x7fff);
+                    /* A level entered through a door-type entrance has
+                       already had the ROM arm its own entrance wipe
+                       (LoadEntranceObjects -> StartEntranceFaderWipe) and
+                       dScene_c::BeforeBehavior opens it once the scene
+                       request is released, as on a normal entry. Laying the
+                       colour fade over it left data_0209d4ac driving a wipe
+                       that nothing reversed: black screen, black dialogue
+                       box, frozen dialogue. */
+                    if (!port_fader_entrance_wipe_armed())
+                        port_fader_start_color(16, 0, 0x7fff);
                     port_scene_fade_clear();
                     fprintf(stderr, "[fade] scene %d: covered, level booted, "
                             "fading in\n", scene_id);

@@ -68,14 +68,21 @@
  *    A/B excludes pixels within one pixel of a coverage or ID edge.
  *
  * 2. TEXTUREFILTER 1 AND 2. With filtering on, a filtered texel's alpha can
- *    land between 0 and full, and gx.cpp then takes its BLENDING branch inside
- *    the opaque pass: it blends without writing depth and records a
- *    translucent attribute. Here the blend happens in the card's blend unit
- *    and the depth is written. At TextureFilter 0 -- the arm this is gated on
- *    -- an opaque-class polygon's texel alpha is only ever 0 or full, so the
- *    effective alpha is always 31, the blend is an exact replacement and the
- *    depth write is the same depth write. The difference exists only on the
- *    filtered arms, which are reported separately and gate nothing.
+ *    land between 0 and full. This file used to let that partial alpha reach
+ *    the blend unit AND the depth write, so the rim of every cut-out came out
+ *    darkened by the clear colour and, because depth was written, whatever
+ *    was drawn after it could not fill the rim in (the skybox showed through
+ *    as an outline). Run hunt7 (lane FILTEREDGE1) changed the filtered arms
+ *    to the rule TextureFilter 0 follows: a SECOND, point sampler pinned to
+ *    the top level picks the texel the DS would have picked, and that texel
+ *    alone decides whether the pixel exists and whether it is fully opaque;
+ *    the filter supplies only the colour. The texture is held premultiplied
+ *    (16 bits a channel) on these arms and the pixel shader divides the
+ *    alpha back out, which is gx.cpp's alpha-weighted blend, so a transparent
+ *    texel's colour never bleeds into a visible edge. See ps_filt in
+ *    gpu_raster.hlsl and filtered_texel_cover in ntr/gx.cpp. At TextureFilter
+ *    0 -- the arm this is gated on -- none of this runs: the shader, the
+ *    sampler and the texture are the ones from before.
  *
  * 3. MIP CHAINS. TextureFilter 2 asks the card to generate the chain, which is
  *    a plain box filter; gx.cpp builds its own chain in premultiplied alpha so
@@ -155,6 +162,30 @@ int g_fail_device;
    been measured to make. */
 const float kDepthScale = 0.5f;     /* z on the card */
 const float kDepthUnscale = 2.0f;   /* and back again, both exact */
+
+/* ---- THE W-BUFFERED FRAME (the card half of ntr/gx.cpp's g_wdepth) ---------
+   The DS depth-buffers on W (the game writes SWAP_BUFFERS = 3 every frame), and
+   the software raster keys on -(1/w), screen-linear. A card frame used to keep
+   the post-divide z, which in float sits within an ulp of 1.0 over the far half
+   of a perspective scene (1 ulp ~ 0.5 world units at w ~ 3900), so the
+   translucent pass, reading that depth back, let a pond's water plane through
+   the far shore on a lattice of pixels: the dotted band along the water's far
+   edge at the castle grounds and the Tall Tall Mountain waterfall. Ordering a
+   frame by W on the card is a clip-space trick: with clip z held CONSTANT the
+   hardware's z/w divide gives kWDepthC / w, which is linear in screen space
+   (the same interpolation as -(1/w)), larger for nearer, and floating point is
+   densest near zero, so the far range keeps its relative precision. Nearer is
+   larger, so a W frame tests GREATER and clears to 0. The readback turns the
+   card's c/w into the software key -(1/w) by multiplying with -1/c (a power
+   of two, exact); a pixel nothing covered is never copied, so it keeps the
+   software's own clear. kWDepthC is far below any w the camera produces
+   (the viewport clamps depth to [0, 1], so c / w must stay under 1). A frame
+   gx_render did not mark wdepth (an orthographic scene, SM64DS_WDEPTH=0) draws
+   exactly as before. */
+const float kWDepthC = 1.0f / 256.0f;
+const float kWDepthUnscale = -256.0f;
+float g_depth_unscale = kDepthUnscale;   /* what this frame's readback multiplies by */
+bool g_frame_w;                          /* this frame is W-buffered */
 int g_addrcheck;       /* SM64DS_RENDERER_ADDRCHECK: the six DS address ranges */
 
 /* ---- what the run learned, for the one line at exit ---------------------- */
@@ -175,9 +206,10 @@ ID3D11DeviceContext *g_ctx;
 
 ID3D11VertexShader   *g_vs;
 ID3D11PixelShader    *g_ps;
+ID3D11PixelShader    *g_ps_filt;   /* the same pixel under TextureFilter 1 and 2 */
 ID3D11InputLayout    *g_layout;
 ID3D11RasterizerState *g_rast;
-ID3D11DepthStencilState *g_dss;
+ID3D11DepthStencilState *g_dss, *g_dss_w;
 ID3D11BlendState     *g_blend;
 ID3D11Buffer         *g_vb;
 UINT                  g_vb_verts;
@@ -190,6 +222,9 @@ bool                  g_toon_valid;
 
 /* [filter][addressU][addressV]; address 0 clamp, 1 wrap, 2 mirror */
 ID3D11SamplerState   *g_smp[3][3][3];
+/* the point sampler pinned to the top level that ps_filt takes coverage from,
+   [addressU][addressV] */
+ID3D11SamplerState   *g_psmp[3][3];
 
 /* the one-pixel opaque white texture an untextured polygon binds, so the
    shader has no branch and gx.cpp's own `texel = 0xFFFFFFFF` is literally
@@ -269,6 +304,8 @@ bool make_pipeline()
     if (FAILED(hr)) { fall_back("the vertex shader would not load", hr); return false; }
     hr = g_dev->CreatePixelShader(kGpuRasterPS, sizeof kGpuRasterPS, 0, &g_ps);
     if (FAILED(hr)) { fall_back("the pixel shader would not load", hr); return false; }
+    hr = g_dev->CreatePixelShader(kGpuRasterPSF, sizeof kGpuRasterPSF, 0, &g_ps_filt);
+    if (FAILED(hr)) { fall_back("the filtered pixel shader would not load", hr); return false; }
 
     const D3D11_INPUT_ELEMENT_DESC el[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,
@@ -318,6 +355,9 @@ bool make_pipeline()
     dd.StencilEnable = FALSE;
     hr = g_dev->CreateDepthStencilState(&dd, &g_dss);
     if (FAILED(hr)) { fall_back("no depth state", hr); return false; }
+    dd.DepthFunc = D3D11_COMPARISON_GREATER;     /* the W frame: nearer is larger */
+    hr = g_dev->CreateDepthStencilState(&dd, &g_dss_w);
+    if (FAILED(hr)) { fall_back("no W depth state", hr); return false; }
 
     /* The colour target blends by the shader's own alpha, which is the DS's
        effective alpha over 31. At TextureFilter 0 that alpha is always 1 and
@@ -391,6 +431,29 @@ ID3D11SamplerState *sampler(int filter, int au, int av)
     if (FAILED(g_dev->CreateSamplerState(&sd, &g_smp[filter][au][av])))
         return 0;
     return g_smp[filter][au][av];
+}
+
+/* THE POINT SAMPLER ps_filt TAKES COVERAGE FROM: filter 0's own sampler, except
+   that the mip level is pinned at the top (a chain exists under filter 2, and
+   a point sampler left free would pick a coarser level for a distant surface,
+   where gx.cpp's nearest texel is always the full-size one). */
+ID3D11SamplerState *psampler(int au, int av)
+{
+    if (g_psmp[au][av]) return g_psmp[au][av];
+    static const D3D11_TEXTURE_ADDRESS_MODE kMode[3] = {
+        D3D11_TEXTURE_ADDRESS_CLAMP, D3D11_TEXTURE_ADDRESS_WRAP,
+        D3D11_TEXTURE_ADDRESS_MIRROR,
+    };
+    D3D11_SAMPLER_DESC sd;
+    memset(&sd, 0, sizeof sd);
+    sd.AddressU = kMode[au];
+    sd.AddressV = kMode[av];
+    sd.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sd.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    sd.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+    sd.MaxLOD = 0.0f;
+    if (FAILED(g_dev->CreateSamplerState(&sd, &g_psmp[au][av]))) return 0;
+    return g_psmp[au][av];
 }
 
 /* ---- the three targets --------------------------------------------------- */
@@ -510,6 +573,31 @@ const GTex *upload_texture(uint32_t id, const uint32_t *px, int w, int h,
     d.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
     const bool mips = (filter >= 2);
+    /* UNDER FILTER 1 AND 2 THE TEXTURE IS HELD PREMULTIPLIED, 16 BITS A
+       CHANNEL (run hunt7, lane FILTEREDGE1), so the card's own bilinear and
+       box-filtered mips are alpha-weighted exactly as ntr/gx.cpp's are, and
+       ps_filt divides the alpha out. Sixteen bits because a covered texel
+       next to transparent ones can carry a small alpha, and an 8-bit
+       premultiplied value would be a coarse colour once divided back up.
+       Filter 0 keeps the straight 8-bit texture it always had. */
+    const bool premult = (filter >= 1);
+    std::vector<uint16_t> pm;
+    if (premult) {
+        d.Format = DXGI_FORMAT_R16G16B16A16_UNORM;
+        pm.resize((size_t)w * (size_t)h * 4u);
+        for (size_t i = 0; i < (size_t)w * (size_t)h; ++i) {
+            const uint32_t c = px[i];
+            const uint32_t a = c >> 24;
+            const uint32_t r = (c >> 16) & 0xFFu, g = (c >> 8) & 0xFFu, b = c & 0xFFu;
+            /* c * a / 255 scaled from 0..255 to 0..65535: (c * a * 257 + 127) / 255 */
+            pm[i * 4 + 0] = (uint16_t)((r * a * 257u + 127u) / 255u);
+            pm[i * 4 + 1] = (uint16_t)((g * a * 257u + 127u) / 255u);
+            pm[i * 4 + 2] = (uint16_t)((b * a * 257u + 127u) / 255u);
+            pm[i * 4 + 3] = (uint16_t)(a * 257u);
+        }
+    }
+    const void *src_px = premult ? (const void *)pm.data() : (const void *)px;
+    const UINT src_pitch = (UINT)w * (premult ? 8u : 4u);
     HRESULT hr;
     if (mips) {
         /* the card builds the chain; see WHERE IT DIFFERS at the top for how
@@ -522,8 +610,8 @@ const GTex *upload_texture(uint32_t id, const uint32_t *px, int w, int h,
         d.MipLevels = 1;
         D3D11_SUBRESOURCE_DATA sd;
         memset(&sd, 0, sizeof sd);
-        sd.pSysMem = px;
-        sd.SysMemPitch = (UINT)w * 4u;
+        sd.pSysMem = src_px;
+        sd.SysMemPitch = src_pitch;
         hr = g_dev->CreateTexture2D(&d, &sd, &t.tex);
     }
     if (FAILED(hr) || !t.tex) { fall_back("a texture would not upload", hr); return 0; }
@@ -534,10 +622,10 @@ const GTex *upload_texture(uint32_t id, const uint32_t *px, int w, int h,
         return 0;
     }
     if (mips) {
-        g_ctx->UpdateSubresource(t.tex, 0, 0, px, (UINT)w * 4u, 0);
+        g_ctx->UpdateSubresource(t.tex, 0, 0, src_px, src_pitch, 0);
         g_ctx->GenerateMips(t.srv);
     }
-    g_tex_bytes += (size_t)w * (size_t)h * 4u * (mips ? 2u : 1u);
+    g_tex_bytes += (size_t)w * (size_t)h * (premult ? 8u : 4u) * (mips ? 2u : 1u);
     return &g_tex.insert(std::make_pair(id, t)).first->second;
 }
 
@@ -640,6 +728,7 @@ void at_exit()
     if (g_white) { g_white->Release(); g_white = 0; }
     if (g_blend) { g_blend->Release(); g_blend = 0; }
     if (g_dss) { g_dss->Release(); g_dss = 0; }
+    if (g_dss_w) { g_dss_w->Release(); g_dss_w = 0; }
     if (g_rast) { g_rast->Release(); g_rast = 0; }
     for (int a = 0; a < 3; ++a)
         for (int b = 0; b < 3; ++b)
@@ -648,6 +737,10 @@ void at_exit()
     if (g_layout) { g_layout->Release(); g_layout = 0; }
     if (g_toon_cb) { g_toon_cb->Release(); g_toon_cb = 0; }
     g_toon_valid = false;
+    for (int a = 0; a < 3; ++a)
+        for (int b = 0; b < 3; ++b)
+            if (g_psmp[a][b]) { g_psmp[a][b]->Release(); g_psmp[a][b] = 0; }
+    if (g_ps_filt) { g_ps_filt->Release(); g_ps_filt = 0; }
     if (g_ps) { g_ps->Release(); g_ps = 0; }
     if (g_vs) { g_vs->Release(); g_vs = 0; }
     /* the device itself belongs to hal/gpu_device.cpp and is released there */
@@ -690,7 +783,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
     const __m128i alpha = _mm_set1_epi32((int)0xFF000000u);
     const __m128i ones = _mm_set1_epi8(1);
     const __m128i low6 = _mm_set1_epi8(0x3F);
-    const __m128 two = _mm_set1_ps(kDepthUnscale);
+    const __m128 two = _mm_set1_ps(g_depth_unscale);
     const bool want_id = f->want_attrid != 0;
     for (int y = by0; y < by1; ++y) {
         const uint32_t *crow =
@@ -728,7 +821,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
                 fbrow[k] = 0xFF000000u | (crow[k] & 0x00FFFFFFu);
                 cvrow[k] = 1;
                 if (want_id) idrow[k] = (uint8_t)(idv & 0x3Fu);
-                if (drow) dprow[k] = drow[k] * kDepthUnscale;
+                if (drow) dprow[k] = drow[k] * g_depth_unscale;
             }
         }
         for (; x < bx1; ++x) {
@@ -737,7 +830,7 @@ void copy_box(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
             fbrow[x] = 0xFF000000u | (crow[x] & 0x00FFFFFFu);
             cvrow[x] = 1;
             if (want_id) idrow[x] = (uint8_t)(idv & 0x3Fu);
-            if (drow) dprow[x] = drow[x] * kDepthUnscale;
+            if (drow) dprow[x] = drow[x] * g_depth_unscale;
         }
     }
 }
@@ -826,7 +919,7 @@ int read_back(const ntr::GxGpuFrame *f, int bx0, int by0, int bx1, int by1,
             fbrow[x] = 0xFF000000u | (crow[x] & 0x00FFFFFFu);
             cvrow[x] = 1;
             if (f->want_attrid) idrow[x] = (uint8_t)(idv & 0x3Fu);
-            if (drow) dprow[x] = drow[x] * kDepthUnscale;
+            if (drow) dprow[x] = drow[x] * g_depth_unscale;
         }
     }
 
@@ -1254,6 +1347,11 @@ int draw_frame(const ntr::GxGpuFrame *f)
         return 0;
     }
 
+    /* this frame's depth key (see kWDepthC): the vertex build, the clear, the
+       depth state and the readback below all read these two */
+    g_frame_w = f->wdepth != 0;
+    g_depth_unscale = g_frame_w ? kWDepthUnscale : kDepthUnscale;
+
     if (f->tex_generation != g_tex_gen_seen) {
         g_tex_gen_seen = f->tex_generation;
         release_textures();
@@ -1358,7 +1456,8 @@ int draw_frame(const ntr::GxGpuFrame *f)
             const float yn = 1.0f - (float)v.y * inv_ch;
             o.x = xn * v.w;
             o.y = yn * v.w;
-            o.z = v.z * kDepthScale * v.w;   /* see kDepthScale above */
+            o.z = g_frame_w ? kWDepthC                 /* c / w on the card, see kWDepthC */
+                            : v.z * kDepthScale * v.w;   /* see kDepthScale above */
             o.w = v.w;
             o.u = textured ? v.u * tsc * iw : 0.0f;
             o.v = textured ? v.v * tsc * ih : 0.0f;
@@ -1408,7 +1507,7 @@ int draw_frame(const ntr::GxGpuFrame *f)
     if (!nothing) {
         g_ctx->ClearRenderTargetView(g_col_rtv, clr);
         g_ctx->ClearRenderTargetView(g_id_rtv, zero);
-        g_ctx->ClearDepthStencilView(g_dep_dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
+        g_ctx->ClearDepthStencilView(g_dep_dsv, D3D11_CLEAR_DEPTH, g_frame_w ? 0.0f : 1.0f, 0);
 
         if (!ensure_vb(g_scratch.size())) return 0;
         D3D11_MAPPED_SUBRESOURCE ms;
@@ -1435,7 +1534,7 @@ int draw_frame(const ntr::GxGpuFrame *f)
         sc.bottom = f->py0 + f->ph;
         g_ctx->RSSetScissorRects(1, &sc);
         g_ctx->RSSetState(g_rast);
-        g_ctx->OMSetDepthStencilState(g_dss, 0);
+        g_ctx->OMSetDepthStencilState(g_frame_w ? g_dss_w : g_dss, 0);
         const float bf[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
         g_ctx->OMSetBlendState(g_blend, bf, 0xffffffffu);
         g_ctx->IASetInputLayout(g_layout);
@@ -1443,7 +1542,10 @@ int draw_frame(const ntr::GxGpuFrame *f)
         const UINT stride = (UINT)sizeof(GVert), offset = 0;
         g_ctx->IASetVertexBuffers(0, 1, &g_vb, &stride, &offset);
         g_ctx->VSSetShader(g_vs, 0, 0);
-        g_ctx->PSSetShader(g_ps, 0, 0);
+        /* the filtered arms take their own pixel shader and a second, point
+           sampler; filter 0 binds exactly what it always did */
+        const bool filt_arm = f->tex_filter >= 1;
+        g_ctx->PSSetShader(filt_arm ? g_ps_filt : g_ps, 0, 0);
         if (f->toon_shade && f->toon_rgb &&
             (!g_toon_valid ||
              memcmp(g_toon_seen, f->toon_rgb, sizeof g_toon_seen) != 0)) {
@@ -1473,6 +1575,11 @@ int draw_frame(const ntr::GxGpuFrame *f)
             if (!smp) { fall_back("no sampler state", 0); return 0; }
             g_ctx->PSSetShaderResources(0, 1, &srv);
             g_ctx->PSSetSamplers(0, 1, &smp);
+            if (filt_arm) {
+                ID3D11SamplerState *psm = bt.tex ? psampler(bt.au, bt.av) : psampler(0, 0);
+                if (!psm) { fall_back("no point sampler state", 0); return 0; }
+                g_ctx->PSSetSamplers(1, 1, &psm);
+            }
             g_ctx->Draw(bt.count, bt.first);
             ++g_batches;
         }
